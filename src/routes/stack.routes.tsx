@@ -7,6 +7,7 @@ import SignupScreen from "@/app/screens/login/SignupScreen";
 import Dashboard from "@/app/screens/dashboard";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ForgotPassword from "@/app/screens/login/(forgotPassword)/ForgotPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,12 +34,17 @@ export default function StackRoutes() {
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        options={{ title: "Login" }}
+        options={{ title: "Bem vindo" }}
       />
       <Stack.Screen
         name="SignUp"
         component={SignupScreen}
-        options={{ headerShown: false, title: "SignUp" }}
+        options={{ headerShown: false, title: "Criar Conta" }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{ headerShown: false, title: "Esqueceu a senha?" }}
       />
       <Stack.Screen
         name="Categories"

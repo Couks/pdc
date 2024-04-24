@@ -15,12 +15,12 @@ export default function LoginScreen() {
   }
 
   return (
-    <View className="flex-1 justify-around">
+    <View className="fixed flex-1 justify-around">
       {/* Formulário*/}
-      <View className="items-center mx-4 gap-6">
+      <View className="items-center mx-6 gap-8">
         <Animated.View
           entering={FadeInDown.duration(1000).springify()}
-          className="bg-gray-100 p-5 rounded-2xl w-full"
+          className="bg-gray-100 px-6 py-2 rounded-2xl w-full"
         >
           <Controller
             control={control}
@@ -32,7 +32,7 @@ export default function LoginScreen() {
                 value={value}
                 autoComplete="email"
                 autoFocus={true}
-                className="text-white text-xl"
+                className="text-white text-lg"
                 placeholder="Digite seu endereço de e-mail"
                 placeholderTextColor={"gray"}
               ></TextInput>
@@ -42,7 +42,7 @@ export default function LoginScreen() {
 
         <Animated.View
           entering={FadeInDown.delay(200).duration(1000).springify()}
-          className="bg-gray-100 p-5 rounded-2xl w-full"
+          className="bg-gray-100 px-6 py-2 rounded-2xl w-full"
         >
           <Controller
             control={control}
@@ -53,7 +53,7 @@ export default function LoginScreen() {
                 onBlur={onBlur}
                 value={value}
                 secureTextEntry={true}
-                className="text-xl"
+                className="text-lg"
                 placeholder="Digite sua senha"
                 placeholderTextColor={"gray"}
               ></TextInput>
@@ -64,12 +64,10 @@ export default function LoginScreen() {
         {/* Botão de Login*/}
         <Animated.View
           entering={FadeInDown.delay(400).duration(1000).springify()}
-          className="w-full bg-green-500 p-4 rounded-2xl mb-3"
+          className="w-full bg-green-500 p-4 rounded-2xl mb-2 items-center"
         >
           <TouchableOpacity onPress={handleSubmit(handleSignIn)}>
-            <Text className="text-2xl font-bold text-white text-center">
-              Login
-            </Text>
+            <Text className="text-xl font-bold text-white ">Login</Text>
           </TouchableOpacity>
         </Animated.View>
 
@@ -78,11 +76,23 @@ export default function LoginScreen() {
           entering={FadeInDown.delay(600).duration(1000).springify()}
           className="w-full items-center"
         >
-          <Text className="dark:text-white text-purple-800">
-            Não tem uma conta?
-          </Text>
+          <Link href="/screens/login/(forgotPassword)/ForgotPassword" asChild>
+            <Text className="dark:text-white text-md text-purple-800 font-bold">
+              Esqueceu sua senha?
+            </Text>
+          </Link>
+        </Animated.View>
+
+        {/* Esqueceu sua senha?*/}
+        {/* Botão de Login*/}
+        <Animated.View
+          entering={FadeInDown.delay(400).duration(1000).springify()}
+          className="w-auto bg-green-200 p-4 rounded-2xl mb-3 items-center"
+        >
           <Link href="/screens/login/SignupScreen">
-            <Text className="text-green-500">Criar uma conta agora</Text>
+            <Text className="text-xl font-bold text-purple-800 ">
+              Crie uma conta agora
+            </Text>
           </Link>
         </Animated.View>
       </View>
