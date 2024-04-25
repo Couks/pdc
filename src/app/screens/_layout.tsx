@@ -1,9 +1,10 @@
 import { Slot } from "expo-router";
 import { View, Text } from "react-native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
-export default function Layout({ title }) {
+export default function Layout() {
   return (
-    <Header title={title}>
+    <Header>
       <Slot />
     </Header>
   );
@@ -11,14 +12,22 @@ export default function Layout({ title }) {
 
 const Header = () => {
   return (
-    <View className="w-full h-full items-center bg-green-500 dark:bg-green-700">
+    <Animated.View
+      entering={FadeIn.delay(200).duration(1000).springify()}
+      exiting={FadeOut.delay(200).duration(1000).springify()}
+      className="w-full h-full items-center bg-green-500 dark:bg-green-700"
+    >
       <Text className="font-bold text-3xl dark:text-white py-12">
         Bem Vindo{" "}
       </Text>
 
-      <View className="flex-1 w-full rounded-t-[35px] bg-white dark:bg-purple-800">
+      <Animated.View
+        entering={FadeIn.delay(200).duration(1000).springify()}
+        exiting={FadeOut.delay(200).duration(1000).springify()}
+        className="flex-1 w-full rounded-t-[35px] bg-white dark:bg-purple-800"
+      >
         <Slot />
-      </View>
-    </View>
+      </Animated.View>
+    </Animated.View>
   );
 };

@@ -13,7 +13,7 @@ export default function SignupScreen() {
     formState: { errors },
   } = useForm({});
 
-  function handleSignup(data) {
+  function handleSignup(data: any) {
     console.log(data);
   }
 
@@ -88,7 +88,7 @@ export default function SignupScreen() {
 
         {/* Botão de Login*/}
         <Animated.View
-          entering={FadeInDown.delay(400).duration(1000).springify()}
+          entering={FadeInDown.delay(600).duration(1000).springify()}
           className="w-full bg-green-500 p-4 rounded-2xl mb-3 items-center"
         >
           <TouchableOpacity onPress={handleSubmit(handleSignup)}>

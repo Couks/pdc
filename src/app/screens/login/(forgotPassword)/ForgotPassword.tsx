@@ -1,7 +1,5 @@
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
-import { useState } from "react";
-import { StatusBar } from "expo-status-bar";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { Link } from "expo-router";
 
 import { useForm, Controller } from "react-hook-form";
@@ -13,7 +11,7 @@ export default function ForgotPassword() {
     formState: { errors },
   } = useForm({});
 
-  function handleForgotPassoword(data) {
+  function handleForgotPassoword(data: any) {
     console.log();
   }
 
@@ -22,13 +20,13 @@ export default function ForgotPassword() {
       {/* Formulário*/}
       <View className="items-center mx-4 gap-6">
         <Animated.Text
-          entering={FadeInDown.duration(800).springify()}
+          entering={FadeInDown.delay(1000).duration(800).springify()}
           className="dark:text-white text-purple-800 text-3xl font-bold"
         >
           Redefinir senha?
         </Animated.Text>
         <Animated.Text
-          entering={FadeInDown.duration(800).springify()}
+          entering={FadeInDown.delay(200).duration(800).springify()}
           className="dark:text-white text-purple-800 text-center text-sm mb-8"
         >
           Por favor, insira seu endereço de e-mail abaixo para redefinir sua
@@ -37,16 +35,15 @@ export default function ForgotPassword() {
         </Animated.Text>
 
         <Animated.View
-          entering={FadeInDown.duration(1000).springify()}
+          entering={FadeInDown.delay(400).duration(1000).springify()}
           className="bg-gray-100 px-6 py-2 rounded-2xl w-full"
         >
           <Controller
             control={control}
             name="email"
-            render={({ onChange, onBlur, value }) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 onChangeText={onChange}
-                type="email"
                 onBlur={onBlur}
                 value={value}
                 className="text-white text-xl"
@@ -58,7 +55,7 @@ export default function ForgotPassword() {
         </Animated.View>
         {/* Botão de Login*/}
         <Animated.View
-          entering={FadeInDown.delay(400).duration(1000).springify()}
+          entering={FadeInDown.delay(600).duration(1000).springify()}
           className="w-full bg-green-500 p-4 rounded-2xl mb-3"
         >
           <TouchableOpacity onPress={handleSubmit(handleForgotPassoword)}>
@@ -69,7 +66,7 @@ export default function ForgotPassword() {
         </Animated.View>
         {/* Esqueceu sua senha?*/}
         <Animated.View
-          entering={FadeInDown.delay(600).duration(1000).springify()}
+          entering={FadeInDown.delay(800).duration(1000).springify()}
           className="w-full items-center"
         >
           <Text className="dark:text-white text-purple-800">

@@ -1,13 +1,28 @@
-import TabRoutes from "@/routes/tab.routes";
-import { NavigationContainer } from "@react-navigation/native";
+import { Button } from "@/components/Button";
+import { ToggleTheme } from "@/components/ToggleTheme";
 import { Link } from "expo-router";
-import { View, Image, Text, Pressable } from "react-native";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import Animated, {
+  BounceInLeft,
+  BounceInRight,
+  BounceOutLeft,
+  BounceOutRight,
+  Easing,
+  FadeIn,
+  PinwheelIn,
+  PinwheelOut,
+} from "react-native-reanimated";
 
 export default function Home() {
   return (
-    <View className="flex-1 items-center justify-center bg-white gap-6 dark:bg-green-700">
+    <Animated.View
+      entering={FadeIn.delay(100).duration(1000).springify()}
+      className="flex-1 items-center justify-center bg-white gap-6 dark:bg-green-700"
+    >
       <View className="items-center mb-4">
-        <Image
+        <Animated.Image
+          entering={PinwheelIn.delay(200).duration(1000).springify()}
+          exiting={PinwheelOut.duration(600)}
           source={require("../assets/logo.png")}
           alt="Logo"
           style={{
@@ -18,33 +33,37 @@ export default function Home() {
         />
       </View>
 
-      <Link
-        href="/screens/login/LoginScreen"
-        className="w-60 bg-green-500 py-4 px-8 rounded-2xl items-center"
-        asChild
-      >
-        <Pressable>
-          <Text className="text-white text-2xl font-bold"> Fazer Login </Text>
-        </Pressable>
+      <Link href="/screens/login/LoginScreen">
+        <Animated.View
+          entering={BounceInLeft.delay(400).duration(400).easing(Easing.ease)}
+          exiting={BounceOutRight.duration(400)}
+        >
+          <Button label="Entrar" variant="default" size="lg" className="w-60" />
+        </Animated.View>
       </Link>
 
-      <Link
-        href="/screens/login/SignupScreen"
-        className="w-60 bg-green-200 py-4 px-8 rounded-2xl items-center"
-        asChild
-      >
-        <Pressable>
-          <Text className="text-green-500 text-2xl font-bold">Criar Conta</Text>
-        </Pressable>
+      <Link href="/screens/login/SignupScreen">
+        <Animated.View
+          entering={BounceInLeft.delay(400).duration(400).easing(Easing.ease)}
+          exiting={BounceOutRight.duration(400)}
+        >
+          <Button
+            label="Criar Conta"
+            variant="light"
+            size="lg"
+            className="w-60"
+          />
+        </Animated.View>
       </Link>
 
       <Link href="/screens/login/(forgotPassword)/ForgotPassword" asChild>
-        <Pressable>
+        <TouchableOpacity>
           <Text className="dark:text-white text-md text-purple-800 font-bold">
             Esqueceu sua senha?
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       </Link>
-    </View>
+      <ToggleTheme />
+    </Animated.View>
   );
 }

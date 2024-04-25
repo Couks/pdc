@@ -10,12 +10,12 @@ export default function LoginScreen() {
     formState: { errors },
   } = useForm({});
 
-  function handleSignIn(data) {
+  function handleSignIn(data: any) {
     console.log(data);
   }
 
   return (
-    <View className="fixed flex-1 justify-around">
+    <View className="flex-1 justify-around">
       {/* Formulário*/}
       <View className="items-center mx-6 gap-8">
         <Animated.View
@@ -31,7 +31,6 @@ export default function LoginScreen() {
                 onBlur={onBlur}
                 value={value}
                 autoComplete="email"
-                autoFocus={true}
                 className="text-white text-lg"
                 placeholder="Digite seu endereço de e-mail"
                 placeholderTextColor={"gray"}
@@ -86,7 +85,7 @@ export default function LoginScreen() {
         {/* Esqueceu sua senha?*/}
         {/* Botão de Login*/}
         <Animated.View
-          entering={FadeInDown.delay(400).duration(1000).springify()}
+          entering={FadeInDown.delay(800).duration(1000).springify()}
           className="w-auto bg-green-200 p-4 rounded-2xl mb-3 items-center"
         >
           <Link href="/screens/login/SignupScreen">
