@@ -2,35 +2,36 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { Pressable, Text } from "react-native";
 
 import { cn } from "../lib/utils";
+import Animated, {
+  BounceIn,
+  BounceOut,
+  ColorSpace,
+} from "react-native-reanimated";
 
-const buttonVariants = cva(
-  "flex flex-row items-center justify-center rounded-2xl py-4 w-auto",
-  {
-    variants: {
-      variant: {
-        default: "bg-green-500",
-        light: "bg-green-200",
-        link: "bg-purple-500",
-      },
-      size: {
-        default: "px-8 ",
-        sm: "px-6",
-        lg: "px-10",
-      },
+const buttonVariants = cva("items-center justify-center rounded-2xl py-4", {
+  variants: {
+    variant: {
+      default: "bg-green-500 dark:bg-purple-500",
+      light:
+        "bg-green-200 dark:bg-purple-100 border-2 border-green-500 dark:border-purple-500",
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
+    size: {
+      default: "px-8 ",
+      sm: "px-6",
+      lg: "px-10",
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "default",
+  },
+});
 
 const buttonTextVariants = cva("text-center font-bold", {
   variants: {
     variant: {
       default: "text-white",
-      light: "text-green-700",
-      link: "text-green-700",
+      light: "text-green-500 dark:text-purple-500",
     },
     size: {
       default: "text-xl",
@@ -59,18 +60,23 @@ function Button({
   ...props
 }: ButtonProps) {
   return (
-    <Pressable
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
+    <Animated.View
+      entering={BounceIn.delay(200).duration(1000)}
+      exiting={BounceOut.delay(200).duration(1000)}
     >
-      <Text
-        className={cn(
-          buttonTextVariants({ variant, size, className: labelClasses })
-        )}
+      <Pressable
+        className={cn(buttonVariants({ variant, size, className }))}
+        {...props}
       >
-        {label}
-      </Text>
-    </Pressable>
+        <Text
+          className={cn(
+            buttonTextVariants({ variant, size, className: labelClasses })
+          )}
+        >
+          {label}
+        </Text>
+      </Pressable>
+    </Animated.View>
   );
 }
 

@@ -1,12 +1,11 @@
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 
-export default function SignupScreen() {
+export default function SignupScreen({ navigation }: { navigation: any }) {
   const {
     control,
     handleSubmit,
@@ -18,7 +17,7 @@ export default function SignupScreen() {
   }
 
   return (
-    <View className="flex-1 justify-around">
+    <View className="flex-1 justify-around dark:bg-purple-800">
       <StatusBar style="dark" />
 
       {/* Formulário*/}
@@ -56,7 +55,6 @@ export default function SignupScreen() {
                 onBlur={onBlur}
                 value={value}
                 autoComplete="email"
-                autoFocus={true}
                 className="text-white text-lg"
                 placeholder="Digite seu endereço de e-mail"
                 placeholderTextColor={"gray"}
@@ -104,11 +102,11 @@ export default function SignupScreen() {
           <Text className="text-medium text-purple-600 dark:text-white">
             Já tem uma conta?
           </Text>
-          <Link href="/screens/login/LoginScreen">
+          <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
             <Text className="text-green-500">
               Clique para realizar seu login
             </Text>
-          </Link>
+          </TouchableOpacity>
         </Animated.View>
       </View>
     </View>

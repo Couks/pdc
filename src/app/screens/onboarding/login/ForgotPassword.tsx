@@ -1,10 +1,8 @@
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { Link } from "expo-router";
-
 import { useForm, Controller } from "react-hook-form";
 
-export default function ForgotPassword() {
+export default function ForgotPassword({ navigation }: { navigation: any }) {
   const {
     control,
     handleSubmit,
@@ -16,7 +14,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <View className="flex-1 justify-around">
+    <View className="flex-1 justify-around bg-white dark:bg-purple-800">
       {/* Formulário*/}
       <View className="items-center mx-4 gap-6">
         <Animated.Text
@@ -53,6 +51,7 @@ export default function ForgotPassword() {
             )}
           />
         </Animated.View>
+
         {/* Botão de Login*/}
         <Animated.View
           entering={FadeInDown.delay(600).duration(1000).springify()}
@@ -64,6 +63,7 @@ export default function ForgotPassword() {
             </Text>
           </TouchableOpacity>
         </Animated.View>
+
         {/* Esqueceu sua senha?*/}
         <Animated.View
           entering={FadeInDown.delay(800).duration(1000).springify()}
@@ -72,9 +72,9 @@ export default function ForgotPassword() {
           <Text className="dark:text-white text-purple-800">
             Não tem uma conta?
           </Text>
-          <Link href="/screens/login/SignupScreen">
+          <TouchableOpacity onPress={() => navigation.navigate("SignUpScreen")}>
             <Text className="text-green-500">Criar uma conta agora</Text>
-          </Link>
+          </TouchableOpacity>
         </Animated.View>
       </View>
     </View>

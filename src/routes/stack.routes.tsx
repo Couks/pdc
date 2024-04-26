@@ -1,61 +1,84 @@
-import Home from "@/app";
-import User from "@/app/screens/user";
-import Categories from "@/app/screens/categories";
-import Transactions from "@/app/screens/transactions";
-import LoginScreen from "@/app/screens/login/LoginScreen";
-import SignupScreen from "@/app/screens/login/SignupScreen";
-import Dashboard from "@/app/screens/dashboard";
+import Home from "@/app/screens/Welcome";
+import User from "@/app/screens/dashboard/User";
+import Dashboard from "@/app/screens/dashboard/Dashboard";
+import Categories from "@/app/screens/dashboard/Categories";
+import Transactions from "@/app/screens/dashboard/Transactions";
+import LoginScreen from "@/app/screens/onboarding/login/LoginScreen";
+import SignupScreen from "@/app/screens/onboarding/login/SignupScreen";
+import ForgotPassword from "@/app/screens/onboarding/login/ForgotPassword";
 
+import { useState } from "react";
+import { useColorScheme } from "nativewind";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ForgotPassword from "@/app/screens/login/(forgotPassword)/ForgotPassword";
+import { Onboarding } from "@/app/screens/onboarding/Onboarding";
 
 const Stack = createNativeStackNavigator();
 
-export default function StackRoutes() {
+function StackRoutes() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const { colorScheme } = useColorScheme();
+
   return (
     <Stack.Navigator
+      initialRouteName="Onboarding"
       screenOptions={{
-        headerStyle: {
-          backgroundColor: "#00D09E",
-        },
         headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        statusBarStyle: colorScheme == "dark" ? "light" : "dark",
+        statusBarColor: colorScheme == "light" ? "#00D09E" : "#052224",
+        headerTitleAlign: "center",
+        headerBackTitleStyle: { fontSize: 40 },
+        headerStyle: {
+          backgroundColor: colorScheme == "light" ? "#00D09E" : "#052224",
+        },
+        animation: "ios",
+        statusBarAnimation: "slide",
+        animationDuration: 250,
       }}
     >
       <Stack.Screen
         name="Home"
-        component={Dashboard}
-        options={{ title: "Dashboard" }}
+        component={Home}
+        options={{
+          headerShown: false,
+          statusBarColor: colorScheme == "light" ? "#F1FFF3" : "#052224",
+        }}
       />
+
       <Stack.Screen
-        name="Perfil"
-        component={User}
-        options={{ title: "Perfil" }}
-      />
-      <Stack.Screen
-        name="Login"
+        name="LoginScreen"
         component={LoginScreen}
-        options={{ title: "Bem vindo" }}
+        options={{ title: "Bem Vindo" }}
       />
+
       <Stack.Screen
-        name="SignUp"
-        component={SignupScreen}
-        options={{ headerShown: false, title: "Criar Conta" }}
+        name="Onboarding"
+        component={Onboarding}
+        options={{ headerShown: false }}
       />
+
+      <Stack.Screen
+        name="SignUpScreen"
+        component={SignupScreen}
+        options={{ title: "Criar Conta" }}
+      />
+
       <Stack.Screen
         name="ForgotPassword"
         component={ForgotPassword}
-        options={{ headerShown: false, title: "Esqueceu a senha?" }}
-      />
-      <Stack.Screen
-        name="Categories"
-        component={Categories}
-        options={{ title: "Categorias" }}
-      />
-      <Stack.Screen
-        name="Transactions"
-        component={Transactions}
-        options={{ title: "Transações" }}
+        options={{ title: "Esqueceu a senha?" }}
       />
     </Stack.Navigator>
   );
 }
+
+export default () => {
+  return (
+    <NavigationContainer independent={true}>
+      <StackRoutes />
+    </NavigationContainer>
+  );
+};

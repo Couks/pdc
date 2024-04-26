@@ -1,15 +1,17 @@
-import Home from "@/app";
-import User from "@/app/screens/user";
-import Transactions from "@/app/screens/transactions";
+import User from "@/app/screens/dashboard/User";
+import Transactions from "@/app/screens/dashboard/Transactions";
 
 import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Categories from "@/app/screens/dashboard/Categories";
+import Dashboard from "@/app/screens/dashboard/Dashboard";
 
 const Tab = createBottomTabNavigator();
 
 export default function TabRoutes() {
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         headerStyle: {
@@ -20,7 +22,7 @@ export default function TabRoutes() {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={Dashboard}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Feather name="home" color={color} size={size} />
@@ -38,7 +40,7 @@ export default function TabRoutes() {
       />
       <Tab.Screen
         name="Categories"
-        component={User}
+        component={Categories}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Feather name="grid" color={color} size={size} />

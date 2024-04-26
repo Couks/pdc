@@ -12,7 +12,7 @@ export function ToggleTheme() {
       <Feather
         name="moon"
         size={20}
-        className="dark:text-white light:text-green-700"
+        className="dark:text-white light:text-green-500"
       />
       <Switch
         trackColor={{ true: colors.green[700], false: colors.purple[500] }}
@@ -26,7 +26,7 @@ export function ToggleTheme() {
       <Feather
         name="sun"
         size={20}
-        className="dark:text-white light:text-green-700"
+        className="dark:text-white text-green-dark"
       />
     </View>
   );
