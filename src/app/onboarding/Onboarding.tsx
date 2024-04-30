@@ -1,9 +1,11 @@
 import { Button } from "@/components/Button";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, Image, ScrollView } from "react-native";
 import Animated, {
   FadeInDown,
+  FadeInUp,
   FadeOutDown,
+  FadeOutUp,
   PinwheelIn,
   PinwheelOut,
 } from "react-native-reanimated";
@@ -21,13 +23,22 @@ const swiperData = [
 ];
 
 export function Onboarding({ navigation }) {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.navigate("Home");
-    }, 10000);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
-    return () => clearTimeout(timer);
-  }, []);
+  useEffect(() => {
+    if (!buttonClicked) {
+      const timer = setTimeout(() => {
+        navigation.navigate("Home");
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [buttonClicked, navigation]);
+
+  const handleButtonClick = () => {
+    setButtonClicked(true);
+    navigation.navigate("Home");
+  };
 
   return (
     <Swiper
@@ -38,10 +49,10 @@ export function Onboarding({ navigation }) {
     >
       {swiperData.map((item, index) => (
         <View key={index} className="flex-1">
-          <View className="flex-1 bg-green-500 dark:bg-green-700 relative items-center">
+          <View className="flex-1 bg-green-500 dark:bg-green-700 items-center">
             <Animated.Text
-              entering={FadeInDown.duration(1000).springify()}
-              exiting={FadeOutDown.duration(1000).springify()}
+              entering={FadeInUp.duration(1000).springify()}
+              exiting={FadeOutUp.duration(1200).springify()}
               className="font-bold text-3xl pt-16 px-12 text-center text-purple-800 dark:text-white"
             >
               {item.title}
@@ -49,8 +60,8 @@ export function Onboarding({ navigation }) {
             <View className="w-full bottom-0 h-3/4 rounded-t-[50px] bg-white dark:bg-purple-800 items-center justify-center gap-12 absolute">
               <View className="items-center justify-center bg-green-200 rounded-full w-60 h-60 overflow-visible">
                 <Animated.Image
-                  entering={PinwheelIn.delay(1200).duration(1000).springify()}
-                  exiting={PinwheelOut.delay(1600).duration(1000)}
+                  entering={PinwheelIn.delay(400).duration(1000).springify()}
+                  exiting={PinwheelOut.delay(400).duration(1000)}
                   source={item.image}
                   style={{ width: 230, height: 200, resizeMode: "cover" }}
                 />
@@ -58,10 +69,10 @@ export function Onboarding({ navigation }) {
 
               <Animated.View
                 entering={FadeInDown.duration(1000).springify()}
-                exiting={FadeOutDown.duration(1000).springify()}
+                exiting={FadeOutDown.duration(600).springify()}
                 className="items-center justify-center gap-6"
               >
-                <Text className="text-3xl font-bold text-purple-800 text-white">
+                <Text className="text-3xl font-bold text-purple-800 dark:text-white">
                   Próximo
                 </Text>
 
@@ -76,16 +87,16 @@ export function Onboarding({ navigation }) {
                     />
                   ))}
                 </View>
-                {index === 1 && (
-                  <View className="items-center mt-4">
-                    <Button
-                      label="Fazer login"
-                      size="lg"
-                      onPress={() => navigation.navigate("Home")}
-                    />
-                  </View>
-                )}
               </Animated.View>
+              {index === 1 && (
+                <View className="items-center ">
+                  <Button
+                    label="Fazer login"
+                    size="sm"
+                    onPress={handleButtonClick}
+                  />
+                </View>
+              )}
             </View>
           </View>
         </View>

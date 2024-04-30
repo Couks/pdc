@@ -1,10 +1,17 @@
+import Header from "@/components/Header";
 import { Slot } from "expo-router";
-import { View, Text } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
-export default function Layout() {
+type LayoutProps = {
+  title: string;
+};
+
+export default function DashboardLayout({ title }: LayoutProps) {
   return (
-    <View className="flex-1 bg-green-500 dark:bg-green-700">
+    <>
+      <StatusBar style="dark" />
+      <Header title={title} />
       <Slot />
-    </View>
+    </>
   );
 }

@@ -1,8 +1,11 @@
-import React from "react";
 import { ActivityIndicator } from "react-native";
+import { colors } from "@/styles/colors";
 
-export default function Loading() {
-    return (
-        <ActivityIndicator size="large" className="rounded-full flex-1 bg-green-500 items-center justify-center text-purple-400" />
-    )
+export function Loading() {
+  return (
+    <ActivityIndicator
+      className="flex-1 items-center justify-center bg-gray-600"
+      color={colors.green[500]}
+    />
+  );
 }

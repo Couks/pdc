@@ -17,7 +17,7 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
   }
 
   return (
-    <View className="flex-1 justify-around dark:bg-purple-800">
+    <View className="h-full justify-around dark:bg-purple-800">
       <StatusBar style="dark" />
 
       {/* Formulário*/}

@@ -1,6 +1,7 @@
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
 import { useForm, Controller } from "react-hook-form";
+import { Button } from "@/components/Button";
 
 export default function ForgotPassword({ navigation }: { navigation: any }) {
   const {
@@ -14,18 +15,18 @@ export default function ForgotPassword({ navigation }: { navigation: any }) {
   }
 
   return (
-    <View className="flex-1 justify-around bg-white dark:bg-purple-800">
+    <View className="h-full justify-around bg-white dark:bg-purple-800">
       {/* Formulário*/}
       <View className="items-center mx-4 gap-6">
         <Animated.Text
           entering={FadeInDown.delay(1000).duration(800).springify()}
-          className="dark:text-white text-purple-800 text-3xl font-bold"
+          className="dark:text-green-500 text-purple-800 text-3xl font-bold"
         >
           Redefinir senha?
         </Animated.Text>
         <Animated.Text
           entering={FadeInDown.delay(200).duration(800).springify()}
-          className="dark:text-white text-purple-800 text-center text-sm mb-8"
+          className="dark:text-white text-purple-800 text-center text-lg mb-8"
         >
           Por favor, insira seu endereço de e-mail abaixo para redefinir sua
           senha. Enviaremos instruções sobre como criar uma nova senha para sua
@@ -67,14 +68,15 @@ export default function ForgotPassword({ navigation }: { navigation: any }) {
         {/* Esqueceu sua senha?*/}
         <Animated.View
           entering={FadeInDown.delay(800).duration(1000).springify()}
-          className="w-full items-center"
+          exiting={FadeOutDown.delay(500).duration(1000).springify()}
         >
-          <Text className="dark:text-white text-purple-800">
-            Não tem uma conta?
-          </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("SignUpScreen")}>
-            <Text className="text-green-500">Criar uma conta agora</Text>
-          </TouchableOpacity>
+          <Button
+            label="Cadastre-se"
+            variant="light"
+            size="lg"
+            className="w-auto"
+            onPress={() => navigation.navigate("SignUpScreen")}
+          />
         </Animated.View>
       </View>
     </View>

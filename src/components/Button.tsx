@@ -12,11 +12,10 @@ const buttonVariants = cva("items-center justify-center rounded-2xl py-4", {
   variants: {
     variant: {
       default: "bg-green-500 dark:bg-purple-500",
-      light:
-        "bg-green-200 dark:bg-purple-100 border-2 border-green-500 dark:border-purple-500",
+      light: "bg-green-200 dark:bg-purple-100",
     },
     size: {
-      default: "px-8 ",
+      default: "px-8",
       sm: "px-6",
       lg: "px-10",
     },
@@ -31,7 +30,7 @@ const buttonTextVariants = cva("text-center font-bold", {
   variants: {
     variant: {
       default: "text-white",
-      light: "text-green-500 dark:text-purple-500",
+      light: "text-green-700 dark:text-purple-700",
     },
     size: {
       default: "text-xl",
@@ -60,23 +59,18 @@ function Button({
   ...props
 }: ButtonProps) {
   return (
-    <Animated.View
-      entering={BounceIn.delay(200).duration(1000)}
-      exiting={BounceOut.delay(200).duration(1000)}
+    <Pressable
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
     >
-      <Pressable
-        className={cn(buttonVariants({ variant, size, className }))}
-        {...props}
+      <Text
+        className={cn(
+          buttonTextVariants({ variant, size, className: labelClasses })
+        )}
       >
-        <Text
-          className={cn(
-            buttonTextVariants({ variant, size, className: labelClasses })
-          )}
-        >
-          {label}
-        </Text>
-      </Pressable>
-    </Animated.View>
+        {label}
+      </Text>
+    </Pressable>
   );
 }
 

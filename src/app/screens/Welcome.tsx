@@ -6,35 +6,37 @@ import Animated, {
   BounceInRight,
   BounceOutLeft,
   BounceOutRight,
+  StretchInX,
+  StretchOutX,
   Easing,
   FadeIn,
-  PinwheelIn,
-  PinwheelOut,
+  BounceInUp,
+  BounceInDown,
 } from "react-native-reanimated";
 
 export default function Home({ navigation }: { navigation: any }) {
   return (
     <Animated.View
-      entering={FadeIn.delay(1000).duration(1000).springify()}
-      className="flex-1 items-center justify-center bg-white gap-4 dark:bg-green-700"
+      entering={FadeIn.delay(100).duration(200)}
+      className="h-full items-center justify-center bg-white gap-4 dark:bg-green-700"
     >
       <View className="items-center mb-4">
         <Animated.Image
-          entering={PinwheelIn.delay(1200).duration(1000).springify()}
-          exiting={PinwheelOut.delay(1600).duration(1000)}
+          entering={BounceInUp.delay(500).duration(1000).easing(Easing.ease)}
+          exiting={BounceInDown.delay(500)}
           source={require("@/assets/logo.png")}
           alt="Logo"
           style={{
             resizeMode: "contain",
             height: 200,
             width: 700,
+            zIndex: 9999,
           }}
         />
       </View>
       <Animated.View
-        entering={BounceInLeft.delay(1200).duration(1000).easing(Easing.ease)}
-        exiting={BounceOutRight.duration(1000)}
-        className="z-[9999]"
+        entering={BounceInLeft.delay(600)}
+        exiting={BounceOutRight.delay(600)}
       >
         <Button
           label="Entrar"
@@ -45,8 +47,8 @@ export default function Home({ navigation }: { navigation: any }) {
         />
       </Animated.View>
       <Animated.View
-        entering={BounceInRight.delay(1200).duration(1000).easing(Easing.ease)}
-        exiting={BounceOutLeft.duration(1000)}
+        entering={BounceInRight.delay(800)}
+        exiting={BounceOutLeft.delay(800)}
       >
         <Button
           label="Criar Conta"
