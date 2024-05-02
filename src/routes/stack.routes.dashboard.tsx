@@ -1,37 +1,24 @@
 import Home from "@/app/login/Welcome";
+import Category from "@/app/(stack)/categories/CategoryListScreen";
 import LoginScreen from "@/app/login/LoginScreen";
 import SignupScreen from "@/app/login/SignupScreen";
 import ForgotPassword from "@/app/login/ForgotPassword";
 
 import { useColorScheme } from "nativewind";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Onboarding } from "@/app/onboarding/Onboarding";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
-export default function StackRoutes() {
+export default function StackRoutesDashboard() {
   const { colorScheme } = useColorScheme();
 
   const [initialRoute, setInitialRoute] = useState("Onboarding");
 
-  useEffect(() => {
-    const verificarPrimeiraAbertura = async () => {
-      const alreadyOpened = await AsyncStorage.getItem("alreadyOpened");
-      console.log(alreadyOpened);
-      if (alreadyOpened !== null) {
-        setInitialRoute("Home"); // Usuário já abriu o app antes
-      }
-    };
-
-    verificarPrimeiraAbertura();
-  }, []);
-
   return (
     <Stack.Navigator
-      // initialRouteName={initialRoute}
-      initialRouteName="LoginScreen"
+      initialRouteName={initialRoute}
       screenOptions={{
         headerTintColor: "#fff",
         headerTitleStyle: {

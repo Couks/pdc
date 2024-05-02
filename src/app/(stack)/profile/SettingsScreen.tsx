@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
 
-export default function Profile() {
+export default function SettingsScreen() {
   return (
     <View className="flex-1 bg-white items-center justify-center">
       <Text>Página Usuário com ID : 123</Text>

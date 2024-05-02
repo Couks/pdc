@@ -1,8 +1,8 @@
-import Dashboard from "@/app/screens/Dashboard";
-import Profile from "@/app/screens/Profile";
-import Notifications from "@/app/screens/Notifications";
-import Categories from "@/app/screens/Categories";
-import Transactions from "@/app/screens/Transactions";
+import Dashboard from "@/app/(stack)/Dashboard";
+import Profile from "@/app/(stack)/profile/ProfileScreen";
+import Notifications from "@/app/(stack)/Notifications";
+import Categories from "@/app/(stack)/categories/_layout";
+import Transactions from "@/app/(stack)/transactions/TransactionsScreen";
 
 import { View } from "react-native";
 import { useColorScheme } from "nativewind";
@@ -18,7 +18,7 @@ export default function TabRoutes() {
     <Tab.Navigator
       initialRouteName="Dashboard"
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerTitleAlign: "center",
         tabBarShowLabel: false,
         tabBarActiveTintColor: colorScheme == "light" ? "white" : "white",
@@ -30,14 +30,10 @@ export default function TabRoutes() {
           backgroundColor: colorScheme == "light" ? "#DFF7E2" : "#47286C",
           borderTopWidth: 0,
           paddingHorizontal: 10,
+          borderTopEndRadius: 25,
+          borderTopStartRadius: 25,
 
-          elevation: 20,
-          left: 10,
-          right: 10,
-          bottom: 14,
-          borderRadius: 50,
-
-          height: 80,
+          height: 70,
         },
       }}
     >
@@ -116,11 +112,17 @@ export default function TabRoutes() {
             if (focused) {
               return (
                 <View className="items-center justify-center size-14 bg-green-500 rounded-3xl ">
-                  <Ionicons name="bulb" color={color} size={size} />
+                  <Ionicons name="notifications" color={color} size={size} />
                 </View>
               );
             }
-            return <Ionicons name="bulb-outline" color={color} size={size} />;
+            return (
+              <Ionicons
+                name="notifications-outline"
+                color={color}
+                size={size}
+              />
+            );
           },
         }}
       />

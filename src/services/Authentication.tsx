@@ -1,11 +1,7 @@
 import * as LocalAuthentication from "expo-local-authentication";
 import { Alert } from "react-native";
 
-export async function handleAuthentication({
-  setIsLogedIn,
-}: {
-  setIsLogedIn: boolean;
-}) {
+export async function handleAuthentication({ setIsLogedIn }) {
   // Verifica se há hardware de autenticação e tipos suportados
   const compatible = await LocalAuthentication.hasHardwareAsync();
   const types = await LocalAuthentication.supportedAuthenticationTypesAsync();

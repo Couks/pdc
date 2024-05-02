@@ -1,18 +1,13 @@
-import { type VariantProps, cva } from "class-variance-authority";
-import { Pressable, Text } from "react-native";
-
 import { cn } from "../lib/utils";
-import Animated, {
-  BounceIn,
-  BounceOut,
-  ColorSpace,
-} from "react-native-reanimated";
+import { Pressable, Text } from "react-native";
+import { type VariantProps, cva } from "class-variance-authority";
+import { TouchableOpacity } from "react-native";
 
-const buttonVariants = cva("items-center justify-center rounded-2xl py-4", {
+const buttonVariants = cva("items-center justify-center rounded-2xl py-2", {
   variants: {
     variant: {
-      default: "bg-green-500 dark:bg-purple-500",
-      light: "bg-green-200 dark:bg-purple-100",
+      default: "bg-green-500 ",
+      light: "bg-green-200 ",
     },
     size: {
       default: "px-8",
@@ -30,7 +25,7 @@ const buttonTextVariants = cva("text-center font-bold", {
   variants: {
     variant: {
       default: "text-white",
-      light: "text-green-700 dark:text-purple-700",
+      light: "text-green-700",
     },
     size: {
       default: "text-xl",
@@ -45,7 +40,7 @@ const buttonTextVariants = cva("text-center font-bold", {
 });
 
 interface ButtonProps
-  extends React.ComponentPropsWithoutRef<typeof Pressable>,
+  extends React.ComponentPropsWithoutRef<typeof TouchableOpacity>,
     VariantProps<typeof buttonVariants> {
   label: string;
   labelClasses?: string;
@@ -59,18 +54,20 @@ function Button({
   ...props
 }: ButtonProps) {
   return (
-    <Pressable
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    >
-      <Text
-        className={cn(
-          buttonTextVariants({ variant, size, className: labelClasses })
-        )}
+    <TouchableOpacity>
+      <Pressable
+        className={cn(buttonVariants({ variant, size, className }))}
+        {...props}
       >
-        {label}
-      </Text>
-    </Pressable>
+        <Text
+          className={cn(
+            buttonTextVariants({ variant, size, className: labelClasses })
+          )}
+        >
+          {label}
+        </Text>
+      </Pressable>
+    </TouchableOpacity>
   );
 }
 

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import StackRoutes from "./stack.routes";
 import TabRoutes from "./tab.routes";
+import StackRoutes from "./stack.routes";
 
+import { useState } from "react";
 import { useAuth } from "@/services/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 

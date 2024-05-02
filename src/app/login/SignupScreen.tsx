@@ -1,3 +1,4 @@
+import { Input } from "@/components/Input";
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useForm, Controller } from "react-hook-form";
@@ -24,33 +25,33 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
       <View className="items-center mx-4 gap-4">
         <Animated.View
           entering={FadeInUp.duration(1000).springify()}
-          className="bg-gray-100 px-6 py-2 rounded-2xl w-full"
+          className="w-full"
         >
           <Controller
             control={control}
             name="username"
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
+              <Input
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
                 className="text-white text-lg"
                 placeholder="Digite seu apelido"
                 placeholderTextColor={"gray"}
-              ></TextInput>
+              ></Input>
             )}
           />
         </Animated.View>
 
         <Animated.View
           entering={FadeInDown.delay(200).duration(1000).springify()}
-          className="bg-gray-100 px-6 py-2 rounded-2xl w-full"
+          className="w-full"
         >
           <Controller
             control={control}
             name="email"
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
+              <Input
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -58,20 +59,20 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
                 className="text-white text-lg"
                 placeholder="Digite seu endereço de e-mail"
                 placeholderTextColor={"gray"}
-              ></TextInput>
+              ></Input>
             )}
           />
         </Animated.View>
 
         <Animated.View
           entering={FadeInDown.delay(400).duration(1000).springify()}
-          className="bg-gray-100 px-6 py-2 rounded-2xl w-full"
+          className="w-full"
         >
           <Controller
             control={control}
             name="password"
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
+              <Input
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -79,7 +80,7 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
                 className="text-lg"
                 placeholder="Digite sua senha"
                 placeholderTextColor={"gray"}
-              ></TextInput>
+              ></Input>
             )}
           />
         </Animated.View>

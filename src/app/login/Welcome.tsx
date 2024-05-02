@@ -6,8 +6,6 @@ import Animated, {
   BounceInRight,
   BounceOutLeft,
   BounceOutRight,
-  StretchInX,
-  StretchOutX,
   Easing,
   FadeIn,
   BounceInUp,

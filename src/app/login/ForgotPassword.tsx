@@ -2,6 +2,7 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
 
 export default function ForgotPassword({ navigation }: { navigation: any }) {
   const {
@@ -11,7 +12,7 @@ export default function ForgotPassword({ navigation }: { navigation: any }) {
   } = useForm({});
 
   function handleForgotPassoword(data: any) {
-    console.log();
+    console.log(data);
   }
 
   return (
@@ -35,20 +36,20 @@ export default function ForgotPassword({ navigation }: { navigation: any }) {
 
         <Animated.View
           entering={FadeInDown.delay(400).duration(1000).springify()}
-          className="bg-gray-100 px-6 py-2 rounded-2xl w-full"
+          className="w-full"
         >
           <Controller
             control={control}
             name="email"
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
+              <Input
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
                 className="text-white text-xl"
                 placeholder="exemplo@exemplo.com.br"
                 placeholderTextColor={"gray"}
-              ></TextInput>
+              />
             )}
           />
         </Animated.View>

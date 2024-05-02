@@ -1,13 +1,15 @@
-import { TextInput, TextInputProps } from "react-native";
+import { TextInput, TextInputProps, View } from "react-native";
 
 import { colors } from "@/styles/colors";
 
 export function Input({ ...rest }: TextInputProps) {
   return (
-    <TextInput
-      placeholderTextColor={colors.gray[300]}
-      className="w-full h-14 border border-gray-400 rounded p-4 text-white font-medium text-base"
-      {...rest}
-    />
+    <View className="bg-green-200 p-4 rounded-2xl w-full">
+      <TextInput
+        placeholderTextColor={colors.gray[300]}
+        className="w-full h-8 text-gray-200 font-normal text-md"
+        {...rest}
+      />
+    </View>
   );
 }
