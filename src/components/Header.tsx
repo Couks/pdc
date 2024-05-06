@@ -1,21 +1,28 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
+import Animated, { FadeInDown, StretchInY } from "react-native-reanimated";
 
 type Props = {
-  title: string;
-  children: React.ReactNode;
+  title?: string;
+  children?: React.ReactNode;
   style?: object;
 };
 
 export default function Header({ title, children, style }: Props) {
   return (
     <View
-      className="flex-col items-center justify-center bg-green-500 dark:bg-green-700 px-8 "
+      className="items-center justify-center bg-green-500 dark:bg-green-700 px-8"
       style={[styles.header, style]}
     >
-      <Text className="text-white font-bold text-3xl">{title}</Text>
-      <View className="flex-col items-center justify-center">{children}</View>
+      <Animated.Text
+        entering={FadeInDown.delay(200).duration(1000).springify()}
+        className="dark:text-white text-purple-800 font-bold text-3xl"
+        style={{ marginBottom: 20 }}
+      >
+        {title}
+      </Animated.Text>
+      <View>{children}</View>
     </View>
   );
 }

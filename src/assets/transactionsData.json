@@ -2,271 +2,209 @@
   {
     "id": "1",
     "iconName": "home",
-    "title": "Aluguel",
-    "date": "2024-04-26",
-    "time": "10:30",
-    "type": "Despesa",
-    "value": -1200.0
+    "category": "Aluguel",
+    "date": "2024-04-26T08:15:30",
+    "type": "saida",
+    "price": "1200.0"
   },
   {
     "id": "2",
     "iconName": "fast-food",
-    "title": "Restaurante",
-    "date": "2024-04-25",
-    "time": "13:45",
-    "type": "Despesa",
-    "value": -50.0
+    "category": "Restaurante",
+    "date": "2024-04-25T13:45:20",
+    "type": "saida",
+    "price": "50.0"
   },
   {
     "id": "3",
     "iconName": "basketball",
-    "title": "Academia",
-    "date": "2024-04-24",
-    "time": "08:00",
-    "type": "Despesa",
-    "value": -80.0
+    "category": "Academia",
+    "date": "2024-04-24T09:30:45",
+    "type": "saida",
+    "price": "80.0"
   },
   {
     "id": "4",
     "iconName": "briefcase",
-    "title": "Salário",
-    "date": "2024-04-23",
-    "time": "18:00",
-    "type": "Receita",
-    "value": 3000.0
+    "category": "Salário",
+    "date": "2024-04-23T16:20:10",
+    "type": "entrada",
+    "price": "3000.0"
   },
   {
     "id": "5",
     "iconName": "cart",
-    "title": "Compras no mercado",
-    "date": "2024-04-22",
-    "time": "15:20",
-    "type": "Despesa",
-    "value": -150.0
+    "category": "Compras no mercado",
+    "date": "2024-04-22T11:10:05",
+    "type": "saida",
+    "price": "150.0"
   },
   {
     "id": "6",
     "iconName": "cafe",
-    "title": "Café da manhã",
-    "date": "2024-04-21",
-    "time": "08:15",
-    "type": "Despesa",
-    "value": -15.0
+    "category": "Café da manhã",
+    "date": "2024-04-21T08:00:40",
+    "type": "saida",
+    "price": "15.0"
   },
   {
     "id": "7",
     "iconName": "car",
-    "title": "Combustível",
-    "date": "2024-04-20",
-    "time": "09:40",
-    "type": "Despesa",
-    "value": -80.0
+    "category": "Combustível",
+    "date": "2024-04-20T14:25:55",
+    "type": "saida",
+    "price": "80.0"
   },
   {
     "id": "8",
     "iconName": "medkit",
-    "title": "Consulta médica",
-    "date": "2024-04-19",
-    "time": "14:00",
-    "type": "Despesa",
-    "value": -200.0
+    "category": "Consulta médica",
+    "date": "2024-04-19T10:05:15",
+    "type": "saida",
+    "price": "200.0"
   },
   {
     "id": "9",
     "iconName": "airplane",
-    "title": "Passagem aérea",
-    "date": "2024-04-18",
-    "time": "16:30",
-    "type": "Despesa",
-    "value": -500.0
+    "category": "Passagem aérea",
+    "date": "2024-04-18T15:30:25",
+    "type": "saida",
+    "price": "500.0"
   },
   {
     "id": "10",
     "iconName": "gift",
-    "title": "Presente de aniversário",
-    "date": "2024-04-17",
-    "time": "20:00",
-    "type": "Despesa",
-    "value": -100.0
+    "category": "Presente de aniversário",
+    "date": "2024-04-17T12:55:35",
+    "type": "saida",
+    "price": "100.0"
   },
   {
     "id": "11",
     "iconName": "cart",
-    "title": "Venda online",
-    "date": "2024-04-16",
-    "time": "11:10",
-    "type": "Receita",
-    "value": 200.0
+    "category": "Venda online",
+    "date": "2024-04-16T18:40:50",
+    "type": "entrada",
+    "price": "200.0"
   },
   {
     "id": "12",
     "iconName": "football",
-    "title": "Ingresso para o jogo",
-    "date": "2024-04-15",
-    "time": "19:30",
-    "type": "Despesa",
-    "value": -80.0
+    "category": "Ingresso para o jogo",
+    "date": "2024-04-15T19:30:00",
+    "type": "saida",
+    "price": "80.0"
   },
   {
     "id": "13",
     "iconName": "briefcase",
-    "title": "Freelancer",
-    "date": "2024-04-14",
-    "time": "12:00",
-    "type": "Receita",
-    "value": 500.0
+    "category": "Freelancer",
+    "date": "2024-04-14T12:00:00",
+    "type": "entrada",
+    "price": "500.0"
   },
   {
     "id": "14",
     "iconName": "pizza",
-    "title": "Pizza com amigos",
-    "date": "2024-04-13",
-    "time": "21:00",
-    "type": "Despesa",
-    "value": -30.0
+    "category": "Pizza com amigos",
+    "date": "2024-04-13T21:00:00",
+    "type": "saida",
+    "price": "30.0"
   },
   {
     "id": "15",
     "iconName": "barbell",
-    "title": "Mensalidade da academia",
-    "date": "2024-04-12",
-    "time": "08:30",
-    "type": "Despesa",
-    "value": -120.0
+    "category": "Mensalidade da academia",
+    "date": "2024-04-12T08:30:00",
+    "type": "saida",
+    "price": "120.0"
   },
   {
     "id": "16",
     "iconName": "medical",
-    "title": "Medicamentos",
-    "date": "2024-04-11",
-    "time": "16:15",
-    "type": "Despesa",
-    "value": -50.0
+    "category": "Medicamentos",
+    "date": "2024-04-11T16:15:00",
+    "type": "saida",
+    "price": "50.0"
   },
   {
     "id": "17",
     "iconName": "logo-euro",
-    "title": "Reembolso de viagem",
-    "date": "2024-04-10",
-    "time": "10:00",
-    "type": "Receita",
-    "value": 800.0
+    "category": "Reembolso de viagem",
+    "date": "2024-04-10T10:00:00",
+    "type": "entrada",
+    "price": "800.0"
   },
   {
     "id": "18",
     "iconName": "game-controller",
-    "title": "Jogo de videogame",
-    "date": "2024-04-09",
-    "time": "19:50",
-    "type": "Despesa",
-    "value": -60.0
+    "category": "Jogo de videogame",
+    "date": "2024-04-09T19:50:00",
+    "type": "saida",
+    "price": "60.0"
   },
   {
     "id": "19",
     "iconName": "restaurant",
-    "title": "Jantar romântico",
-    "date": "2024-04-08",
-    "time": "21:30",
-    "type": "Despesa",
-    "value": -100.0
+    "category": "Jantar romântico",
+    "date": "2024-04-08T21:30:00",
+    "type": "saida",
+    "price": "100.0"
   },
   {
     "id": "20",
     "iconName": "car-sport",
-    "title": "Manutenção do carro",
-    "date": "2024-04-07",
-    "time": "11:20",
-    "type": "Despesa",
-    "value": -300.0
+    "category": "Manutenção do carro",
+    "date": "2024-04-07T11:20:00",
+    "type": "saida",
+    "price": "300.0"
   },
   {
     "id": "21",
     "iconName": "phone-portrait",
-    "title": "Troca de celular",
-    "date": "2024-04-06",
-    "time": "14:45",
-    "type": "Despesa",
-    "value": -800.0
+    "category": "Troca de celular",
+    "date": "2024-04-06T14:45:00",
+    "type": "saida",
+    "price": "800.0"
   },
   {
     "id": "22",
     "iconName": "shirt",
-    "title": "Roupas",
-    "date": "2024-04-05",
-    "time": "17:10",
-    "type": "Despesa",
-    "value": -200.0
+    "category": "Roupas",
+    "date": "2024-04-05T17:10:00",
+    "type": "saida",
+    "price": "200.0"
   },
   {
     "id": "23",
     "iconName": "cash",
-    "title": "Saque",
-    "date": "2024-04-04",
-    "time": "09:00",
-    "type": "Despesa",
-    "value": -200.0
+    "category": "Saque",
+    "date": "2024-04-04T09:00:00",
+    "type": "saida",
+    "price": 200.0
   },
   {
     "id": "24",
     "iconName": "heart",
-    "title": "Doação para caridade",
-    "date": "2024-04-03",
-    "time": "13:20",
-    "type": "Despesa",
-    "value": -50.0
+    "category": "Doação para caridade",
+    "date": "2024-04-03T13:20:00",
+    "type": "saida",
+    "price": "50.0"
   },
   {
     "id": "25",
     "iconName": "bed",
-    "title": "Hotel",
-    "date": "2024-04-02",
-    "time": "16:40",
-    "type": "Despesa",
-    "value": -250.0
+    "category": "Hotel",
+    "date": "2024-04-02T16:40:00",
+    "type": "saida",
+    "price": "250.0"
   },
   {
     "id": "26",
     "iconName": "school",
-    "title": "Curso online",
-    "date": "2024-04-01",
-    "time": "10:50",
-    "type": "Despesa",
-    "value": -150.0
-  },
-  {
-    "id": "27",
-    "iconName": "wine",
-    "title": "Vinícola",
-    "date": "2024-03-31",
-    "time": "11:30",
-    "type": "Despesa",
-    "value": -100.0
-  },
-  {
-    "id": "28",
-    "iconName": "bus",
-    "title": "Passagem de ônibus",
-    "date": "2024-03-30",
-    "time": "14:15",
-    "type": "Despesa",
-    "value": -30.0
-  },
-  {
-    "id": "29",
-    "iconName": "medical",
-    "title": "Plano de saúde",
-    "date": "2024-03-29",
-    "time": "10:10",
-    "type": "Despesa",
-    "value": -300.0
-  },
-  {
-    "id": "30",
-    "iconName": "game-controller",
-    "title": "Compra de videogame",
-    "date": "2024-03-28",
-    "time": "18:20",
-    "type": "Despesa",
-    "value": -400.0
+    "category": "Curso online",
+    "date": "2024-04-01T10:50:00",
+    "type": "saida",
+    "price": "150.0"
   }
 ]

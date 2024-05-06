@@ -1,17 +1,15 @@
-import { Text, TextInput, TouchableOpacity, View, Image } from "react-native";
-
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
-
-import { useForm, Controller } from "react-hook-form";
-import { Button } from "@/components/Button";
-import { Input } from "@/components/Input";
-import { handleAuthentication } from "@/services/Authentication";
-import { useAuth } from "@/services/AuthContext";
 import Header from "@/components/Header";
-import { ToggleTheme } from "@/components/ToggleTheme";
+import { Input } from "@/components/Input";
+import { Button } from "@/components/Button";
+import { useAuth } from "@/services/AuthContext";
+import { useForm, Controller } from "react-hook-form";
+import { Text, TouchableOpacity, View } from "react-native";
+import { handleAuthentication } from "@/services/Authentication";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { Link } from "expo-router";
 
-export default function LoginScreen({ navigation }: { navigation: any }) {
-  const { setIsLogedIn } = useAuth();
+export default function SignInScreen({ navigation }) {
+  const { onLogin } = useAuth();
 
   const {
     control,
@@ -19,12 +17,17 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
     formState: { errors },
   } = useForm({});
 
-  function handleSignIn(data: any) {
-    console.log(data);
-  }
+  const handleSignIn = async (data: { email: string; password: string }) => {
+    const result = await onLogin!(data.email, data.password);
+    if (result && result.error) {
+      alert(result.msg);
+    }
+  };
 
   return (
-    <>
+    <View className="flex-1 bg-green-500 dark:bg-green-700">
+      <Header title="Bem vindo" style={{ height: 180 }} />
+
       <View className="flex-1 justify-around bg-white dark:bg-purple-800 rounded-t-[50px]">
         {/* Formulário*/}
         <View className="mx-6 gap-4">
@@ -80,7 +83,6 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
               <Button
                 label="Entrar"
                 size="lg"
-                className="w-60"
                 onPress={handleSubmit(handleSignIn)}
               />
             </Animated.View>
@@ -90,13 +92,11 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
               exiting={FadeInDown.duration(1000).springify()}
               className="w-full items-center"
             >
-              <TouchableOpacity
-                onPress={() => navigation.navigate("ForgotPassword")}
-              >
+              <Link href="/login/ForgotPassword">
                 <Text className="dark:text-white text-md text-purple-800 font-bold">
                   Esqueceu sua senha?
                 </Text>
-              </TouchableOpacity>
+              </Link>
             </Animated.View>
 
             <Animated.View
@@ -107,7 +107,6 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                 label="Cadastre-se"
                 variant="light"
                 size="lg"
-                className="w-60"
                 onPress={() => navigation.navigate("SignUpScreen")}
               />
             </Animated.View>
@@ -120,9 +119,7 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
               <Text className="text-purple-800 dark:text-white font-semibold text-md">
                 Use Sua{" "}
               </Text>
-              <TouchableOpacity
-                onPress={() => handleAuthentication(setIsLogedIn)}
-              >
+              <TouchableOpacity onPress={() => handleAuthentication()}>
                 <Text className="font-bold text-green-500 text-md">
                   Biometria
                 </Text>
@@ -131,11 +128,10 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                 {" "}
                 Para Acessar
               </Text>
-              <TouchableOpacity></TouchableOpacity>
             </Animated.View>
           </View>
         </View>
       </View>
-    </>
+    </View>
   );
 }

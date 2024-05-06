@@ -3,23 +3,26 @@ import { Pressable, Text } from "react-native";
 import { type VariantProps, cva } from "class-variance-authority";
 import { TouchableOpacity } from "react-native";
 
-const buttonVariants = cva("items-center justify-center rounded-2xl py-2", {
-  variants: {
-    variant: {
-      default: "bg-green-500 ",
-      light: "bg-green-200 ",
+const buttonVariants = cva(
+  "items-center justify-center rounded-2xl py-2 w-60",
+  {
+    variants: {
+      variant: {
+        default: "bg-green-500 ",
+        light: "bg-green-200 ",
+      },
+      size: {
+        default: "px-8",
+        sm: "px-6",
+        lg: "px-10",
+      },
     },
-    size: {
-      default: "px-8",
-      sm: "px-6",
-      lg: "px-10",
+    defaultVariants: {
+      variant: "default",
+      size: "default",
     },
-  },
-  defaultVariants: {
-    variant: "default",
-    size: "default",
-  },
-});
+  }
+);
 
 const buttonTextVariants = cva("text-center font-bold", {
   variants: {

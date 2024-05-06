@@ -10,6 +10,8 @@ import Animated, {
   FadeIn,
   BounceInUp,
   BounceInDown,
+  BounceOutUp,
+  BounceIn,
 } from "react-native-reanimated";
 
 export default function Home({ navigation }: { navigation: any }) {
@@ -20,15 +22,14 @@ export default function Home({ navigation }: { navigation: any }) {
     >
       <View className="items-center mb-4">
         <Animated.Image
-          entering={BounceInUp.delay(500).duration(1000).easing(Easing.ease)}
+          entering={BounceIn.delay(500).duration(1000).easing(Easing.ease)}
           exiting={BounceInDown.delay(500)}
-          source={require("@/assets/logo.png")}
+          source={require("@/assets/images/logo.png")}
           alt="Logo"
           style={{
             resizeMode: "contain",
             height: 200,
             width: 700,
-            zIndex: 9999,
           }}
         />
       </View>
@@ -41,7 +42,7 @@ export default function Home({ navigation }: { navigation: any }) {
           variant="default"
           size="lg"
           className="w-60"
-          onPress={() => navigation.navigate("LoginScreen")}
+          onPress={() => navigation.navigate("SignInScreen")}
         />
       </Animated.View>
       <Animated.View
@@ -52,7 +53,6 @@ export default function Home({ navigation }: { navigation: any }) {
           label="Criar Conta"
           variant="light"
           size="lg"
-          className="w-60"
           onPress={() => navigation.navigate("SignUpScreen")}
         />
       </Animated.View>

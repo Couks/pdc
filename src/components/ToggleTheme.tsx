@@ -8,7 +8,7 @@ export function ToggleTheme() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
 
   return (
-    <View className="flex-row items-center">
+    <View className="flex-row items-center gap-1">
       <Feather
         name="moon"
         size={20}
@@ -25,7 +25,7 @@ export function ToggleTheme() {
 
       <Feather
         name="sun"
-        size={20}
+        size={22}
         className="dark:text-white text-green-dark"
       />
     </View>

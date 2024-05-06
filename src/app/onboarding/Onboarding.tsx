@@ -1,6 +1,6 @@
 import { Button } from "@/components/Button";
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, ScrollView } from "react-native";
+import { Text, View } from "react-native";
 import Animated, {
   FadeInDown,
   FadeInUp,
@@ -14,11 +14,11 @@ import Swiper from "react-native-swiper";
 const swiperData = [
   {
     title: "Bem vindo ao seu gestor de Gastos",
-    image: require("@/assets/hand-coins.png"),
+    image: require("@/assets/images/hand-coins.png"),
   },
   {
     title: "Está pronto para tomar controle das suas finanças?",
-    image: require("@/assets/cellphone.png"),
+    image: require("@/assets/images/cellphone.png"),
   },
 ];
 

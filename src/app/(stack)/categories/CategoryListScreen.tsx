@@ -1,27 +1,63 @@
+import Balance from "@/components/Balance";
 import Header from "@/components/Header";
-import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity, View } from "react-native";
+import Category from "@/components/Category";
+import { View } from "react-native";
 
-export default function CategoryListScreen({ navigation }: Props) {
-  // Cria um array com 10 elementos e usa o método map para renderizar
-  const icons = [...Array(9).keys()].map((i) => (
-    <TouchableOpacity
-      key={i}
-      onPress={() => navigation.navigate("CategoryEdit")}
-    >
-      <View className="bg-purple-500 size-28 rounded-3xl items-center justify-center">
-        <Ionicons name="fast-food" size={50} color="white" />
-      </View>
-    </TouchableOpacity>
-  ));
-
+export default function CategoryListScreen() {
   return (
     <>
       <Header title="Categorias">
-        <View></View>
+        <Balance />
       </Header>
-      <View className="flex-1 flex-row flex-wrap py-12 px-2 gap-6 items-center justify-around">
-        {icons}
+      <View className="flex-1 flex-row flex-wrap py-12 px-4 gap-6 items-center justify-center bg-white dark:bg-purple-800">
+        <Category
+          iconName="home"
+          title="Moradia"
+          description="Todos os custos relacionados à sua casa, como aluguel ou pagamento da hipoteca, contas de água, luz e gás, e manutenção da residência."
+        />
+        <Category
+          iconName="fast-food"
+          title="Alimentação"
+          description="Gastos com comida e bebida, incluindo compras de supermercado e refeições fora de casa."
+        />
+        <Category
+          iconName="bus"
+          title="Transporte"
+          description="Despesas relacionadas a se locomover, como combustível, transporte público e manutenção do veículo."
+        />
+        <Category
+          iconName="medical"
+          title="Saúde"
+          description="Custos com cuidados médicos, incluindo consultas, medicamentos e seguro de saúde."
+        />
+        <Category
+          iconName="school"
+          title="Estudos"
+          description="Gastos ligados à aprendizagem, como mensalidades escolares, materiais didáticos e cursos."
+        />
+        <Category
+          iconName="sunny"
+          title="Lazer"
+          description="Despesas para se divertir e relaxar, como cinema, viagens e hobbies."
+        />
+
+        <Category
+          iconName="shirt"
+          title="Despesas Pessoais"
+          description="Custos individuais, como roupas, produtos de higiene e cuidados pessoais."
+        />
+
+        <Category
+          iconName="cash"
+          title="Investimentos"
+          description="Dinheiro reservado para poupança e investimento, visando metas financeiras de longo prazo."
+        />
+
+        <Category
+          iconName="add"
+          title="Outros Gastos"
+          description="Esta categoria abrange todas as despesas que não se encaixam nas categorias específicas. Isso inclui gastos diversos, como impostos, presentes, seguros diversos, doações, taxas bancárias e quaisquer outras despesas."
+        />
       </View>
     </>
   );

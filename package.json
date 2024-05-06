@@ -19,6 +19,7 @@
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "date-fns": "^3.6.0",
     "expo": "~50.0.14",
     "expo-font": "~11.10.3",
     "expo-linking": "~6.2.2",
@@ -40,7 +41,8 @@
     "react-native-slider-intro": "^2.1.13",
     "react-native-swiper": "^1.6.0",
     "react-native-web": "~0.19.6",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "expo-secure-store": "~12.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

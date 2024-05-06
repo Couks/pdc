@@ -7,14 +7,14 @@ const slides = [
     title: "First step",
     text: "Simple description.",
     link: "https://pccontroller.rnstudio.hu",
-    image: require("@/assets/hand-coins.png"),
+    image: require("@/assets/images/hand-coins.png"),
     backgroundColor: "#febe29",
   },
   {
     index: 2,
     title: "Second step",
     text: "Simple description for the second step.",
-    image: require("@/assets/cellphone.png"),
+    image: require("@/assets/images/cellphone.png"),
     backgroundColor: "#febe29",
   },
 ];

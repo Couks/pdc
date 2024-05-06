@@ -1,61 +1,67 @@
 import { Ionicons } from "@expo/vector-icons";
-import transactionsData from "@/assets/transactionsData.json";
-import {
-  ScrollView,
-  SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
-import Header from "@/components/Header";
 import { useLocalSearchParams } from "expo-router";
+import { Text, View } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { format, parseISO } from "date-fns";
+import { ptBR } from "date-fns/locale/pt-BR";
 
-export default function TransactionScreen({ navigation }) {
+interface TransactionProps {
+  id: string;
+  iconName: string;
+  category: string;
+  date: string;
+  type: string;
+  price: string;
+}
+
+export default function Transaction({
+  id,
+  iconName,
+  category,
+  date,
+  type,
+  price,
+}: TransactionProps) {
   const { transaction } = useLocalSearchParams();
-  return (
-    <SafeAreaView className="flex-1">
-      <Header title="Transações" />
-      <View className="items-center justify-center gap-4 bg-green-200 dark:bg-green-700">
-        <View className="bg-white w-3/4 h-36 rounded-2xl items-center justify-center gap-2">
-          <Text className="font-bold text-xl text-purple-800">
-            Gastos Totais
-          </Text>
-          <Text className="font-bold text-3xl">- R$ 2.530,95</Text>
-        </View>
-        <ScrollView className="bg-white dark:bg-purple-800 w-full rounded-t-[50px]">
-          {transactionsData.map((item) => (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => navigation.navigate("")}
-            >
-              <View className="flex-row items-center px-6 py-6 gap-3 ">
-                <View className="items-center justify-center size-14 bg-green-500 dark:bg-purple-500 rounded-3xl ">
-                  <Ionicons name={item.iconName} size={24} color="white" />
-                </View>
-                <View className="flex-1 gap-2 jusitify-center">
-                  <Text className="font-semibold text-xl text-white">
-                    {item.title}
-                  </Text>
-                  <View>
-                    <Text className="dark:text-purple-500 text-purple-800 text-xs font-semibold">
-                      {item.time} - {item.date}
-                    </Text>
-                  </View>
-                </View>
 
-                <Text
-                  className="font-semibold text-md text-purple-500 dark:text-white"
-                  style={{
-                    fontSize: 18,
-                  }}
-                >
-                  {item.type === "Despesa" ? "-" : "+"} R${Math.abs(item.value)}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+  const priceNumber = parseFloat(price);
+  const formattedPrice = `${type === "saida" ? "-" : "+"} R$${Math.abs(
+    priceNumber
+  ).toFixed(2)}`;
+
+  const dateObject = parseISO(date);
+
+  const formattedDate = format(dateObject, "PP", { locale: ptBR });
+
+  const formattedTime = format(dateObject, "HH:mm:ss");
+
+  return (
+    <TouchableOpacity key={id}>
+      <View className="flex-row items-center px-8 py-6 gap-4">
+        <View className="items-center justify-center size-14 bg-green-500 dark:bg-purple-500 rounded-3xl ">
+          <Ionicons name={iconName} size={24} color="white" />
+        </View>
+        <View className="flex-1 gap-2 jusitify-center">
+          <Text className="font-semibold text-xl  dark:text-white text-green-500">
+            {category}
+          </Text>
+          <View>
+            <Text className="dark:text-purple-500 text-purple-800 text-xs font-semibold">
+              {formattedDate} - {formattedTime}
+            </Text>
+          </View>
+        </View>
+
+        <Text
+          className="font-semibold text-purple-500 dark:text-white"
+          style={{
+            fontSize: 18,
+          }}
+        >
+          {formattedPrice}
+        </Text>
       </View>
-    </SafeAreaView>
+      <View className="bg-gray-200 rounded-full h-[1px] w-auto mx-6" />
+    </TouchableOpacity>
   );
 }
