@@ -13,8 +13,11 @@ import Animated, {
   BounceOutUp,
   BounceIn,
 } from "react-native-reanimated";
+import { useToast } from "@/components/Toast";
 
 export default function Home({ navigation }: { navigation: any }) {
+  const { toast } = useToast();
+
   return (
     <Animated.View
       entering={FadeIn.delay(100).duration(200)}
@@ -54,6 +57,20 @@ export default function Home({ navigation }: { navigation: any }) {
           variant="light"
           size="lg"
           onPress={() => navigation.navigate("SignUpScreen")}
+        />
+      </Animated.View>
+
+      <Animated.View
+        entering={BounceInRight.delay(800)}
+        exiting={BounceOutLeft.delay(800)}
+      >
+        <Button
+          label="teste toast"
+          variant="light"
+          size="lg"
+          onPress={() => {
+            toast("Conta criada com sucesso! 😁", "success");
+          }}
         />
       </Animated.View>
 

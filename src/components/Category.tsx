@@ -31,10 +31,10 @@ export default function Category({
       </DialogTrigger>
       <DialogContent>
         <View
-          className="gap-4 rounded-3xl justify-center w-auto h-60 border-2 border-white bg-purple-500"
+          className="gap-4 rounded-3xl justify-center w-auto h-auto border-2 border-white bg-purple-500"
           style={{ margin: 30, padding: 20 }}
         >
-          <View className="flex-row items-center gap-2">
+          <View className="flex-row items-center gap-4">
             <Ionicons name={iconName} size={40} color="white" />
             <Text className="font-semibold text-3xl text-white">{title}</Text>
           </View>

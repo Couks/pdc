@@ -13,11 +13,6 @@ export default function TransactionsStackNavigator() {
         component={TransactionsScreen}
         options={{ headerTitle: "Transações" }}
       />
-      <TransactionsStack.Screen
-        name="Transaction"
-        component={TransactionScreen}
-        options={{ headerTitle: "Transação" }}
-      />
     </TransactionsStack.Navigator>
   );
 }

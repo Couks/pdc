@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import Header from "@/components/Header";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
@@ -6,7 +7,6 @@ import { useForm, Controller } from "react-hook-form";
 import { Text, TouchableOpacity, View } from "react-native";
 import { handleAuthentication } from "@/services/Authentication";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
-import { Link } from "expo-router";
 
 export default function SignInScreen({ navigation }) {
   const { onLogin } = useAuth();
@@ -17,8 +17,11 @@ export default function SignInScreen({ navigation }) {
     formState: { errors },
   } = useForm({});
 
-  const handleSignIn = async (data: { email: string; password: string }) => {
-    const result = await onLogin!(data.email, data.password);
+  const handleSignIn = async (data: {
+    DDDtelefone: string;
+    password: string;
+  }) => {
+    const result = await onLogin!(data.DDDtelefone, data.password);
     if (result && result.error) {
       alert(result.msg);
     }
@@ -39,14 +42,16 @@ export default function SignInScreen({ navigation }) {
             >
               <Controller
                 control={control}
-                name="email"
+                rules={{ required: true }}
+                name="DDDtelefone"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
-                    autoComplete="email"
-                    placeholder="Digite seu endereço de e-mail"
+                    autoComplete="tel"
+                    keyboardType="phone-pad"
+                    placeholder="Digite seu contato WhatsApp"
                   />
                 )}
               />
@@ -59,6 +64,7 @@ export default function SignInScreen({ navigation }) {
             >
               <Controller
                 control={control}
+                rules={{ required: true }}
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input
@@ -80,11 +86,7 @@ export default function SignInScreen({ navigation }) {
               exiting={FadeInDown.duration(1000).springify()}
               className="items-center"
             >
-              <Button
-                label="Entrar"
-                size="lg"
-                onPress={handleSubmit(handleSignIn)}
-              />
+              <Button label="Entrar" onPress={handleSubmit(handleSignIn)} />
             </Animated.View>
             {/* Esqueceu sua senha?*/}
             <Animated.View
@@ -106,7 +108,6 @@ export default function SignInScreen({ navigation }) {
               <Button
                 label="Cadastre-se"
                 variant="light"
-                size="lg"
                 onPress={() => navigation.navigate("SignUpScreen")}
               />
             </Animated.View>

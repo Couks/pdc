@@ -29,7 +29,7 @@ export function Onboarding({ navigation }) {
     if (!buttonClicked) {
       const timer = setTimeout(() => {
         navigation.navigate("Home");
-      }, 10000);
+      }, 5000);
 
       return () => clearTimeout(timer);
     }

@@ -8,13 +8,23 @@ import { ToggleTheme } from "@/components/ToggleTheme";
 import { useAuth } from "@/services/AuthContext";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/Dialog";
 import { Button } from "@/components/Button";
+import { useToast } from "@/components/Toast";
 
 export default function ProfileScreen({ navigation }: any) {
   const { onLogout } = useAuth();
+  const { toast } = useToast();
+
+  function handleLogout() {
+    toast("Você deslogou, até mais! 😔", "destructive", 5000);
+    onLogout;
+    setTimeout(() => {
+      navigation.navigate("Welcome");
+    }, 5000);
+  }
   return (
-    <>
+    <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Perfil" style={{ height: 200 }} />
-      <View className="flex-1 bg-white items-center dark:bg-purple-800">
+      <View className="flex-1 bg-white items-center dark:bg-purple-800 rounded-t-[50px]">
         <View className="items-center" style={{ marginTop: -70 }}>
           <Avatar
             className="border-4 border-green-500 dark:border-purple-800"
@@ -81,13 +91,18 @@ export default function ProfileScreen({ navigation }: any) {
               </DialogTrigger>
               <DialogContent>
                 <View
-                  className="gap-4 rounded-3xl justify-center w-auto  border-2 border-white bg-red-500"
+                  className="gap-4 rounded-3xl justify-center border-2 border-white bg-red-500"
                   style={{ margin: 20, padding: 30 }}
                 >
-                  <Text className="text-white">
+                  <Text className="text-white text-xl">
                     Tem certeza que deseja sair?
                   </Text>
-                  <Button label="Sair" variant="light" onPress={onLogout} />
+                  <Button
+                    label="Sair"
+                    variant="light"
+                    className="w-full"
+                    onPress={handleLogout}
+                  />
                 </View>
               </DialogContent>
             </Dialog>
@@ -98,6 +113,6 @@ export default function ProfileScreen({ navigation }: any) {
           </View>
         </View>
       </View>
-    </>
+    </View>
   );
 }

@@ -13,7 +13,7 @@ export default function ForgotPassword({ navigation }) {
   } = useForm({});
 
   function handleForgotPassoword(data: any) {
-    console.log(data);
+    // console.log(data);
   }
 
   return (

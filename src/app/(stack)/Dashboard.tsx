@@ -8,7 +8,6 @@ import {
   startOfMonth,
   endOfMonth,
 } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
 
 import { useState } from "react";
 import Header from "@/components/Header";
@@ -95,7 +94,7 @@ export default function Dashboard({ navigation }) {
 
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header style={{ height: 250 }}>
+      <Header style={{ height: 230 }}>
         <View className="flex-col justify-center">
           <View className="flex-row justify-between items-center w-full">
             <View className="items-start">
@@ -114,12 +113,17 @@ export default function Dashboard({ navigation }) {
           </View>
 
           <View className="w-full mt-10">
-            <View>
+            <View className="flex-row gap-4 items-center justify-center p-3">
+              <Text className="text-md font-bold mb-4 text-purple-800 dark:text-green-500 ">
+                Balanço total
+              </Text>
+              <View className="bg-white rounded-full h-[40px] w-[2px]" />
+
               <Text className="text-md font-bold mb-4 text-purple-800 dark:text-green-500 ">
                 Total de Gastos
               </Text>
-              <Progress percentage={44} />
             </View>
+            <Progress percentage={44} />
           </View>
         </View>
       </Header>

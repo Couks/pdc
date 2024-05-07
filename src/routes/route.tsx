@@ -5,11 +5,11 @@ import { useAuth } from "@/services/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 
 export default function Routes() {
-  const { authState, onLogout } = useAuth();
+  const { authState } = useAuth();
 
   return (
     <NavigationContainer independent={true}>
-      {authState?.authenticated ? (
+      {true ? (
         <TabRoutes />
       ) : (
         <>

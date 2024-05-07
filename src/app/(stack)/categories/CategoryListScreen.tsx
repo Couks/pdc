@@ -5,11 +5,11 @@ import { View } from "react-native";
 
 export default function CategoryListScreen() {
   return (
-    <>
+    <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Categorias">
         <Balance />
       </Header>
-      <View className="flex-1 flex-row flex-wrap py-12 px-4 gap-6 items-center justify-center bg-white dark:bg-purple-800">
+      <View className="flex-1 flex-row flex-wrap py-10 px-4 gap-6 items-center justify-center bg-white dark:bg-purple-800 rounded-t-[50px]">
         <Category
           iconName="home"
           title="Moradia"
@@ -59,6 +59,6 @@ export default function CategoryListScreen() {
           description="Esta categoria abrange todas as despesas que não se encaixam nas categorias específicas. Isso inclui gastos diversos, como impostos, presentes, seguros diversos, doações, taxas bancárias e quaisquer outras despesas."
         />
       </View>
-    </>
+    </View>
   );
 }

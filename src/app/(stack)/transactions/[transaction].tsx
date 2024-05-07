@@ -37,7 +37,7 @@ export default function Transaction({
 
   return (
     <TouchableOpacity key={id}>
-      <View className="flex-row items-center px-8 py-6 gap-4">
+      <View className="flex-row items-center px-4 py-6 gap-4">
         <View className="items-center justify-center size-14 bg-green-500 dark:bg-purple-500 rounded-3xl ">
           <Ionicons name={iconName} size={24} color="white" />
         </View>

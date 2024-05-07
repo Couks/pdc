@@ -1,5 +1,5 @@
 import axios from "axios";
-import SecureStore from "expo-secure-store";
+import * as SecureStore from "expo-secure-store";
 import React, { createContext, useState, useContext, useEffect } from "react";
 
 interface AuthProps {
@@ -12,14 +12,13 @@ interface AuthProps {
     lastName: string,
     DDDtelefone: string
   ) => Promise<any>;
-  onLogin?: (email: string, password: string) => Promise<any>;
+  onLogin?: (DDDtelefone: string, password: string) => Promise<any>;
   onLogout?: () => Promise<any>;
 }
 
-const TOKEN_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoibWF0aGV1c2Nhc3Ryb2tzQGdtYWlsLmNvbSIsInRlbGVmb25lIjoiMjE5NjUxODg5NTUiLCJpYXQiOjE3MTQ5MTg1MjAsImV4cCI6MTcxNDkxODUyMH0.H0Z6fm4K4FWIBnHtGzKEZAZxdq2C6hkk7iAL4E9Hfa4";
+const TOKEN_KEY = "default";
 export const API_URL =
-  "https://actively-settling-rodent.ngrok-free.app/api/auth/";
+  "https://actively-settling-rodent.ngrok-free.app/api/auth";
 
 const AuthContext = createContext<AuthProps>({});
 
@@ -58,7 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     DDDtelefone: string
   ) => {
     try {
-      return await axios.post(`${API_URL}/cadastrar`, {
+      const response = await axios.post(`${API_URL}/cadastrar`, {
         email,
         password,
         apelido,
@@ -66,24 +65,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         lastName,
         DDDtelefone,
       });
-    } catch (e) {
-      return { error: true, msg: (e as any).response.data.msg };
+
+      return response;
+    } catch (error) {
+      let errorMsg = "Erro desconhecido";
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          const status = error.response.status;
+          const serverMsg =
+            error.response.data?.msg || error.response.statusText;
+          errorMsg = `Erro ${status}: ${serverMsg}`;
+        } else if (error.request) {
+          errorMsg = "Nenhuma resposta do servidor";
+        } else {
+          errorMsg = "Erro na configuração da requisição";
+        }
+      } else if (error instanceof Error) {
+        errorMsg = error.message;
+      }
+      return { error: true, msg: errorMsg };
     }
   };
 
-  const login = async (
-    email: string,
-    password: string,
-    DDDtelefone: string
-  ) => {
+  const login = async (DDDtelefone: string, password: string) => {
     try {
       const result = await axios.post(`${API_URL}/logar`, {
-        email,
-        password,
         DDDtelefone,
+        password,
       });
 
-      console.log("", result);
+      console.log(result);
 
       setAuthState({
         token: result.data.token,
@@ -97,8 +108,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
 
       return result;
-    } catch (e) {
-      return { error: true, msg: (e as any).response.data.msg };
+    } catch (error) {
+      let errorMsg = "Erro desconhecido";
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          const status = error.response.status;
+          const serverMsg =
+            error.response.data?.msg || error.response.statusText;
+          errorMsg = `Erro ${status}: ${serverMsg}`;
+        } else if (error.request) {
+          errorMsg = "Nenhuma resposta do servidor";
+        } else {
+          errorMsg = "Erro na configuração da requisição";
+        }
+      } else if (error instanceof Error) {
+        errorMsg = error.message;
+      }
+      return { error: true, msg: errorMsg };
     }
   };
 
@@ -120,5 +146,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     authState,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <>
+      <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    </>
+  );
 };

@@ -8,10 +8,10 @@ import Transaction, { TransactionProps } from "./transactions/[transaction]";
 
 export default function Notification({ transactions }: TransactionProps) {
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-purple-700">
+    <SafeAreaView className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Notificações" style={{ height: 150 }} />
 
-      <ScrollView className="bg-white dark:bg-purple-800 p-2">
+      <ScrollView className="bg-white dark:bg-purple-800 p-2 rounded-t-[50px]">
         {transactionsData.map((transaction) => (
           <Transaction
             key={transaction.id}

@@ -4,8 +4,9 @@ import { colors } from "@/styles/colors";
 export function Loading() {
   return (
     <ActivityIndicator
-      className="flex-1 items-center justify-center bg-gray-600"
+      className="flex-1"
       color={colors.green[500]}
+      size="large"
     />
   );
 }

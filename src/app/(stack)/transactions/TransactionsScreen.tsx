@@ -6,10 +6,10 @@ import transactionsData from "@/assets/transactionsData.json";
 
 export default function TransactionsScreen({ navigation }) {
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-purple-700">
-      <Header title="Transações" style={{ height: 100 }} />
+    <SafeAreaView className="flex-1 bg-green-500 dark:bg-green-700">
+      <Header title="Transações" style={{ height: 150 }} />
 
-      <ScrollView className="bg-white dark:bg-purple-800">
+      <ScrollView className="bg-white dark:bg-purple-800 p-2 rounded-t-[50px]">
         {transactionsData.map((transaction) => (
           <View key={transaction.id}>
             <Transaction
