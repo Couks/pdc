@@ -215,6 +215,7 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
                 <Text className="text-medium text-purple-600 dark:text-white">
                   Já tem uma conta?
                 </Text>
+
                 <Link href="/login/SignInScreen">
                   <Text className="text-green-500">
                     Clique para realizar seu login

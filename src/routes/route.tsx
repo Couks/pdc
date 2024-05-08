@@ -9,7 +9,7 @@ export default function Routes() {
 
   return (
     <NavigationContainer independent={true}>
-      {true ? (
+      {authState?.authenticated ? (
         <TabRoutes />
       ) : (
         <>

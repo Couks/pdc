@@ -9,17 +9,17 @@ export default function ProfileStackNavigator() {
   return (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
       <ProfileStack.Screen
-        name="Profile"
+        name="ProfileScreen"
         component={ProfileScreen}
         options={{ headerTitle: "Perfil" }}
       />
       <ProfileStack.Screen
-        name="EditProfile"
+        name="EditProfileScreen"
         component={EditProfileScreen}
-        options={{ headerTitle: "Ediar Perfil" }}
+        options={{ headerTitle: "Editar Perfil" }}
       />
       <ProfileStack.Screen
-        name="Settings"
+        name="SettingsScreen"
         component={SettingsScreen}
         options={{ headerTitle: "Configurações" }}
       />

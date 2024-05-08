@@ -37,23 +37,6 @@ export default function TabRoutes() {
       }}
     >
       <Tab.Screen
-        name="Dashboard"
-        component={Dashboard}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => {
-            if (focused) {
-              return (
-                <View className="items-center justify-center size-14 bg-green-500 rounded-3xl  ">
-                  <Ionicons name="home" color={color} size={size} />
-                </View>
-              );
-            }
-            return <Ionicons name="home-outline" color={color} size={size} />;
-          },
-        }}
-      />
-
-      <Tab.Screen
         name="Categories"
         component={CategoryListScreen}
         options={{
@@ -86,6 +69,22 @@ export default function TabRoutes() {
           },
         }}
       />
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          tabBarIcon: ({ color, size, focused }) => {
+            if (focused) {
+              return (
+                <View className="items-center justify-center size-14 bg-green-500 rounded-3xl  ">
+                  <Ionicons name="home" color={color} size={size} />
+                </View>
+              );
+            }
+            return <Ionicons name="home-outline" color={color} size={size} />;
+          },
+        }}
+      />
 
       <Tab.Screen
         name="Profile"
@@ -103,7 +102,7 @@ export default function TabRoutes() {
           },
         }}
       />
-
+      {/* 
       <Tab.Screen
         name="Notifications"
         component={Notifications}
@@ -125,7 +124,7 @@ export default function TabRoutes() {
             );
           },
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

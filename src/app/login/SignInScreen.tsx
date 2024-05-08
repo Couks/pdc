@@ -4,12 +4,17 @@ import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 import { useAuth } from "@/services/AuthContext";
 import { useForm, Controller } from "react-hook-form";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { handleAuthentication } from "@/services/Authentication";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { useState } from "react";
+import { useToast } from "@/components/Toast";
 
 export default function SignInScreen({ navigation }) {
+  const { toast } = useToast();
   const { onLogin } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const {
     control,
@@ -21,9 +26,20 @@ export default function SignInScreen({ navigation }) {
     DDDtelefone: string;
     password: string;
   }) => {
+    setLoading(true);
+
     const result = await onLogin!(data.DDDtelefone, data.password);
+    setLoading(false);
+
     if (result && result.error) {
-      alert(result.msg);
+      Alert.alert(result.msg);
+    } else {
+      setSuccess(true);
+      toast("Login realizado! Seja bem vindo! 🤩", "success", 5000);
+
+      setTimeout(() => {
+        navigation.navigate("SignInScreen");
+      }, 5000);
     }
   };
 

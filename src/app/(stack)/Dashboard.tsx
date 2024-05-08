@@ -12,10 +12,10 @@ import {
 import { useState } from "react";
 import Header from "@/components/Header";
 import { Ionicons } from "@expo/vector-icons";
-import { Progress } from "@/components/Progress";
 import Transaction from "./transactions/[transaction]";
 import transactionsData from "@/assets/transactionsData.json";
 import { Text, TouchableOpacity, View, ScrollView } from "react-native";
+import DashboardHeader from "@/components/dinamic-components/DashboardHeader";
 
 interface Transactions {
   id: string;
@@ -81,51 +81,10 @@ export default function Dashboard({ navigation }) {
     setFilteredTransactions(filterByMonth(transactionsData, selectedDate));
   };
 
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) {
-      return "Bom dia";
-    } else if (hour >= 12 && hour < 18) {
-      return "Boa tarde";
-    } else {
-      return "Boa noite";
-    }
-  };
-
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header style={{ height: 230 }}>
-        <View className="flex-col justify-center">
-          <View className="flex-row justify-between items-center w-full">
-            <View className="items-start">
-              <Text className="text-xl font-bold dark:text-green-500">
-                Olá, Bem Vindo De Volta!
-              </Text>
-              <Text className="text-xs font-regular dark:text-green-200">
-                {getGreeting()}
-              </Text>
-            </View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Notifications")}
-            >
-              <Ionicons name="notifications" color="white" size={24} />
-            </TouchableOpacity>
-          </View>
-
-          <View className="w-full mt-10">
-            <View className="flex-row gap-4 items-center justify-center p-3">
-              <Text className="text-md font-bold mb-4 text-purple-800 dark:text-green-500 ">
-                Balanço total
-              </Text>
-              <View className="bg-white rounded-full h-[40px] w-[2px]" />
-
-              <Text className="text-md font-bold mb-4 text-purple-800 dark:text-green-500 ">
-                Total de Gastos
-              </Text>
-            </View>
-            <Progress percentage={44} />
-          </View>
-        </View>
+      <Header style={{ height: 220 }}>
+        <DashboardHeader />
       </Header>
 
       <View className="flex-1 bg-white dark:bg-purple-800 items-center p-6 gap-4 rounded-t-[50px]">
@@ -135,7 +94,7 @@ export default function Dashboard({ navigation }) {
               <Ionicons name="car-sport" color="#47286C" size={40} />
             </View>
 
-            <Text className="">Savings on Goals</Text>
+            <Text className="font-bold text-purple-800">Meta de Gastos</Text>
           </View>
 
           <View className="bg-white rounded-full h-full w-[2px] my-8" />

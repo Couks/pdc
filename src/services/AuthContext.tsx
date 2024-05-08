@@ -89,25 +89,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (DDDtelefone: string, password: string) => {
     try {
-      const result = await axios.post(`${API_URL}/logar`, {
+      const response = await axios.post(`${API_URL}/logar`, {
         DDDtelefone,
         password,
       });
 
-      console.log(result);
+      console.log(response.data.DDDtelefone);
+      console.log(response.data.password);
+
+      await SecureStore.setItemAsync(
+        TOKEN_KEY,
+        JSON.stringify(response.data.token)
+      );
 
       setAuthState({
-        token: result.data.token,
+        token: response.data.token,
         authenticated: true,
       });
 
       axios.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${result.data.token}`;
+      ] = `Bearer ${response.data.token}`;
 
-      await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+      console.log("token:", response.data.token);
 
-      return result;
+      return response;
     } catch (error) {
       let errorMsg = "Erro desconhecido";
       if (axios.isAxiosError(error)) {
@@ -146,9 +152,5 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     authState,
   };
 
-  return (
-    <>
-      <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-    </>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

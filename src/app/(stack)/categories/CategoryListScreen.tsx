@@ -36,7 +36,7 @@ export default function CategoryListScreen() {
           description="Gastos ligados à aprendizagem, como mensalidades escolares, materiais didáticos e cursos."
         />
         <Category
-          iconName="sunny"
+          iconName="beer"
           title="Lazer"
           description="Despesas para se divertir e relaxar, como cinema, viagens e hobbies."
         />
@@ -56,7 +56,7 @@ export default function CategoryListScreen() {
         <Category
           iconName="add"
           title="Outros Gastos"
-          description="Esta categoria abrange todas as despesas que não se encaixam nas categorias específicas. Isso inclui gastos diversos, como impostos, presentes, seguros diversos, doações, taxas bancárias e quaisquer outras despesas."
+          description="Esta categoria abrange todas as despesas como impostos, presentes, seguros diversos, doações, taxas bancárias e etc."
         />
       </View>
     </View>

@@ -14,7 +14,7 @@ export default function StackRoutes() {
 
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Onboarding"
       screenOptions={{
         headerTintColor: "#fff",
         headerTitleStyle: {

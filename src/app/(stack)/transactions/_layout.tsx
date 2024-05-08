@@ -1,7 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import TransactionScreen from "./[transaction]";
 import TransactionsScreen from "./TransactionsScreen";
-import { StatusBar } from "expo-status-bar";
 
 const TransactionsStack = createStackNavigator();
 

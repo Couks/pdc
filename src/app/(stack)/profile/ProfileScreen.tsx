@@ -9,6 +9,12 @@ import { useAuth } from "@/services/AuthContext";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/Dialog";
 import { Button } from "@/components/Button";
 import { useToast } from "@/components/Toast";
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  FlipInEasyX,
+  FlipOutEasyX,
+} from "react-native-reanimated";
 
 export default function ProfileScreen({ navigation }: any) {
   const { onLogout } = useAuth();
@@ -16,29 +22,44 @@ export default function ProfileScreen({ navigation }: any) {
 
   function handleLogout() {
     toast("Você deslogou, até mais! 😔", "destructive", 5000);
-    onLogout;
+
     setTimeout(() => {
-      navigation.navigate("Welcome");
+      onLogout;
     }, 5000);
   }
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Perfil" style={{ height: 200 }} />
+
       <View className="flex-1 bg-white items-center dark:bg-purple-800 rounded-t-[50px]">
         <View className="items-center" style={{ marginTop: -70 }}>
-          <Avatar
-            className="border-4 border-green-500 dark:border-purple-800"
-            style={{ height: 130, width: 130, backgroundColor: "#052224" }}
+          <Animated.View
+            entering={FlipInEasyX.springify().damping(2).duration(2000)}
           >
-            <AvatarImage source={{ uri: "https://github.com/couks.png" }} />
-            <AvatarFallback>RG</AvatarFallback>
-          </Avatar>
-          <Text className="dark:text-white text-purple-800 font-bold text-2xl mt-4">
+            <Avatar
+              className="border-4 border-green-500 dark:border-purple-800"
+              style={{ height: 130, width: 130, backgroundColor: "#052224" }}
+            >
+              <AvatarImage source={{ uri: "https://github.com/couks.png" }} />
+              <AvatarFallback>RG</AvatarFallback>
+            </Avatar>
+          </Animated.View>
+
+          <Animated.Text
+            entering={FadeInDown.springify().delay(200).duration(800)}
+            className="dark:text-white text-purple-800 font-bold text-2xl mt-4"
+          >
             Matheus Castro
-          </Text>
-          <Text className="dark:text-gray-200 text-gray-400">@couks</Text>
+          </Animated.Text>
+          <Animated.Text
+            entering={FadeInDown.springify().delay(400).duration(800)}
+            className="dark:text-gray-200 text-gray-400"
+          >
+            @couks
+          </Animated.Text>
+
           <View className="flex-col gap-6">
-            <Link href="/profile/SettingsScreen"></Link>
+            <Link href="/profile/SettingsScreen" />
             <TouchableOpacity
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
               onPress={() => navigation.navigate("EditProfile")}
@@ -47,7 +68,7 @@ export default function ProfileScreen({ navigation }: any) {
                 className="items-center justify-center bg-green-500 dark:bg-purple-500 rounded-3xl "
                 style={{ height: 60, width: 60 }}
               >
-                <Ionicons name="notifications" color="white" size={30} />
+                <Ionicons name="person" color="white" size={30} />
               </View>
               <Text className="text-2xl font-bold text-purple-800 dark:text-white">
                 Editar Perfil
@@ -56,7 +77,7 @@ export default function ProfileScreen({ navigation }: any) {
 
             <TouchableOpacity
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-              onPress={() => navigation.navigate("Settings")}
+              onPress={() => navigation.navigate("SettingsScreen")}
             >
               <View
                 className="items-center justify-center bg-green-500 dark:bg-purple-500 rounded-3xl "
@@ -91,7 +112,7 @@ export default function ProfileScreen({ navigation }: any) {
               </DialogTrigger>
               <DialogContent>
                 <View
-                  className="gap-4 rounded-3xl justify-center border-2 border-white bg-red-500"
+                  className="gap-4 rounded-3xl justify-center shadow-2xl bg-red-500"
                   style={{ margin: 20, padding: 30 }}
                 >
                   <Text className="text-white text-xl">
@@ -107,7 +128,7 @@ export default function ProfileScreen({ navigation }: any) {
               </DialogContent>
             </Dialog>
 
-            <View className="items-center">
+            <View className="self-center">
               <ToggleTheme />
             </View>
           </View>
