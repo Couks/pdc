@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { API_URL } from "./baseUrl";
 
 interface AuthProps {
   authState?: { token: string | null; authenticated: boolean | null };
@@ -17,8 +18,6 @@ interface AuthProps {
 }
 
 const TOKEN_KEY = "default";
-export const API_URL =
-  "https://actively-settling-rodent.ngrok-free.app/api/auth";
 
 const AuthContext = createContext<AuthProps>({});
 

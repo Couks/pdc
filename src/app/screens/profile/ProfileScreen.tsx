@@ -10,8 +10,17 @@ import { ToggleTheme } from "@/components/ToggleTheme";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
+import { NavigationProp } from "@react-navigation/native";
 
-export default function ProfileScreen({ navigation }: any) {
+type ProfileScreenProps = {
+  profileId: string;
+  navigation: NavigationProp;
+};
+
+export default function ProfileScreen({
+  profileId,
+  navigation,
+}: ProfileScreenProps) {
   const { onLogout } = useAuth();
   const { toast } = useToast();
 

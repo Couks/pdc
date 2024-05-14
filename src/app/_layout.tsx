@@ -3,13 +3,9 @@ import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "nativewind";
 import { AuthProvider } from "@/services/AuthContext";
-import Animated, { SlideInLeft, SlideInRight } from "react-native-reanimated";
+import Animated, { FadeOut, SlideInLeft } from "react-native-reanimated";
 
-type LayoutProps = {
-  title: string;
-};
-
-export default function RootLayout({ title }: LayoutProps) {
+export default function RootLayout() {
   const { colorScheme } = useColorScheme();
 
   return (
@@ -21,7 +17,7 @@ export default function RootLayout({ title }: LayoutProps) {
       <Animated.View
         className="flex-1"
         entering={SlideInLeft}
-        exiting={SlideInRight}
+        exiting={FadeOut}
       >
         <Slot />
       </Animated.View>

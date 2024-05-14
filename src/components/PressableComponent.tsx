@@ -66,15 +66,11 @@ function Button({
   function onPressIn() {
     height.value = withSpring(50);
     width.value = withSpring(180);
-
-    console.log("apertou");
   }
 
   function onPressOut() {
     height.value = withSpring(30);
     width.value = withSpring(150);
-
-    console.log("soltou");
   }
 
   const animatedStyle = useAnimatedStyle(() => ({

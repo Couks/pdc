@@ -1,5 +1,5 @@
 import axios from "axios";
-export const API_URL = "https://actively-settling-rodent.ngrok-free.app/api";
+import { API_URL } from "./baseUrl";
 
 export async function getTransactionsList() {
   try {

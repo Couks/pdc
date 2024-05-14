@@ -75,38 +75,40 @@ export default function PizzaGraph() {
   };
 
   return (
-    <View className="flex-1 items-center jusify-center p-6 gap-4">
-      <PieChart
-        data={pieData.map((item) => ({
-          ...item,
-          value: item.value * animation.value,
-        }))}
-        donut
-        showGradient
-        onPress={(data, index) => handlePiePress(index)}
-        radius={120}
-        innerRadius={90}
-        innerCircleColor={colorScheme == "light" ? "#00D09E" : "#2E1A46"}
-        centerLabelComponent={() =>
-          selectedItem && (
-            <View className="items-center justify-center">
-              <Animated.Text
-                className="text-3xl text-white font-bold"
-                style={[animatedValueStyle]}
-              >
-                {selectedItem.value}%
-              </Animated.Text>
-              <Animated.Text
-                className="text-2xl text-white font-semibold"
-                style={[animatedValueStyle]}
-              >
-                {selectedItem.text}
-              </Animated.Text>
-            </View>
-          )
-        }
-      />
+    <>
+      <View className="items-center justify-center rounded-full p-6 mb-4">
+        <PieChart
+          data={pieData.map((item) => ({
+            ...item,
+            value: item.value * animation.value,
+          }))}
+          donut
+          showGradient
+          onPress={(data, index) => handlePiePress(index)}
+          radius={100}
+          innerRadius={80}
+          innerCircleColor={colorScheme == "light" ? "#00D09E" : "#2E1A46"}
+          centerLabelComponent={() =>
+            selectedItem && (
+              <View className="items-center justify-center">
+                <Animated.Text
+                  className="text-3xl text-white font-bold"
+                  style={[animatedValueStyle]}
+                >
+                  {selectedItem.value}%
+                </Animated.Text>
+                <Animated.Text
+                  className="text-2xl text-white font-semibold"
+                  style={[animatedValueStyle]}
+                >
+                  {selectedItem.text}
+                </Animated.Text>
+              </View>
+            )
+          }
+        />
+      </View>
       {renderLegendComponent()}
-    </View>
+    </>
   );
 }

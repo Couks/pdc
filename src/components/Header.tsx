@@ -12,7 +12,7 @@ interface Props {
 export default function Header({ title, children, style }: Props) {
   return (
     <View
-      className="items-center justify-center bg-green-500 dark:bg-green-700 px-8"
+      className="items-center justify-center bg-green-500 dark:bg-green-700 px-8 py-4"
       style={[styles.header, style]}
     >
       <Animated.Text

@@ -1,14 +1,12 @@
-import Dashboard from "@/app/(stack)/Dashboard";
-import Profile from "@/app/(stack)/profile/ProfileScreen";
-import Notifications from "@/app/(stack)/Notifications";
-import Transactions from "@/app/(stack)/transactions/TransactionsScreen";
-
 import { View } from "react-native";
 import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import CategoryListScreen from "@/app/(stack)/categories/CategoryListScreen";
-import AnalysisScreen from "@/app/(stack)/Analysis/AnalysisScreen";
+import CategoryListScreen from "@/app/screens/CategoryListScreen";
+import AnalysisScreen from "@/app/screens/AnalysisScreen";
+import DashboardScreen from "@/app/screens/DashboardScreen";
+import TransactionsScreen from "@/app/screens/transactions/TransactionsScreen";
+import ProfileScreen from "@/app/screens/profile/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +35,7 @@ export default function TabRoutes() {
     >
       <Tab.Screen
         name="Dashboard"
-        component={Dashboard}
+        component={DashboardScreen}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
@@ -71,7 +69,7 @@ export default function TabRoutes() {
       />
       <Tab.Screen
         name="Transactions"
-        component={Transactions}
+        component={TransactionsScreen}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
@@ -104,7 +102,7 @@ export default function TabRoutes() {
 
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {

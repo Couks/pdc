@@ -1,12 +1,5 @@
 import axios from "axios";
-import { API_URL } from "./baseUrl";
-
-interface TransactionsProps {
-  entrada_saida: string;
-  conta: string;
-  valor: string;
-  categoria: string;
-}
+export const API_URL = "https://actively-settling-rodent.ngrok-free.app/api";
 
 export async function postTransactionsList({
   entrada_saida,

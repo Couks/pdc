@@ -5,6 +5,12 @@ import EditProfileScreen from "./EditProfileScreen";
 
 const ProfileStack = createStackNavigator();
 
+type RootStackParamList = {
+  ProfileScreen: { userId: string };
+  EditProfileScreen: { image: string; name: string; nickname: string };
+  SettingsScreen: undefined;
+};
+
 export default function ProfileStackNavigator() {
   return (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
