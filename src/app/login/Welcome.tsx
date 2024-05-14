@@ -5,9 +5,7 @@ import Animated, {
   BounceOutRight,
   Easing,
   FadeIn,
-  BounceInUp,
   BounceInDown,
-  BounceOutUp,
   BounceIn,
   FlipInEasyX,
 } from "react-native-reanimated";

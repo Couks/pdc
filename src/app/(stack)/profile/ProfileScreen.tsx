@@ -1,20 +1,15 @@
-import { Text, View } from "react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
-import Header from "@/components/Header";
-import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
-import { ToggleTheme } from "@/components/ToggleTheme";
-import { useAuth } from "@/services/AuthContext";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/Dialog";
+import Header from "@/components/Header";
+import { Text, View } from "react-native";
 import { Button } from "@/components/Button";
 import { useToast } from "@/components/Toast";
-import Animated, {
-  FadeIn,
-  FadeInDown,
-  FlipInEasyX,
-  FlipOutEasyX,
-} from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+import { useAuth } from "@/services/AuthContext";
+import { ToggleTheme } from "@/components/ToggleTheme";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/Dialog";
+import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
 
 export default function ProfileScreen({ navigation }: any) {
   const { onLogout } = useAuth();
@@ -31,13 +26,13 @@ export default function ProfileScreen({ navigation }: any) {
     <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Perfil" style={{ height: 200 }} />
 
-      <View className="flex-1 bg-white items-center dark:bg-purple-800 rounded-t-[50px]">
+      <View className="flex-1 bg-white items-center dark:bg-purple-800 rounded-t-[30px]">
         <View className="items-center" style={{ marginTop: -70 }}>
           <Animated.View
             entering={FlipInEasyX.springify().damping(2).duration(2000)}
           >
             <Avatar
-              className="border-4 border-green-500 dark:border-purple-800"
+              className="border-8 border-green-500 dark:border-green-700"
               style={{ height: 130, width: 130, backgroundColor: "#052224" }}
             >
               <AvatarImage source={{ uri: "https://github.com/couks.png" }} />

@@ -1,13 +1,13 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
-import Animated, { FadeInDown, StretchInY } from "react-native-reanimated";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
-type Props = {
+interface Props {
   title?: string;
   children?: React.ReactNode;
   style?: object;
-};
+}
 
 export default function Header({ title, children, style }: Props) {
   return (
@@ -18,11 +18,10 @@ export default function Header({ title, children, style }: Props) {
       <Animated.Text
         entering={FadeInDown.delay(200).duration(1000).springify()}
         className="dark:text-white text-purple-800 font-bold text-3xl"
-        style={{ marginBottom: 20 }}
       >
         {title}
       </Animated.Text>
-      <View>{children}</View>
+      <View className="flex-auto">{children}</View>
     </View>
   );
 }

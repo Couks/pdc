@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import Header from "@/components/Header";
 
-export default function ForgotPassword({ navigation }) {
+export default function ForgotPassword({ navigation }: { navigation: any }) {
   const {
     control,
     handleSubmit,
@@ -13,7 +13,7 @@ export default function ForgotPassword({ navigation }) {
   } = useForm({});
 
   function handleForgotPassoword(data: any) {
-    // console.log(data);
+    console.log(data);
   }
 
   return (
@@ -72,7 +72,6 @@ export default function ForgotPassword({ navigation }) {
           {/* Esqueceu sua senha?*/}
           <Animated.View
             entering={FadeInDown.delay(200).duration(1000).springify()}
-            exiting={FadeOutDown.delay(400).duration(1000).springify()}
           >
             <Button
               label="Cadastre-se"

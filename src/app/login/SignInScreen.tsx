@@ -35,7 +35,7 @@ export default function SignInScreen({ navigation }) {
       Alert.alert(result.msg);
     } else {
       setSuccess(true);
-      toast("Login realizado! Seja bem vindo! 🤩", "success", 5000);
+      toast("Login realizado! 🤩 ", "success", 3000);
 
       setTimeout(() => {
         navigation.navigate("SignInScreen");
@@ -136,11 +136,13 @@ export default function SignInScreen({ navigation }) {
               <Text className="text-purple-800 dark:text-white font-semibold text-md">
                 Use Sua{" "}
               </Text>
+
               <TouchableOpacity onPress={() => handleAuthentication()}>
                 <Text className="font-bold text-green-500 text-md">
                   Biometria
                 </Text>
               </TouchableOpacity>
+
               <Text className="text-purple-800 dark:text-white font-semibold text-md">
                 {" "}
                 Para Acessar

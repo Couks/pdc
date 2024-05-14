@@ -22,14 +22,14 @@ const swiperData = [
   },
 ];
 
-export function Onboarding({ navigation }) {
+export function Onboarding({ navigation }: { navigation: any }) {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
     if (!buttonClicked) {
       const timer = setTimeout(() => {
         navigation.navigate("Home");
-      }, 5000);
+      }, 20000);
 
       return () => clearTimeout(timer);
     }

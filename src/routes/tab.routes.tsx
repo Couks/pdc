@@ -8,6 +8,7 @@ import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CategoryListScreen from "@/app/(stack)/categories/CategoryListScreen";
+import AnalysisScreen from "@/app/(stack)/Analysis/AnalysisScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +17,7 @@ export default function TabRoutes() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Dashboard"
+      initialRouteName="Analysis"
       screenOptions={{
         headerShown: false,
         headerTitleAlign: "center",
@@ -26,33 +27,48 @@ export default function TabRoutes() {
         tabBarHideOnKeyboard: true,
 
         tabBarStyle: {
-          position: "absolute",
           backgroundColor: colorScheme == "light" ? "#DFF7E2" : "#47286C",
           borderTopWidth: 0,
           paddingHorizontal: 10,
-          borderTopEndRadius: 40,
-          borderTopStartRadius: 40,
+
           height: 70,
         },
       }}
     >
       <Tab.Screen
-        name="Categories"
-        component={CategoryListScreen}
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          tabBarIcon: ({ color, size, focused }) => {
+            if (focused) {
+              return (
+                <View className="items-center justify-center size-14 bg-green-500 rounded-3xl  ">
+                  <Ionicons name="home" color={color} size={size} />
+                </View>
+              );
+            }
+            return <Ionicons name="home-outline" color={color} size={size} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Analysis"
+        component={AnalysisScreen}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
               return (
                 <View className="items-center justify-center size-14 bg-green-500 rounded-3xl ">
-                  <Ionicons name="grid" color={color} size={size} />
+                  <Ionicons name="analytics" color={color} size={size} />
                 </View>
               );
             }
-            return <Ionicons name="grid-outline" color={color} size={size} />;
+            return (
+              <Ionicons name="analytics-outline" color={color} size={size} />
+            );
           },
         }}
       />
-
       <Tab.Screen
         name="Transactions"
         component={Transactions}
@@ -70,18 +86,18 @@ export default function TabRoutes() {
         }}
       />
       <Tab.Screen
-        name="Dashboard"
-        component={Dashboard}
+        name="Categories"
+        component={CategoryListScreen}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
               return (
-                <View className="items-center justify-center size-14 bg-green-500 rounded-3xl  ">
-                  <Ionicons name="home" color={color} size={size} />
+                <View className="items-center justify-center size-14 bg-green-500 rounded-3xl ">
+                  <Ionicons name="grid" color={color} size={size} />
                 </View>
               );
             }
-            return <Ionicons name="home-outline" color={color} size={size} />;
+            return <Ionicons name="grid-outline" color={color} size={size} />;
           },
         }}
       />
@@ -102,29 +118,6 @@ export default function TabRoutes() {
           },
         }}
       />
-      {/* 
-      <Tab.Screen
-        name="Notifications"
-        component={Notifications}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => {
-            if (focused) {
-              return (
-                <View className="items-center justify-center size-14 bg-green-500 rounded-3xl ">
-                  <Ionicons name="notifications" color={color} size={size} />
-                </View>
-              );
-            }
-            return (
-              <Ionicons
-                name="notifications-outline"
-                color={color}
-                size={size}
-              />
-            );
-          },
-        }}
-      /> */}
     </Tab.Navigator>
   );
 }

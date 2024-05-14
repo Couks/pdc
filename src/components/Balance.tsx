@@ -20,7 +20,7 @@ export default function Balance() {
         <Text className="text-lg font-semibold">Balanço Total</Text>
         <Text className="font-bold text-green-500 text-3xl">R$ 7.783,00</Text>
       </Animated.View>
-      <View className="flex-row justify-between gap-6">
+      <View className="flex-row justify-between gap-4">
         <Animated.View
           entering={SlideInLeft.duration(600)}
           className="bg-white py-2 px-6 rounded-2xl items-center"

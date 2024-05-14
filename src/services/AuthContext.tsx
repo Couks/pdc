@@ -94,24 +94,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         password,
       });
 
-      console.log(response.data.DDDtelefone);
-      console.log(response.data.password);
-
       await SecureStore.setItemAsync(
         TOKEN_KEY,
-        JSON.stringify(response.data.token)
+        JSON.stringify(response.data.access_token)
       );
 
       setAuthState({
-        token: response.data.token,
+        token: response.data.access_token,
         authenticated: true,
       });
 
       axios.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${response.data.token}`;
-
-      console.log("token:", response.data.token);
+      ] = `Bearer ${response.data.access_token}`;
 
       return response;
     } catch (error) {
