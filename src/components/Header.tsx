@@ -12,16 +12,16 @@ interface Props {
 export default function Header({ title, children, style }: Props) {
   return (
     <View
-      className="items-center justify-center bg-green-500 dark:bg-green-700 px-8 py-4"
+      className="items-center justify-center bg-green-500 dark:bg-green-700 px-8"
       style={[styles.header, style]}
     >
       <Animated.Text
         entering={FadeInDown.delay(200).duration(1000).springify()}
-        className="dark:text-white text-purple-800 font-bold text-3xl"
+        className="dark:text-white text-purple-800 font-bold text-3xl mb-4"
       >
         {title}
       </Animated.Text>
-      <View className="flex-auto">{children}</View>
+      <View>{children}</View>
     </View>
   );
 }

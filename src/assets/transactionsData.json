@@ -1,72 +1,142 @@
 [
   {
     "id": "1",
-    "createdAt": "2024-04-26T08:15:30",
+    "createdAt": "2024-05-15T08:15:30",
     "entrada_saida": "saida",
     "valor": 1200.0,
     "categoria": "MORADIA"
   },
   {
     "id": "2",
-    "createdAt": "2024-04-25T13:45:20",
+    "createdAt": "2024-05-25T13:45:20",
     "entrada_saida": "saida",
     "valor": 50.0,
     "categoria": "ALIMENTACAO"
   },
   {
     "id": "3",
-    "createdAt": "2024-04-24T09:30:45",
+    "createdAt": "2024-05-12T09:30:45",
     "entrada_saida": "saida",
     "valor": 80.0,
     "categoria": "LAZER"
   },
   {
     "id": "4",
-    "createdAt": "2024-04-23T16:20:10",
+    "createdAt": "2024-05-23T16:20:10",
     "entrada_saida": "entrada",
     "valor": 3000.0,
     "categoria": "GERAL"
   },
   {
     "id": "5",
-    "createdAt": "2024-04-22T11:10:05",
+    "createdAt": "2024-05-22T11:10:05",
     "entrada_saida": "saida",
     "valor": 150.0,
     "categoria": "GERAL"
   },
   {
     "id": "6",
-    "createdAt": "2024-04-21T08:00:40",
+    "createdAt": "2024-05-21T08:00:40",
     "entrada_saida": "saida",
     "valor": 15.0,
     "categoria": "ALIMENTACAO"
   },
   {
     "id": "7",
-    "createdAt": "2024-04-20T14:25:55",
+    "createdAt": "2024-05-20T14:25:55",
     "entrada_saida": "saida",
     "valor": 80.0,
     "categoria": "TRANSPORTE"
   },
   {
     "id": "8",
-    "createdAt": "2024-04-19T10:05:15",
+    "createdAt": "2024-05-19T10:05:15",
     "entrada_saida": "saida",
     "valor": 200.0,
     "categoria": "SAUDE"
   },
   {
     "id": "9",
-    "createdAt": "2024-04-18T15:30:25",
+    "createdAt": "2024-05-18T15:30:25",
     "entrada_saida": "saida",
     "valor": 200.0,
     "categoria": "EDUCACAO"
   },
   {
     "id": "10",
-    "createdAt": "2024-04-17T12:55:35",
+    "createdAt": "2024-05-17T12:55:35",
     "entrada_saida": "saida",
     "valor": 100.0,
     "categoria": "DESPESAS_PESSOAIS"
+  },
+  {
+    "id": "11",
+    "createdAt": "2024-05-16T10:30:00",
+    "entrada_saida": "saida",
+    "valor": 250.0,
+    "categoria": "ESTUDOS"
+  },
+  {
+    "id": "12",
+    "createdAt": "2024-05-24T15:12:15",
+    "entrada_saida": "saida",
+    "valor": 180.0,
+    "categoria": "ESTUDOS"
+  },
+  {
+    "id": "13",
+    "createdAt": "2024-05-20T19:40:30",
+    "entrada_saida": "saida",
+    "valor": 35.0,
+    "categoria": "ECONOMIAS"
+  },
+  {
+    "id": "14",
+    "createdAt": "2024-05-22T08:55:45",
+    "entrada_saida": "saida",
+    "valor": 125.0,
+    "categoria": "LAZER"
+  },
+  {
+    "id": "15",
+    "createdAt": "2024-05-19T12:20:10",
+    "entrada_saida": "saida",
+    "valor": 400.0,
+    "categoria": "EDUCACAO"
+  },
+  {
+    "id": "16",
+    "createdAt": "2024-05-17T17:00:00",
+    "entrada_saida": "saida",
+    "valor": 70.0,
+    "categoria": "DESPESAS_PESSOAIS"
+  },
+  {
+    "id": "17",
+    "createdAt": "2024-05-23T10:15:25",
+    "entrada_saida": "entrada",
+    "valor": 1500.0,
+    "categoria": "GERAL"
+  },
+  {
+    "id": "18",
+    "createdAt": "2024-05-21T14:45:50",
+    "entrada_saida": "saida",
+    "valor": 60.0,
+    "categoria": "EDUCACAO"
+  },
+  {
+    "id": "19",
+    "createdAt": "2024-05-18T19:30:40",
+    "entrada_saida": "saida",
+    "valor": 110.0,
+    "categoria": "SAUDE"
+  },
+  {
+    "id": "20",
+    "createdAt": "2024-05-15T13:15:00",
+    "entrada_saida": "saida",
+    "valor": 90.0,
+    "categoria": "EDUCACAO"
   }
 ]

@@ -1,4 +1,4 @@
-import Balance from "@/components/Balance";
+import Balance from "@/components/dinamic-components/Balance";
 import Header from "@/components/Header";
 import Category from "@/components/Category";
 import { View } from "react-native";
@@ -6,10 +6,8 @@ import { View } from "react-native";
 export default function CategoryListScreen() {
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header title="Categorias">
-        <Balance />
-      </Header>
-      <View className="flex-1 flex-row flex-wrap py-10 px-4 gap-6 items-center justify-center bg-white dark:bg-purple-800 rounded-t-[50px]">
+      <Header title="Categorias"></Header>
+      <View className="flex-1 flex-wrap p-6 gap-6 items-center justify-center bg-white dark:bg-purple-800 rounded-t-[50px]">
         <Category
           iconName="home"
           title="Moradia"

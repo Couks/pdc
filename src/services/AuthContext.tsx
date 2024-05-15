@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { API_URL } from "./baseUrl";
+import { API_URL_AUTH } from "../../baseUrl";
 
 interface AuthProps {
   authState?: { token: string | null; authenticated: boolean | null };
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     DDDtelefone: string
   ) => {
     try {
-      const response = await axios.post(`${API_URL}/cadastrar`, {
+      const response = await axios.post(`${API_URL_AUTH}/cadastrar`, {
         email,
         password,
         apelido,
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (DDDtelefone: string, password: string) => {
     try {
-      const response = await axios.post(`${API_URL}/logar`, {
+      const response = await axios.post(`${API_URL_AUTH}/logar`, {
         DDDtelefone,
         password,
       });

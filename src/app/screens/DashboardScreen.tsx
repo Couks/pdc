@@ -1,4 +1,4 @@
-import { format, isToday, isSameWeek, isSameMonth } from "date-fns";
+import { format, isToday, isSameWeek, isSameMonth, isSameYear } from "date-fns";
 import { useState } from "react";
 import Header from "@/components/Header";
 import Transaction from "./transactions/[id]";
@@ -10,7 +10,7 @@ export default function DashboardScreen({ navigation }: any) {
   const [filteredTransactions, setFilteredTransactions] =
     useState(transactionsData);
   const [selectedFilter, setSelectedFilter] = useState<
-    "day" | "week" | "month"
+    "day" | "week" | "month" | "year"
   >("day");
 
   const filterTransactions = (transactions: Transaction[], period: string) => {
@@ -18,6 +18,7 @@ export default function DashboardScreen({ navigation }: any) {
 
     return transactions.filter((transaction) => {
       const transactionDate = new Date(transaction.createdAt);
+
       switch (period) {
         case "day":
           return isToday(transactionDate);
@@ -25,13 +26,15 @@ export default function DashboardScreen({ navigation }: any) {
           return isSameWeek(transactionDate, today);
         case "month":
           return isSameMonth(transactionDate, today);
+        case "year":
+          return isSameYear(transactionDate, today);
         default:
           return transactions;
       }
     });
   };
 
-  const handleFilterChange = (period: "day" | "week" | "month") => {
+  const handleFilterChange = (period: "day" | "week" | "month" | "year") => {
     setSelectedFilter(period);
     setFilteredTransactions(filterTransactions(transactionsData, period));
   };
@@ -46,7 +49,7 @@ export default function DashboardScreen({ navigation }: any) {
         <View className="flex-row p-2 bg-green-200 dark:bg-purple-600 w-full rounded-2xl justify-around">
           <TouchableOpacity onPress={() => handleFilterChange("day")}>
             <View
-              className={`py-2 px-8 rounded-2xl ${
+              className={`py-2 px-4 rounded-2xl ${
                 selectedFilter === "day"
                   ? "bg-green-500"
                   : "bg-green-200 dark:bg-purple-600"
@@ -60,7 +63,7 @@ export default function DashboardScreen({ navigation }: any) {
 
           <TouchableOpacity onPress={() => handleFilterChange("week")}>
             <View
-              className={`py-2 px-8 rounded-2xl ${
+              className={`py-2 px-4 rounded-2xl ${
                 selectedFilter === "week"
                   ? "bg-green-500"
                   : "bg-green-200 dark:bg-purple-600"
@@ -74,7 +77,7 @@ export default function DashboardScreen({ navigation }: any) {
 
           <TouchableOpacity onPress={() => handleFilterChange("month")}>
             <View
-              className={`py-2 px-8 rounded-2xl ${
+              className={`py-2 px-4 rounded-2xl ${
                 selectedFilter === "month"
                   ? "bg-green-500"
                   : "bg-green-200 dark:bg-purple-600"
@@ -82,6 +85,19 @@ export default function DashboardScreen({ navigation }: any) {
             >
               <Text className="text-purple-800 dark:text-white font-bold text-lg">
                 Mês
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleFilterChange("year")}>
+            <View
+              className={`py-2 px-4 rounded-2xl ${
+                selectedFilter === "year"
+                  ? "bg-green-500"
+                  : "bg-green-200 dark:bg-purple-600"
+              }`}
+            >
+              <Text className="text-purple-800 dark:text-white font-bold text-lg">
+                Ano
               </Text>
             </View>
           </TouchableOpacity>

@@ -2,33 +2,39 @@ import Header from "@/components/Header";
 import Transaction from "./[id]";
 import { ScrollView, SafeAreaView, View, Text } from "react-native";
 import transactionsData from "@/assets/transactionsData.json";
-import { Button } from "@/components/Button";
-import { Link } from "expo-router";
 
-export default function TransactionsScreen({
-  navigation,
-}: {
-  navigation: any;
-}) {
+import Balance from "@/components/dinamic-components/Balance";
+import { useState } from "react";
+
+export default function TransactionsScreen() {
+  const [filteredTransactions, setFilteredTransactions] =
+    useState(transactionsData);
+
+  const filterTransactions = (type) => {
+    if (type === "entradas") {
+      setFilteredTransactions(
+        filteredTransactions.filter(
+          (transaction) => transaction.entrada_saida === "entrada"
+        )
+      );
+    } else if (type === "saidas") {
+      setFilteredTransactions(
+        filteredTransactions.filter(
+          (transaction) => transaction.entrada_saida === "saida"
+        )
+      );
+    } else {
+      setFilteredTransactions(filteredTransactions);
+    }
+  };
   return (
-    <SafeAreaView className="flex-1 bg-green-500 dark:bg-green-700 ">
-      <Header title="Transações" style={{ height: 200 }}>
-        <Button
-          label="Editar Transação"
-          onPress={() => {
-            navigation.navigate("EditTransaction");
-          }}
-        ></Button>
-
-        <View className="bg-green-500 w-screen h-12">
-          <Link href="/transactions/EditTransaction">
-            <Text>Editar Transação</Text>
-          </Link>
-        </View>
+    <SafeAreaView className="flex-1 bg-green-500 dark:bg-green-700">
+      <Header title="Transações">
+        <Balance filterTransactions={filterTransactions} />
       </Header>
 
-      <ScrollView className="bg-white dark:bg-purple-800 p-2 rounded-t-[50px]">
-        {transactionsData.map((transaction) => (
+      <ScrollView className="bg-white dark:bg-purple-800 p-6 rounded-t-[50px]">
+        {filteredTransactions.map((transaction) => (
           <View key={transaction.id}>
             <Transaction
               id={transaction.id}

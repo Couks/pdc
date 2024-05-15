@@ -10,19 +10,53 @@ import { ToggleTheme } from "@/components/ToggleTheme";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
-import { NavigationProp } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-type ProfileScreenProps = {
-  profileId: string;
-  navigation: NavigationProp;
+type UserData = {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  email: string;
+  DDDtelefone: string;
+  apelido: string;
+  firstName: string;
+  lastName: string;
 };
 
-export default function ProfileScreen({
-  profileId,
-  navigation,
-}: ProfileScreenProps) {
+export default function ProfileScreen() {
   const { onLogout } = useAuth();
   const { toast } = useToast();
+
+  const [userData, setUserData] = useState<UserData>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const accessToken =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInRlbGVmb25lIjoiMjE5NjUxODg5NTUiLCJpYXQiOjE3MTU3NTcxODB9.5yx_W2t-Qhen4p9sLLXUb-GnuDryJMVJMslV0EJCRMk";
+        const response = await axios.get(
+          "https://actively-settling-rodent.ngrok-free.app/api/users/eu",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        if (response) {
+          const data = await response.data;
+          setUserData(data);
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   function handleLogout() {
     toast("Você deslogou, até mais! 😔", "destructive", 5000);
@@ -53,20 +87,31 @@ export default function ProfileScreen({
             entering={FadeInDown.springify().delay(200).duration(800)}
             className="dark:text-white text-purple-800 font-bold text-2xl mt-4"
           >
-            Matheus Castro
+            {userData.firstName}
+            {""}
+            {userData.lastName}
           </Animated.Text>
           <Animated.Text
             entering={FadeInDown.springify().delay(400).duration(800)}
             className="dark:text-gray-200 text-gray-400"
           >
-            @couks
+            {userData.apelido}
+          </Animated.Text>
+          <Animated.Text
+            entering={FadeInDown.springify().delay(400).duration(800)}
+            className="dark:text-gray-200 text-gray-400"
+          >
+            {userData.email}
           </Animated.Text>
 
           <View className="flex-col gap-6">
-            <Link href="/profile/SettingsScreen" />
+            <Link
+              href="/screens/profile/EditProfileScreen"
+              className="bg-green-500"
+            />
             <TouchableOpacity
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-              onPress={() => navigation.navigate("EditProfile")}
+              onPress={() => navigation.navigate("EditProfileScreen")}
             >
               <View
                 className="items-center justify-center bg-green-500 dark:bg-purple-500 rounded-3xl "
@@ -132,9 +177,9 @@ export default function ProfileScreen({
               </DialogContent>
             </Dialog>
 
-            <View className="self-center">
+            {/* <View className="self-center">
               <ToggleTheme />
-            </View>
+            </View> */}
           </View>
         </View>
       </View>

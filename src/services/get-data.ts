@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "./baseUrl";
+import { API_URL } from "../../baseUrl";
 
 export async function getTransactionsList() {
   try {

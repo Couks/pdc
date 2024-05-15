@@ -15,7 +15,7 @@ export default function TabRoutes() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Analysis"
+      initialRouteName="Dashboard"
       screenOptions={{
         headerShown: false,
         headerTitleAlign: "center",

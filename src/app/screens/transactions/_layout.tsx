@@ -12,12 +12,6 @@ export default function TransactionsStackNavigator() {
         component={TransactionsScreen}
         options={{ headerTitle: "Transações" }}
       />
-
-      <TransactionsStack.Screen
-        name="EditTransaction"
-        component={EditTransaction}
-        options={{ headerTitle: "Editar Transação" }}
-      />
     </TransactionsStack.Navigator>
   );
 }

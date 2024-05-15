@@ -2,9 +2,10 @@ import { cn } from "../lib/utils";
 import { Pressable, Text } from "react-native";
 import { type VariantProps, cva } from "class-variance-authority";
 import { TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const buttonVariants = cva(
-  "items-center justify-center rounded-2xl py-2 w-60",
+  "flex-row gap-2 items-center justify-center rounded-2xl py-2  w-60",
   {
     variants: {
       variant: {
@@ -47,6 +48,7 @@ interface ButtonProps
     VariantProps<typeof buttonVariants> {
   label: string;
   labelClasses?: string;
+  iconName?: string;
 }
 
 function Button({
@@ -55,6 +57,7 @@ function Button({
   className,
   variant,
   size,
+  iconName,
   ...props
 }: ButtonProps) {
   return (
@@ -70,6 +73,7 @@ function Button({
         >
           {label}
         </Text>
+        <Ionicons name={iconName} size={20} color="white" />
       </Pressable>
     </TouchableOpacity>
   );
