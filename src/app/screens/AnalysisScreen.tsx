@@ -1,7 +1,7 @@
 import { View } from "react-native";
-import Header from "@/components/Header";
-import AnalysisComponent from "@/components/dinamic-components/AnalysisComponent";
-import PizzaGraph from "@/components/dinamic-components/PizzaGraph";
+import Header from "@/components/ui/Header";
+import AnalysisComponent from "@/components/AnalysisComponent";
+import PizzaGraph from "@/components/PizzaGraph";
 
 export default function AnalysisScreen() {
   return (

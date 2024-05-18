@@ -1,4 +1,4 @@
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/Button";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import Animated, {

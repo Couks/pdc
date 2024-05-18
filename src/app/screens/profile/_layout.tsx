@@ -1,7 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import SettingsScreen from "./SettingsScreen";
 import ProfileScreen from "./ProfileScreen";
-import EditProfileScreen from "./EditProfileScreen";
+import SettingsScreen from "./SettingsScreen";
 
 const ProfileStack = createStackNavigator();
 
@@ -14,21 +13,12 @@ type RootStackParamList = {
 export default function ProfileStackNavigator() {
   return (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
-      <ProfileStack.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
-        options={{ headerTitle: "Perfil" }}
-      />
-      <ProfileStack.Screen
+      <ProfileStack.Screen name="ProfileScreen" component={ProfileScreen} />
+      <ProfileStack.Screen name="SettingsScreen" component={SettingsScreen} />
+      {/* <ProfileStack.Screen
         name="EditProfileScreen"
         component={EditProfileScreen}
-        options={{ headerTitle: "Editar Perfil" }}
-      />
-      <ProfileStack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{ headerTitle: "Configurações" }}
-      />
+      /> */}
     </ProfileStack.Navigator>
   );
 }

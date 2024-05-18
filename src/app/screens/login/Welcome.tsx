@@ -9,10 +9,11 @@ import Animated, {
   BounceIn,
   FlipInEasyX,
 } from "react-native-reanimated";
-import { Button } from "@/components/Button";
-import { useToast } from "@/components/Toast";
-import { ToggleTheme } from "@/components/ToggleTheme";
+
+import { useToast } from "@/components/ui/Toast";
+import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { View, Text, TouchableOpacity } from "react-native";
+import { Button } from "@/components/ui/Button";
 
 export default function Home({ navigation }: { navigation: any }) {
   const { toast } = useToast();

@@ -1,14 +1,14 @@
 import { Link } from "expo-router";
-import Header from "@/components/Header";
+import Header from "@/components/ui/Header";
 import { Text, View } from "react-native";
-import { Button } from "@/components/Button";
-import { useToast } from "@/components/Toast";
+import { Button } from "@/components/ui/Button";
+import { useToast } from "@/components/ui/Toast";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { useAuth } from "@/services/AuthContext";
-import { ToggleTheme } from "@/components/ToggleTheme";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/Dialog";
+import { ToggleTheme } from "@/components/ui/ToggleTheme";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -24,25 +24,19 @@ type UserData = {
   lastName: string;
 };
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   const { onLogout } = useAuth();
   const { toast } = useToast();
 
-  const [userData, setUserData] = useState<UserData>(null);
+  const [userData, setUserData] = useState<UserData | undefined>(undefined);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const accessToken =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInRlbGVmb25lIjoiMjE5NjUxODg5NTUiLCJpYXQiOjE3MTU3NTcxODB9.5yx_W2t-Qhen4p9sLLXUb-GnuDryJMVJMslV0EJCRMk";
         const response = await axios.get(
-          "https://actively-settling-rodent.ngrok-free.app/api/users/eu",
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
+          "https://actively-settling-rodent.ngrok-free.app/api/users/eu"
         );
+        console.log(response.data);
 
         if (response) {
           const data = await response.data;
@@ -62,7 +56,7 @@ export default function ProfileScreen() {
     toast("Você deslogou, até mais! 😔", "destructive", 5000);
 
     setTimeout(() => {
-      onLogout;
+      onLogout();
     }, 5000);
   }
   return (
@@ -83,38 +77,41 @@ export default function ProfileScreen() {
             </Avatar>
           </Animated.View>
 
-          <Animated.Text
-            entering={FadeInDown.springify().delay(200).duration(800)}
-            className="dark:text-white text-purple-800 font-bold text-2xl mt-4"
-          >
-            {userData.firstName}
-            {""}
-            {userData.lastName}
-          </Animated.Text>
-          <Animated.Text
-            entering={FadeInDown.springify().delay(400).duration(800)}
-            className="dark:text-gray-200 text-gray-400"
-          >
-            {userData.apelido}
-          </Animated.Text>
-          <Animated.Text
-            entering={FadeInDown.springify().delay(400).duration(800)}
-            className="dark:text-gray-200 text-gray-400"
-          >
-            {userData.email}
-          </Animated.Text>
+          {userData && (
+            <Animated.Text
+              entering={FadeInDown.springify().delay(200).duration(800)}
+              className="dark:text-white text-purple-800 font-bold text-2xl mt-4"
+            >
+              {userData.firstName || "usuario nao encontrado"}{" "}
+              {userData.lastName}
+            </Animated.Text>
+          )}
 
-          <View className="flex-col gap-6">
-            <Link
-              href="/screens/profile/EditProfileScreen"
-              className="bg-green-500"
-            />
-            <TouchableOpacity
+          {userData && (
+            <Animated.Text
+              entering={FadeInDown.springify().delay(400).duration(800)}
+              className="dark:text-gray-200 text-gray-500"
+            >
+              @{userData.apelido}
+            </Animated.Text>
+          )}
+
+          {userData && (
+            <Animated.Text
+              entering={FadeInDown.springify().delay(400).duration(800)}
+              className="dark:text-gray-200 text-gray-400"
+            >
+              {userData.email}
+            </Animated.Text>
+          )}
+
+          <View className="flex-col gap-4">
+            {/* <TouchableOpacity
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
               onPress={() => navigation.navigate("EditProfileScreen")}
             >
               <View
-                className="items-center justify-center bg-green-500 dark:bg-purple-500 rounded-3xl "
+                className="items-center justify-center bg-green-500 dark:bg-rpurple-500 rounded-3xl "
                 style={{ height: 60, width: 60 }}
               >
                 <Ionicons name="person" color="white" size={30} />
@@ -122,9 +119,9 @@ export default function ProfileScreen() {
               <Text className="text-2xl font-bold text-purple-800 dark:text-white">
                 Editar Perfil
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
               onPress={() => navigation.navigate("SettingsScreen")}
             >
@@ -137,7 +134,7 @@ export default function ProfileScreen() {
               <Text className="text-2xl font-bold text-purple-800 dark:text-white">
                 Configurações
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <Dialog>
               <DialogTrigger>
@@ -177,9 +174,9 @@ export default function ProfileScreen() {
               </DialogContent>
             </Dialog>
 
-            {/* <View className="self-center">
+            <View className="self-center">
               <ToggleTheme />
-            </View> */}
+            </View>
           </View>
         </View>
       </View>

@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Progress } from "../Progress";
+import { Progress } from "./ui/Progress";
 import { Link } from "expo-router";
 
 export default function DashboardHeader() {

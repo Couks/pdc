@@ -1,10 +1,10 @@
 import { Link } from "expo-router";
-import Header from "@/components/Header";
-import { Alert, Text, View, ActivityIndicator } from "react-native";
-import { Input } from "@/components/Input";
-import { Button } from "@/components/Button";
-import { Loading } from "@/components/Loading";
-import { ToastProvider, useToast } from "@/components/Toast";
+import Header from "@/components/ui/Header";
+import { Alert, Text, View } from "react-native";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Loading } from "@/components/ui/Loading";
+import { ToastProvider, useToast } from "@/components/ui/Toast";
 
 import { useForm, Controller } from "react-hook-form";
 import Animated, {
@@ -193,7 +193,6 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
                           onBlur={onBlur}
                           value={value}
                           keyboardType="phone-pad"
-                          iconName="logo-whatsapp"
                           placeholder="Digite seu numero de WhatsApp"
                         />
                       )}

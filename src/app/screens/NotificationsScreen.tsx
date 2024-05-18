@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/ui/Header";
 import { ScrollView, SafeAreaView } from "react-native";
 import transactionsData from "@/assets/transactionsData.json";
 import Transaction from "./transactions/[id]";

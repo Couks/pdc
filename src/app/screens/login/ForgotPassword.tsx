@@ -1,9 +1,9 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
 import { useForm, Controller } from "react-hook-form";
-import { Button } from "@/components/Button";
-import { Input } from "@/components/Input";
-import Header from "@/components/Header";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import Header from "@/components/ui/Header";
 
 export default function ForgotPassword({ navigation }: { navigation: any }) {
   const {

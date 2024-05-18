@@ -1,16 +1,16 @@
 import { Link } from "expo-router";
-import Header from "@/components/Header";
-import { Input } from "@/components/Input";
-import { Button } from "@/components/Button";
+import Header from "@/components/ui/Header";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/services/AuthContext";
 import { useForm, Controller } from "react-hook-form";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { handleAuthentication } from "@/services/Authentication";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { useState } from "react";
-import { useToast } from "@/components/Toast";
+import { useToast } from "@/components/ui/Toast";
 
-export default function SignInScreen({ navigation }) {
+export default function SignInScreen({ navigation }: { navigation: any }) {
   const { toast } = useToast();
   const { onLogin } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -110,7 +110,7 @@ export default function SignInScreen({ navigation }) {
               exiting={FadeInDown.duration(1000).springify()}
               className="w-full items-center"
             >
-              <Link href="/login/ForgotPassword">
+              <Link href="/screens/login/ForgotPassword">
                 <Text className="dark:text-white text-md text-purple-800 font-bold">
                   Esqueceu sua senha?
                 </Text>

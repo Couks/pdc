@@ -1,4 +1,4 @@
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { Pressable, Text } from "react-native";
 import { type VariantProps, cva } from "class-variance-authority";
 import { TouchableOpacity } from "react-native";

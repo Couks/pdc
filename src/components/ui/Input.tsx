@@ -15,7 +15,7 @@ export function Input({ ...rest }: TextInputProps, { iconName }: InputProps) {
         className="text-gray-500 text-lg flex-1"
         {...rest}
       />
-      <Ionicons name={iconName} size={24} color="black" />
+      <Ionicons name={iconName} size={24} color={"black"} />
     </View>
   );
 }

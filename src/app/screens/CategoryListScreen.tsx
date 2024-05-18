@@ -1,6 +1,5 @@
-import Balance from "@/components/dinamic-components/Balance";
-import Header from "@/components/Header";
-import Category from "@/components/Category";
+import Header from "@/components/ui/Header";
+import Category from "@/components/ui/Category";
 import { View } from "react-native";
 
 export default function CategoryListScreen() {

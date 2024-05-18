@@ -1,6 +1,6 @@
 import Routes from "@/routes/route";
 import "@/styles/global.css";
-import { ToastProvider } from "@/components/Toast";
+import { ToastProvider } from "@/components/ui/Toast";
 
 export default function App() {
   return (

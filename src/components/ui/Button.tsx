@@ -1,4 +1,4 @@
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { Pressable, Text } from "react-native";
 import { type VariantProps, cva } from "class-variance-authority";
 import { TouchableOpacity } from "react-native";
@@ -73,7 +73,7 @@ function Button({
         >
           {label}
         </Text>
-        <Ionicons name={iconName} size={20} color="white" />
+        <Ionicons name={iconName} size={20} />
       </Pressable>
     </TouchableOpacity>
   );

@@ -1,9 +1,9 @@
-import Header from "@/components/Header";
+import Header from "@/components/ui/Header";
 import Transaction from "./[id]";
 import { ScrollView, SafeAreaView, View, Text } from "react-native";
 import transactionsData from "@/assets/transactionsData.json";
 
-import Balance from "@/components/dinamic-components/Balance";
+import Balance from "@/components/Balance";
 import { useState } from "react";
 
 export default function TransactionsScreen() {

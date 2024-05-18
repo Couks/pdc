@@ -6,11 +6,11 @@ import { ptBR } from "date-fns/locale/pt-BR";
 import { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { DialogContent, DialogTrigger, Dialog } from "@/components/Dialog";
+import { DialogContent, DialogTrigger, Dialog } from "@/components/ui/Dialog";
 
 import { useForm } from "react-hook-form";
-import { useToast } from "@/components/Toast";
-import { Button } from "@/components/Button";
+import { useToast } from "@/components/ui/Toast";
+import { Button } from "@/components/ui/Button";
 import { AxiosError } from "axios";
 
 export interface TransactionProps {
@@ -148,8 +148,8 @@ export default function Transaction({
                 size={24}
                 color="white"
               />
-              <Text className="text-white text-xl font-semibold">
-                Categoria
+              <Text className="dark:text-white text-purple-800 text-xl font-semibold">
+                {categoryName}
               </Text>
             </View>
             <Picker
@@ -164,21 +164,24 @@ export default function Transaction({
                 width: "auto",
               }}
             >
-              {Object.values(categoryName).map((categoryKey) => (
+              {Object.values(categoryName).map(() => (
                 <Picker.Item
-                  key={categoryKey}
-                  label={categoryKey}
-                  value={categoryKey}
+                  key={categoryName}
+                  label={categoryName}
+                  value={categoryName}
                 />
               ))}
             </Picker>
           </View>
+
           <View className="bg-gray-200/20 rounded-full h-[2px] w-auto my-4" />
 
           <View className="flex-col mt-4">
             <View className="flex-row items-center gap-2">
               <Ionicons name="cash" size={24} color="white" />
-              <Text className="text-white text-xl">Valor</Text>
+              <Text className="dark:text-white text-purple-800 text-xl">
+                Valor
+              </Text>
             </View>
             <TextInput keyboardType="numeric" />
             <View className="bg-gray-200/20 rounded-full h-[2px] w-auto my-4" />
@@ -191,6 +194,7 @@ export default function Transaction({
           <View className="flex-row justify-center mt-8">
             <Button
               label="Alterar Transação"
+              variant="light"
               iconName="checkmark-circle"
               onPress={handleSubmit(onSubmit)}
             />

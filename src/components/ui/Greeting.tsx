@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Progress } from "@/components/Progress";
+import { Progress } from "@/components/ui/Progress";
 
 import { Text, TouchableOpacity, View } from "react-native";
 

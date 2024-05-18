@@ -1,7 +1,7 @@
 import { forwardRef, useState } from "react";
 import { Image, Text, View } from "react-native";
 
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
 const Avatar = forwardRef<
   React.ElementRef<typeof View>,

@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (token) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
         setAuthState({
           token: token,
           authenticated: false,

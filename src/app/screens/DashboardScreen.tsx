@@ -1,10 +1,10 @@
 import { format, isToday, isSameWeek, isSameMonth, isSameYear } from "date-fns";
 import { useState } from "react";
-import Header from "@/components/Header";
+import Header from "@/components/ui/Header";
 import Transaction from "./transactions/[id]";
 import transactionsData from "@/assets/transactionsData.json";
 import { Text, TouchableOpacity, View, ScrollView } from "react-native";
-import DashboardHeader from "@/components/dinamic-components/DashboardHeader";
+import DashboardHeader from "@/components/DashboardHeader";
 
 export default function DashboardScreen({ navigation }: any) {
   const [filteredTransactions, setFilteredTransactions] =
