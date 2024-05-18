@@ -2,17 +2,19 @@ import { Link } from "expo-router";
 import Header from "@/components/ui/Header";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { useAuth } from "@/services/AuthContext";
+import { useAuth } from "@/hooks/auth/AuthContext";
 import { useForm, Controller } from "react-hook-form";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
-import { handleAuthentication } from "@/services/Authentication";
+import { handleAuthentication } from "@/hooks/auth/AuthBiometry";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { useState } from "react";
 import { useToast } from "@/components/ui/Toast";
+import { Loading } from "@/components/ui/Loading";
 
 export default function SignInScreen({ navigation }: { navigation: any }) {
   const { toast } = useToast();
   const { onLogin } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -102,7 +104,13 @@ export default function SignInScreen({ navigation }: { navigation: any }) {
               exiting={FadeInDown.duration(1000).springify()}
               className="items-center"
             >
-              <Button label="Entrar" onPress={handleSubmit(handleSignIn)} />
+              {loading ? (
+                <Button label="Carregando...">
+                  <Loading />
+                </Button>
+              ) : (
+                <Button label="Entrar" onPress={handleSubmit(handleSignIn)} />
+              )}
             </Animated.View>
             {/* Esqueceu sua senha?*/}
             <Animated.View

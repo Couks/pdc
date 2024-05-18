@@ -1,12 +1,12 @@
 import { View } from "react-native";
 import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import CategoryListScreen from "@/app/screens/CategoryListScreen";
 import AnalysisScreen from "@/app/screens/AnalysisScreen";
 import DashboardScreen from "@/app/screens/DashboardScreen";
-import TransactionsScreen from "@/app/screens/transactions/TransactionsScreen";
 import ProfileScreen from "@/app/screens/profile/ProfileScreen";
+import CategoryListScreen from "@/app/screens/CategoryListScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import TransactionsScreen from "@/app/screens/transactions/TransactionsScreen";
 
 const Tab = createBottomTabNavigator();
 

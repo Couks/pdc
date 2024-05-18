@@ -5,60 +5,29 @@ import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-import { useAuth } from "@/services/AuthContext";
+import { useAuth } from "@/hooks/auth/AuthContext";
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
-import { useEffect, useState } from "react";
-import axios from "axios";
-
-type UserData = {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  email: string;
-  DDDtelefone: string;
-  apelido: string;
-  firstName: string;
-  lastName: string;
-};
+import { useProfile } from "@/hooks/useProfile";
 
 export default function ProfileScreen({ navigation }) {
-  const { onLogout } = useAuth();
+  const { onLogout = () => {} } = useAuth();
   const { toast } = useToast();
 
-  const [userData, setUserData] = useState<UserData | undefined>(undefined);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          "https://actively-settling-rodent.ngrok-free.app/api/users/eu"
-        );
-        console.log(response.data);
-
-        if (response) {
-          const data = await response.data;
-          setUserData(data);
-        } else {
-          console.error("Failed to fetch user data");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+  const { userData } = useProfile();
 
   function handleLogout() {
     toast("Você deslogou, até mais! 😔", "destructive", 5000);
 
     setTimeout(() => {
-      onLogout();
+      if (onLogout) {
+        onLogout();
+      }
     }, 5000);
   }
+
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Perfil" style={{ height: 200 }} />
@@ -79,7 +48,7 @@ export default function ProfileScreen({ navigation }) {
 
           {userData && (
             <Animated.Text
-              entering={FadeInDown.springify().delay(200).duration(800)}
+              entering={FadeInDown.springify().delay(400).duration(1000)}
               className="dark:text-white text-purple-800 font-bold text-2xl mt-4"
             >
               {userData.firstName || "usuario nao encontrado"}{" "}
@@ -89,7 +58,7 @@ export default function ProfileScreen({ navigation }) {
 
           {userData && (
             <Animated.Text
-              entering={FadeInDown.springify().delay(400).duration(800)}
+              entering={FadeInDown.springify().delay(600).duration(1000)}
               className="dark:text-gray-200 text-gray-500"
             >
               @{userData.apelido}
@@ -98,7 +67,7 @@ export default function ProfileScreen({ navigation }) {
 
           {userData && (
             <Animated.Text
-              entering={FadeInDown.springify().delay(400).duration(800)}
+              entering={FadeInDown.springify().delay(800).duration(1000)}
               className="dark:text-gray-200 text-gray-400"
             >
               {userData.email}

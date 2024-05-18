@@ -2,7 +2,7 @@ import "@/styles/global.css";
 import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "nativewind";
-import { AuthProvider } from "@/services/AuthContext";
+import { AuthProvider } from "@/hooks/auth/AuthContext";
 import Animated, { FadeOut, SlideInLeft } from "react-native-reanimated";
 
 export default function RootLayout() {

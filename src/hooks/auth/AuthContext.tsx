@@ -1,7 +1,9 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { API_URL_AUTH } from "../../baseUrl";
+
+const API_URL_AUTH = "https://actively-settling-rodent.ngrok-free.app/api/auth";
+export const API_URL = "https://actively-settling-rodent.ngrok-free.app/api";
 
 interface AuthProps {
   authState?: { token: string | null; authenticated: boolean | null };
@@ -66,21 +68,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       return response;
     } catch (error) {
-      let errorMsg = "Erro desconhecido";
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          const status = error.response.status;
-          const serverMsg =
-            error.response.data?.msg || error.response.statusText;
-          errorMsg = `Erro ${status}: ${serverMsg}`;
-        } else if (error.request) {
-          errorMsg = "Nenhuma resposta do servidor";
-        } else {
-          errorMsg = "Erro na configuração da requisição";
-        }
-      } else if (error instanceof Error) {
-        errorMsg = error.message;
-      }
+      const errorResponse = axios.isAxiosError(error) ? error.response : null;
+      const status = errorResponse?.status || 0;
+      const serverMsg =
+        errorResponse?.data?.msg || errorResponse?.statusText || "";
+      const errorMsg = `Erro ${status}: ${serverMsg}`;
+
       return { error: true, msg: errorMsg };
     }
   };
@@ -108,21 +101,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       return response;
     } catch (error) {
-      let errorMsg = "Erro desconhecido";
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          const status = error.response.status;
-          const serverMsg =
-            error.response.data?.msg || error.response.statusText;
-          errorMsg = `Erro ${status}: ${serverMsg}`;
-        } else if (error.request) {
-          errorMsg = "Nenhuma resposta do servidor";
-        } else {
-          errorMsg = "Erro na configuração da requisição";
-        }
-      } else if (error instanceof Error) {
-        errorMsg = error.message;
-      }
+      const errorResponse = axios.isAxiosError(error) ? error.response : null;
+      const status = errorResponse?.status || 0;
+      const serverMsg =
+        errorResponse?.data?.msg || errorResponse?.statusText || "";
+      const errorMsg = `Erro ${status}: ${serverMsg}`;
+      console.log(errorResponse?.status);
+      console.log(errorResponse?.statusText);
+      console.log(errorResponse?.data);
+      console.log(errorResponse?.headers);
+      console.log(errorResponse?.request);
+
       return { error: true, msg: errorMsg };
     }
   };
@@ -141,7 +130,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const value = {
     onRegister: register,
     onLogin: login,
-    onLogOut: logout,
+    onLogout: logout,
     authState,
   };
 

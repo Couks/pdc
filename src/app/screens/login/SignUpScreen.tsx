@@ -13,7 +13,7 @@ import Animated, {
   FadeInRight,
   FadeInLeft,
 } from "react-native-reanimated";
-import { useAuth } from "@/services/AuthContext";
+import { useAuth } from "@/hooks/auth/AuthContext";
 import { useState } from "react";
 
 export default function SignUpScreen({ navigation }: { navigation: any }) {

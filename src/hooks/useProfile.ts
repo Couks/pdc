@@ -1,12 +1,36 @@
+import { API_URL } from "@/hooks/auth/AuthContext";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export function useFetchProfile(profileId: string) {
-  const [profileData, setProfileData] = useState();
+interface UserData {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  email: string;
+  DDDtelefone: string;
+  apelido: string;
+  firstName: string;
+  lastName: string;
+}
+
+export async function useProfile() {
+  const [userData, setUserData] = useState<UserData | undefined>(undefined);
 
   useEffect(() => {
-    const getProfile = async () => {
-      const response = await axios.get(`API_URL`);
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/users/eu`);
+        if (response) {
+          const data = await response.data;
+          setUserData(data);
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
     };
-  });
+
+    fetchUserData();
+  }, []);
 }

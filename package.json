@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
-    "@react-native-picker/picker": "^2.7.5",
+    "@react-native-picker/picker": "^2.6.1",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/stack": "^6.3.29",
     "axios": "^1.6.8",
@@ -42,8 +42,7 @@
     "react-native-reanimated": "~3.6.2",
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "~3.29.0",
-    "react-native-svg": "^15.2.0",
-    "react-native-svg-charts": "^5.4.0",
+    "react-native-svg": "^14.1.0",
     "react-native-swiper": "^1.6.0",
     "react-native-web": "^0.19.11",
     "tailwind-merge": "^2.3.0"

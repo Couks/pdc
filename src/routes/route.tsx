@@ -1,7 +1,7 @@
 import TabRoutes from "./tab.routes";
 import StackRoutes from "./stack.routes";
 
-import { useAuth } from "@/services/AuthContext";
+import { useAuth } from "@/hooks/auth/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 
 export default function Routes() {
