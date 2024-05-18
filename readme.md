@@ -1,6 +1,5 @@
 # Guia para Rodar o Projeto Expo
 
-Este documento explica como configurar e rodar um projeto Expo.
 Siga os passos abaixo para garantir que tudo funcione corretamente.
 
 ## Passo 1: Instalar Dependências
