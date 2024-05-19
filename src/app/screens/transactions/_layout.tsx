@@ -1,6 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import TransactionsScreen from "./TransactionsScreen";
-import EditTransaction from "./EditTransaction";
 
 const TransactionsStack = createStackNavigator();
 

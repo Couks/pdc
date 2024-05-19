@@ -12,75 +12,85 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
 import { useProfile } from "@/hooks/useProfile";
 
-export default function ProfileScreen({ navigation }) {
+export default function ProfileScreen() {
   const { onLogout = () => {} } = useAuth();
   const { toast } = useToast();
+  const userData = useProfile();
 
-  const { userData } = useProfile();
+  console.log(userData);
 
   function handleLogout() {
-    toast("Você deslogou, até mais! 😔", "destructive", 5000);
+    toast("Deslogando...", "destructive", 3000);
 
     setTimeout(() => {
       if (onLogout) {
         onLogout();
       }
-    }, 5000);
+    }, 3000);
   }
+
+  function formatString(name: string) {
+    return name.replace(/(?:^|\s)[a-z]/g, function (letter: string) {
+      return letter.toUpperCase();
+    });
+  }
+
+  // const formattedFirstName = formatString(userData.firstName);
+  // const formattedLastName = formatString(userData.lastName);
+  // const formattedNickNname = formatString(userData.apelido);
 
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Perfil" style={{ height: 200 }} />
 
-      <View className="flex-1 bg-white items-center dark:bg-purple-800 rounded-t-[30px]">
-        <View className="items-center" style={{ marginTop: -70 }}>
-          <Animated.View
-            entering={FlipInEasyX.springify().damping(2).duration(2000)}
-          >
-            <Avatar
-              className="border-8 border-green-500 dark:border-green-700"
-              style={{ height: 130, width: 130, backgroundColor: "#052224" }}
+      <View className="flex-1 bg-white items-center dark:bg-purple-800 rounded-t-[50px]">
+        <View className="flex-col items-center justify-around h-full">
+          <View className="items-center">
+            <Animated.View
+              entering={FlipInEasyX.springify().damping(2).duration(2000)}
+              style={{ marginTop: -100 }}
             >
-              <AvatarImage source={{ uri: "https://github.com/couks.png" }} />
-              <AvatarFallback>RG</AvatarFallback>
-            </Avatar>
-          </Animated.View>
+              <Avatar
+                className="border-8 border-green-500 dark:border-green-700"
+                style={{ height: 130, width: 130, backgroundColor: "#052224" }}
+              >
+                <AvatarImage
+                  source={{
+                    uri: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?t=st=1716075455~exp=1716079055~hmac=050ffc44651bdd2b28c3f0e75294e9995085e873f3d68673c8f3ee87cb47e1a4&w=740",
+                  }}
+                />
+                <AvatarFallback>PROFILE</AvatarFallback>
+              </Avatar>
+            </Animated.View>
 
-          {userData && (
             <Animated.Text
               entering={FadeInDown.springify().delay(400).duration(1000)}
               className="dark:text-white text-purple-800 font-bold text-2xl mt-4"
             >
-              {userData.firstName || "usuario nao encontrado"}{" "}
-              {userData.lastName}
+              {/* {formattedFirstName} {formattedLastName} */}
             </Animated.Text>
-          )}
 
-          {userData && (
             <Animated.Text
               entering={FadeInDown.springify().delay(600).duration(1000)}
               className="dark:text-gray-200 text-gray-500"
             >
-              @{userData.apelido}
+              {/* @{formattedNickNname} */}
             </Animated.Text>
-          )}
 
-          {userData && (
             <Animated.Text
               entering={FadeInDown.springify().delay(800).duration(1000)}
-              className="dark:text-gray-200 text-gray-400"
+              className="dark:text-gray-400 text-gray-600"
             >
-              {userData.email}
+              {/* {userData.apelido} */}
             </Animated.Text>
-          )}
+          </View>
 
           <View className="flex-col gap-4">
-            {/* <TouchableOpacity
+            <TouchableOpacity
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-              onPress={() => navigation.navigate("EditProfileScreen")}
             >
               <View
-                className="items-center justify-center bg-green-500 dark:bg-rpurple-500 rounded-3xl "
+                className="items-center justify-center bg-green-500 dark:bg-purple-500 rounded-3xl "
                 style={{ height: 60, width: 60 }}
               >
                 <Ionicons name="person" color="white" size={30} />
@@ -88,11 +98,10 @@ export default function ProfileScreen({ navigation }) {
               <Text className="text-2xl font-bold text-purple-800 dark:text-white">
                 Editar Perfil
               </Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
-            {/* <TouchableOpacity
+            <TouchableOpacity
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-              onPress={() => navigation.navigate("SettingsScreen")}
             >
               <View
                 className="items-center justify-center bg-green-500 dark:bg-purple-500 rounded-3xl "
@@ -103,7 +112,7 @@ export default function ProfileScreen({ navigation }) {
               <Text className="text-2xl font-bold text-purple-800 dark:text-white">
                 Configurações
               </Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
             <Dialog>
               <DialogTrigger>
@@ -142,10 +151,10 @@ export default function ProfileScreen({ navigation }) {
                 </View>
               </DialogContent>
             </Dialog>
+          </View>
 
-            <View className="self-center">
-              <ToggleTheme />
-            </View>
+          <View className="self-center">
+            <ToggleTheme />
           </View>
         </View>
       </View>

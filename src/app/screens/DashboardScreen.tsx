@@ -5,19 +5,26 @@ import Transaction from "./transactions/[id]";
 import transactionsData from "@/assets/transactionsData.json";
 import { Text, TouchableOpacity, View, ScrollView } from "react-native";
 import DashboardHeader from "@/components/DashboardHeader";
+import { useTransactions } from "@/hooks/useTransactions";
 
-export default function DashboardScreen({ navigation }: any) {
+export default function DashboardScreen({ navigation }: { navigation: any }) {
+  const { transactions } = useTransactions();
+
   const [filteredTransactions, setFilteredTransactions] =
     useState(transactionsData);
   const [selectedFilter, setSelectedFilter] = useState<
     "day" | "week" | "month" | "year"
   >("day");
 
-  const filterTransactions = (transactions: Transaction[], period: string) => {
+  const filterTransactions = (
+    transactions: (typeof Transaction)[],
+    period: string
+  ) => {
     const today = new Date();
 
     return transactions.filter((transaction) => {
       const transactionDate = new Date(transaction.createdAt);
+      console.log(transaction);
 
       switch (period) {
         case "day":

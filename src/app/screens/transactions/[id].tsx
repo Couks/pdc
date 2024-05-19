@@ -80,24 +80,7 @@ export default function Transaction({
   } = useForm();
 
   const onSubmit = async (data: typeof Transaction) => {
-    try {
-      const response = await axios.put(
-        `https://actively-settling-rodent.ngrok-free.app/api/movimentacao/${id}`,
-        data
-      );
-
-      console.log(response.data);
-      toast("Transação atualizada!", "success", 2000);
-    } catch (error) {
-      console.error("Error updating transaction:", error);
-      if (error instanceof AxiosError && error.response?.data) {
-        toast(error.response.data.message, "destructive", 3000);
-      } else if (error instanceof Error) {
-        toast("Erro ao atualizar a transação", "destructive", 3000);
-      } else {
-        throw error;
-      }
-    }
+    postTransaction({ id, entrada_saida, valor, categoria });
   };
 
   const iconName = categoryIcons[categoria] || "alert-circle-outline";

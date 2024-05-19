@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import * as SecureStore from "expo-secure-store";
 import React, { createContext, useState, useContext, useEffect } from "react";
 
@@ -56,63 +56,91 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     lastName: string,
     DDDtelefone: string
   ) => {
+    if (
+      !email ||
+      !password ||
+      !apelido ||
+      !firstName ||
+      !lastName ||
+      !DDDtelefone
+    ) {
+      throw new Error("All fields are required");
+    }
+
     try {
-      const response = await axios.post(`${API_URL_AUTH}/cadastrar`, {
-        email,
-        password,
-        apelido,
-        firstName,
-        lastName,
-        DDDtelefone,
-      });
+      const response = await axios.post(
+        `${API_URL_AUTH}/cadastrar`,
+        {
+          email,
+          password,
+          apelido,
+          firstName,
+          lastName,
+          DDDtelefone,
+        },
+        { timeout: 3000 }
+      );
+
+      if (!response || !response.data) {
+        throw new Error("The server did not return any data");
+      }
 
       return response;
     } catch (error) {
-      const errorResponse = axios.isAxiosError(error) ? error.response : null;
-      const status = errorResponse?.status || 0;
-      const serverMsg =
-        errorResponse?.data?.msg || errorResponse?.statusText || "";
-      const errorMsg = `Erro ${status}: ${serverMsg}`;
+      if (axios.isAxiosError(error)) {
+        const errorResponse = error.response;
+        const status = errorResponse?.status || 0;
+        const serverMsg =
+          errorResponse?.data?.msg || errorResponse?.statusText || "";
+        const errorMsg = `Erro ${status}: ${serverMsg}`;
 
-      return { error: true, msg: errorMsg };
+        return { error: true, msg: errorMsg };
+      } else {
+        throw error;
+      }
     }
   };
 
   const login = async (DDDtelefone: string, password: string) => {
     try {
-      const response = await axios.post(`${API_URL_AUTH}/logar`, {
-        DDDtelefone,
-        password,
-      });
-
-      await SecureStore.setItemAsync(
-        TOKEN_KEY,
-        JSON.stringify(response.data.access_token)
+      const response = await axios.post(
+        `${API_URL_AUTH}/logar`,
+        {
+          DDDtelefone,
+          password,
+        },
+        { timeout: 3000 }
       );
 
-      setAuthState({
-        token: response.data.access_token,
-        authenticated: true,
-      });
+      if (!response || !response.data) {
+        throw new Error("The server did not return any data");
+      }
 
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${response.data.access_token}`;
+      const token = response.data.access_token;
+      if (!token) {
+        throw new Error("The server did not return an access token");
+      }
+
+      await SecureStore.setItemAsync(TOKEN_KEY, token);
+
+      setAuthState({ token, authenticated: true });
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       return response;
     } catch (error) {
-      const errorResponse = axios.isAxiosError(error) ? error.response : null;
-      const status = errorResponse?.status || 0;
-      const serverMsg =
-        errorResponse?.data?.msg || errorResponse?.statusText || "";
-      const errorMsg = `Erro ${status}: ${serverMsg}`;
-      console.log(errorResponse?.status);
-      console.log(errorResponse?.statusText);
-      console.log(errorResponse?.data);
-      console.log(errorResponse?.headers);
-      console.log(errorResponse?.request);
-
-      return { error: true, msg: errorMsg };
+      if (error instanceof AxiosError) {
+        const errorResponse = error.response;
+        const status = errorResponse?.status || 0;
+        const serverMsg =
+          errorResponse?.data?.msg || errorResponse?.statusText || "";
+        const errorMsg = `Erro ${status}: ${serverMsg}`;
+        return { error: true, msg: errorMsg };
+      } else if (error instanceof Error) {
+        return { error: true, msg: error.message };
+      } else {
+        throw error;
+      }
     }
   };
 

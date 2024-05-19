@@ -3,26 +3,27 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface UserData {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  email: string;
-  DDDtelefone: string;
-  apelido: string;
-  firstName: string;
-  lastName: string;
+  id?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  email?: string;
+  DDDtelefone?: string;
+  apelido?: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 export async function useProfile() {
-  const [userData, setUserData] = useState<UserData | undefined>(undefined);
+  const [userData, setUserData] = useState<UserData>({});
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`${API_URL}/users/eu`);
+        console.log(response.data);
         if (response) {
           const data = await response.data;
-          setUserData(data);
+          setUserData(data._j);
         } else {
           console.error("Failed to fetch user data");
         }
@@ -32,5 +33,7 @@ export async function useProfile() {
     };
 
     fetchUserData();
-  }, []);
+  }, [userData]);
+
+  return userData;
 }

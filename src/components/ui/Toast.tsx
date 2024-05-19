@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils";
 const toastVariants = {
   default: "bg-foreground",
   destructive: "bg-red-500",
-  success: "bg-green-600",
+  success: "bg-green-500 dark:bg-purple-500",
   info: "bg-blue-500",
 };
 

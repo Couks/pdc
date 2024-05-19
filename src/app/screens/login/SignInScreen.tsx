@@ -37,7 +37,7 @@ export default function SignInScreen({ navigation }: { navigation: any }) {
       Alert.alert(result.msg);
     } else {
       setSuccess(true);
-      toast("Login realizado! 🤩 ", "success", 3000);
+      toast("Login realizado!", "success", 2000);
 
       setTimeout(() => {
         navigation.navigate("SignInScreen");
