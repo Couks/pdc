@@ -1,9 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Progress } from "@/components/ui/Progress";
-
 import { Text, TouchableOpacity, View } from "react-native";
 
-export default function Greeting() {
+export function Greeting() {
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) {

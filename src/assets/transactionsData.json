@@ -74,14 +74,14 @@
     "createdAt": "2024-05-16T10:30:00",
     "entrada_saida": "saida",
     "valor": 250.0,
-    "categoria": "ESTUDOS"
+    "categoria": "EDUCACAO"
   },
   {
     "id": "12",
     "createdAt": "2024-05-24T15:12:15",
     "entrada_saida": "saida",
     "valor": 180.0,
-    "categoria": "ESTUDOS"
+    "categoria": "EDUCACAO"
   },
   {
     "id": "13",

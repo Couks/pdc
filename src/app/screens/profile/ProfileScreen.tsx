@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import Header from "@/components/ui/Header";
+import { Header } from "@/components/ui/Header";
 import { Text, View } from "react-native";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
@@ -12,12 +12,10 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
 import { useProfile } from "@/hooks/useProfile";
 
-export default function ProfileScreen() {
+export function ProfileScreen() {
   const { onLogout = () => {} } = useAuth();
   const { toast } = useToast();
   const userData = useProfile();
-
-  console.log(userData);
 
   function handleLogout() {
     toast("Deslogando...", "destructive", 3000);
@@ -35,9 +33,9 @@ export default function ProfileScreen() {
     });
   }
 
-  // const formattedFirstName = formatString(userData.firstName);
-  // const formattedLastName = formatString(userData.lastName);
-  // const formattedNickNname = formatString(userData.apelido);
+  const formattedFirstName = formatString(userData.firstName);
+  const formattedLastName = formatString(userData.lastName);
+  const formattedNickNname = formatString(userData.apelido);
 
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
@@ -51,12 +49,14 @@ export default function ProfileScreen() {
               style={{ marginTop: -100 }}
             >
               <Avatar
-                className="border-8 border-green-500 dark:border-green-700"
+                className="border-4 border-green-500 dark:border-green-700"
                 style={{ height: 130, width: 130, backgroundColor: "#052224" }}
               >
                 <AvatarImage
                   source={{
-                    uri: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?t=st=1716075455~exp=1716079055~hmac=050ffc44651bdd2b28c3f0e75294e9995085e873f3d68673c8f3ee87cb47e1a4&w=740",
+                    uri:
+                      "https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png" ||
+                      undefined,
                   }}
                 />
                 <AvatarFallback>PROFILE</AvatarFallback>
@@ -67,39 +67,25 @@ export default function ProfileScreen() {
               entering={FadeInDown.springify().delay(400).duration(1000)}
               className="dark:text-white text-purple-800 font-bold text-2xl mt-4"
             >
-              {/* {formattedFirstName} {formattedLastName} */}
+              {formattedFirstName} {formattedLastName}
             </Animated.Text>
 
             <Animated.Text
               entering={FadeInDown.springify().delay(600).duration(1000)}
               className="dark:text-gray-200 text-gray-500"
             >
-              {/* @{formattedNickNname} */}
+              @{formattedNickNname}
             </Animated.Text>
 
             <Animated.Text
               entering={FadeInDown.springify().delay(800).duration(1000)}
               className="dark:text-gray-400 text-gray-600"
             >
-              {/* {userData.apelido} */}
+              {userData.apelido}
             </Animated.Text>
           </View>
 
           <View className="flex-col gap-4">
-            <TouchableOpacity
-              style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-            >
-              <View
-                className="items-center justify-center bg-green-500 dark:bg-purple-500 rounded-3xl "
-                style={{ height: 60, width: 60 }}
-              >
-                <Ionicons name="person" color="white" size={30} />
-              </View>
-              <Text className="text-2xl font-bold text-purple-800 dark:text-white">
-                Editar Perfil
-              </Text>
-            </TouchableOpacity>
-
             <TouchableOpacity
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
             >

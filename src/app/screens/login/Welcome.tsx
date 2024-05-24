@@ -10,13 +10,11 @@ import Animated, {
   FlipInEasyX,
 } from "react-native-reanimated";
 
-import { useToast } from "@/components/ui/Toast";
-import { ToggleTheme } from "@/components/ui/ToggleTheme";
-import { View, Text, TouchableOpacity } from "react-native";
 import { Button } from "@/components/ui/Button";
-import FabGroup from "@/components/ui/FabGroup";
+import { View, TouchableOpacity } from "react-native";
+import { ToggleTheme } from "@/components/ui/ToggleTheme";
 
-export default function Home({ navigation }: { navigation: any }) {
+export  function Home({ navigation }: { navigation: any }) {
   return (
     <Animated.View
       entering={FadeIn.delay(100).duration(200)}
@@ -37,7 +35,7 @@ export default function Home({ navigation }: { navigation: any }) {
 
         <Animated.Text
           entering={FlipInEasyX.springify().delay(600).duration(20000)}
-          className="text-purple-800 dark:text-white font-medium text-[24px] text-center"
+          className="text-purple-800 dark:text-white font-medium text-[20px] text-center w-60"
         >
           What's Your Finances
         </Animated.Text>

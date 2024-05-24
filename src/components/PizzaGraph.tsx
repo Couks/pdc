@@ -9,7 +9,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
-export default function PizzaGraph() {
+export function PizzaGraph() {
   const { colorScheme } = useColorScheme();
   const [selectedItem, setSelectedItem] = useState(null);
 

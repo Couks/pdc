@@ -1,9 +1,14 @@
 import { Link } from "expo-router";
-import Header from "@/components/ui/Header";
+import { Header } from "@/components/ui/Header";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/auth/AuthContext";
-import { useForm, Controller } from "react-hook-form";
+import {
+  useForm,
+  Controller,
+  SubmitHandler,
+  FieldValues,
+} from "react-hook-form";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { handleAuthentication } from "@/hooks/auth/AuthBiometry";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
@@ -11,12 +16,15 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/Toast";
 import { Loading } from "@/components/ui/Loading";
 
-export default function SignInScreen({ navigation }: { navigation: any }) {
+interface FormData {
+  DDDtelefone: string;
+  password: string;
+}
+export function SignInScreen({ navigation }: { navigation: any }) {
   const { toast } = useToast();
   const { onLogin } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const {
     control,
@@ -24,24 +32,33 @@ export default function SignInScreen({ navigation }: { navigation: any }) {
     formState: { errors },
   } = useForm({});
 
-  const handleSignIn = async (data: {
+  const handleSignIn: SubmitHandler<FieldValues & FormData> = async (data: {
     DDDtelefone: string;
     password: string;
   }) => {
     setLoading(true);
 
-    const result = await onLogin!(data.DDDtelefone, data.password);
-    setLoading(false);
+    try {
+      const result = await onLogin!(data.DDDtelefone, data.password);
+      setLoading(false);
 
-    if (result && result.error) {
-      Alert.alert(result.msg);
-    } else {
-      setSuccess(true);
-      toast("Login realizado!", "success", 2000);
+      if (result && result.error) {
+        Alert.alert(result.msg);
+      } else {
+        toast("Login realizado!", "success", 2000);
 
-      setTimeout(() => {
-        navigation.navigate("SignInScreen");
-      }, 5000);
+        setTimeout(() => {
+          navigation.navigate("SignInScreen");
+        }, 5000);
+      }
+    } catch (error) {
+      console.error("Error on login:", error);
+      Alert.alert(
+        "Erro ao realizar login",
+        error.message ?? "Desculpe, tivemos um problema ao realizar o login."
+      );
+
+      setLoading(false);
     }
   };
 
@@ -67,6 +84,7 @@ export default function SignInScreen({ navigation }: { navigation: any }) {
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
+                    iconName="logo-whatsapp"
                     autoComplete="tel"
                     keyboardType="phone-pad"
                     placeholder="Digite seu contato WhatsApp"
@@ -89,6 +107,7 @@ export default function SignInScreen({ navigation }: { navigation: any }) {
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
+                    iconName="key"
                     secureTextEntry={true}
                     placeholder="Digite sua senha"
                   />

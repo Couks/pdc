@@ -1,11 +1,14 @@
-import Header from "@/components/ui/Header";
-import Category from "@/components/ui/Category";
+import { Header } from "@/components/ui/Header";
+import { Category } from "@/components/ui/Category";
+import { AnalysisComponent } from "@/components/AnalysisComponent";
 import { View } from "react-native";
 
-export default function CategoryListScreen() {
+export function CategoryListScreen() {
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header title="Categorias"></Header>
+      <Header title="Categorias">
+        <AnalysisComponent />
+      </Header>
       <View className="flex-1 flex-wrap p-6 gap-6 items-center justify-center bg-white dark:bg-purple-800 rounded-t-[50px]">
         <Category
           iconName="home"

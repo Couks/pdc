@@ -1,12 +1,11 @@
-import Header from "@/components/ui/Header";
-import Transaction from "./[id]";
-import { ScrollView, SafeAreaView, View, Text } from "react-native";
+import { useState } from "react";
+import { Transaction } from "./[id]";
+import { Balance } from "@/components/Balance";
+import { Header } from "@/components/ui/Header";
+import { ScrollView, SafeAreaView, View } from "react-native";
 import transactionsData from "@/assets/transactionsData.json";
 
-import Balance from "@/components/Balance";
-import { useState } from "react";
-
-export default function TransactionsScreen() {
+export function TransactionsScreen() {
   const [filteredTransactions, setFilteredTransactions] =
     useState(transactionsData);
 

@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 
-export default function SettingsScreen() {
+export function SettingsScreen() {
   return (
     <View className="flex-1 bg-white items-center justify-center">
       <Text></Text>

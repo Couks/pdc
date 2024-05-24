@@ -1,11 +1,12 @@
 import Routes from "@/routes/route";
-import "@/styles/global.css";
-import { ToastProvider } from "@/components/ui/Toast";
+import "@/assets/styles/global.css";
+import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   return (
-    <ToastProvider>
+    <>
+      <StatusBar style="auto" translucent animated />
       <Routes />
-    </ToastProvider>
+    </>
   );
 }

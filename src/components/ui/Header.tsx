@@ -9,7 +9,7 @@ interface Props {
   style?: object;
 }
 
-export default function Header({ title, children, style }: Props) {
+export function Header({ title, children, style }: Props) {
   return (
     <View
       className="items-center justify-center bg-green-500 dark:bg-green-700 px-8"
@@ -17,7 +17,7 @@ export default function Header({ title, children, style }: Props) {
     >
       <Animated.Text
         entering={FadeInDown.delay(200).duration(1000).springify()}
-        className="dark:text-white text-purple-800 font-bold text-3xl mb-4"
+        className="dark:text-white text-purple-800 font-bold text-4xl mb-4"
       >
         {title}
       </Animated.Text>

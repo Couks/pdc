@@ -1,4 +1,4 @@
-import { Text, View, Switch } from "react-native";
+import { View, Switch } from "react-native";
 import { useColorScheme } from "nativewind";
 
 import colors from "tailwindcss/colors";
@@ -12,7 +12,7 @@ export function ToggleTheme() {
       <Feather
         name="moon"
         size={20}
-        color="white"
+        color={colorScheme === "light" ? "black" : "white"}
         className="text-purple-700"
       />
       <Switch
@@ -24,7 +24,12 @@ export function ToggleTheme() {
         value={colorScheme === "light"}
       />
 
-      <Feather name="sun" size={22} color="white" className="text-purple-700" />
+      <Feather
+        name="sun"
+        size={22}
+        color={colorScheme === "light" ? "black" : "white"}
+        className="text-purple-700"
+      />
     </View>
   );
 }

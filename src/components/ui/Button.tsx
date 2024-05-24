@@ -1,8 +1,7 @@
 import { cn } from "../../lib/utils";
-import { Pressable, Text } from "react-native";
-import { type VariantProps, cva } from "class-variance-authority";
-import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Text, TouchableOpacity } from "react-native";
+import { type VariantProps, cva } from "class-variance-authority";
 
 const buttonVariants = cva(
   "flex-row gap-2 items-center justify-center rounded-2xl py-2  w-60",
@@ -61,20 +60,18 @@ function Button({
   ...props
 }: ButtonProps) {
   return (
-    <TouchableOpacity>
-      <Pressable
-        className={cn(buttonVariants({ variant, size, className }))}
-        {...props}
+    <TouchableOpacity
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    >
+      <Text
+        className={cn(
+          buttonTextVariants({ variant, size, className: labelClasses })
+        )}
       >
-        <Text
-          className={cn(
-            buttonTextVariants({ variant, size, className: labelClasses })
-          )}
-        >
-          {label}
-        </Text>
-        <Ionicons name={iconName} size={20} />
-      </Pressable>
+        {label}
+      </Text>
+      <Ionicons name={iconName} size={20} />
     </TouchableOpacity>
   );
 }

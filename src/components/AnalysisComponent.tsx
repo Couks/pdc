@@ -3,16 +3,19 @@ import { Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import transactionsData from "@/assets/transactionsData.json";
 
-export default function AnalysisComponent() {
+export function AnalysisComponent() {
   const [transactionData, setTransactionData] = useState(transactionsData);
 
-  const totalByCategory = transactionData.reduce((acc, transaction) => {
-    const { categoria, valor, entrada_saida } = transaction;
-    if (entrada_saida === "saida") {
-      acc[categoria] = (acc[categoria] || 0) + valor;
-    }
-    return acc;
-  }, {});
+  const totalByCategory = transactionData.reduce(
+    (acc: { [key: string]: number }, transaction) => {
+      const { categoria, valor, entrada_saida } = transaction;
+      if (entrada_saida === "saida") {
+        acc[categoria] = (acc[categoria] || 0) + valor;
+      }
+      return acc;
+    },
+    {}
+  );
 
   const sortedCategories = Object.entries(totalByCategory).sort(
     (a, b) => b[1] - a[1]
@@ -22,7 +25,7 @@ export default function AnalysisComponent() {
 
   return (
     <View
-      className="flex-row gap-4 bg-green-500 border-4 border-white px-4 py-2 rounded-3xl items-center justify-around"
+      className="flex-row gap-4 bg-green-500 px-4 py-2 rounded-3xl items-center justify-around"
       style={{ marginTop: -70 }}
     >
       <View className="gap-2 items-center justify-center m-4">

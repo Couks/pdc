@@ -20,7 +20,6 @@ export async function useProfile() {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`${API_URL}/users/eu`);
-        console.log(response.data);
         if (response) {
           const data = await response.data;
           setUserData(data._j);

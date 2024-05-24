@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import Header from "@/components/ui/Header";
+import { Header } from "@/components/ui/Header";
 import { Alert, Text, View } from "react-native";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
@@ -16,7 +16,7 @@ import Animated, {
 import { useAuth } from "@/hooks/auth/AuthContext";
 import { useState } from "react";
 
-export default function SignUpScreen({ navigation }: { navigation: any }) {
+export function SignUpScreen({ navigation }: { navigation: any }) {
   const { toast } = useToast();
   const { onRegister } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
       Alert.alert(result.msg);
     } else {
       setSuccess(true);
-      toast("Conta criada com sucesso! 😁", "success", 5000);
+      toast("Conta criada com sucesso!", "success", 3000);
 
       setTimeout(() => {
         navigation.navigate("SignInScreen");
@@ -71,14 +71,14 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
             {success ? (
               <View className="flex-1 items-center justify-center gap-6 px-8">
                 <Text className="dark:text-white text-green-500 text-3xl text-center">
-                  Parabens, sua conta foi criada
+                  Parabens, sua conta foi criada!
                 </Text>
               </View>
             ) : (
               <View className="mx-6 gap-4">
                 <View className="items-center justify-center gap-4 mb-4">
                   <Animated.View
-                    entering={FadeInUp.duration(1000).springify()}
+                    entering={FadeInUp.delay(0).duration(1000).springify()}
                     className="w-full"
                   >
                     <Controller
@@ -96,6 +96,7 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
                           onChangeText={onChange}
                           onBlur={onBlur}
                           value={value}
+                          iconName="mail-outline"
                           keyboardType="email-address"
                           autoComplete="email"
                           placeholder="Digite seu endereço de e-mail"
@@ -109,14 +110,15 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
                   >
                     <Controller
                       control={control}
-                      name="password"
+                      name="DDDtelefone"
                       render={({ field: { onChange, onBlur, value } }) => (
                         <Input
                           onChangeText={onChange}
                           onBlur={onBlur}
                           value={value}
-                          secureTextEntry={true}
-                          placeholder="Digite sua senha"
+                          iconName="logo-whatsapp"
+                          keyboardType="phone-pad"
+                          placeholder="Digite seu numero de WhatsApp"
                         />
                       )}
                     />
@@ -127,12 +129,32 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
                   >
                     <Controller
                       control={control}
+                      name="password"
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <Input
+                          onChangeText={onChange}
+                          onBlur={onBlur}
+                          value={value}
+                          iconName="key"
+                          secureTextEntry={true}
+                          placeholder="Digite sua senha"
+                        />
+                      )}
+                    />
+                  </Animated.View>
+                  <Animated.View
+                    entering={FadeInUp.delay(600).duration(1000).springify()}
+                    className="w-full"
+                  >
+                    <Controller
+                      control={control}
                       name="apelido"
                       render={({ field: { onChange, onBlur, value } }) => (
                         <Input
                           onChangeText={onChange}
                           onBlur={onBlur}
                           value={value}
+                          iconName="person"
                           placeholder="Digite seu apelido"
                         />
                       )}
@@ -141,7 +163,7 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
 
                   <View className="flex-row gap-4 justify-between w-full">
                     <Animated.View
-                      entering={FadeInLeft.delay(600)
+                      entering={FadeInLeft.delay(800)
                         .duration(1000)
                         .springify()}
                       className="flex-1"
@@ -160,7 +182,7 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
                       />
                     </Animated.View>
                     <Animated.View
-                      entering={FadeInRight.delay(600)
+                      entering={FadeInRight.delay(800)
                         .duration(1000)
                         .springify()}
                       className="flex-1"
@@ -179,48 +201,48 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
                       />
                     </Animated.View>
                   </View>
-
-                  <Animated.View
-                    entering={FadeInUp.delay(800).duration(1000).springify()}
-                    className="w-full"
-                  >
-                    <Controller
-                      control={control}
-                      name="DDDtelefone"
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <Input
-                          onChangeText={onChange}
-                          onBlur={onBlur}
-                          value={value}
-                          keyboardType="phone-pad"
-                          placeholder="Digite seu numero de WhatsApp"
-                        />
-                      )}
-                    />
-                  </Animated.View>
                 </View>
 
                 {/* Botão de Login*/}
                 <Animated.View
-                  entering={FadeInUp.delay(1000).duration(1000).springify()}
+                  entering={FadeInUp.delay(1200).duration(1000).springify()}
                   className="items-center"
                 >
                   <Button
                     label="Criar Conta"
-                    onPress={handleSubmit(handleSignUp)}
+                    onPress={(data) =>
+                      handleSubmit(async (formData) => {
+                        const {
+                          email,
+                          password,
+                          apelido,
+                          firstName,
+                          lastName,
+                          DDDtelefone,
+                        } = formData;
+                        await handleSignUp({
+                          email,
+                          password,
+                          apelido,
+                          firstName,
+                          lastName,
+                          DDDtelefone,
+                        });
+                      })
+                    }
                   />
                 </Animated.View>
 
                 {/* Esqueceu sua senha?*/}
                 <Animated.View
-                  entering={FadeInDown.delay(1200).duration(1000).springify()}
+                  entering={FadeInDown.delay(1400).duration(1000).springify()}
                   className="w-full items-center"
                 >
-                  <Text className="text-medium text-purple-600 dark:text-white">
+                  <Text className="text-purple-800 dark:text-white">
                     Já tem uma conta?
                   </Text>
 
-                  <Link href="/login/SignInScreen">
+                  <Link href="/screens/login/SignInScreen">
                     <Text className="text-green-500">
                       Clique para realizar seu login
                     </Text>

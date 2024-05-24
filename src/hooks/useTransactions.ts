@@ -36,7 +36,7 @@ export async function useTransactions() {
     };
 
     fetchUserData();
-  }, [userTransactions]);
+  }, []);
 
   return userTransactions;
 }

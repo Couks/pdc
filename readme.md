@@ -1,4 +1,4 @@
-# Guia para Rodar o Projeto Expo
+# Guia para Rodar o Projeto Whats Your Finances
 
 Siga os passos abaixo para garantir que tudo funcione corretamente.
 

@@ -1,17 +1,14 @@
-import axios from "axios";
-import { Ionicons } from "@expo/vector-icons";
-import { Text, TextInput, View } from "react-native";
+import { useForm } from "react-hook-form";
 import { format, parseISO } from "date-fns";
-import { ptBR } from "date-fns/locale/pt-BR";
 import { useEffect, useState } from "react";
+import { ptBR } from "date-fns/locale/pt-BR";
+import { Ionicons } from "@expo/vector-icons";
+import { Button } from "@/components/ui/Button";
 import { TouchableOpacity } from "react-native";
+import { useToast } from "@/components/ui/Toast";
+import { Text, TextInput, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { DialogContent, DialogTrigger, Dialog } from "@/components/ui/Dialog";
-
-import { useForm } from "react-hook-form";
-import { useToast } from "@/components/ui/Toast";
-import { Button } from "@/components/ui/Button";
-import { AxiosError } from "axios";
 
 export interface TransactionProps {
   id: string;
@@ -48,7 +45,7 @@ const categoryNames: { [key: string]: string } = {
   ECONOMIAS: "Economias",
 };
 
-export default function Transaction({
+export function Transaction({
   id,
   createdAt,
   entrada_saida,
@@ -80,7 +77,8 @@ export default function Transaction({
   } = useForm();
 
   const onSubmit = async (data: typeof Transaction) => {
-    postTransaction({ id, entrada_saida, valor, categoria });
+    return "teste";
+    // postTransaction({ id, entrada_saida, valor, categoria });
   };
 
   const iconName = categoryIcons[categoria] || "alert-circle-outline";

@@ -1,11 +1,11 @@
-import { Text, TouchableOpacity, View } from "react-native";
-import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
+import { View } from "react-native";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import Header from "@/components/ui/Header";
+import { Header } from "@/components/ui/Header";
 
-export default function ForgotPassword({ navigation }: { navigation: any }) {
+export function ForgotPassword({ navigation }: { navigation: any }) {
   const {
     control,
     handleSubmit,
@@ -18,20 +18,18 @@ export default function ForgotPassword({ navigation }: { navigation: any }) {
 
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header title="Esqueceu sua senha?" style={{ height: 180 }}>
-        <Text></Text>
-      </Header>
+      <Header title="Esqueceu sua senha?" style={{ height: 180 }}></Header>
       <View className="flex-1 justify-around bg-white dark:bg-purple-800 rounded-t-[50px]">
         {/* Formulário*/}
         <View className="items-center mx-4 gap-6">
           <Animated.Text
-            entering={FadeInDown.delay(1000).duration(800).springify()}
+            entering={FadeInDown.delay(400).duration(800).springify()}
             className="dark:text-green-500 text-purple-800 text-3xl font-bold"
           >
             Redefinir senha?
           </Animated.Text>
           <Animated.Text
-            entering={FadeInDown.delay(200).duration(800).springify()}
+            entering={FadeInDown.delay(600).duration(800).springify()}
             className="dark:text-white text-purple-800 text-center text-lg mb-8"
           >
             Por favor, insira seu endereço de e-mail abaixo para redefinir sua
@@ -40,7 +38,7 @@ export default function ForgotPassword({ navigation }: { navigation: any }) {
           </Animated.Text>
 
           <Animated.View
-            entering={FadeInDown.delay(400).duration(1000).springify()}
+            entering={FadeInDown.delay(800).duration(800).springify()}
             className="w-full"
           >
             <Controller
@@ -51,7 +49,7 @@ export default function ForgotPassword({ navigation }: { navigation: any }) {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   value={value}
-                  className="text-white text-xl"
+                  iconName="mail-outline"
                   placeholder="exemplo@exemplo.com.br"
                   placeholderTextColor={"gray"}
                 />
@@ -61,7 +59,7 @@ export default function ForgotPassword({ navigation }: { navigation: any }) {
 
           {/* Botão de Login*/}
           <Animated.View
-            entering={FadeInDown.delay(600).duration(1000).springify()}
+            entering={FadeInDown.delay(1000).duration(800).springify()}
           >
             <Button
               label="Próximo Passo"
@@ -71,7 +69,7 @@ export default function ForgotPassword({ navigation }: { navigation: any }) {
 
           {/* Esqueceu sua senha?*/}
           <Animated.View
-            entering={FadeInDown.delay(200).duration(1000).springify()}
+            entering={FadeInDown.delay(1200).duration(800).springify()}
           >
             <Button
               label="Cadastre-se"

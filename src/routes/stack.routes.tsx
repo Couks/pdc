@@ -1,8 +1,8 @@
 import { useColorScheme } from "nativewind";
-import Home from "@/app/screens/login/Welcome";
-import SignInScreen from "@/app/screens/login/SignInScreen";
-import SignUpScreen from "@/app/screens/login/SignUpScreen";
-import ForgotPassword from "@/app/screens/login/ForgotPassword";
+import { Home } from "@/app/screens/login/Welcome";
+import { SignInScreen } from "@/app/screens/login/SignInScreen";
+import { SignUpScreen } from "@/app/screens/login/SignUpScreen";
+import { ForgotPassword } from "@/app/screens/login/ForgotPassword";
 import { OnboardingScreen } from "@/app/screens/OnboardingScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 

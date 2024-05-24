@@ -1,8 +1,10 @@
 import { Text, View } from "react-native";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import transactionsData from "@/assets/transactionsData.json";
 import { useState } from "react";
 import Animated, {
+  BounceInLeft,
+  BounceInRight,
   FadeIn,
   SlideInLeft,
   SlideInRight,
@@ -10,7 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { TouchableOpacity } from "react-native";
 
-export default function Balance({ filterTransactions }) {
+export function Balance({ filterTransactions }) {
   const [transactionData, setTransactionData] = useState(transactionsData);
 
   const totalEntradas = transactionData.reduce((total, transaction) => {
@@ -31,7 +33,7 @@ export default function Balance({ filterTransactions }) {
 
   return (
     <Animated.View
-      entering={FadeIn.duration(200)}
+      entering={FadeIn.duration(1000).springify()}
       className="items-center justify-center gap-4"
     >
       <TouchableOpacity
@@ -39,7 +41,7 @@ export default function Balance({ filterTransactions }) {
         onPress={() => filterTransactions("entradas")}
       >
         <Animated.View
-          entering={SlideInUp.duration(800)}
+          entering={SlideInUp.duration(1000)}
           className="bg-white py-2 rounded-2xl items-center w-full"
         >
           <Text className="text-lg font-semibold">Balanço Total</Text>
@@ -52,7 +54,7 @@ export default function Balance({ filterTransactions }) {
       <View className="flex-row justify-between gap-4">
         <TouchableOpacity onPress={() => filterTransactions("saidas")}>
           <Animated.View
-            entering={SlideInLeft.duration(600)}
+            entering={BounceInLeft.duration(1000).springify()}
             className="bg-white py-2 px-6 rounded-2xl items-center"
           >
             <Feather name="arrow-up-right" size={24} />
@@ -65,7 +67,7 @@ export default function Balance({ filterTransactions }) {
 
         <TouchableOpacity onPress={() => filterTransactions("balanco total")}>
           <Animated.View
-            entering={SlideInRight.duration(600)}
+            entering={BounceInRight.duration(1000).springify()}
             className="bg-white py-2 px-6 rounded-2xl items-center"
           >
             <Feather name="arrow-down-right" size={24} />

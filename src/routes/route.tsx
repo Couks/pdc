@@ -1,10 +1,9 @@
 import TabRoutes from "./tab.routes";
 import StackRoutes from "./stack.routes";
-
 import { useAuth } from "@/hooks/auth/AuthContext";
-import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
-import FabGroup from "@/components/ui/FabGroup";
+import { FabGroup } from "@/components/ui/FabGroup";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function Routes() {
   const { authState } = useAuth();

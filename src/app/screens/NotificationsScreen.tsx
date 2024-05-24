@@ -1,9 +1,9 @@
-import Header from "@/components/ui/Header";
+import { Header } from "@/components/ui/Header";
 import { ScrollView, SafeAreaView } from "react-native";
 import transactionsData from "@/assets/transactionsData.json";
-import Transaction from "./transactions/[id]";
+import { Transaction } from "./transactions/[id]";
 
-export default function NotificationScreen() {
+export function NotificationScreen() {
   return (
     <SafeAreaView className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Notificações" style={{ height: 150 }} />

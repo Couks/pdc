@@ -9,11 +9,7 @@ interface CategoryProps {
   description: string;
 }
 
-export default function Category({
-  iconName,
-  title,
-  description,
-}: CategoryProps) {
+export function Category({ iconName, title, description }: CategoryProps) {
   return (
     <Dialog>
       <DialogTrigger>

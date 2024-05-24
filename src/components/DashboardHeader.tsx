@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { Progress } from "./ui/Progress";
 import { Link } from "expo-router";
 
-export default function DashboardHeader() {
+export function DashboardHeader() {
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) {
@@ -26,8 +26,9 @@ export default function DashboardHeader() {
             {getGreeting()}
           </Text>
         </View>
+
         <TouchableOpacity>
-          <Link href="/(stack)/Notifications">
+          <Link href="/screens/NotificationScreen">
             <Ionicons name="notifications" color="white" size={24} />
           </Link>
         </TouchableOpacity>
