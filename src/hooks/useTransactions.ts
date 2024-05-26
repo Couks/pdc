@@ -1,42 +1,38 @@
-import { API_URL } from "@/hooks/auth/AuthContext";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { API_URL } from "@/hooks/auth/AuthContext";
+import { TransactionProps } from "@/lib/transactionProps";
 
-interface TransactionProps {
-  id: string;
-  createdAt: string;
-  updatedAt?: string;
-  entrada_saida?: string;
-  conta?: string;
-  valor: number;
-  categoria: string;
-  userid?: number;
+interface UseTransactionsResult {
+  isLoading: boolean;
+  error: Error | null;
+  transactions: TransactionProps[] | null;
 }
 
-export async function useTransactions() {
-  const [userTransactions, setUserTransactions] = useState<
-    TransactionProps | undefined
-  >(undefined);
+export const useTransactions = (): UseTransactionsResult => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [transactions, setTransactions] = useState<TransactionProps[] | null>(
+    null
+  );
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchTransactions = async () => {
+      setIsLoading(true);
       try {
-        const response = await axios.get(`${API_URL}/movimentacao/`);
-        console.log(response.data);
-
-        if (response) {
-          const data = await response.data;
-          setUserTransactions(data);
-        } else {
-          console.error("Falha ao buscar as transações");
-        }
+        const response = await axios.get<TransactionProps[]>(
+          `${API_URL}/movimentacao`
+        );
+        setTransactions(response.data);
       } catch (error) {
-        console.error("Erro ao buscar as transações:", error);
+        setError(error as Error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchUserData();
+    fetchTransactions();
   }, []);
 
-  return userTransactions;
-}
+  return { isLoading, error, transactions };
+};

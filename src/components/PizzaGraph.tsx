@@ -8,10 +8,13 @@ import Animated, {
   interpolate,
   withSpring,
 } from "react-native-reanimated";
+import transactionsData from "@/assets/transactionsData.json";
 
 export function PizzaGraph() {
   const { colorScheme } = useColorScheme();
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const [transactions, setTransactions] = useState(transactionsData);
 
   const animation = useSharedValue(0);
 

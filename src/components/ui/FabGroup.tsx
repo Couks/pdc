@@ -1,12 +1,12 @@
+import { CreateTransaction } from "@/app/screens/transactions/CreateTransaction";
+import { router, useNavigation } from "expo-router";
 import { useColorScheme } from "nativewind";
-import * as React from "react";
+import { useState } from "react";
 import { FAB, Portal } from "react-native-paper";
 
 export function FabGroup({ navigation }: { navigation: any }) {
-  const { colorScheme } = useColorScheme();
-
-  const [state, setState] = React.useState({ open: false });
-  const onStateChange = ({ open }) => setState({ open });
+  const [state, setState] = useState({ open: false });
+  const onStateChange = ({ open }: any) => setState({ open });
   const { open } = state;
 
   return (
@@ -14,7 +14,7 @@ export function FabGroup({ navigation }: { navigation: any }) {
       <FAB.Group
         open={open}
         visible
-        color={colorScheme === "light" ? "#052224" : "#00D09E"}
+        color="white"
         style={{
           bottom: 75,
           borderRadius: 50,
@@ -30,7 +30,7 @@ export function FabGroup({ navigation }: { navigation: any }) {
           {
             icon: "bell",
             label: "Remind",
-            onPress: () => console.log("Pressed notifications"),
+            onPress: () => navigation.navigate("TransactionScreen"),
           },
         ]}
         onStateChange={onStateChange}

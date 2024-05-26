@@ -57,7 +57,7 @@ export function OnboardingScreen({ navigation }: { navigation: any }) {
             >
               {item.title}
             </Animated.Text>
-            <View className="w-full bottom-0 h-3/4 rounded-t-[50px] bg-white dark:bg-purple-800 items-center justify-center gap-12 absolute">
+            <View className="w-full bottom-0 h-3/4 rounded-t-[30px] bg-white dark:bg-purple-800 items-center justify-center gap-12 absolute">
               <View className="items-center justify-center bg-green-200 rounded-full w-60 h-60 overflow-visible">
                 <Animated.Image
                   entering={PinwheelIn.delay(400).duration(1000).springify()}

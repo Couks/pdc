@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import transactionsData from "@/assets/transactionsData.json";
+import { useTransactions } from "@/hooks/useTransactions";
 
 export function AnalysisComponent() {
-  const [transactionData, setTransactionData] = useState(transactionsData);
+  const { transactions } = useTransactions();
 
-  const totalByCategory = transactionData.reduce(
+  const totalByCategory = transactions?.reduce(
     (acc: { [key: string]: number }, transaction) => {
       const { categoria, valor, entrada_saida } = transaction;
       if (entrada_saida === "saida") {
@@ -22,6 +23,7 @@ export function AnalysisComponent() {
   );
 
   const [highestCategory, secondHighestCategory] = sortedCategories;
+  console.log(sortedCategories);
 
   return (
     <View

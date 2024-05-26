@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       !lastName ||
       !DDDtelefone
     ) {
-      throw new Error("All fields are required");
+      throw new Error("Preencha todos os campos para se cadastrar");
     }
 
     try {
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
 
       if (!response || !response.data) {
-        throw new Error("The server did not return any data");
+        throw new Error("O server não retornou nenhum dado.");
       }
 
       return response;
@@ -113,18 +113,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
 
       if (!response || !response.data) {
-        throw new Error("The server did not return any data");
+        throw new Error("O server não retornou nenhum dado.");
       }
 
       const token = response.data.access_token;
+
       if (!token) {
-        throw new Error("The server did not return an access token");
+        throw new Error("O server não retornou nenhum token de acesso.");
       }
 
       await SecureStore.setItemAsync(TOKEN_KEY, token);
-
       setAuthState({ token, authenticated: true });
-
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       return response;
@@ -146,9 +145,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     await SecureStore.deleteItemAsync(TOKEN_KEY);
-
     axios.defaults.headers.common["Authorization"] = "";
-
     setAuthState({
       token: null,
       authenticated: false,

@@ -19,6 +19,7 @@ import { useState } from "react";
 export function SignUpScreen({ navigation }: { navigation: any }) {
   const { toast } = useToast();
   const { onRegister } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -67,7 +68,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
         {loading ? (
           <Loading />
         ) : (
-          <View className="flex-1 justify-center bg-white dark:bg-purple-800 rounded-t-[50px]">
+          <View className="flex-1 justify-center bg-white dark:bg-purple-800 rounded-t-[30px]">
             {success ? (
               <View className="flex-1 items-center justify-center gap-6 px-8">
                 <Text className="dark:text-white text-green-500 text-3xl text-center">

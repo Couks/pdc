@@ -66,7 +66,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
     <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Bem vindo" style={{ height: 180 }} />
 
-      <View className="flex-1 justify-around bg-white dark:bg-purple-800 rounded-t-[50px]">
+      <View className="flex-1 justify-around bg-white dark:bg-purple-800 rounded-t-[30px]">
         {/* Formulário*/}
         <View className="mx-6 gap-4">
           <View className="items-center gap-4 mb-8">

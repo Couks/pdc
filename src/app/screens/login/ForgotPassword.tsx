@@ -19,7 +19,7 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Esqueceu sua senha?" style={{ height: 180 }}></Header>
-      <View className="flex-1 justify-around bg-white dark:bg-purple-800 rounded-t-[50px]">
+      <View className="flex-1 justify-around bg-white dark:bg-purple-800 rounded-t-[30px]">
         {/* Formulário*/}
         <View className="items-center mx-4 gap-6">
           <Animated.Text

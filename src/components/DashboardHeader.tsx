@@ -1,6 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Progress } from "./ui/Progress";
 import { Link } from "expo-router";
 
 export function DashboardHeader() {
@@ -16,37 +15,21 @@ export function DashboardHeader() {
   };
 
   return (
-    <View className="flex-col justify-center">
-      <View className="flex-row justify-between items-center w-full">
-        <View className="items-start">
-          <Text className="text-xl font-bold dark:text-green-500">
-            Olá, Bem Vindo De Volta!
-          </Text>
-          <Text className="text-xs font-regular dark:text-green-200">
-            {getGreeting()}
-          </Text>
-        </View>
-
-        <TouchableOpacity>
-          <Link href="/screens/NotificationScreen">
-            <Ionicons name="notifications" color="white" size={24} />
-          </Link>
-        </TouchableOpacity>
+    <View className="flex-row flex-1 justify-between items-center w-full">
+      <View className="items-start ">
+        <Text className="text-xl font-bold dark:text-green-500">
+          Olá, Bem Vindo De Volta!
+        </Text>
+        <Text className="text-md font-regular dark:text-green-200">
+          {getGreeting()}
+        </Text>
       </View>
 
-      <View className="w-full mt-10">
-        <View className="flex-row gap-4 items-center justify-center p-3">
-          <Text className="text-md font-bold mb-4 text-purple-800 dark:text-green-500 ">
-            Balanço total
-          </Text>
-          <View className="bg-white rounded-full h-[40px] w-[2px]" />
-
-          <Text className="text-md font-bold mb-4 text-purple-800 dark:text-green-500 ">
-            Total de Gastos
-          </Text>
-        </View>
-        <Progress percentage={44} />
-      </View>
+      <TouchableOpacity>
+        <Link href={"/screens/NotificationsScreen"}>
+          <Ionicons name="notifications" color="white" size={24} />
+        </Link>
+      </TouchableOpacity>
     </View>
   );
 }

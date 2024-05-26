@@ -1,50 +1,50 @@
-import { useState } from "react";
-import { Transaction } from "./[id]";
-import { Balance } from "@/components/Balance";
+import { useEffect, useState } from "react";
+
 import { Header } from "@/components/ui/Header";
-import { ScrollView, SafeAreaView, View } from "react-native";
-import transactionsData from "@/assets/transactionsData.json";
+import { View } from "react-native";
+import { TransactionProps } from "@/lib/transactionProps";
+
+import { Balance } from "@/components/Balance";
+import { useTransactions } from "@/hooks/useTransactions";
+import { Transactions } from "./Transactions";
+import { RoundedView } from "@/components/ui/RoundedView";
 
 export function TransactionsScreen() {
-  const [filteredTransactions, setFilteredTransactions] =
-    useState(transactionsData);
+  const { transactions, isLoading, error } = useTransactions();
 
-  const filterTransactions = (type) => {
-    if (type === "entradas") {
-      setFilteredTransactions(
-        filteredTransactions.filter(
-          (transaction) => transaction.entrada_saida === "entrada"
-        )
-      );
-    } else if (type === "saidas") {
-      setFilteredTransactions(
-        filteredTransactions.filter(
-          (transaction) => transaction.entrada_saida === "saida"
-        )
-      );
-    } else {
-      setFilteredTransactions(filteredTransactions);
-    }
+  const [filteredTransactions, setFilteredTransactions] = useState<
+    TransactionProps[]
+  >([]);
+
+  useEffect(() => {
+    // Inicializa as transações filtradas com todas as transações
+    setFilteredTransactions(transactions);
+  }, [transactions]);
+
+  const filterTransactions = (
+    type: "entradas" | "saidas" | "balanco total"
+  ) => {
+    // Implemente a lógica de filtragem aqui
+    // ...
+    setFilteredTransactions(/* transações filtradas */);
   };
-  return (
-    <SafeAreaView className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header title="Transações">
-        <Balance filterTransactions={filterTransactions} />
-      </Header>
 
-      <ScrollView className="bg-white dark:bg-purple-800 p-6 rounded-t-[50px]">
-        {filteredTransactions.map((transaction) => (
-          <View key={transaction.id}>
-            <Transaction
-              id={transaction.id}
-              createdAt={transaction.createdAt}
-              entrada_saida={transaction.entrada_saida}
-              valor={transaction.valor}
-              categoria={transaction.categoria}
-            />
-          </View>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+  return (
+    <View className="flex-1 bg-green-500 dark:bg-green-700">
+      <Header title="Transações">
+        <Balance
+          transactions={filteredTransactions}
+          filterTransactions={filterTransactions}
+          isLoading={isLoading}
+          error={error}
+        />
+      </Header>
+      <RoundedView>
+        <Transactions
+          transactions={filteredTransactions}
+          isLoading={isLoading}
+        />
+      </RoundedView>
+    </View>
   );
 }

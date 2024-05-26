@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, FieldValues, useForm } from "react-hook-form";
 import { format, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import { ptBR } from "date-fns/locale/pt-BR";
@@ -9,17 +9,8 @@ import { useToast } from "@/components/ui/Toast";
 import { Text, TextInput, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { DialogContent, DialogTrigger, Dialog } from "@/components/ui/Dialog";
-
-export interface TransactionProps {
-  id: string;
-  createdAt: string;
-  updatedAt?: string;
-  entrada_saida?: string;
-  conta?: string;
-  valor: number;
-  categoria: string;
-  userid?: number;
-}
+import { Input } from "@/components/ui/Input";
+import { TransactionProps } from "@/lib/transactionProps";
 
 const categoryIcons: { [key: string]: keyof typeof Ionicons.glyphMap } = {
   GERAL: "add",
@@ -54,9 +45,11 @@ export function Transaction({
 }: TransactionProps) {
   const { toast } = useToast();
 
-  const dateObject = parseISO(createdAt);
-  const formattedDate = format(dateObject, "PP", { locale: ptBR });
-  const formattedTime = format(dateObject, "HH:mm:ss");
+  const dateObject = createdAt ? parseISO(createdAt) : null;
+  const formattedDate = dateObject
+    ? format(dateObject, "PP", { locale: ptBR })
+    : "";
+  const formattedTime = dateObject ? format(dateObject, "HH:mm:ss") : "";
 
   const [formattedPrice, setFormattedPrice] = useState(
     `${entrada_saida === "saida" ? "-" : "+"} R$${Math.abs(valor).toFixed(2)}`
@@ -76,7 +69,7 @@ export function Transaction({
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data: typeof Transaction) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     return "teste";
     // postTransaction({ id, entrada_saida, valor, categoria });
   };
@@ -117,19 +110,19 @@ export function Transaction({
       </DialogTrigger>
 
       <DialogContent>
-        <View className="w-96 h-auto bg-green-500 dark:bg-purple-700 rounded-3xl p-8">
-          <Text className="font-semibold text-2xl text-white mb-4">
+        <View className="w-96 mx-auto bg-green-500 dark:bg-green-700 rounded-3xl p-8 shadow-lg">
+          <Text className="font-bold text-3xl text-white mb-6 text-center">
             Editar Transação
           </Text>
 
-          <View className="flex-col mt-4">
-            <View className="flex-row items-center gap-2">
+          <View className="flex flex-col mt-4">
+            <View className="flex flex-row gap-2">
               <Ionicons
                 name={categoryIcons[categoria] || "alert-circle-outline"}
-                size={24}
+                size={28}
                 color="white"
               />
-              <Text className="dark:text-white text-purple-800 text-xl font-semibold">
+              <Text className="dark:text-white text-xl font-semibold">
                 {categoryName}
               </Text>
             </View>
@@ -138,45 +131,38 @@ export function Transaction({
               onValueChange={(newCategoria) =>
                 setValue("categoria", newCategoria)
               }
-              mode="dropdown"
-              className="bg-white"
-              dropdownIconColor="white"
+              mode="dialog"
+              className="bg-white rounded-lg text-gray-800"
+              dropdownIconColor="gray"
               style={{
-                width: "auto",
+                width: "100%",
               }}
             >
-              {Object.values(categoryName).map(() => (
-                <Picker.Item
-                  key={categoryName}
-                  label={categoryName}
-                  value={categoryName}
-                />
+              {Object.values(categoryName).map((name) => (
+                <Picker.Item key={name} label={name} value={name} />
               ))}
             </Picker>
           </View>
 
-          <View className="bg-gray-200/20 rounded-full h-[2px] w-auto my-4" />
+          <View className="bg-gray-200/20 rounded-full h-[2px] w-full my-4" />
 
-          <View className="flex-col mt-4">
-            <View className="flex-row items-center gap-2">
-              <Ionicons name="cash" size={24} color="white" />
-              <Text className="dark:text-white text-purple-800 text-xl">
-                Valor
-              </Text>
-            </View>
-            <TextInput keyboardType="numeric" />
-            <View className="bg-gray-200/20 rounded-full h-[2px] w-auto my-4" />
-
+          <View className="flex flex-col mt-4">
+            <Input
+              placeholder={formattedPrice}
+              keyboardType="numeric"
+              iconName="cash"
+            />
             {errors.valor && (
-              <Text className="text-red-500 mt-1">Campo obrigatório</Text>
+              <Text className="text-red-500 mt-2 text-sm">
+                Campo obrigatório
+              </Text>
             )}
           </View>
 
-          <View className="flex-row justify-center mt-8">
+          <View className="flex flex-row justify-center mt-8">
             <Button
               label="Alterar Transação"
-              variant="light"
-              iconName="checkmark-circle"
+              className="w-full"
               onPress={handleSubmit(onSubmit)}
             />
           </View>

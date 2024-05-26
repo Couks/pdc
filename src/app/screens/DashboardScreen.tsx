@@ -1,27 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "@/components/ui/Header";
-import { Transaction } from "./transactions/[id]";
+import { Transaction } from "./transactions/Transaction";
 import { DashboardHeader } from "@/components/DashboardHeader";
-import transactionsData from "@/assets/transactionsData.json";
-import { Text, TouchableOpacity, View, ScrollView } from "react-native";
+import { Text, TouchableOpacity, View, FlatList } from "react-native";
 import { format, isToday, isSameWeek, isSameMonth, isSameYear } from "date-fns";
+import { useTransactions } from "@/hooks/useTransactions";
+import { Transactions } from "./transactions/Transactions";
+import { RoundedView } from "@/components/ui/RoundedView";
 
-export function DashboardScreen({ navigation }: { navigation: any }) {
+export function DashboardScreen() {
+  const { isLoading, error, transactions } = useTransactions();
+
   const [filteredTransactions, setFilteredTransactions] =
-    useState(transactionsData);
+    useState(transactions);
   const [selectedFilter, setSelectedFilter] = useState<
     "day" | "week" | "month" | "year"
-  >("day");
+  >();
 
   const filterTransactions = (
-    transactions: (typeof Transaction)[],
-    period: string
+    transactions: TransactionProps[],
+    period: "day" | "week" | "month" | "year"
   ) => {
     const today = new Date();
 
     return transactions.filter((transaction) => {
       const transactionDate = new Date(transaction.createdAt);
-      console.log(transaction);
 
       switch (period) {
         case "day":
@@ -40,16 +43,16 @@ export function DashboardScreen({ navigation }: { navigation: any }) {
 
   const handleFilterChange = (period: "day" | "week" | "month" | "year") => {
     setSelectedFilter(period);
-    setFilteredTransactions(filterTransactions(transactionsData, period));
+    setFilteredTransactions(filterTransactions(transactions, period));
   };
 
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header style={{ height: 230 }}>
+      <Header style={{ height: 150 }}>
         <DashboardHeader />
       </Header>
 
-      <View className="flex-1 bg-white dark:bg-purple-800 items-center p-6 gap-4 rounded-t-[50px]">
+      <RoundedView>
         <View className="flex-row p-2 bg-green-200 dark:bg-purple-600 w-full rounded-2xl justify-around">
           <TouchableOpacity onPress={() => handleFilterChange("day")}>
             <View
@@ -92,6 +95,7 @@ export function DashboardScreen({ navigation }: { navigation: any }) {
               </Text>
             </View>
           </TouchableOpacity>
+
           <TouchableOpacity onPress={() => handleFilterChange("year")}>
             <View
               className={`py-2 px-4 rounded-2xl ${
@@ -107,27 +111,8 @@ export function DashboardScreen({ navigation }: { navigation: any }) {
           </TouchableOpacity>
         </View>
 
-        <ScrollView className="bg-white dark:bg-purple-800 w-full">
-          {filteredTransactions.length ? (
-            filteredTransactions.map((transaction) => (
-              <Transaction
-                key={transaction.id}
-                id={transaction.id}
-                createdAt={transaction.createdAt}
-                entrada_saida={transaction.entrada_saida}
-                valor={transaction.valor}
-                categoria={transaction.categoria}
-              />
-            ))
-          ) : (
-            <View className="flex-center items-center mt-10">
-              <Text className="text-lg text-gray-500 dark:text-gray-200 font-medium">
-                Nenhuma transação encontrada para o filtro selecionado.
-              </Text>
-            </View>
-          )}
-        </ScrollView>
-      </View>
+        <Transactions />
+      </RoundedView>
     </View>
   );
 }

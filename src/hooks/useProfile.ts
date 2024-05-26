@@ -1,6 +1,6 @@
-import { API_URL } from "@/hooks/auth/AuthContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { API_URL } from "@/hooks/auth/AuthContext";
 
 interface UserData {
   id?: number;
@@ -13,26 +13,23 @@ interface UserData {
   lastName?: string;
 }
 
-export async function useProfile() {
-  const [userData, setUserData] = useState<UserData>({});
+export function useProfile() {
+  const [userData, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    async function fetchUserData() {
       try {
         const response = await axios.get(`${API_URL}/users/eu`);
-        if (response) {
-          const data = await response.data;
-          setUserData(data._j);
-        } else {
-          console.error("Failed to fetch user data");
+        if (response.data) {
+          setUserData(response.data);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
-    };
+    }
 
     fetchUserData();
-  }, [userData]);
+  }, []);
 
   return userData;
 }

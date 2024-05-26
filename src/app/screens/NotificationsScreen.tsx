@@ -1,25 +1,16 @@
 import { Header } from "@/components/ui/Header";
-import { ScrollView, SafeAreaView } from "react-native";
-import transactionsData from "@/assets/transactionsData.json";
-import { Transaction } from "./transactions/[id]";
+import { View } from "react-native";
+
+import { Transactions } from "./transactions/Transactions";
+import { RoundedView } from "@/components/ui/RoundedView";
 
 export function NotificationScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-green-500 dark:bg-green-700">
+    <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Notificações" style={{ height: 150 }} />
-
-      <ScrollView className="bg-white dark:bg-purple-800 p-2 rounded-t-[50px]">
-        {transactionsData.map((transaction) => (
-          <Transaction
-            key={transaction.id}
-            id={transaction.id}
-            createdAt={transaction.createdAt}
-            entrada_saida={transaction.entrada_saida}
-            valor={transaction.valor}
-            categoria={transaction.categoria}
-          />
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+      <RoundedView>
+        <Transactions />
+      </RoundedView>
+    </View>
   );
 }

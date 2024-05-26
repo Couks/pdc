@@ -11,10 +11,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
 import { useProfile } from "@/hooks/useProfile";
+import { RoundedView } from "@/components/ui/RoundedView";
 
 export function ProfileScreen() {
   const { onLogout = () => {} } = useAuth();
   const { toast } = useToast();
+
   const userData = useProfile();
 
   function handleLogout() {
@@ -27,26 +29,36 @@ export function ProfileScreen() {
     }, 3000);
   }
 
-  function formatString(name: string) {
+  function formatString(name: string | null | undefined) {
+    if (!name) {
+      return "Usuário";
+    }
+
     return name.replace(/(?:^|\s)[a-z]/g, function (letter: string) {
       return letter.toUpperCase();
     });
   }
 
-  const formattedFirstName = formatString(userData.firstName);
-  const formattedLastName = formatString(userData.lastName);
-  const formattedNickNname = formatString(userData.apelido);
+  const formattedFirstName = formatString(userData?.firstName);
+  const formattedLastName = formatString(userData?.lastName);
+
+  if (!userData) {
+    return (
+      <View>
+        <Text>Something went wrong, please try again later.</Text>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header title="Perfil" style={{ height: 200 }} />
-
-      <View className="flex-1 bg-white items-center dark:bg-purple-800 rounded-t-[50px]">
+      <Header title="Perfil" style={{ height: 250 }} />
+      <RoundedView>
         <View className="flex-col items-center justify-around h-full">
-          <View className="items-center">
+          <View className="items-center gap-2">
             <Animated.View
               entering={FlipInEasyX.springify().damping(2).duration(2000)}
-              style={{ marginTop: -100 }}
+              style={{ marginTop: -110 }}
             >
               <Avatar
                 className="border-4 border-green-500 dark:border-green-700"
@@ -55,7 +67,7 @@ export function ProfileScreen() {
                 <AvatarImage
                   source={{
                     uri:
-                      "https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png" ||
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThxpcmi8WVEkDU-XPYeZPPlp5daXAH7Ho_UA&s" ||
                       undefined,
                   }}
                 />
@@ -65,41 +77,28 @@ export function ProfileScreen() {
 
             <Animated.Text
               entering={FadeInDown.springify().delay(400).duration(1000)}
-              className="dark:text-white text-purple-800 font-bold text-2xl mt-4"
+              className="dark:text-white text-purple-800 font-bold text-3xl "
             >
-              {formattedFirstName} {formattedLastName}
+              {formattedFirstName}
+              {formattedLastName}
             </Animated.Text>
 
             <Animated.Text
               entering={FadeInDown.springify().delay(600).duration(1000)}
-              className="dark:text-gray-200 text-gray-500"
+              className="dark:text-gray-400 text-gray-600 text-xl"
             >
-              @{formattedNickNname}
+              {userData.email}
             </Animated.Text>
 
             <Animated.Text
               entering={FadeInDown.springify().delay(800).duration(1000)}
-              className="dark:text-gray-400 text-gray-600"
+              className="dark:text-gray-100 text-gray-500 text-lg"
             >
-              {userData.apelido}
+              @{userData.apelido}
             </Animated.Text>
           </View>
 
-          <View className="flex-col gap-4">
-            <TouchableOpacity
-              style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-            >
-              <View
-                className="items-center justify-center bg-green-500 dark:bg-purple-500 rounded-3xl "
-                style={{ height: 60, width: 60 }}
-              >
-                <Ionicons name="settings" color="white" size={30} />
-              </View>
-              <Text className="text-2xl font-bold text-purple-800 dark:text-white">
-                Configurações
-              </Text>
-            </TouchableOpacity>
-
+          <View className="items-center gap-8">
             <Dialog>
               <DialogTrigger>
                 <TouchableOpacity
@@ -137,13 +136,10 @@ export function ProfileScreen() {
                 </View>
               </DialogContent>
             </Dialog>
-          </View>
-
-          <View className="self-center">
             <ToggleTheme />
           </View>
         </View>
-      </View>
+      </RoundedView>
     </View>
   );
 }

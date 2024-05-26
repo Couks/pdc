@@ -3,7 +3,7 @@ import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
 import { AnalysisScreen } from "@/app/screens/AnalysisScreen";
 import { DashboardScreen } from "@/app/screens/DashboardScreen";
-import { ProfileScreen } from "@/app/screens/profile/ProfileScreen";
+import { ProfileScreen } from "@/app/screens/ProfileScreen";
 import { CategoryListScreen } from "@/app/screens/CategoryListScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TransactionsScreen } from "@/app/screens/transactions/TransactionsScreen";
@@ -19,6 +19,7 @@ export default function TabRoutes() {
         headerShown: false,
         headerTitleAlign: "center",
         tabBarShowLabel: false,
+
         tabBarActiveTintColor: colorScheme == "light" ? "white" : "white",
         tabBarInactiveTintColor: colorScheme == "light" ? "#052224" : "white",
         tabBarHideOnKeyboard: true,
@@ -27,7 +28,6 @@ export default function TabRoutes() {
           backgroundColor: colorScheme == "light" ? "#DFF7E2" : "#47286C",
           borderTopWidth: 0,
           paddingHorizontal: 10,
-
           height: 70,
         },
       }}

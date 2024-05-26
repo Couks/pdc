@@ -10,7 +10,7 @@ export default function Routes() {
 
   return (
     <NavigationContainer independent={true}>
-      {true ? (
+      {authState?.authenticated ? (
         <PaperProvider>
           <TabRoutes />
           <FabGroup />
