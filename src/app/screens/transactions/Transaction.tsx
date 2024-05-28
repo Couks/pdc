@@ -1,16 +1,15 @@
-import { SubmitHandler, FieldValues, useForm } from "react-hook-form";
+import { Text, View } from "react-native";
 import { format, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import { ptBR } from "date-fns/locale/pt-BR";
 import { Ionicons } from "@expo/vector-icons";
-import { Button } from "@/components/ui/Button";
-import { TouchableOpacity } from "react-native";
-import { useToast } from "@/components/ui/Toast";
-import { Text, TextInput, View } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { DialogContent, DialogTrigger, Dialog } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
+import { TouchableOpacity } from "react-native";
+import { Button } from "@/components/ui/Button";
+import { Picker } from "@react-native-picker/picker";
 import { TransactionProps } from "@/lib/transactionProps";
+import { SubmitHandler, FieldValues, useForm } from "react-hook-form";
+import { DialogContent, DialogTrigger, Dialog } from "@/components/ui/Dialog";
 
 const categoryIcons: { [key: string]: keyof typeof Ionicons.glyphMap } = {
   GERAL: "add",
@@ -43,13 +42,11 @@ export function Transaction({
   valor,
   categoria,
 }: TransactionProps) {
-  const { toast } = useToast();
-
   const dateObject = createdAt ? parseISO(createdAt) : null;
   const formattedDate = dateObject
-    ? format(dateObject, "PP", { locale: ptBR })
+    ? format(dateObject, "LLL", { locale: ptBR })
     : "";
-  const formattedTime = dateObject ? format(dateObject, "HH:mm:ss") : "";
+  const formattedTime = dateObject ? format(dateObject, "HH:mm") : "";
 
   const [formattedPrice, setFormattedPrice] = useState(
     `${entrada_saida === "saida" ? "-" : "+"} R$${Math.abs(valor).toFixed(2)}`
@@ -71,7 +68,6 @@ export function Transaction({
 
   const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     return "teste";
-    // postTransaction({ id, entrada_saida, valor, categoria });
   };
 
   const iconName = categoryIcons[categoria] || "alert-circle-outline";
@@ -91,7 +87,7 @@ export function Transaction({
               </Text>
               <View>
                 <Text className="dark:text-purple-500 text-purple-800 text-xs font-semibold">
-                  {formattedDate} - {formattedTime}
+                  {formattedTime} - {formattedDate}
                 </Text>
               </View>
             </View>
@@ -105,7 +101,7 @@ export function Transaction({
               {formattedPrice}
             </Text>
           </View>
-          <View className="bg-gray-200/20 rounded-full h-[2px] w-auto mx-1" />
+          <View className="bg-gray-500/20 dark:bg-gray-200/20 rounded-full h-[2px] w-auto mx-1" />
         </TouchableOpacity>
       </DialogTrigger>
 
@@ -119,7 +115,7 @@ export function Transaction({
             <View className="flex flex-row gap-2">
               <Ionicons
                 name={categoryIcons[categoria] || "alert-circle-outline"}
-                size={28}
+                size={24}
                 color="white"
               />
               <Text className="dark:text-white text-xl font-semibold">
@@ -131,20 +127,18 @@ export function Transaction({
               onValueChange={(newCategoria) =>
                 setValue("categoria", newCategoria)
               }
-              mode="dialog"
-              className="bg-white rounded-lg text-gray-800"
+              mode="dropdown"
               dropdownIconColor="gray"
               style={{
                 width: "100%",
+                color: "white",
               }}
             >
-              {Object.values(categoryName).map((name) => (
+              {Object.values(categoryNames).map((name) => (
                 <Picker.Item key={name} label={name} value={name} />
               ))}
             </Picker>
           </View>
-
-          <View className="bg-gray-200/20 rounded-full h-[2px] w-full my-4" />
 
           <View className="flex flex-col mt-4">
             <Input

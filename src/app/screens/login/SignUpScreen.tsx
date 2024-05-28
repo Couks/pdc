@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
 import { Header } from "@/components/ui/Header";
-import { Alert, Text, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/Loading";
@@ -242,12 +242,19 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                   <Text className="text-purple-800 dark:text-white">
                     Já tem uma conta?
                   </Text>
+                </Animated.View>
 
-                  <Link href="/screens/login/SignInScreen">
-                    <Text className="text-green-500">
+                <Animated.View
+                  entering={FadeInDown.delay(1600).duration(1000).springify()}
+                  className="w-full items-center -mt-4"
+                >
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("SignInScreen")}
+                  >
+                    <Text className="text-green-500 ">
                       Clique para realizar seu login
                     </Text>
-                  </Link>
+                  </TouchableOpacity>
                 </Animated.View>
               </View>
             )}

@@ -1,26 +1,21 @@
-import { FlatList, Text } from "react-native";
-import { View } from "react-native";
+import React from "react";
+import { FlatList, Text, View } from "react-native";
 import { Transaction } from "./Transaction";
 import { useTransactions } from "@/hooks/useTransactions";
-import { Loading } from "@/components/ui/Loading";
+import { TransactionProps } from "@/lib/transactionProps";
 
-export function Transactions() {
-  const { isLoading, error, transactions } = useTransactions();
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return (
-      <View className="flex-center items-center mt-10">
-        <Text className="text-lg text-red-500">
-          Algo deu errado, tente novamente
-        </Text>
-      </View>
-    );
-  }
-
+interface TransactionsProps {
+  transactions: TransactionProps[];
+  isLoading?: boolean;
+  onRefresh?: () => void;
+  ListEmptyComponent?: React.ComponentType;
+}
+export function Transactions({
+  transactions,
+  isLoading,
+  onRefresh,
+  ListEmptyComponent,
+}: TransactionsProps) {
   return (
     <FlatList
       data={transactions}
@@ -38,13 +33,8 @@ export function Transactions() {
       className="bg-white dark:bg-purple-800 w-full"
       showsVerticalScrollIndicator={false}
       refreshing={isLoading}
-      ListEmptyComponent={() => (
-        <View className="flex-center items-center mt-10">
-          <Text className="text-lg text-gray-500 dark:text-gray-200 font-medium">
-            Nenhuma transação encontrada
-          </Text>
-        </View>
-      )}
+      onRefresh={onRefresh}
+      ListEmptyComponent={ListEmptyComponent}
     />
   );
 }

@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import axios from "axios";
 import { API_URL } from "@/hooks/auth/AuthContext";
+import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 
 export function CreateTransaction() {
+  const { createTransaction, isLoading, error, createdTransaction } =
+    useCreateTransaction();
   const [transaction, setTransaction] = useState({
     entrada_saida: "",
     conta: "",

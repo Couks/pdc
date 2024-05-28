@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
 import { useProfile } from "@/hooks/useProfile";
 import { RoundedView } from "@/components/ui/RoundedView";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 export function ProfileScreen() {
   const { onLogout = () => {} } = useAuth();
@@ -42,14 +43,6 @@ export function ProfileScreen() {
   const formattedFirstName = formatString(userData?.firstName);
   const formattedLastName = formatString(userData?.lastName);
 
-  if (!userData) {
-    return (
-      <View>
-        <Text>Something went wrong, please try again later.</Text>
-      </View>
-    );
-  }
-
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Perfil" style={{ height: 250 }} />
@@ -75,27 +68,41 @@ export function ProfileScreen() {
               </Avatar>
             </Animated.View>
 
-            <Animated.Text
-              entering={FadeInDown.springify().delay(400).duration(1000)}
-              className="dark:text-white text-purple-800 font-bold text-3xl "
-            >
-              {formattedFirstName}
-              {formattedLastName}
-            </Animated.Text>
+            {!userData?.firstName && !userData?.lastName ? (
+              <View className="flex-row gap-2 mb-2">
+                <Skeleton className="w-32 h-8" />
+                <Skeleton className="w-32 h-8" />
+              </View>
+            ) : (
+              <Animated.Text
+                entering={FadeInDown.springify().delay(400).duration(1000)}
+                className="dark:text-white text-purple-800 font-bold text-3xl "
+              >
+                {formattedFirstName} {formattedLastName}
+              </Animated.Text>
+            )}
 
-            <Animated.Text
-              entering={FadeInDown.springify().delay(600).duration(1000)}
-              className="dark:text-gray-400 text-gray-600 text-xl"
-            >
-              {userData.email}
-            </Animated.Text>
+            {!userData?.email ? (
+              <Skeleton className="w-72 h-8 mb-2" />
+            ) : (
+              <Animated.Text
+                entering={FadeInDown.springify().delay(600).duration(1000)}
+                className="dark:text-gray-400 text-gray-600 text-xl"
+              >
+                {userData?.email}
+              </Animated.Text>
+            )}
 
-            <Animated.Text
-              entering={FadeInDown.springify().delay(800).duration(1000)}
-              className="dark:text-gray-100 text-gray-500 text-lg"
-            >
-              @{userData.apelido}
-            </Animated.Text>
+            {!userData?.apelido ? (
+              <Skeleton className="w-32 h-8" />
+            ) : (
+              <Animated.Text
+                entering={FadeInDown.springify().delay(800).duration(1000)}
+                className="dark:text-gray-100 text-gray-500 text-lg"
+              >
+                @{userData?.apelido}
+              </Animated.Text>
+            )}
           </View>
 
           <View className="items-center gap-8">

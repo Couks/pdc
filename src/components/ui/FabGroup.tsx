@@ -1,10 +1,8 @@
-import { CreateTransaction } from "@/app/screens/transactions/CreateTransaction";
-import { router, useNavigation } from "expo-router";
-import { useColorScheme } from "nativewind";
+import { router } from "expo-router";
 import { useState } from "react";
 import { FAB, Portal } from "react-native-paper";
 
-export function FabGroup({ navigation }: { navigation: any }) {
+export function FabGroup() {
   const [state, setState] = useState({ open: false });
   const onStateChange = ({ open }: any) => setState({ open });
   const { open } = state;
@@ -16,7 +14,7 @@ export function FabGroup({ navigation }: { navigation: any }) {
         visible
         color="white"
         style={{
-          bottom: 75,
+          bottom: 1,
           borderRadius: 50,
         }}
         icon={open ? "camera" : "plus"}
@@ -24,13 +22,14 @@ export function FabGroup({ navigation }: { navigation: any }) {
           {
             icon: "plus",
             label: "Adicionar Transação",
-            onPress: () => navigation.navigate("CreateTransaction"),
+            onPress: () =>
+              router.push("/screens/transactions/CreateTransaction"),
           },
 
           {
             icon: "bell",
             label: "Remind",
-            onPress: () => navigation.navigate("TransactionScreen"),
+            onPress: () => router.navigate("TransactionScreen"),
           },
         ]}
         onStateChange={onStateChange}

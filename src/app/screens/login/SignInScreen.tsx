@@ -137,11 +137,13 @@ export function SignInScreen({ navigation }: { navigation: any }) {
               exiting={FadeInDown.duration(1000).springify()}
               className="w-full items-center"
             >
-              <Link href="/screens/login/ForgotPassword">
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ForgotPassword")}
+              >
                 <Text className="dark:text-white text-md text-purple-800 font-bold">
                   Esqueceu sua senha?
                 </Text>
-              </Link>
+              </TouchableOpacity>
             </Animated.View>
 
             <Animated.View

@@ -1,8 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Link } from "expo-router";
 
-export function DashboardHeader() {
+export function DashboardHeader({ navigation }) {
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) {
@@ -25,10 +24,10 @@ export function DashboardHeader() {
         </Text>
       </View>
 
-      <TouchableOpacity>
-        <Link href={"/screens/NotificationsScreen"}>
-          <Ionicons name="notifications" color="white" size={24} />
-        </Link>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("NotificationsScreen")}
+      >
+        <Ionicons name="notifications" color="white" size={24} />
       </TouchableOpacity>
     </View>
   );

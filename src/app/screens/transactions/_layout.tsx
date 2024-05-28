@@ -6,7 +6,7 @@ const TransactionsStack = createStackNavigator();
 
 export default function TransactionsStackNavigator() {
   return (
-    <TransactionsStack.Navigator screenOptions={{ headerShown: false }}>
+    <TransactionsStack.Navigator screenOptions={{ headerShown: true }}>
       <TransactionsStack.Screen
         name="Transactions"
         component={TransactionsScreen}

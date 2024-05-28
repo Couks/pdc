@@ -1,8 +1,9 @@
-// hooks/useUpdateTransaction.ts
 import { useState } from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { API_URL } from "@/hooks/auth/AuthContext";
 import { TransactionProps } from "@/lib/transactionProps";
+
+import { useToast } from "@/components/ui/Toast";
 
 interface UseUpdateTransactionResult {
   isLoading: boolean;
@@ -12,6 +13,7 @@ interface UseUpdateTransactionResult {
 }
 
 export const useUpdateTransaction = (): UseUpdateTransactionResult => {
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [updatedTransaction, setUpdatedTransaction] =
@@ -25,10 +27,10 @@ export const useUpdateTransaction = (): UseUpdateTransactionResult => {
         transaction
       );
       setUpdatedTransaction(response.data);
-      // Aqui você pode usar o toast para notificar o sucesso
+      toast("Transação atualizada com sucesso!", "success", 3000);
     } catch (error) {
       setError(error as Error);
-      // Aqui você pode usar o toast para notificar o erro
+      toast("Erro ao atualizar transação!", "destructive", 3000);
     } finally {
       setIsLoading(false);
     }
