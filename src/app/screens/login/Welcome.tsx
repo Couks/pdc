@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/Button";
 import { View, TouchableOpacity } from "react-native";
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
 
-export  function Home({ navigation }: { navigation: any }) {
+export function Home({ navigation }: { navigation: any }) {
   return (
     <Animated.View
       entering={FadeIn.delay(100).duration(200)}
@@ -67,7 +67,7 @@ export  function Home({ navigation }: { navigation: any }) {
 
         <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
           <Animated.Text
-            entering={BounceIn.springify().delay(600).duration(2000)}
+            entering={BounceIn.springify().delay(600).duration(1000)}
             className="dark:text-white text-lg text-purple-800 font-bold"
           >
             Esqueceu sua senha?

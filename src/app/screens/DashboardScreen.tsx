@@ -65,11 +65,15 @@ export function DashboardScreen() {
             <View
               className={`py-2 px-8 rounded-2xl ${
                 selectedFilter === "day"
-                  ? "bg-green-500"
+                  ? "bg-green-500 "
                   : "bg-green-200 dark:bg-purple-600"
               }`}
             >
-              <Text className="text-purple-800 dark:text-white font-bold text-lg">
+              <Text
+                className={`font-bold text-xl ${
+                  selectedFilter === "day" ? "text-purple-800 " : "text-white"
+                }`}
+              >
                 Dia
               </Text>
             </View>
@@ -83,7 +87,11 @@ export function DashboardScreen() {
                   : "bg-green-200 dark:bg-purple-600"
               }`}
             >
-              <Text className="text-purple-800 dark:text-white font-bold text-lg">
+              <Text
+                className={`font-bold text-xl ${
+                  selectedFilter === "week" ? "text-purple-800 " : "text-white"
+                }`}
+              >
                 Semana
               </Text>
             </View>
@@ -97,7 +105,11 @@ export function DashboardScreen() {
                   : "bg-green-200 dark:bg-purple-600"
               }`}
             >
-              <Text className="text-purple-800 dark:text-white font-bold text-lg">
+              <Text
+                className={`font-bold text-xl ${
+                  selectedFilter === "month" ? "text-purple-800 " : "text-white"
+                }`}
+              >
                 Mês
               </Text>
             </View>
@@ -110,7 +122,7 @@ export function DashboardScreen() {
           onRefresh={refetch}
           ListEmptyComponent={() => (
             <View className="flex-center items-center mt-10">
-              <Text className="text-lg text-gray-500 dark:text-gray-200 font-medium">
+              <Text className="text-xl text-gray-500 dark:text-gray-200 font-medium">
                 Nenhuma transação encontrada.
               </Text>
             </View>

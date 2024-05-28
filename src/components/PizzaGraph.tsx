@@ -1,117 +1,183 @@
-import { Text, View } from "react-native";
-import { useEffect, useState } from "react";
-import { PieChart } from "react-native-gifted-charts";
-import { useColorScheme } from "nativewind";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  interpolate,
-  withSpring,
-} from "react-native-reanimated";
-import transactionsData from "@/assets/transactionsData.json";
+import React, { useState, useEffect } from "react";
+import { View, Text, Dimensions } from "react-native";
+import Svg, { Path } from "react-native-svg";
+import { useTransactions } from "@/hooks/useTransactions";
+import { Transactions } from "@/app/screens/transactions/Transactions";
+
+const screenWidth = Dimensions.get("window").width;
+
+const categoryNames: { [key: string]: string } = {
+  GERAL: "Gastos Gerais",
+  MORADIA: "Moradia",
+  ALIMENTACAO: "Alimentação",
+  TRANSPORTE: "Transporte",
+  SAUDE: "Saúde",
+  EDUCACAO: "Educação",
+  LAZER: "Lazer",
+  DESPESAS_PESSOAIS: "Despesas pessoais",
+  ECONOMIAS: "Economias",
+};
+
+const fixedColors = [
+  "#FF5733", // Laranja
+  "#FFC300", // Amarelo
+  "#DAF7A6", // Verde claro
+  "#C70039", // Vermelho
+  "#900C3F", // Vinho
+  "#581845", // Roxo escuro
+  "#003f5c", // Azul escuro
+  "#374c80", // Azul médio
+  "#7a5195", // Roxo médio
+];
+
+const generateColor = (index) => {
+  return fixedColors[index % fixedColors.length];
+};
+
+const calculateArc = (value, total, radius, cx, cy, startAngle) => {
+  const angle = (value / total) * 360;
+  const endAngle = startAngle + angle;
+
+  const largeArcFlag = angle > 180 ? 1 : 0;
+  const start = polarToCartesian(cx, cy, radius, startAngle);
+  const end = polarToCartesian(cx, cy, radius, endAngle);
+
+  const pathData = [
+    `M ${cx} ${cy}`,
+    `L ${start.x} ${start.y}`,
+    `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${end.x} ${end.y}`,
+    `Z`,
+  ].join(" ");
+
+  return { path: pathData, endAngle };
+};
+
+const polarToCartesian = (cx, cy, radius, angleInDegrees) => {
+  const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
+  return {
+    x: cx + radius * Math.cos(angleInRadians),
+    y: cy + radius * Math.sin(angleInRadians),
+  };
+};
 
 export function PizzaGraph() {
-  const { colorScheme } = useColorScheme();
-  const [selectedItem, setSelectedItem] = useState(null);
-
-  const [transactions, setTransactions] = useState(transactionsData);
-
-  const animation = useSharedValue(0);
+  const { transactions, isLoading, refetch } = useTransactions();
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    "GERAL" ||
+      "MORADIA" ||
+      "ALIMENTACAO" ||
+      "TRANSPORTE" ||
+      "SAUDE" ||
+      "EDUCACAO" ||
+      "LAZER" ||
+      "DESPESAS_PESSOAIS" ||
+      "ECONOMIAS"
+  );
+  const [categoryData, setCategoryData] = useState<
+    { label: string; originalLabel: string; value: number; color: string }[]
+  >([]);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    animation.value = 1;
-  }, []);
+    if (transactions && transactions.length > 0) {
+      const categoryMap: { [key: string]: number } = {};
+      transactions.forEach((transaction) => {
+        if (categoryMap[transaction.categoria]) {
+          categoryMap[transaction.categoria] += transaction.valor;
+        } else {
+          categoryMap[transaction.categoria] = transaction.valor;
+        }
+      });
 
-  const pieData = [
-    { value: 8, color: "#ff0000", text: "Transporte" },
-    { value: 12, color: "#00ff00", text: "Moradia" },
-    { value: 30, color: "#0000ff", text: "Lazer" },
-    { value: 4, color: "#ffff00", text: "Saude" },
-    { value: 6, color: "#ff00ff", text: "Geral" },
-    { value: 20, color: "#00ffff", text: "Estudos" },
-    { value: 15, color: "#ffa500", text: "Gastos Pessoais" },
-    { value: 2, color: "#008000", text: "Alimentacao" },
-    { value: 3, color: "#800080", text: "Investimentos" },
-  ];
+      const data = Object.keys(categoryMap).map((key, index) => ({
+        label: categoryNames[key],
+        originalLabel: key,
+        value: categoryMap[key],
+        color: generateColor(index),
+      }));
 
-  // Função para lidar com o pressionamento de uma fatia do gráfico
-  const handlePiePress = (index) => {
-    setSelectedItem(pieData[index]);
-    animation.value = 0; // Reseta a animação
-    animation.value = withSpring(1); // Inicia a animação
-  };
+      const totalValue = data.reduce((acc, curr) => acc + curr.value, 0);
 
-  const animatedValueStyle = useAnimatedStyle(() => {
-    return {
-      opacity: interpolate(animation.value, [0, 1], [0, 1]),
-      transform: [{ scale: interpolate(animation.value, [0, 1], [0.5, 1]) }],
-    };
-  });
+      setCategoryData(data);
+      setTotal(totalValue);
+    }
+  }, [transactions]);
 
-  const renderDot = (value, color) => {
-    const animatedStyle = useAnimatedStyle(() => {
-      return {
-        opacity: animation.value,
-        transform: [{ scale: animation.value }],
-      };
-    });
+  const radius = 90;
+  const cx = screenWidth / 1.5;
+  const cy = 100;
+  let startAngle = 0;
 
-    return (
-      <Animated.View
-        className="size-4 rounded-full"
-        style={[animatedStyle, { backgroundColor: color }]}
-      />
-    );
-  };
-
-  const renderLegendComponent = () => {
-    return (
-      <View className="flex-row flex-wrap gap-4 justify-center">
-        {pieData.map((data, index) => (
-          <View key={index} className="flex-row items-center gap-2">
-            {renderDot(data.value, data.color)}
-            <Text className="text-purple-800 dark:text-white">{data.text}</Text>
-          </View>
-        ))}
-      </View>
-    );
+  const getFormattedCategoryName = (category: string) => {
+    return categoryNames[category] || category;
   };
 
   return (
-    <>
-      <View className="items-center justify-center rounded-full p-6 mb-4">
-        <PieChart
-          data={pieData.map((item) => ({
-            ...item,
-            value: item.value * animation.value,
-          }))}
-          donut
-          showGradient
-          onPress={(data, index) => handlePiePress(index)}
-          radius={100}
-          innerRadius={80}
-          innerCircleColor={colorScheme == "light" ? "#00D09E" : "#2E1A46"}
-          centerLabelComponent={() =>
-            selectedItem && (
-              <View className="items-center justify-center">
-                <Animated.Text
-                  className="text-3xl text-white font-bold"
-                  style={[animatedValueStyle]}
-                >
-                  {selectedItem.value}%
-                </Animated.Text>
-                <Animated.Text
-                  className="text-2xl text-white font-semibold"
-                  style={[animatedValueStyle]}
-                >
-                  {selectedItem.text}
-                </Animated.Text>
+    <View className="flex-1 items-center justify-center w-full">
+      <Svg height="230" width={screenWidth}>
+        {categoryData.map((slice, index) => {
+          const { path, endAngle } = calculateArc(
+            slice.value,
+            total,
+            radius,
+            cx,
+            cy,
+            startAngle
+          );
+          startAngle = endAngle;
+
+          return (
+            <View className="px-8">
+              <Text className="dark:text-white font-bold text-lg">
+                {slice.label}
+              </Text>
+              <Path
+                key={index}
+                d={path}
+                fill={slice.color}
+                onPress={() => setSelectedCategory(slice.originalLabel)}
+              />
+            </View>
+          );
+        })}
+      </Svg>
+
+      {selectedCategory && (
+        <View
+          className="flex-1 w-full items-center gap-2"
+          style={{ marginTop: -30 }}
+        >
+          <View className="items-center">
+            <Text className=" font-bold text-3xl text-gray-200 dark:text-white">
+              {(
+                (categoryData.find(
+                  (item) => item.originalLabel === selectedCategory
+                )?.value! /
+                  total) *
+                100
+              ).toFixed(2)}
+              %
+            </Text>
+            <Text className="text-purple-500 dark:text-green-500 font-bold text-xl">
+              {getFormattedCategoryName(selectedCategory)}
+            </Text>
+          </View>
+          <Transactions
+            transactions={transactions?.filter(
+              (transaction) => transaction.categoria === selectedCategory
+            )}
+            isLoading={isLoading}
+            onRefresh={refetch}
+            ListEmptyComponent={() => (
+              <View className="items-center mt-4">
+                <Text className="text-lg text-gray-400 font-medium">
+                  Nenhuma transação encontrada.
+                </Text>
               </View>
-            )
-          }
-        />
-      </View>
-      {renderLegendComponent()}
-    </>
+            )}
+          />
+        </View>
+      )}
+    </View>
   );
 }

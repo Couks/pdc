@@ -21,7 +21,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
   const [totalEntradas, setTotalEntradas] = useState(0);
   const [totalSaidas, setTotalSaidas] = useState(0);
   const [balance, setBalance] = useState(0);
-  const [selectedFilter, setSelectedFilter] = useState("balance");
+  const [selectedFilter, setSelectedFilter] = useState("");
 
   useEffect(() => {
     const entradas = transactions
@@ -38,7 +38,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
 
   const handlePress = (filter: string) => {
     setSelectedFilter(filter);
-    let filteredTransactions: TransactionProps[] = [];
+    let filteredTransactions: TransactionProps[] | null | undefined = [];
 
     switch (filter) {
       case "entradas":
@@ -56,7 +56,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
     }
 
     if (onFilterChange) {
-      onFilterChange(filteredTransactions);
+      onFilterChange(filteredTransactions!);
     }
   };
 
@@ -65,17 +65,19 @@ export function Balance({ onFilterChange }: BalanceProps) {
       entering={FadeIn.duration(1000).springify()}
       className="items-center justify-center gap-4"
     >
-      <Animated.View
-        entering={SlideInUp.duration(1000)}
-        className="bg-white py-2 rounded-xl items-center w-full"
-      >
-        <Text className="text-lg font-semibold text-purple-800">
-          Balanço Total
-        </Text>
-        <Text className="font-bold text-2xl text-purple-500">
-          R$ {balance?.toFixed(2)}
-        </Text>
-      </Animated.View>
+      <TouchableWithoutFeedback onPress={() => handlePress("default")}>
+        <Animated.View
+          entering={SlideInUp.duration(1000)}
+          className="bg-white py-2 rounded-xl items-center w-full"
+        >
+          <Text className="text-lg font-semibold text-purple-800">
+            Balanço Total
+          </Text>
+          <Text className="font-bold text-2xl text-purple-500">
+            R$ {balance?.toFixed(2)}
+          </Text>
+        </Animated.View>
+      </TouchableWithoutFeedback>
 
       <View className="flex-row gap-4  w-full">
         <TouchableWithoutFeedback onPress={() => handlePress("entradas")}>

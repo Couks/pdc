@@ -44,7 +44,7 @@ export function Transaction({
 }: TransactionProps) {
   const dateObject = createdAt ? parseISO(createdAt) : null;
   const formattedDate = dateObject
-    ? format(dateObject, "LLL", { locale: ptBR })
+    ? format(dateObject, "PPP", { locale: ptBR })
     : "";
   const formattedTime = dateObject ? format(dateObject, "HH:mm") : "";
 
