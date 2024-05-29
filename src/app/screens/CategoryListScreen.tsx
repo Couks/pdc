@@ -1,14 +1,17 @@
+import { View } from "react-native";
 import { Header } from "@/components/ui/Header";
 import { Category } from "@/components/ui/Category";
-import { View } from "react-native";
 import { RoundedView } from "@/components/ui/RoundedView";
+import { AnalysisComponent } from "@/components/AnalysisComponent";
 
 export function CategoryListScreen() {
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header title="Categorias" style={{ height: 150 }} />
+      <Header title="Categorias" style={{ height: 270 }}>
+        <AnalysisComponent />
+      </Header>
       <RoundedView>
-        <View className="flex-1 flex-wrap p-6 gap-8">
+        <View className="flex-1 flex-wrap gap-4">
           <Category
             iconName="home"
             title="Moradia"
@@ -42,7 +45,7 @@ export function CategoryListScreen() {
 
           <Category
             iconName="shirt"
-            title="Despesas Pessoais"
+            title="Gastos Pessoais"
             description="Custos individuais, como roupas, produtos de higiene e cuidados pessoais."
           />
 
@@ -54,7 +57,7 @@ export function CategoryListScreen() {
 
           <Category
             iconName="add"
-            title="Outros Gastos"
+            title="Demais Gastos"
             description="Esta categoria abrange todas as despesas como impostos, presentes, seguros diversos, doações, taxas bancárias e etc."
           />
         </View>

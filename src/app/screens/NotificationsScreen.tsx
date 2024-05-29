@@ -1,6 +1,5 @@
-import { Header } from "@/components/ui/Header";
 import { Text, View } from "react-native";
-
+import { Header } from "@/components/ui/Header";
 import { Transactions } from "./transactions/Transactions";
 import { RoundedView } from "@/components/ui/RoundedView";
 import { useTransactions } from "@/hooks/useTransactions";

@@ -1,7 +1,12 @@
+import { Link } from "expo-router";
+import { formatString } from "@/lib/utils";
 import { Ionicons } from "@expo/vector-icons";
-import { Text, TouchableOpacity, View } from "react-native";
+import { useProfile } from "@/hooks/useProfile";
+import { Text, View } from "react-native";
 
-export function DashboardHeader({ navigation }) {
+export function DashboardHeader({ navigation }: { navigation: any }) {
+  const { userData } = useProfile();
+
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) {
@@ -13,22 +18,22 @@ export function DashboardHeader({ navigation }) {
     }
   };
 
+  const formattedName = formatString(userData?.firstName);
+
   return (
-    <View className="flex-row flex-1 justify-between items-center w-full">
-      <View className="items-start ">
-        <Text className="text-xl font-bold dark:text-green-500">
-          Olá, Bem Vindo De Volta!
+    <View className="flex-row justify-between items-center mb-8">
+      <View className="items-start">
+        <Text className="text-md font-semibold dark:text-green-200">
+          {getGreeting()}, {formattedName}
         </Text>
-        <Text className="text-md font-regular dark:text-green-200">
-          {getGreeting()}
+        <Text className="text-2xl font-bold dark:text-green-500">
+          Seja Bem Vindo!
         </Text>
       </View>
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate("NotificationsScreen")}
-      >
+      <Link href="/">
         <Ionicons name="notifications" color="white" size={24} />
-      </TouchableOpacity>
+      </Link>
     </View>
   );
 }

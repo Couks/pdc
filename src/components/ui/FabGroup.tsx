@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { useState } from "react";
 import { FAB, Portal } from "react-native-paper";
+import { CreateTransaction } from "@/app/screens/transactions/CreateTransaction";
 
 export function FabGroup() {
   const [state, setState] = useState({ open: false });
@@ -22,8 +23,9 @@ export function FabGroup() {
           {
             icon: "plus",
             label: "Adicionar Transação",
-            onPress: () =>
-              router.push("/screens/transactions/CreateTransaction"),
+            onPress: () => {
+              return <CreateTransaction />;
+            },
           },
 
           {

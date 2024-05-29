@@ -7,33 +7,15 @@ import { Input } from "@/components/ui/Input";
 import { TouchableOpacity } from "react-native";
 import { Button } from "@/components/ui/Button";
 import { Picker } from "@react-native-picker/picker";
+import SelectInput from "@/components/ui/SelectInput";
 import { TransactionProps } from "@/lib/transactionProps";
 import { SubmitHandler, FieldValues, useForm } from "react-hook-form";
 import { DialogContent, DialogTrigger, Dialog } from "@/components/ui/Dialog";
-
-const categoryIcons: { [key: string]: keyof typeof Ionicons.glyphMap } = {
-  GERAL: "add",
-  MORADIA: "home",
-  ALIMENTACAO: "fast-food",
-  TRANSPORTE: "bus",
-  SAUDE: "medical",
-  EDUCACAO: "school",
-  LAZER: "beer",
-  DESPESAS_PESSOAIS: "shirt",
-  ECONOMIAS: "cash",
-};
-
-const categoryNames: { [key: string]: string } = {
-  GERAL: "Gastos Gerais",
-  MORADIA: "Moradia",
-  ALIMENTACAO: "Alimentação",
-  TRANSPORTE: "Transporte",
-  SAUDE: "Saúde",
-  EDUCACAO: "Educação",
-  LAZER: "Lazer",
-  DESPESAS_PESSOAIS: "Despesas pessoais",
-  ECONOMIAS: "Economias",
-};
+import {
+  categoryIcons,
+  categoryNames,
+  categoryOptions,
+} from "@/utils/categoryIcons";
 
 export function Transaction({
   id,
@@ -67,7 +49,7 @@ export function Transaction({
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    return "teste";
+    return console.log(data);
   };
 
   const iconName = categoryIcons[categoria] || "alert-circle-outline";
@@ -122,6 +104,13 @@ export function Transaction({
                 {categoryName}
               </Text>
             </View>
+            <SelectInput
+              label="Selecione a categoria"
+              options={categoryOptions}
+              onValueChange={(newCategory) =>
+                setValue("categoria", newCategory)
+              }
+            />
             <Picker
               selectedValue={categoria}
               onValueChange={(newCategoria) =>

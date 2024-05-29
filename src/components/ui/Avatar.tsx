@@ -2,12 +2,14 @@ import { forwardRef, useState } from "react";
 import { Image, Text, View } from "react-native";
 
 import { cn } from "../../lib/utils";
+import Animated, { FlipInEasyY } from "react-native-reanimated";
 
 const Avatar = forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, ...props }, ref) => (
-  <View
+  <Animated.View
+    entering={FlipInEasyY.springify().delay(600).duration(5000)}
     ref={ref}
     className={cn(
       "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",

@@ -1,24 +1,24 @@
-import { Link } from "expo-router";
-import { Header } from "@/components/ui/Header";
 import { Text, View } from "react-native";
-import { Button } from "@/components/ui/Button";
-import { useToast } from "@/components/ui/Toast";
+import { formatString } from "@/lib/utils";
 import { Ionicons } from "@expo/vector-icons";
+import { Button } from "@/components/ui/Button";
 import { TouchableOpacity } from "react-native";
+import { useProfile } from "@/hooks/useProfile";
+import { Header } from "@/components/ui/Header";
+import { useToast } from "@/components/ui/Toast";
 import { useAuth } from "@/hooks/auth/AuthContext";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
+import { RoundedView } from "@/components/ui/RoundedView";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
-import { useProfile } from "@/hooks/useProfile";
-import { RoundedView } from "@/components/ui/RoundedView";
-import { Skeleton } from "@/components/ui/Skeleton";
 
 export function ProfileScreen() {
   const { onLogout = () => {} } = useAuth();
   const { toast } = useToast();
 
-  const userData = useProfile();
+  const { userData } = useProfile();
 
   function handleLogout() {
     toast("Deslogando...", "destructive", 3000);
@@ -30,25 +30,16 @@ export function ProfileScreen() {
     }, 3000);
   }
 
-  function formatString(name: string | null | undefined) {
-    if (!name) {
-      return "Usuário";
-    }
-
-    return name.replace(/(?:^|\s)[a-z]/g, function (letter: string) {
-      return letter.toUpperCase();
-    });
-  }
-
   const formattedFirstName = formatString(userData?.firstName);
   const formattedLastName = formatString(userData?.lastName);
 
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
       <Header title="Perfil" style={{ height: 250 }} />
+
       <RoundedView>
         <View className="flex-col items-center justify-around h-full">
-          <View className="items-center gap-2">
+          <View className="items-center justify-center gap-2">
             <Animated.View
               entering={FlipInEasyX.springify().damping(2).duration(2000)}
               style={{ marginTop: -110 }}
@@ -75,7 +66,7 @@ export function ProfileScreen() {
               </View>
             ) : (
               <Animated.Text
-                entering={FadeInDown.springify().delay(400).duration(1000)}
+                entering={FadeInDown.springify().delay(400)}
                 className="dark:text-white text-purple-800 font-bold text-3xl "
               >
                 {formattedFirstName} {formattedLastName}
@@ -86,7 +77,7 @@ export function ProfileScreen() {
               <Skeleton className="w-72 h-8 mb-2" />
             ) : (
               <Animated.Text
-                entering={FadeInDown.springify().delay(600).duration(1000)}
+                entering={FadeInDown.springify().delay(600)}
                 className="dark:text-gray-400 text-gray-600 text-xl"
               >
                 {userData?.email}
@@ -97,15 +88,19 @@ export function ProfileScreen() {
               <Skeleton className="w-32 h-8" />
             ) : (
               <Animated.Text
-                entering={FadeInDown.springify().delay(800).duration(1000)}
+                entering={FadeInDown.springify().delay(800)}
                 className="dark:text-gray-100 text-gray-500 text-lg"
               >
-                @{userData?.apelido}
+                <Ionicons name="at" size={24} color="gray" />
+                {userData?.apelido}
               </Animated.Text>
             )}
           </View>
 
-          <View className="items-center gap-8">
+          <Animated.View
+            entering={FadeInDown.springify().delay(1000)}
+            className="items-center gap-8"
+          >
             <Dialog>
               <DialogTrigger>
                 <TouchableOpacity
@@ -143,8 +138,11 @@ export function ProfileScreen() {
                 </View>
               </DialogContent>
             </Dialog>
+          </Animated.View>
+
+          <Animated.View entering={FadeInDown.springify().delay(1200)}>
             <ToggleTheme />
-          </View>
+          </Animated.View>
         </View>
       </RoundedView>
     </View>

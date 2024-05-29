@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 interface RoundedViewProps {
   children: React.ReactNode;
@@ -6,8 +6,11 @@ interface RoundedViewProps {
 
 export function RoundedView({ children }: RoundedViewProps) {
   return (
-    <View className="flex-1 bg-white dark:bg-purple-800 items-center p-6 gap-4 rounded-t-[30px]">
+    <Animated.View
+      entering={FadeInDown.delay(400).duration(800).springify()}
+      className="flex-1 bg-white dark:bg-purple-800 items-center justify-center p-6 gap-4 rounded-t-[30px]"
+    >
       {children}
-    </View>
+    </Animated.View>
   );
 }

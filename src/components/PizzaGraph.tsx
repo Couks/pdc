@@ -3,20 +3,9 @@ import { View, Text, Dimensions } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { useTransactions } from "@/hooks/useTransactions";
 import { Transactions } from "@/app/screens/transactions/Transactions";
+import { categoryNames } from "@/utils/categoryIcons";
 
 const screenWidth = Dimensions.get("window").width;
-
-const categoryNames: { [key: string]: string } = {
-  GERAL: "Gastos Gerais",
-  MORADIA: "Moradia",
-  ALIMENTACAO: "Alimentação",
-  TRANSPORTE: "Transporte",
-  SAUDE: "Saúde",
-  EDUCACAO: "Educação",
-  LAZER: "Lazer",
-  DESPESAS_PESSOAIS: "Despesas pessoais",
-  ECONOMIAS: "Economias",
-};
 
 const fixedColors = [
   "#FF5733", // Laranja
@@ -30,11 +19,18 @@ const fixedColors = [
   "#7a5195", // Roxo médio
 ];
 
-const generateColor = (index) => {
+const generateColor = (index: number) => {
   return fixedColors[index % fixedColors.length];
 };
 
-const calculateArc = (value, total, radius, cx, cy, startAngle) => {
+const calculateArc = (
+  value: number,
+  total: number,
+  radius: number,
+  cx: number,
+  cy: number,
+  startAngle: number
+) => {
   const angle = (value / total) * 360;
   const endAngle = startAngle + angle;
 
@@ -52,7 +48,12 @@ const calculateArc = (value, total, radius, cx, cy, startAngle) => {
   return { path: pathData, endAngle };
 };
 
-const polarToCartesian = (cx, cy, radius, angleInDegrees) => {
+const polarToCartesian = (
+  cx: number,
+  cy: number,
+  radius: number,
+  angleInDegrees: number
+) => {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
   return {
     x: cx + radius * Math.cos(angleInRadians),
@@ -82,10 +83,10 @@ export function PizzaGraph() {
     if (transactions && transactions.length > 0) {
       const categoryMap: { [key: string]: number } = {};
       transactions.forEach((transaction) => {
-        if (categoryMap[transaction.categoria]) {
-          categoryMap[transaction.categoria] += transaction.valor;
+        if (categoryMap[transaction?.categoria]) {
+          categoryMap[transaction?.categoria] += transaction.valor;
         } else {
-          categoryMap[transaction.categoria] = transaction.valor;
+          categoryMap[transaction?.categoria] = transaction.valor;
         }
       });
 
@@ -170,8 +171,8 @@ export function PizzaGraph() {
             onRefresh={refetch}
             ListEmptyComponent={() => (
               <View className="items-center mt-4">
-                <Text className="text-lg text-gray-400 font-medium">
-                  Nenhuma transação encontrada.
+                <Text className="text-2xl text-gray-400 font-medium text-center">
+                  Envie uma transação para visualizar o gráfico
                 </Text>
               </View>
             )}

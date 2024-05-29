@@ -1,11 +1,10 @@
 import React from "react";
-import { FlatList, Text, View } from "react-native";
 import { Transaction } from "./Transaction";
-import { useTransactions } from "@/hooks/useTransactions";
+import { FlatList } from "react-native";
 import { TransactionProps } from "@/lib/transactionProps";
 
 interface TransactionsProps {
-  transactions: TransactionProps[];
+  transactions?: TransactionProps[] | undefined | null;
   isLoading?: boolean;
   onRefresh?: () => void;
   ListEmptyComponent?: React.ComponentType;

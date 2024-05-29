@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { TextInput, TextInputProps, View } from "react-native";
 import { useColorScheme } from "nativewind";
+import { TextInput, TextInputProps, View } from "react-native";
 
 import colors from "tailwindcss/colors";
 
@@ -14,7 +14,7 @@ export function Input({ iconName, ...rest }: InputProps) {
   return (
     <View className="flex-row items-center justify-center bg-green-200 px-6 py-2 gap-2 rounded-2xl">
       <TextInput
-        placeholderTextColor={colors.purple[900]}
+        placeholderTextColor={colors.gray[800]}
         className="text-gray-800 text-lg flex-1"
         {...rest}
       />

@@ -1,13 +1,11 @@
-import { useEffect } from "react";
-import { View } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
-
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 export function Skeleton({ className, ...props }: { className?: string }) {
   const fadeAnim = useSharedValue(0.5);

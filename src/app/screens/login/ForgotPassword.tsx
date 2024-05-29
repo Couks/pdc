@@ -1,9 +1,13 @@
 import { View } from "react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import { useForm, Controller } from "react-hook-form";
-import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Header } from "@/components/ui/Header";
+import { Button } from "@/components/ui/Button";
+import { useForm, Controller } from "react-hook-form";
+import Animated, { FadeInDown } from "react-native-reanimated";
+
+interface FormData {
+  email: string;
+}
 
 export function ForgotPassword({ navigation }: { navigation: any }) {
   const {
@@ -12,9 +16,7 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
     formState: { errors },
   } = useForm({});
 
-  function handleForgotPassoword(data: any) {
-    console.log(data);
-  }
+  const handleForgotPassoword = (data: FormData) => console.log(data);
 
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">

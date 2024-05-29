@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { Animated, Text, View } from "react-native";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 import { cn } from "../../lib/utils";
 
@@ -109,7 +109,6 @@ interface ToastContextProps {
 }
 const ToastContext = createContext<ToastContextProps | undefined>(undefined);
 
-// TODO: refactor to pass position to Toast instead of ToastProvider
 function ToastProvider({
   children,
   position = "top",

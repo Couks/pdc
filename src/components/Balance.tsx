@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import Animated, {
   BounceInLeft,
   BounceInRight,
   SlideInUp,
   FadeIn,
 } from "react-native-reanimated";
+import { Text, View } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
 import { TouchableWithoutFeedback } from "react-native";
 import { useTransactions } from "@/hooks/useTransactions";
 import { TransactionProps } from "@/lib/transactionProps";
@@ -26,10 +26,10 @@ export function Balance({ onFilterChange }: BalanceProps) {
   useEffect(() => {
     const entradas = transactions
       ?.filter((transaction) => transaction.entrada_saida === "entrada")
-      .reduce((total, transaction) => total + transaction.valor, 0);
+      .reduce((total, transaction) => total + transaction?.valor, 0);
     const saidas = transactions
       ?.filter((transaction) => transaction.entrada_saida === "saida")
-      .reduce((total, transaction) => total + transaction.valor, 0);
+      .reduce((total, transaction) => total + transaction?.valor, 0);
 
     setTotalEntradas(entradas || 0);
     setTotalSaidas(saidas || 0);
@@ -38,7 +38,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
 
   const handlePress = (filter: string) => {
     setSelectedFilter(filter);
-    let filteredTransactions: TransactionProps[] | null | undefined = [];
+    let filteredTransactions: TransactionProps[] | undefined | null = [];
 
     switch (filter) {
       case "entradas":
@@ -62,13 +62,13 @@ export function Balance({ onFilterChange }: BalanceProps) {
 
   return (
     <Animated.View
-      entering={FadeIn.duration(1000).springify()}
+      entering={FadeIn.delay(200).springify()}
       className="items-center justify-center gap-4"
     >
       <TouchableWithoutFeedback onPress={() => handlePress("default")}>
         <Animated.View
-          entering={SlideInUp.duration(1000)}
-          className="bg-white py-2 rounded-xl items-center w-full"
+          entering={SlideInUp.delay(400)}
+          className="bg-white py-2 px-8 rounded-xl items-center w-full"
         >
           <Text className="text-lg font-semibold text-purple-800">
             Balanço Total
@@ -79,12 +79,12 @@ export function Balance({ onFilterChange }: BalanceProps) {
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      <View className="flex-row gap-4  w-full">
+      <View className="flex-row gap-4 w-full">
         <TouchableWithoutFeedback onPress={() => handlePress("entradas")}>
           <Animated.View
-            entering={BounceInLeft.duration(1000).springify()}
-            className={`bg-white py-2 px-6 rounded-xl items-center ${
-              selectedFilter === "entradas" && "bg-purple-400"
+            entering={BounceInLeft.delay(600).springify()}
+            className={`bg-white px-8 py-2 rounded-xl items-center  ${
+              selectedFilter === "entradas" && "bg-gray-400"
             }`}
           >
             <View className="flex-row gap-1 self-start">
@@ -102,7 +102,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
               </Text>
             </View>
             <Text
-              className={`font-semibold text-green-500 text-xl ${
+              className={`font-semibold text-green-500 text-2xl ${
                 selectedFilter === "entradas" && "text-white"
               }`}
             >
@@ -113,9 +113,9 @@ export function Balance({ onFilterChange }: BalanceProps) {
 
         <TouchableWithoutFeedback onPress={() => handlePress("saidas")}>
           <Animated.View
-            entering={BounceInRight.duration(1000).springify()}
-            className={`bg-white py-2 px-6 rounded-xl items-center ${
-              selectedFilter === "saidas" && "bg-purple-400"
+            entering={BounceInRight.delay(600).springify()}
+            className={`bg-white px-8 py-2 rounded-xl items-center ${
+              selectedFilter === "saidas" && "bg-gray-400"
             }`}
           >
             <View className="flex-row gap-1 self-start">
@@ -134,7 +134,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
             </View>
 
             <Text
-              className={`font-semibold text-red-500 text-xl ${
+              className={`font-semibold text-red-500 text-2xl ${
                 selectedFilter === "saidas" && "text-white"
               }`}
             >

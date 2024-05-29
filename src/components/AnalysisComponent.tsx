@@ -1,34 +1,32 @@
-import { useState } from "react";
 import { Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import transactionsData from "@/assets/transactionsData.json";
 import { useTransactions } from "@/hooks/useTransactions";
+import Animated, { FlipInEasyX } from "react-native-reanimated";
 
 export function AnalysisComponent() {
   const { transactions } = useTransactions();
 
-  const totalByCategory = transactions?.reduce(
-    (acc: { [key: string]: number }, transaction) => {
+  const totalByCategory: { [key: string]: number } = transactions?.reduce(
+    (acc, transaction) => {
       const { categoria, valor, entrada_saida } = transaction;
       if (entrada_saida === "saida") {
         acc[categoria] = (acc[categoria] || 0) + valor;
       }
       return acc;
     },
-    {}
+    {} as { [key: string]: number }
   );
 
-  const sortedCategories = Object.entries(totalByCategory).sort(
-    (a, b) => b[1] - a[1]
-  );
+  const sortedCategories = totalByCategory
+    ? Object.entries(totalByCategory).sort((a, b) => b[1] - a[1])
+    : [];
 
   const [highestCategory, secondHighestCategory] = sortedCategories;
-  console.log(sortedCategories);
 
   return (
-    <View
-      className="flex-row gap-4 bg-green-500 px-4 py-2 rounded-3xl items-center justify-around"
-      style={{ marginTop: -70 }}
+    <Animated.View
+      entering={FlipInEasyX}
+      className="flex-row gap-4 bg-purple-500 dark:bg-green-500 p-2 rounded-3xl items-center justify-around"
     >
       <View className="gap-2 items-center justify-center m-4">
         <View className="items-center justify-center rounded-full bg-transparent border-2 size-20 border-white">
@@ -59,6 +57,6 @@ export function AnalysisComponent() {
         ))}
         <View className="bg-white rounded-full h-[2px] w-full" />
       </View>
-    </View>
+    </Animated.View>
   );
 }

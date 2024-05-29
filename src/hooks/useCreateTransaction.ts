@@ -7,7 +7,6 @@ import { useToast } from "@/components/ui/Toast";
 interface UseCreateTransactionResult {
   isLoading: boolean;
   error: Error | null;
-  createdTransaction: TransactionProps | null;
   createTransaction: (
     newTransactionData: Omit<TransactionProps, "id">
   ) => Promise<void>;
@@ -17,8 +16,7 @@ export const useCreateTransaction = (): UseCreateTransactionResult => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
-  const [createdTransaction, setCreatedTransaction] =
-    useState<TransactionProps | null>(null);
+  useState<TransactionProps | null>(null);
 
   const createTransaction = async (
     newTransactionData: Omit<TransactionProps, "id">
@@ -29,7 +27,9 @@ export const useCreateTransaction = (): UseCreateTransactionResult => {
         `${API_URL}/movimentacao`,
         newTransactionData
       );
-      setCreatedTransaction(response.data);
+      if (response.data) {
+        console.log(response.data);
+      }
       toast("Transação criada com sucesso!", "success", 3000);
     } catch (error) {
       setError(error as Error);
@@ -39,5 +39,5 @@ export const useCreateTransaction = (): UseCreateTransactionResult => {
     }
   };
 
-  return { isLoading, error, createdTransaction, createTransaction };
+  return { isLoading, error, createTransaction };
 };

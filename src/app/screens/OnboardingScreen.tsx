@@ -1,15 +1,12 @@
-import { Button } from "@/components/ui/Button";
-import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
 import Animated, {
   FadeInDown,
   FadeInUp,
-  FadeOutDown,
-  FadeOutUp,
   PinwheelIn,
-  PinwheelOut,
 } from "react-native-reanimated";
 import Swiper from "react-native-swiper";
+import { Text, View } from "react-native";
+import { Button } from "@/components/ui/Button";
+import React, { useEffect, useState } from "react";
 
 const swiperData = [
   {
@@ -51,8 +48,7 @@ export function OnboardingScreen({ navigation }: { navigation: any }) {
         <View key={index} className="flex-1">
           <View className="flex-1 bg-green-500 dark:bg-green-700 items-center">
             <Animated.Text
-              entering={FadeInUp.duration(1000).springify()}
-              exiting={FadeOutUp.duration(1200).springify()}
+              entering={FadeInUp.springify()}
               className="font-bold text-3xl pt-16 px-12 text-center text-purple-800 dark:text-white"
             >
               {item.title}
@@ -60,16 +56,14 @@ export function OnboardingScreen({ navigation }: { navigation: any }) {
             <View className="w-full bottom-0 h-3/4 rounded-t-[30px] bg-white dark:bg-purple-800 items-center justify-center gap-12 absolute">
               <View className="items-center justify-center bg-green-200 rounded-full w-60 h-60 overflow-visible">
                 <Animated.Image
-                  entering={PinwheelIn.delay(400).duration(1000).springify()}
-                  exiting={PinwheelOut.delay(400).duration(1000)}
+                  entering={PinwheelIn.delay(400).springify()}
                   source={item.image}
                   style={{ width: 230, height: 200, resizeMode: "cover" }}
                 />
               </View>
 
               <Animated.View
-                entering={FadeInDown.duration(1000).springify()}
-                exiting={FadeOutDown.duration(600).springify()}
+                entering={FadeInDown.springify()}
                 className="items-center justify-center gap-6"
               >
                 <Text className="text-3xl font-bold text-purple-800 dark:text-white">

@@ -7,6 +7,7 @@ import { ProfileScreen } from "@/app/screens/ProfileScreen";
 import { CategoryListScreen } from "@/app/screens/CategoryListScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TransactionsScreen } from "@/app/screens/transactions/TransactionsScreen";
+import { CreateTransaction } from "@/app/screens/transactions/CreateTransaction";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,13 +18,10 @@ export default function TabRoutes() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        headerTitleAlign: "center",
         tabBarShowLabel: false,
-
-        tabBarActiveTintColor: colorScheme == "light" ? "white" : "white",
-        tabBarInactiveTintColor: colorScheme == "light" ? "#052224" : "white",
         tabBarHideOnKeyboard: true,
-
+        tabBarActiveTintColor: colorScheme == "light" ? "#052224" : "#47286C",
+        tabBarInactiveTintColor: colorScheme == "light" ? "#052224" : "white",
         tabBarStyle: {
           backgroundColor: colorScheme == "light" ? "#DFF7E2" : "#47286C",
           borderTopWidth: 0,
@@ -95,6 +93,25 @@ export default function TabRoutes() {
               );
             }
             return <Ionicons name="grid-outline" color={color} size={size} />;
+          },
+        }}
+      />
+
+      <Tab.Screen
+        name="CreateTransaction"
+        component={CreateTransaction}
+        options={{
+          tabBarIcon: ({ color, size, focused }) => {
+            if (focused) {
+              return (
+                <View className="items-center justify-center size-14 bg-green-500 rounded-3xl ">
+                  <Ionicons name="add-circle" color={color} size={size} />
+                </View>
+              );
+            }
+            return (
+              <Ionicons name="add-circle-outline" color={color} size={size} />
+            );
           },
         }}
       />

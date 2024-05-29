@@ -1,5 +1,5 @@
-import { cloneElement, createContext, useContext, useState } from "react";
 import { Modal, TouchableOpacity, View } from "react-native";
+import { cloneElement, createContext, useContext, useState } from "react";
 
 import { cn } from "../../lib/utils";
 
@@ -37,7 +37,7 @@ function DialogContent({
   return (
     <Modal
       transparent
-      animationType="slide"
+      animationType="fade"
       visible={open}
       onRequestClose={() => setOpen(false)}
     >

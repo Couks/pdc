@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { View } from "react-native";
 import { StyleSheet } from "react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 interface Props {
   title?: string;
@@ -12,16 +12,16 @@ interface Props {
 export function Header({ title, children, style }: Props) {
   return (
     <View
-      className="items-center justify-center bg-green-500 dark:bg-green-700 px-8 gap-4"
+      className="items-center justify-center bg-green-500 dark:bg-green-700 px-8 gap-4 mt-8"
       style={[styles.header, style]}
     >
       <Animated.Text
-        entering={FadeInDown.delay(200).duration(1000).springify()}
+        entering={FadeInUp.delay(200).springify()}
         className="dark:text-white text-purple-800 font-bold text-3xl"
       >
         {title}
       </Animated.Text>
-      <View>{children}</View>
+      <View className="w-full">{children}</View>
     </View>
   );
 }

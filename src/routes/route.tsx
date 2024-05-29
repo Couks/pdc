@@ -1,7 +1,7 @@
 import TabRoutes from "./tab.routes";
 import StackRoutes from "./stack.routes";
+import { StatusBar } from "expo-status-bar";
 import { useAuth } from "@/hooks/auth/AuthContext";
-import { PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 
 export default function Routes() {
@@ -9,8 +9,11 @@ export default function Routes() {
 
   return (
     <NavigationContainer independent={true}>
-      {authState?.authenticated ? (
-        <TabRoutes />
+      {!authState?.authenticated ? (
+        <>
+          <TabRoutes />
+          <StatusBar style="auto" translucent animated />
+        </>
       ) : (
         <>
           <StackRoutes />

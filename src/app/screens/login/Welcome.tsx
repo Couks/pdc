@@ -22,8 +22,7 @@ export function Home({ navigation }: { navigation: any }) {
     >
       <View className="items-center gap-4">
         <Animated.Image
-          entering={BounceIn.delay(500).duration(1000).easing(Easing.ease)}
-          exiting={BounceInDown.delay(500)}
+          entering={BounceIn.delay(500).easing(Easing.ease)}
           source={require("@/assets/images/logo.png")}
           alt="Logo"
           style={{
@@ -40,10 +39,7 @@ export function Home({ navigation }: { navigation: any }) {
           What's Your Finances
         </Animated.Text>
 
-        <Animated.View
-          entering={BounceInLeft.delay(600)}
-          exiting={BounceOutRight.delay(600)}
-        >
+        <Animated.View entering={BounceInLeft.delay(600)}>
           <Button
             label="Entrar"
             variant="default"
@@ -53,10 +49,7 @@ export function Home({ navigation }: { navigation: any }) {
           />
         </Animated.View>
 
-        <Animated.View
-          entering={BounceInRight.delay(800)}
-          exiting={BounceOutLeft.delay(800)}
-        >
+        <Animated.View entering={BounceInRight.delay(800)}>
           <Button
             label="Criar Conta"
             variant="light"
@@ -67,7 +60,7 @@ export function Home({ navigation }: { navigation: any }) {
 
         <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
           <Animated.Text
-            entering={BounceIn.springify().delay(600).duration(1000)}
+            entering={BounceIn.springify().delay(600)}
             className="dark:text-white text-lg text-purple-800 font-bold"
           >
             Esqueceu sua senha?

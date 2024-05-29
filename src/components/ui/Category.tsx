@@ -1,8 +1,8 @@
-import { Dialog, DialogTrigger, DialogContent } from "./Dialog";
-import { TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { Text } from "react-native";
-import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity, View } from "react-native";
+import Animated, { StretchInY } from "react-native-reanimated";
+import { Dialog, DialogTrigger, DialogContent } from "./Dialog";
 
 interface CategoryProps {
   iconName: string;
@@ -15,19 +15,19 @@ export function Category({ iconName, title, description }: CategoryProps) {
     <Dialog>
       <DialogTrigger>
         <TouchableOpacity
-          style={{ alignItems: "center", gap: 6, width: "100%" }}
+          style={{ alignItems: "center", gap: 12, width: "100%" }}
         >
           <Animated.View
-            entering={FlipInEasyX.delay(400).duration(2000).springify()}
+            entering={StretchInY.delay(400).duration(2000).springify()}
             className="bg-green-500 dark:bg-purple-500 rounded-3xl items-center justify-center"
             style={{
-              width: 90,
-              height: 90,
+              width: 100,
+              height: 70,
             }}
           >
             <Ionicons name={iconName} size={40} color="white" />
           </Animated.View>
-          <Text className="text-purple-800 dark:text-white text-xs">
+          <Text className="text-purple-800 dark:text-white text-sm text-center">
             {title}
           </Text>
         </TouchableOpacity>

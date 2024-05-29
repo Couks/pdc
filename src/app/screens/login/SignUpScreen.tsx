@@ -1,20 +1,27 @@
-import { Link } from "expo-router";
-import { Header } from "@/components/ui/Header";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
-import { Loading } from "@/components/ui/Loading";
-import { ToastProvider, useToast } from "@/components/ui/Toast";
-
-import { useForm, Controller } from "react-hook-form";
 import Animated, {
   FadeInUp,
   FadeInDown,
   FadeInRight,
   FadeInLeft,
 } from "react-native-reanimated";
-import { useAuth } from "@/hooks/auth/AuthContext";
 import { useState } from "react";
+import { Input } from "@/components/ui/Input";
+import { Header } from "@/components/ui/Header";
+import { Button } from "@/components/ui/Button";
+import { Loading } from "@/components/ui/Loading";
+import { useAuth } from "@/hooks/auth/AuthContext";
+import { useForm, Controller } from "react-hook-form";
+import { ToastProvider, useToast } from "@/components/ui/Toast";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
+
+interface FormData {
+  email: string;
+  DDDtelefone: string;
+  password: string;
+  apelido: string;
+  firstName: string;
+  lastName: string;
+}
 
 export function SignUpScreen({ navigation }: { navigation: any }) {
   const { toast } = useToast();
@@ -27,38 +34,37 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({});
+  } = useForm<FormData>({});
 
-  async function handleSignUp(data: {
-    email: string;
-    password: string;
-    apelido: string;
-    firstName: string;
-    lastName: string;
-    DDDtelefone: string;
-  }) {
+  const handleSignUp = async (data: FormData) => {
     setLoading(true);
-    const result = await onRegister!(
-      data.email,
-      data.password,
-      data.apelido,
-      data.firstName,
-      data.lastName,
-      data.DDDtelefone
-    );
-    setLoading(false);
 
-    if (result && result.error) {
-      Alert.alert(result.msg);
-    } else {
-      setSuccess(true);
-      toast("Conta criada com sucesso!", "success", 3000);
+    try {
+      const result = await onRegister!(
+        data.email,
+        data.password,
+        data.apelido,
+        data.firstName,
+        data.lastName,
+        data.DDDtelefone
+      );
+      setLoading(false);
 
-      setTimeout(() => {
-        navigation.navigate("SignInScreen");
-      }, 3000);
+      if (result && result.error) {
+        Alert.alert(result.msg);
+      } else {
+        setSuccess(true);
+        toast("Conta criada com sucesso!", "success", 3000);
+
+        setTimeout(() => {
+          navigation.navigate("SignInScreen");
+        }, 3000);
+      }
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Erro ao criar conta", error);
     }
-  }
+  };
 
   return (
     <ToastProvider>
@@ -79,7 +85,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
               <View className="mx-6 gap-4">
                 <View className="items-center justify-center gap-4 mb-4">
                   <Animated.View
-                    entering={FadeInUp.delay(0).duration(1000).springify()}
+                    entering={FadeInUp.delay(0).springify()}
                     className="w-full"
                   >
                     <Controller
@@ -93,58 +99,83 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                       }}
                       name="email"
                       render={({ field: { onChange, onBlur, value } }) => (
-                        <Input
-                          onChangeText={onChange}
-                          onBlur={onBlur}
-                          value={value}
-                          iconName="mail-outline"
-                          keyboardType="email-address"
-                          autoComplete="email"
-                          placeholder="Digite seu endereço de e-mail"
-                        />
+                        <>
+                          <Input
+                            onChangeText={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            iconName="mail-outline"
+                            keyboardType="email-address"
+                            autoComplete="email"
+                            placeholder="Digite seu endereço de e-mail"
+                          />
+                          {errors.email && (
+                            <Text className="text-red-500">
+                              {errors.email.message?.toString()}
+                            </Text>
+                          )}
+                        </>
                       )}
                     />
                   </Animated.View>
                   <Animated.View
-                    entering={FadeInUp.delay(200).duration(1000).springify()}
+                    entering={FadeInUp.delay(200).springify()}
                     className="w-full"
                   >
                     <Controller
                       control={control}
+                      rules={{
+                        required: "O número de telefone é obrigatório",
+                      }}
                       name="DDDtelefone"
                       render={({ field: { onChange, onBlur, value } }) => (
-                        <Input
-                          onChangeText={onChange}
-                          onBlur={onBlur}
-                          value={value}
-                          iconName="logo-whatsapp"
-                          keyboardType="phone-pad"
-                          placeholder="Digite seu numero de WhatsApp"
-                        />
+                        <>
+                          <Input
+                            onChangeText={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            iconName="logo-whatsapp"
+                            keyboardType="phone-pad"
+                            placeholder="Digite seu numero de WhatsApp"
+                          />
+                          {errors.DDDtelefone && (
+                            <Text className="text-red-500">
+                              {errors.DDDtelefone.message?.toString()}
+                            </Text>
+                          )}
+                        </>
                       )}
                     />
                   </Animated.View>
                   <Animated.View
-                    entering={FadeInUp.delay(400).duration(1000).springify()}
+                    entering={FadeInUp.delay(400).springify()}
                     className="w-full"
                   >
                     <Controller
                       control={control}
+                      rules={{ required: "A senha é obrigatória" }}
                       name="password"
                       render={({ field: { onChange, onBlur, value } }) => (
-                        <Input
-                          onChangeText={onChange}
-                          onBlur={onBlur}
-                          value={value}
-                          iconName="key"
-                          secureTextEntry={true}
-                          placeholder="Digite sua senha"
-                        />
+                        <>
+                          <Input
+                            onChangeText={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            iconName="key"
+                            secureTextEntry={true}
+                            placeholder="Digite sua senha"
+                          />
+                          {errors.password && (
+                            <Text className="text-red-500">
+                              {errors.password.message?.toString()}
+                            </Text>
+                          )}
+                        </>
                       )}
                     />
                   </Animated.View>
                   <Animated.View
-                    entering={FadeInUp.delay(600).duration(1000).springify()}
+                    entering={FadeInUp.delay(600).springify()}
                     className="w-full"
                   >
                     <Controller
@@ -164,9 +195,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
 
                   <View className="flex-row gap-4 justify-between w-full">
                     <Animated.View
-                      entering={FadeInLeft.delay(800)
-                        .duration(1000)
-                        .springify()}
+                      entering={FadeInLeft.delay(800).springify()}
                       className="flex-1"
                     >
                       <Controller
@@ -183,9 +212,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                       />
                     </Animated.View>
                     <Animated.View
-                      entering={FadeInRight.delay(800)
-                        .duration(1000)
-                        .springify()}
+                      entering={FadeInRight.delay(800).springify()}
                       className="flex-1"
                     >
                       <Controller
@@ -206,37 +233,17 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
 
                 {/* Botão de Login*/}
                 <Animated.View
-                  entering={FadeInUp.delay(1200).duration(1000).springify()}
+                  entering={FadeInUp.delay(1200).springify()}
                   className="items-center"
                 >
                   <Button
                     label="Criar Conta"
-                    onPress={(data) =>
-                      handleSubmit(async (formData) => {
-                        const {
-                          email,
-                          password,
-                          apelido,
-                          firstName,
-                          lastName,
-                          DDDtelefone,
-                        } = formData;
-                        await handleSignUp({
-                          email,
-                          password,
-                          apelido,
-                          firstName,
-                          lastName,
-                          DDDtelefone,
-                        });
-                      })
-                    }
+                    onPress={handleSubmit(handleSignUp)}
                   />
                 </Animated.View>
 
-                {/* Esqueceu sua senha?*/}
                 <Animated.View
-                  entering={FadeInDown.delay(1400).duration(1000).springify()}
+                  entering={FadeInDown.delay(1400).springify()}
                   className="w-full items-center"
                 >
                   <Text className="text-purple-800 dark:text-white">
@@ -245,7 +252,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                 </Animated.View>
 
                 <Animated.View
-                  entering={FadeInDown.delay(1600).duration(1000).springify()}
+                  entering={FadeInDown.delay(1600).springify()}
                   className="w-full items-center -mt-4"
                 >
                   <TouchableOpacity

@@ -1,20 +1,20 @@
-import { Link } from "expo-router";
-import { Header } from "@/components/ui/Header";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
-import { useAuth } from "@/hooks/auth/AuthContext";
 import {
   useForm,
   Controller,
   SubmitHandler,
   FieldValues,
 } from "react-hook-form";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
-import { handleAuthentication } from "@/hooks/auth/AuthBiometry";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+
 import { useState } from "react";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Header } from "@/components/ui/Header";
 import { useToast } from "@/components/ui/Toast";
 import { Loading } from "@/components/ui/Loading";
+import { useAuth } from "@/hooks/auth/AuthContext";
+import { handleAuthentication } from "@/hooks/auth/AuthBiometry";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 interface FormData {
   DDDtelefone: string;
@@ -70,11 +70,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
         {/* Formulário*/}
         <View className="mx-6 gap-4">
           <View className="items-center gap-4 mb-8">
-            <Animated.View
-              entering={FadeInUp.duration(1000).springify()}
-              exiting={FadeInDown.duration(1000).springify()}
-              className="w-full"
-            >
+            <Animated.View entering={FadeInUp.springify()} className="w-full">
               <Controller
                 control={control}
                 rules={{ required: true }}
@@ -94,8 +90,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
             </Animated.View>
 
             <Animated.View
-              entering={FadeInUp.delay(200).duration(1000).springify()}
-              exiting={FadeInDown.duration(1000).springify()}
+              entering={FadeInUp.delay(200).springify()}
               className="w-full"
             >
               <Controller
@@ -119,8 +114,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
           <View className="items-center justify-center gap-6">
             {/* Botão de Login*/}
             <Animated.View
-              entering={FadeInUp.delay(400).duration(1000).springify()}
-              exiting={FadeInDown.duration(1000).springify()}
+              entering={FadeInUp.delay(400).springify()}
               className="items-center"
             >
               {loading ? (
@@ -133,8 +127,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
             </Animated.View>
             {/* Esqueceu sua senha?*/}
             <Animated.View
-              entering={FadeInUp.delay(600).duration(1000).springify()}
-              exiting={FadeInDown.duration(1000).springify()}
+              entering={FadeInUp.delay(600).springify()}
               className="w-full items-center"
             >
               <TouchableOpacity
@@ -146,10 +139,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
               </TouchableOpacity>
             </Animated.View>
 
-            <Animated.View
-              entering={FadeInUp.delay(800).duration(1000).springify()}
-              exiting={FadeInDown.duration(1000).springify()}
-            >
+            <Animated.View entering={FadeInUp.delay(800).springify()}>
               <Button
                 label="Cadastre-se"
                 variant="light"
@@ -158,8 +148,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
             </Animated.View>
 
             <Animated.View
-              entering={FadeInUp.delay(1000).duration(1000).springify()}
-              exiting={FadeInDown.duration(1000).springify()}
+              entering={FadeInUp.delay(1000).springify()}
               className="items-center flex-row"
             >
               <Text className="text-purple-800 dark:text-white font-semibold text-md">

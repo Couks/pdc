@@ -2,8 +2,6 @@ import { Slot } from "expo-router";
 import { AuthProvider } from "@/hooks/auth/AuthContext";
 import { ToastProvider } from "@/components/ui/Toast";
 
-import { ScrollView } from "react-native";
-
 export default function RootLayout() {
   return (
     <AuthProvider>

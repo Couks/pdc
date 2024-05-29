@@ -55,7 +55,7 @@ export function DashboardScreen() {
 
   return (
     <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header style={{ height: 150 }}>
+      <Header style={{ height: 100 }}>
         <DashboardHeader navigation={undefined} />
       </Header>
 
@@ -71,7 +71,9 @@ export function DashboardScreen() {
             >
               <Text
                 className={`font-bold text-xl ${
-                  selectedFilter === "day" ? "text-purple-800 " : "text-white"
+                  selectedFilter === "day"
+                    ? "text-purple-800"
+                    : "text-purple-800 dark:text-white"
                 }`}
               >
                 Dia
@@ -89,7 +91,9 @@ export function DashboardScreen() {
             >
               <Text
                 className={`font-bold text-xl ${
-                  selectedFilter === "week" ? "text-purple-800 " : "text-white"
+                  selectedFilter === "week"
+                    ? "text-purple-800"
+                    : "text-purple-800 dark:text-white"
                 }`}
               >
                 Semana
@@ -107,7 +111,9 @@ export function DashboardScreen() {
             >
               <Text
                 className={`font-bold text-xl ${
-                  selectedFilter === "month" ? "text-purple-800 " : "text-white"
+                  selectedFilter === "month"
+                    ? "text-purple-800"
+                    : "text-purple-800 dark:text-white"
                 }`}
               >
                 Mês

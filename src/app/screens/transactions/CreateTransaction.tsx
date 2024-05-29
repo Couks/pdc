@@ -1,15 +1,23 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import axios from "axios";
+import { Link } from "expo-router";
+import React, { useState } from "react";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Header } from "@/components/ui/Header";
+import { View, Alert, Text } from "react-native";
 import { API_URL } from "@/hooks/auth/AuthContext";
+import SelectInput from "@/components/ui/SelectInput";
+import { RoundedView } from "@/components/ui/RoundedView";
+import { categoryOptions, typeOptions } from "@/utils/categoryIcons";
 import { useCreateTransaction } from "@/hooks/useCreateTransaction";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 export function CreateTransaction() {
   const { createTransaction, isLoading, error, createdTransaction } =
     useCreateTransaction();
+
   const [transaction, setTransaction] = useState({
     entrada_saida: "",
-    conta: "",
     valor: null,
     categoria: "",
   });
@@ -24,7 +32,6 @@ export function CreateTransaction() {
         `${API_URL}/movimentacao/`,
         transaction
       );
-      console.log(response.data);
       Alert.alert("Transação criada com sucesso!");
     } catch (error) {
       console.error("Erro ao criar transação:", error);
@@ -32,53 +39,70 @@ export function CreateTransaction() {
     }
   };
 
+  const [selectedValue, setSelectedValue] = useState(null);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Criar Transação</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Entrada ou Saída"
-        onChangeText={(text) => handleInputChange("entrada_saida", text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Conta"
-        onChangeText={(text) => handleInputChange("conta", text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Valor"
-        keyboardType="numeric"
-        onChangeText={(text) => handleInputChange("valor", Number(text))}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Categoria"
-        onChangeText={(text) => handleInputChange("categoria", text)}
-      />
-      <Button title="Enviar" onPress={handleSubmit} />
+    <View className="flex-1 bg-green-500 dark:bg-green-700">
+      <Header title="Criar Transação" style={{ height: 150 }} />
+
+      <RoundedView>
+        <View>
+          <Animated.Text
+            entering={FadeInDown.delay(1000).duration(800).springify()}
+            className="dark:text-white text-purple-800 text-center text-md mb-8"
+          >
+            O WhatsApp é nosso canal principal de entrada!{" "}
+            <Link href={"/chatbot"}>
+              <Text className="text-green-500">
+                Clique aqui para falar com nosso chatbot{" "}
+              </Text>
+            </Link>
+          </Animated.Text>
+
+          <Animated.Text
+            entering={FadeInDown.delay(800).duration(800).springify()}
+            className="dark:text-white text-purple-800 text-center text-xl mb-8"
+          >
+            Preencha os campos abaixo para registrar uma nova transação pelo
+            app. Depois, clique em Enviar.
+          </Animated.Text>
+        </View>
+
+        <View className="w-full gap-4">
+          <Animated.View entering={FadeInUp.delay(200).springify()}>
+            <SelectInput
+              label="Selecione o tipo de transação"
+              options={typeOptions}
+              onValueChange={(itemValue) =>
+                handleInputChange("entrada_saida", itemValue)
+              }
+            />
+          </Animated.View>
+
+          <Animated.View entering={FadeInUp.delay(400).springify()}>
+            <SelectInput
+              label="Selecione a categoria"
+              options={categoryOptions}
+              onValueChange={(itemValue) =>
+                handleInputChange("categoria", itemValue)
+              }
+            />
+          </Animated.View>
+
+          <Animated.View entering={FadeInUp.delay(600).springify()}>
+            <Input
+              placeholder="Digite o valor da transação"
+              keyboardType="numeric"
+              iconName="cash-outline"
+              onChangeText={(text) => handleInputChange("valor", Number(text))}
+            />
+          </Animated.View>
+
+          <Animated.View entering={FadeInUp.delay(800).springify()}>
+            <Button label="Enviar" onPress={handleSubmit} className="w-full" />
+          </Animated.View>
+        </View>
+      </RoundedView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  input: {
-    width: "80%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
-  },
-});
