@@ -34,7 +34,7 @@ const SelectInput = ({
   };
 
   return (
-    <View className="items-center justify-center bg-green-200 rounded-2xl">
+    <View className="items-center justify-center bg-primary-200 rounded-3xl">
       <TouchableOpacity
         style={{
           width: "100%",
@@ -61,16 +61,17 @@ const SelectInput = ({
         <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
           <View className="flex-1 justify-center bg-black/70">
             <TouchableWithoutFeedback>
-              <View className="m-8 bg-white rounded-2xl p-4 max-h-[50%]">
+              <View className="m-8 bg-white rounded-3xl p-4 max-h-[50%]">
                 <FlatList
                   data={options}
                   keyExtractor={(item) => item.value.toString()}
+                  showsVerticalScrollIndicator={false}
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       style={{ paddingVertical: 6 }}
                       onPress={() => handleOptionPress(item)}
                     >
-                      <Text className="bg-gray-500/20 px-3 py-2 rounded-xl text-center text-xl">
+                      <Text className="bg-gray-500/20 px-3 py-2 rounded-3xl text-center text-xl">
                         {item.label}
                       </Text>
                     </TouchableOpacity>

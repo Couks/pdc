@@ -6,12 +6,12 @@ import { AnalysisComponent } from "@/components/AnalysisComponent";
 
 export function CategoryListScreen() {
   return (
-    <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header title="Categorias" style={{ height: 270 }}>
+    <View className="flex-1 bg-primary-500 dark:bg-primary-800">
+      <Header style={{ height: 150 }}>
         <AnalysisComponent />
       </Header>
       <RoundedView>
-        <View className="flex-1 flex-wrap gap-4">
+        <View className="flex-wrap gap-4">
           <Category
             iconName="home"
             title="Moradia"

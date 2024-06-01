@@ -9,11 +9,11 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
-const buttonVariants = cva("items-center justify-center rounded-2xl py-2", {
+const buttonVariants = cva("items-center justify-center rounded-3xl py-2", {
   variants: {
     variant: {
-      default: "bg-green-500 ",
-      light: "bg-green-200 ",
+      default: "bg-primary-500 ",
+      light: "bg-primary-200 ",
     },
     size: {
       default: "px-8",
@@ -31,7 +31,7 @@ const buttonTextVariants = cva("text-center font-bold", {
   variants: {
     variant: {
       default: "text-white",
-      light: "text-green-700",
+      light: "text-primary-800",
     },
     size: {
       default: "text-xl",

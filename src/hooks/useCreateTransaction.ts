@@ -1,12 +1,12 @@
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { API_URL } from "@/hooks/auth/AuthContext";
 import { TransactionProps } from "@/lib/transactionProps";
 import { useToast } from "@/components/ui/Toast";
 
 interface UseCreateTransactionResult {
   isLoading: boolean;
-  error: Error | null;
+  error: string | null;
   createTransaction: (
     newTransactionData: Omit<TransactionProps, "id">
   ) => Promise<void>;
@@ -15,13 +15,13 @@ interface UseCreateTransactionResult {
 export const useCreateTransaction = (): UseCreateTransactionResult => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
-  useState<TransactionProps | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const createTransaction = async (
     newTransactionData: Omit<TransactionProps, "id">
   ) => {
     setIsLoading(true);
+    setError(null);
     try {
       const response = await axios.post<TransactionProps>(
         `${API_URL}/movimentacao`,
@@ -30,10 +30,20 @@ export const useCreateTransaction = (): UseCreateTransactionResult => {
       if (response.data) {
         console.log(response.data);
       }
-      toast("Transação criada com sucesso!", "success", 3000);
+      toast("Transação criada!", "success", 2000);
     } catch (error) {
-      setError(error as Error);
-      toast("Erro ao criar transação!", "destructive", 3000);
+      if (axios.isAxiosError(error)) {
+        // Erro do Axios
+        const axiosError = error as AxiosError<{ message: string }>;
+        const errorMessage =
+          axiosError.response?.data.message || "Erro ao criar transação.";
+        setError(errorMessage);
+        toast(errorMessage, "destructive", 2000);
+      } else {
+        // Outro tipo de erro
+        setError("Erro desconhecido.");
+        toast("Erro desconhecido.", "destructive", 2000);
+      }
     } finally {
       setIsLoading(false);
     }

@@ -5,7 +5,7 @@ export function Loading() {
   return (
     <ActivityIndicator
       className="flex-1"
-      color={colors.green[500]}
+      color={colors.primary[500]}
       size="large"
     />
   );

@@ -1,7 +1,6 @@
 import { View, Switch } from "react-native";
 import { useColorScheme } from "nativewind";
-
-import colors from "tailwindcss/colors";
+import { colors as defaultColors } from "@/assets/styles/colors";
 import { Feather } from "@expo/vector-icons";
 
 export function ToggleTheme() {
@@ -13,12 +12,17 @@ export function ToggleTheme() {
         name="moon"
         size={20}
         color={colorScheme === "light" ? "black" : "white"}
-        className="text-purple-700"
+        className="text-secondary-700"
       />
       <Switch
-        trackColor={{ true: colors.green[700], false: colors.purple[500] }}
+        trackColor={{
+          true: defaultColors.primary[700],
+          false: defaultColors.secondary[600],
+        }}
         thumbColor={
-          colorScheme === "light" ? colors.green[500] : colors.purple[700]
+          colorScheme === "light"
+            ? defaultColors.primary[500]
+            : defaultColors.secondary[400]
         }
         onValueChange={toggleColorScheme}
         value={colorScheme === "light"}
@@ -28,7 +32,7 @@ export function ToggleTheme() {
         name="sun"
         size={22}
         color={colorScheme === "light" ? "black" : "white"}
-        className="text-purple-700"
+        className="text-secondary-700"
       />
     </View>
   );

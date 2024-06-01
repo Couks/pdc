@@ -54,30 +54,29 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
         Alert.alert(result.msg);
       } else {
         setSuccess(true);
-        toast("Conta criada com sucesso!", "success", 3000);
+        toast("Conta criada com sucesso!", "success", 2000);
 
         setTimeout(() => {
           navigation.navigate("SignInScreen");
-        }, 3000);
+        }, 2000);
       }
     } catch (error) {
       setLoading(false);
-      Alert.alert("Erro ao criar conta", error);
     }
   };
 
   return (
     <ToastProvider>
-      <View className="flex-1 bg-green-500 dark:bg-green-700">
-        <Header title="Criar Conta" style={{ height: 200 }} />
+      <View className="flex-1 bg-primary-500 dark:bg-primary-800">
+        <Header style={{ height: 50 }} />
 
         {loading ? (
           <Loading />
         ) : (
-          <View className="flex-1 justify-center bg-white dark:bg-purple-800 rounded-t-[30px]">
+          <View className="flex-1 justify-center bg-white dark:bg-secondary-800 rounded-t-[30px]">
             {success ? (
               <View className="flex-1 items-center justify-center gap-6 px-8">
-                <Text className="dark:text-white text-green-500 text-3xl text-center">
+                <Text className="dark:text-white text-primary-500 text-3xl text-center">
                   Parabens, sua conta foi criada!
                 </Text>
               </View>
@@ -246,7 +245,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                   entering={FadeInDown.delay(1400).springify()}
                   className="w-full items-center"
                 >
-                  <Text className="text-purple-800 dark:text-white">
+                  <Text className="text-secondary-800 dark:text-white">
                     Já tem uma conta?
                   </Text>
                 </Animated.View>
@@ -258,7 +257,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                   <TouchableOpacity
                     onPress={() => navigation.navigate("SignInScreen")}
                   >
-                    <Text className="text-green-500 ">
+                    <Text className="text-primary-500 ">
                       Clique para realizar seu login
                     </Text>
                   </TouchableOpacity>

@@ -27,10 +27,10 @@ export const useUpdateTransaction = (): UseUpdateTransactionResult => {
         transaction
       );
       setUpdatedTransaction(response.data);
-      toast("Transação atualizada com sucesso!", "success", 3000);
+      toast("Transação atualizada com sucesso!", "success", 2000);
     } catch (error) {
       setError(error as Error);
-      toast("Erro ao atualizar transação!", "destructive", 3000);
+      toast("Erro ao atualizar transação!", "destructive", 2000);
     } finally {
       setIsLoading(false);
     }

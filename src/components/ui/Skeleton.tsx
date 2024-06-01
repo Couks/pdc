@@ -16,12 +16,12 @@ export function Skeleton({ className, ...props }: { className?: string }) {
   });
 
   useEffect(() => {
-    fadeAnim.value = withRepeat(withTiming(1, { duration: 400 }), -1, true);
+    fadeAnim.value = withRepeat(withTiming(1, { duration: 1000 }), -1, true);
   }, []);
 
   return (
     <Animated.View
-      className={cn("bg-gray-400 rounded-full", className)}
+      className={cn("bg-gray-400 rounded-3xl", className)}
       style={[animatedStyle]}
       {...props}
     />

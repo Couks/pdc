@@ -1,140 +1,204 @@
-import { useEffect, useState } from "react";
 import { Header } from "@/components/ui/Header";
-import { useTransactions } from "@/hooks/useTransactions";
 import { RoundedView } from "@/components/ui/RoundedView";
-import { TransactionProps } from "@/lib/transactionProps";
-import { Transactions } from "./transactions/Transactions";
 import { DashboardHeader } from "@/components/DashboardHeader";
-import { Text, TouchableWithoutFeedback, View } from "react-native";
-import { format, isToday, isSameWeek, isSameMonth } from "date-fns";
+import { Text, View, ScrollView, ActivityIndicator } from "react-native";
+import PieChart from "@/components/ui/PieChart";
+import { useState, useEffect } from "react";
+import { useTransactions } from "@/hooks/useTransactions";
 
 export function DashboardScreen() {
-  const { transactions, isLoading, refetch } = useTransactions();
-  const [filteredTransactions, setFilteredTransactions] = useState<
-    TransactionProps[]
-  >([]);
-  const [selectedFilter, setSelectedFilter] = useState<
-    "day" | "week" | "month"
-  >("day");
+  const { transactions, isLoading, error } = useTransactions();
+  const [selectedSlice, setSelectedSlice] = useState(null);
 
-  useEffect(() => {
-    filterTransactions(selectedFilter);
-  }, [selectedFilter, transactions]);
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
 
-  const filterTransactions = (period: "day" | "week" | "month") => {
-    const today = new Date();
+  const data = transactions
+    ? transactions.reduce((acc, transaction) => {
+        const category = acc.find(
+          (item) => item.label === transaction.categoria
+        );
+        if (category) {
+          category.value += transaction.valor;
+        } else {
+          acc.push({
+            label: transaction.categoria,
+            value: transaction.valor,
+            color: getRandomColor(),
+          });
+        }
+        return acc;
+      }, [])
+    : [];
 
-    const filtered = transactions?.filter((transaction) => {
-      const transactionDate = transaction?.createdAt
-        ? new Date(transaction.createdAt)
-        : null;
-
-      if (!transactionDate) {
-        return false;
-      }
-
-      switch (period) {
-        case "day":
-          return isToday(transactionDate);
-        case "week":
-          return isSameWeek(transactionDate, today);
-        case "month":
-          return isSameMonth(transactionDate, today);
-
-        default:
-          return false;
-      }
-    });
-
-    setFilteredTransactions(filtered);
-  };
-
-  const handleFilterChange = (period: "day" | "week" | "month") => {
-    setSelectedFilter(period);
+  const handleSlicePress = (slice) => {
+    setSelectedSlice(slice);
   };
 
   return (
-    <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header style={{ height: 100 }}>
+    <View className="flex-1 bg-primary-500 dark:bg-primary-800">
+      <Header style={{ height: 200 }}>
         <DashboardHeader navigation={undefined} />
       </Header>
 
       <RoundedView>
-        <View className="flex-row p-4 bg-green-200 dark:bg-purple-600 w-full rounded-2xl justify-around">
-          <TouchableWithoutFeedback onPress={() => handleFilterChange("day")}>
-            <View
-              className={`py-2 px-8 rounded-2xl ${
-                selectedFilter === "day"
-                  ? "bg-green-500 "
-                  : "bg-green-200 dark:bg-purple-600"
-              }`}
-            >
-              <Text
-                className={`font-bold text-xl ${
-                  selectedFilter === "day"
-                    ? "text-purple-800"
-                    : "text-purple-800 dark:text-white"
-                }`}
-              >
-                Dia
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-
-          <TouchableWithoutFeedback onPress={() => handleFilterChange("week")}>
-            <View
-              className={`py-2 px-8 rounded-2xl ${
-                selectedFilter === "week"
-                  ? "bg-green-500"
-                  : "bg-green-200 dark:bg-purple-600"
-              }`}
-            >
-              <Text
-                className={`font-bold text-xl ${
-                  selectedFilter === "week"
-                    ? "text-purple-800"
-                    : "text-purple-800 dark:text-white"
-                }`}
-              >
-                Semana
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-
-          <TouchableWithoutFeedback onPress={() => handleFilterChange("month")}>
-            <View
-              className={`py-2 px-8 rounded-2xl ${
-                selectedFilter === "month"
-                  ? "bg-green-500"
-                  : "bg-green-200 dark:bg-purple-600"
-              }`}
-            >
-              <Text
-                className={`font-bold text-xl ${
-                  selectedFilter === "month"
-                    ? "text-purple-800"
-                    : "text-purple-800 dark:text-white"
-                }`}
-              >
-                Mês
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-
-        <Transactions
-          transactions={filteredTransactions}
-          isLoading={isLoading}
-          onRefresh={refetch}
-          ListEmptyComponent={() => (
-            <View className="flex-center items-center mt-10">
-              <Text className="text-xl text-gray-500 dark:text-gray-200 font-medium">
-                Nenhuma transação encontrada.
-              </Text>
-            </View>
-          )}
-        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View className="flex-1 gap-4">
+            <Economies transactions={transactions} />
+            <MonthlyEconomy transactions={transactions} />
+            <LatestExpenses transactions={transactions} />
+            <ExpensesByCategory data={data} onSlicePress={handleSlicePress} />
+            {selectedSlice && <SliceDetails slice={selectedSlice} />}
+          </View>
+        </ScrollView>
       </RoundedView>
     </View>
   );
 }
+
+const getRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+const Economies = ({ transactions }) => {
+  const totalReceitas = transactions
+    .filter((t) => t.entrada_saida === "entrada")
+    .reduce((sum, t) => sum + t.valor, 0);
+  const totalDespesas = transactions
+    .filter((t) => t.entrada_saida === "saida")
+    .reduce((sum, t) => sum + t.valor, 0);
+
+  return (
+    <View className="flex-row w-full h-52 rounded-3xl p-6 bg-gray-800 dark:bg-primary-900">
+      <View className="flex-col justify-between w-1/2">
+        <Text className="text-white marker:dark:text-gray-400 text-xl">
+          Economia
+        </Text>
+      </View>
+      <View className="flex-col justify-between w-1/2 gap-2">
+        <View>
+          <Text className="text-gray-200 dark:text-gray-600 text-sm">
+            Receitas consideradas
+          </Text>
+          <Text className="text-green-500 text-xl font-bold">
+            R$ {totalReceitas.toFixed(2)}
+          </Text>
+        </View>
+
+        <View>
+          <Text className="text-gray-200 dark:text-gray-600 text-sm">
+            Despesas consideradas
+          </Text>
+          <Text className="text-red-500 text-xl font-bold">
+            R$ {totalDespesas.toFixed(2)}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const MonthlyEconomy = ({ transactions }) => {
+  const totalReceitas = transactions
+    .filter((t) => t.entrada_saida === "entrada")
+    .reduce((sum, t) => sum + t.valor, 0);
+  const totalDespesas = transactions
+    .filter((t) => t.entrada_saida === "saida")
+    .reduce((sum, t) => sum + t.valor, 0);
+  const economia = totalReceitas - totalDespesas;
+  const economiaPercentual =
+    totalDespesas !== 0 ? (economia / totalReceitas) * 100 : 0;
+
+  return (
+    <View className="bg-gray-800 p-4 rounded-lg mt-4">
+      <Text className="text-white text-lg">Economia mensal</Text>
+      <View className="flex-row justify-between items-center mt-2">
+        <Text className="text-green-500 text-2xl">
+          {economiaPercentual.toFixed(0)}%
+        </Text>
+        <Text className="text-white text-xl">R$ {economia.toFixed(2)}</Text>
+      </View>
+      <View className="flex-row justify-between items-center mt-2">
+        <Text className="text-green-500">Receitas consideradas</Text>
+        <Text className="text-green-500">R$ {totalReceitas.toFixed(2)}</Text>
+      </View>
+      <View className="flex-row justify-between items-center mt-2">
+        <Text className="text-red-500">Despesas consideradas</Text>
+        <Text className="text-red-500">R$ {totalDespesas.toFixed(2)}</Text>
+      </View>
+      <Text className="text-white mt-2">Você está indo bem!</Text>
+    </View>
+  );
+};
+
+const LatestExpenses = ({ transactions }) => {
+  const latestTransactions = transactions.slice(-3).reverse();
+
+  return (
+    <View className="bg-gray-800 p-4 rounded-lg mt-4">
+      <Text className="text-white text-lg">Últimas despesas</Text>
+      {latestTransactions.map((transaction, index) => (
+        <ExpenseItem
+          key={index}
+          category={transaction.categoria}
+          amount={`R$ ${transaction.valor.toFixed(2)}`}
+          time={new Date(transaction.createdAt).toLocaleTimeString()}
+        />
+      ))}
+    </View>
+  );
+};
+
+const ExpenseItem = ({ category, amount, time }) => (
+  <View className="flex-row justify-between items-center mt-2">
+    <View className="flex-row items-center">
+      <View className="bg-yellow-500 w-4 h-4 rounded-full mr-2" />
+      <Text className="text-white">{category}</Text>
+    </View>
+    <Text className="text-white">{amount}</Text>
+    <Text className="text-gray-400">{time}</Text>
+  </View>
+);
+
+const ExpensesByCategory = ({ data, onSlicePress }) => (
+  <View className="bg-gray-800 p-4 rounded-lg mt-4">
+    <Text className="text-white text-lg">Despesas por categoria</Text>
+    <PieChart data={data} onSlicePress={onSlicePress} />
+    <View className="mt-4">
+      {data.map((item, index) => (
+        <View
+          key={index}
+          className="flex-row justify-between items-center mt-2"
+        >
+          <View className="flex-row items-center">
+            <View
+              className={`w-4 h-4 rounded-full mr-2`}
+              style={{ backgroundColor: item.color }}
+            />
+            <Text className="text-white">{item.label}</Text>
+          </View>
+          <Text className="text-white">
+            {(
+              (item.value / data.reduce((sum, item) => sum + item.value, 0)) *
+              100
+            ).toFixed(0)}
+            %
+          </Text>
+        </View>
+      ))}
+    </View>
+  </View>
+);
+
+const SliceDetails = ({ slice }) => (
+  <View className="bg-gray-800 p-4 rounded-lg mt-4">
+    <Text className="text-white text-lg">{slice.label}</Text>
+    <Text className="text-white">{`R$ ${slice.value.toFixed(2)}`}</Text>
+  </View>
+);

@@ -18,7 +18,7 @@ export function Home({ navigation }: { navigation: any }) {
   return (
     <Animated.View
       entering={FadeIn.delay(100).duration(200)}
-      className="h-full items-center justify-center bg-white gap-4 dark:bg-green-700"
+      className="h-full items-center justify-center bg-white gap-4 dark:bg-primary-800"
     >
       <View className="items-center gap-4">
         <Animated.Image
@@ -34,7 +34,7 @@ export function Home({ navigation }: { navigation: any }) {
 
         <Animated.Text
           entering={FlipInEasyX.springify().delay(600).duration(20000)}
-          className="text-purple-800 dark:text-white font-medium text-[20px] text-center w-60"
+          className="text-secondary-800 dark:text-white font-medium text-[20px] text-center w-60"
         >
           What's Your Finances
         </Animated.Text>
@@ -61,7 +61,7 @@ export function Home({ navigation }: { navigation: any }) {
         <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
           <Animated.Text
             entering={BounceIn.springify().delay(600)}
-            className="dark:text-white text-lg text-purple-800 font-bold"
+            className="dark:text-white text-lg text-secondary-800 font-bold"
           >
             Esqueceu sua senha?
           </Animated.Text>

@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils";
 const toastVariants = {
   default: "bg-foreground",
   destructive: "bg-red-500",
-  success: "bg-green-600",
+  success: "bg-primary-600",
   info: "bg-blue-500",
 };
 
@@ -53,7 +53,7 @@ function Toast({
     <Animated.View
       className={`
         ${toastVariants[variant]}
-         mb-2 py-4 px-8 rounded-2xl
+         mb-2 py-4 px-8 rounded-3xl
       `}
       style={{
         opacity,

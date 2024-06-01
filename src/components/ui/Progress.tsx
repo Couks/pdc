@@ -4,14 +4,15 @@ type Props = {
   percentage: number;
 };
 
-export function Progress({ percentage }: Props) {
+export function Progress() {
+  const percentage = 22;
   const width = percentage > 100 ? 100 : percentage;
-  const value = percentage.toFixed(0) + "%";
+  const value = percentage + "%";
 
   return (
-    <View className="w-full h-7 rounded-full bg-purple-700 overflow-hidden flex-row items-center">
+    <View className="w-full h-7 rounded-full bg-secondary-700 overflow-hidden flex-row items-center">
       <View
-        className="h-7 items-end justify-center rounded-full bg-purple-500"
+        className="h-7 items-end justify-center rounded-full bg-secondary-500"
         style={{ width: `${width}%` }}
       >
         {percentage >= 60 && (

@@ -60,22 +60,22 @@ export function Transaction({
       <DialogTrigger>
         <TouchableOpacity key={id}>
           <View className="flex-row items-center px-1 py-6 gap-4">
-            <View className="items-center justify-center size-14 bg-green-500 dark:bg-purple-500 rounded-3xl">
+            <View className="items-center justify-center size-14 bg-primary-500 dark:bg-secondary-500 rounded-3xl">
               <Ionicons name={iconName} size={24} color="white" />
             </View>
             <View className="flex-1 jusitify-center">
-              <Text className="font-semibold text-lg dark:text-white text-green-500">
+              <Text className="font-semibold text-lg dark:text-white text-primary-500">
                 {categoryName}
               </Text>
               <View>
-                <Text className="dark:text-purple-500 text-purple-800 text-xs font-semibold">
+                <Text className="dark:text-secondary-500 text-secondary-800 text-xs font-semibold">
                   {formattedTime} - {formattedDate}
                 </Text>
               </View>
             </View>
 
             <Text
-              className="font-semibold text-purple-500 dark:text-white"
+              className="font-semibold text-secondary-500 dark:text-white"
               style={{
                 fontSize: 18,
               }}
@@ -88,7 +88,7 @@ export function Transaction({
       </DialogTrigger>
 
       <DialogContent>
-        <View className="w-96 mx-auto bg-green-500 dark:bg-green-700 rounded-3xl p-8 shadow-lg">
+        <View className="w-96 mx-auto bg-primary-500 dark:bg-primary-800 rounded-3xl p-8 shadow-lg">
           <Text className="font-bold text-3xl text-white mb-6 text-center">
             Editar Transação
           </Text>

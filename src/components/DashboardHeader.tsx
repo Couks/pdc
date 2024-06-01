@@ -21,19 +21,15 @@ export function DashboardHeader({ navigation }: { navigation: any }) {
   const formattedName = formatString(userData?.firstName);
 
   return (
-    <View className="flex-row justify-between items-center mb-8">
+    <View className="items-start">
       <View className="items-start">
-        <Text className="text-md font-semibold dark:text-green-200">
+        <Text className="text-md font-semibold text-secondary-800 dark:text-primary-200">
           {getGreeting()}, {formattedName}
         </Text>
-        <Text className="text-2xl font-bold dark:text-green-500">
+        <Text className="text-2xl font-bold text-secondary-600 dark:text-primary-500">
           Seja Bem Vindo!
         </Text>
       </View>
-
-      <Link href="/">
-        <Ionicons name="notifications" color="white" size={24} />
-      </Link>
     </View>
   );
 }

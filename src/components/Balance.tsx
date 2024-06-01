@@ -5,11 +5,13 @@ import Animated, {
   FadeIn,
 } from "react-native-reanimated";
 import { Text, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { TouchableWithoutFeedback } from "react-native";
 import { useTransactions } from "@/hooks/useTransactions";
 import { TransactionProps } from "@/lib/transactionProps";
+import { Pressable } from "react-native";
+import { colors as defaultColors } from "@/assets/styles/colors";
+import colors from "tailwindcss/colors";
 
 interface BalanceProps {
   onFilterChange: (filteredTransactions: TransactionProps[]) => void;
@@ -61,88 +63,69 @@ export function Balance({ onFilterChange }: BalanceProps) {
   };
 
   return (
-    <Animated.View
-      entering={FadeIn.delay(200).springify()}
-      className="items-center justify-center gap-4"
-    >
-      <TouchableWithoutFeedback onPress={() => handlePress("default")}>
+    <Animated.View entering={FadeIn.delay(400).springify()} className="gap-2">
+      <Pressable onPress={() => handlePress("default")}>
         <Animated.View
-          entering={SlideInUp.delay(400)}
-          className="bg-white py-2 px-8 rounded-xl items-center w-full"
+          entering={BounceInRight.delay(600)}
+          className="flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl shadow"
         >
-          <Text className="text-lg font-semibold text-purple-800">
-            Balanço Total
-          </Text>
-          <Text className="font-bold text-2xl text-purple-500">
+          <View className="flex-row gap-2 justify-center items-center">
+            <Ionicons name="wallet" size={38} color={colors.blue[500]} />
+            <Text className="text-2xl font-semibold text-secondary-800">
+              Saldo
+            </Text>
+          </View>
+          <Text className="font-bold text-2xl text-blue-500">
             R$ {balance?.toFixed(2)}
           </Text>
         </Animated.View>
-      </TouchableWithoutFeedback>
+      </Pressable>
 
-      <View className="flex-row gap-4 w-full">
-        <TouchableWithoutFeedback onPress={() => handlePress("entradas")}>
-          <Animated.View
-            entering={BounceInLeft.delay(600).springify()}
-            className={`bg-white px-8 py-2 rounded-xl items-center  ${
-              selectedFilter === "entradas" && "bg-gray-400"
-            }`}
-          >
-            <View className="flex-row gap-1 self-start">
-              <Feather
-                name="arrow-up-right"
-                size={24}
-                color={selectedFilter === "entradas" ? "white" : "black"}
-              />
-              <Text
-                className={`text-lg font-semibold text-purple-800 ${
-                  selectedFilter === "entradas" && "text-white"
-                }`}
-              >
-                Entradas
-              </Text>
-            </View>
-            <Text
-              className={`font-semibold text-green-500 text-2xl ${
-                selectedFilter === "entradas" && "text-white"
-              }`}
-            >
-              R$ {totalEntradas?.toFixed(2)}
+      <Pressable onPress={() => handlePress("entradas")}>
+        <Animated.View
+          entering={BounceInLeft.delay(800).springify()}
+          className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl shadow ${
+            selectedFilter === "entradas" &&
+            "border-4 border-primary-600 dark:border-secondary-500"
+          }`}
+        >
+          <View className="flex-row gap-2 justify-center items-center">
+            <Ionicons
+              name="add-circle"
+              size={40}
+              color={defaultColors.primary[500]}
+            />
+            <Text className="text-2xl font-semibold text-secondary-800">
+              Receitas
             </Text>
-          </Animated.View>
-        </TouchableWithoutFeedback>
+          </View>
 
-        <TouchableWithoutFeedback onPress={() => handlePress("saidas")}>
-          <Animated.View
-            entering={BounceInRight.delay(600).springify()}
-            className={`bg-white px-8 py-2 rounded-xl items-center ${
-              selectedFilter === "saidas" && "bg-gray-400"
-            }`}
-          >
-            <View className="flex-row gap-1 self-start">
-              <Feather
-                name="arrow-down-right"
-                size={24}
-                color={selectedFilter === "saidas" ? "white" : "black"}
-              />
-              <Text
-                className={`text-lg font-semibold text-purple-800 ${
-                  selectedFilter === "saidas" && "text-white"
-                }`}
-              >
-                Saidas
-              </Text>
-            </View>
+          <Text className="font-semibold text-primary-500 text-2xl">
+            R$ {totalEntradas?.toFixed(2)}
+          </Text>
+        </Animated.View>
+      </Pressable>
 
-            <Text
-              className={`font-semibold text-red-500 text-2xl ${
-                selectedFilter === "saidas" && "text-white"
-              }`}
-            >
-              R$ {totalSaidas?.toFixed(2)}
+      <Pressable onPress={() => handlePress("saidas")}>
+        <Animated.View
+          entering={BounceInRight.delay(1000).springify()}
+          className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl shadow ${
+            selectedFilter === "saidas" &&
+            "border-4 border-primary-600 dark:border-secondary-500"
+          }`}
+        >
+          <View className="flex-row gap-2 justify-center items-center">
+            <Ionicons name="remove-circle" size={40} color={colors.red[500]} />
+            <Text className="text-2xl font-semibold text-secondary-800">
+              Despesas
             </Text>
-          </Animated.View>
-        </TouchableWithoutFeedback>
-      </View>
+          </View>
+
+          <Text className="font-semibold text-red-500 text-2xl">
+            R$ {totalSaidas?.toFixed(2)}
+          </Text>
+        </Animated.View>
+      </Pressable>
     </Animated.View>
   );
 }

@@ -104,7 +104,7 @@ export function PizzaGraph() {
     }
   }, [transactions]);
 
-  const radius = 90;
+  const radius = 80;
   const cx = screenWidth / 1.5;
   const cy = 100;
   let startAngle = 0;
@@ -159,7 +159,7 @@ export function PizzaGraph() {
               ).toFixed(2)}
               %
             </Text>
-            <Text className="text-purple-500 dark:text-green-500 font-bold text-xl">
+            <Text className="text-secondary-500 dark:text-primary-500 font-bold text-xl">
               {getFormattedCategoryName(selectedCategory)}
             </Text>
           </View>

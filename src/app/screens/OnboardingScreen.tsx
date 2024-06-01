@@ -46,15 +46,15 @@ export function OnboardingScreen({ navigation }: { navigation: any }) {
     >
       {swiperData.map((item, index) => (
         <View key={index} className="flex-1">
-          <View className="flex-1 bg-green-500 dark:bg-green-700 items-center">
+          <View className="flex-1 bg-primary-500 dark:bg-primary-800 items-center">
             <Animated.Text
               entering={FadeInUp.springify()}
-              className="font-bold text-3xl pt-16 px-12 text-center text-purple-800 dark:text-white"
+              className="font-bold text-3xl pt-16 px-12 text-center text-secondary-800 dark:text-white"
             >
               {item.title}
             </Animated.Text>
-            <View className="w-full bottom-0 h-3/4 rounded-t-[30px] bg-white dark:bg-purple-800 items-center justify-center gap-12 absolute">
-              <View className="items-center justify-center bg-green-200 rounded-full w-60 h-60 overflow-visible">
+            <View className="w-full bottom-0 h-3/4 rounded-t-[30px] bg-white dark:bg-secondary-800 items-center justify-center gap-12 absolute">
+              <View className="items-center justify-center bg-primary-200 rounded-full w-60 h-60 overflow-visible">
                 <Animated.Image
                   entering={PinwheelIn.delay(400).springify()}
                   source={item.image}
@@ -66,7 +66,7 @@ export function OnboardingScreen({ navigation }: { navigation: any }) {
                 entering={FadeInDown.springify()}
                 className="items-center justify-center gap-6"
               >
-                <Text className="text-3xl font-bold text-purple-800 dark:text-white">
+                <Text className="text-3xl font-bold text-secondary-800 dark:text-white">
                   Próximo
                 </Text>
 

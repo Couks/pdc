@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, TouchableHighlight, View } from "react-native";
 import { formatString } from "@/lib/utils";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "@/components/ui/Button";
@@ -21,31 +21,31 @@ export function ProfileScreen() {
   const { userData } = useProfile();
 
   function handleLogout() {
-    toast("Deslogando...", "destructive", 3000);
+    toast("Deslogando...", "destructive", 2000);
 
     setTimeout(() => {
       if (onLogout) {
         onLogout();
       }
-    }, 3000);
+    }, 2000);
   }
 
   const formattedFirstName = formatString(userData?.firstName);
   const formattedLastName = formatString(userData?.lastName);
 
   return (
-    <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header title="Perfil" style={{ height: 250 }} />
+    <View className="flex-1 bg-primary-500 dark:bg-primary-800 ">
+      <Header />
 
       <RoundedView>
         <View className="flex-col items-center justify-around h-full">
           <View className="items-center justify-center gap-2">
             <Animated.View
               entering={FlipInEasyX.springify().damping(2).duration(2000)}
-              style={{ marginTop: -110 }}
+              style={{ marginTop: -120 }}
             >
               <Avatar
-                className="border-4 border-green-500 dark:border-green-700"
+                className="border-4 border-primary-500 dark:border-primary-800"
                 style={{ height: 130, width: 130, backgroundColor: "#052224" }}
               >
                 <AvatarImage
@@ -67,7 +67,7 @@ export function ProfileScreen() {
             ) : (
               <Animated.Text
                 entering={FadeInDown.springify().delay(400)}
-                className="dark:text-white text-purple-800 font-bold text-3xl "
+                className="dark:text-white text-secondary-800 font-bold text-3xl "
               >
                 {formattedFirstName} {formattedLastName}
               </Animated.Text>
@@ -87,13 +87,15 @@ export function ProfileScreen() {
             {!userData?.apelido ? (
               <Skeleton className="w-32 h-8" />
             ) : (
-              <Animated.Text
+              <Animated.View
                 entering={FadeInDown.springify().delay(800)}
-                className="dark:text-gray-100 text-gray-500 text-lg"
+                className="flex-row items-end justify-center"
               >
-                <Ionicons name="at" size={24} color="gray" />
-                {userData?.apelido}
-              </Animated.Text>
+                <Ionicons name="at-circle-outline" size={18} color="white" />
+                <Text className="dark:text-gray-100 text-gray-500 text-xl ml-[1px]">
+                  {userData?.apelido}
+                </Text>
+              </Animated.View>
             )}
           </View>
 
@@ -111,12 +113,12 @@ export function ProfileScreen() {
                   }}
                 >
                   <View
-                    className="items-center justify-center bg-green-500 dark:bg-purple-500 rounded-3xl "
+                    className="items-center justify-center bg-primary-500 dark:bg-secondary-500 rounded-3xl "
                     style={{ height: 60, width: 60 }}
                   >
                     <Ionicons name="log-out-outline" color="white" size={30} />
                   </View>
-                  <Text className="text-2xl font-bold text-purple-800 dark:text-white">
+                  <Text className="text-2xl font-bold text-secondary-800 dark:text-white">
                     Sair
                   </Text>
                 </TouchableOpacity>

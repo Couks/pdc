@@ -19,7 +19,6 @@ export default function StackRoutes() {
         headerTitleStyle: {
           fontWeight: "bold",
         },
-        headerShown: false,
         statusBarStyle: colorScheme == "dark" ? "light" : "dark",
         statusBarColor: colorScheme == "light" ? "#00D09E" : "#052224",
         headerTitleAlign: "center",
@@ -50,19 +49,43 @@ export default function StackRoutes() {
       <Stack.Screen
         name="SignInScreen"
         component={SignInScreen}
-        options={{ title: "Bem Vindo" }}
+        options={{
+          title: "Bem Vindo",
+          headerTitleStyle: {
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "#fff",
+          },
+          headerShadowVisible: false,
+        }}
       />
 
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
-        options={{ title: "Criar Conta" }}
+        options={{
+          title: "Criar Conta",
+          headerTitleStyle: {
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "#fff",
+          },
+          headerShadowVisible: false,
+        }}
       />
 
       <Stack.Screen
         name="ForgotPassword"
         component={ForgotPassword}
-        options={{ title: "Esqueceu a senha?" }}
+        options={{
+          title: "Esqueceu a senha?",
+          headerTitleStyle: {
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "#fff",
+          },
+          headerShadowVisible: false,
+        }}
       />
     </Stack.Navigator>
   );

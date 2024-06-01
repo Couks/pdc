@@ -4,8 +4,8 @@ import { PizzaGraph } from "@/components/PizzaGraph";
 import { RoundedView } from "@/components/ui/RoundedView";
 export function AnalysisScreen() {
   return (
-    <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header style={{ height: 100 }} title="Análise de Gastos" />
+    <View className="flex-1 bg-primary-500 dark:bg-primary-800">
+      <Header />
       <RoundedView>
         <PizzaGraph />
       </RoundedView>

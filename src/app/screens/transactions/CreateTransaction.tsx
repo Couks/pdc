@@ -13,47 +13,43 @@ import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 export function CreateTransaction() {
-  const { createTransaction, isLoading, error, createdTransaction } =
-    useCreateTransaction();
+  const { createTransaction, isLoading, error } = useCreateTransaction();
 
   const [transaction, setTransaction] = useState({
     entrada_saida: "",
     valor: null,
+    conta: "",
     categoria: "",
   });
 
-  const handleInputChange = (name: string, value: number) => {
+  const handleInputChange = (name: string, value: any) => {
     setTransaction({ ...transaction, [name]: value });
   };
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        `${API_URL}/movimentacao/`,
-        transaction
-      );
-      Alert.alert("Transação criada com sucesso!");
-    } catch (error) {
-      console.error("Erro ao criar transação:", error);
-      Alert.alert("Falha ao criar transação.");
+      await createTransaction(transaction);
+      if (transaction) {
+        Alert.alert("Transação criada!");
+      }
+    } catch (error: any) {
+      console.log(error);
     }
   };
 
-  const [selectedValue, setSelectedValue] = useState(null);
-
   return (
-    <View className="flex-1 bg-green-500 dark:bg-green-700">
-      <Header title="Criar Transação" style={{ height: 150 }} />
+    <View className="flex-1 bg-primary-500 dark:bg-primary-800">
+      <Header style={{ height: 20 }} />
 
       <RoundedView>
         <View>
           <Animated.Text
             entering={FadeInDown.delay(1000).duration(800).springify()}
-            className="dark:text-white text-purple-800 text-center text-md mb-8"
+            className="dark:text-white text-secondary-800 text-center text-md mb-8"
           >
             O WhatsApp é nosso canal principal de entrada!{" "}
             <Link href={"/chatbot"}>
-              <Text className="text-green-500">
+              <Text className="text-primary-500">
                 Clique aqui para falar com nosso chatbot{" "}
               </Text>
             </Link>
@@ -61,7 +57,7 @@ export function CreateTransaction() {
 
           <Animated.Text
             entering={FadeInDown.delay(800).duration(800).springify()}
-            className="dark:text-white text-purple-800 text-center text-xl mb-8"
+            className="dark:text-white text-secondary-800 text-center text-xl mb-8"
           >
             Preencha os campos abaixo para registrar uma nova transação pelo
             app. Depois, clique em Enviar.
@@ -99,9 +95,23 @@ export function CreateTransaction() {
           </Animated.View>
 
           <Animated.View entering={FadeInUp.delay(800).springify()}>
-            <Button label="Enviar" onPress={handleSubmit} className="w-full" />
+            <Button
+              label="Enviar"
+              onPress={handleSubmit}
+              className="w-full"
+              disabled={isLoading}
+            />
           </Animated.View>
         </View>
+
+        {error && (
+          <Animated.Text
+            entering={FadeInUp.delay(1000).springify()}
+            className="text-red-500 text-center mt-4"
+          >
+            {error.message}
+          </Animated.Text>
+        )}
       </RoundedView>
     </View>
   );
