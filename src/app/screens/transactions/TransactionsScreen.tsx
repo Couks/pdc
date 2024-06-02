@@ -55,7 +55,7 @@ export function TransactionsScreen() {
 
   return (
     <View className="flex-1 bg-primary-500 dark:bg-primary-800">
-      <Header style={{ height: 180 }}>
+      <Header style={{ height: 160 }}>
         <Balance onFilterChange={handleFilterChange} />
       </Header>
 

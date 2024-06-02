@@ -7,7 +7,7 @@ import { AnalysisComponent } from "@/components/AnalysisComponent";
 export function CategoryListScreen() {
   return (
     <View className="flex-1 bg-primary-500 dark:bg-primary-800">
-      <Header style={{ height: 150 }}>
+      <Header style={{ height: 230 }}>
         <AnalysisComponent />
       </Header>
       <RoundedView>

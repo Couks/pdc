@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TransactionsScreen } from "@/app/screens/transactions/TransactionsScreen";
 import { CreateTransaction } from "@/app/screens/transactions/CreateTransaction";
 import { Text } from "react-native";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +21,7 @@ export default function TabRoutes() {
       screenOptions={{
         headerTintColor: colorScheme == "light" ? "#47286C" : "white",
         headerTitleAlign: "center",
-        headerStatusBarHeight: 20,
+        headerStatusBarHeight: 30,
         headerTitle(props) {
           return (
             <Animated.View

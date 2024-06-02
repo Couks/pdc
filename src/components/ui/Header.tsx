@@ -11,7 +11,7 @@ interface Props {
 export function Header({ children, style }: Props) {
   return (
     <View
-      className="justify-center bg-primary-500 dark:bg-primary-800 px-6 mt-4"
+      className="justify-center bg-primary-500 dark:bg-primary-800 px-4 mt-2 mb-2"
       style={[styles.header, style]}
     >
       {children}

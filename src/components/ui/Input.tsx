@@ -13,18 +13,18 @@ export function Input({ iconName, ...rest }: InputProps) {
   const { colorScheme } = useColorScheme();
 
   return (
-    <View className="flex-row items-center justify-center bg-primary-200 px-6 py-2 gap-2 rounded-3xl">
+    <View className="flex-row items-center justify-center bg-primary-200 dark:bg-secondary-500 px-6 py-2 gap-2 rounded-3xl">
       <TextInput
-        placeholderTextColor={colors.gray[800]}
-        className="text-gray-800 text-lg flex-1"
+        placeholderTextColor={
+          colorScheme == "light" ? colors.gray[800] : colors.gray[200]
+        }
+        className="text-gray-800 dark:text-white text-lg flex-1"
         {...rest}
       />
       <Ionicons
         name={iconName}
         size={18}
-        color={
-          colorScheme == "light" ? defaultColors.primary[500] : defaultColors.secondary[800]
-        }
+        color={colorScheme == "light" ? "black" : "white"}
       />
     </View>
   );

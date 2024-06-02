@@ -12,12 +12,11 @@ export function ToggleTheme() {
         name="moon"
         size={20}
         color={colorScheme === "light" ? "black" : "white"}
-        className="text-secondary-700"
       />
       <Switch
         trackColor={{
           true: defaultColors.primary[700],
-          false: defaultColors.secondary[600],
+          false: defaultColors.secondary[900],
         }}
         thumbColor={
           colorScheme === "light"
@@ -32,7 +31,6 @@ export function ToggleTheme() {
         name="sun"
         size={22}
         color={colorScheme === "light" ? "black" : "white"}
-        className="text-secondary-700"
       />
     </View>
   );

@@ -5,25 +5,26 @@ import Animated, {
   FadeIn,
 } from "react-native-reanimated";
 import { Text, View } from "react-native";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
 import { TransactionProps } from "@/lib/transactionProps";
 import { Pressable } from "react-native";
 import { colors as defaultColors } from "@/assets/styles/colors";
 import colors from "tailwindcss/colors";
+import { transactions } from "@/app/screens/DashboardScreen";
 
 interface BalanceProps {
-  onFilterChange: (filteredTransactions: TransactionProps[]) => void;
+  onFilterChange?: (filteredTransactions: TransactionProps[]) => void;
 }
 
 export function Balance({ onFilterChange }: BalanceProps) {
-  const { transactions } = useTransactions();
+  // const { transactions } = useTransactions();
 
   const [totalEntradas, setTotalEntradas] = useState(0);
   const [totalSaidas, setTotalSaidas] = useState(0);
   const [balance, setBalance] = useState(0);
-  const [selectedFilter, setSelectedFilter] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("entrada");
 
   useEffect(() => {
     const entradas = transactions
@@ -67,7 +68,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
       <Pressable onPress={() => handlePress("default")}>
         <Animated.View
           entering={BounceInRight.delay(600)}
-          className="flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl shadow"
+          className="flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl"
         >
           <View className="flex-row gap-2 justify-center items-center">
             <Ionicons name="wallet" size={38} color={colors.blue[500]} />
@@ -84,7 +85,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
       <Pressable onPress={() => handlePress("entradas")}>
         <Animated.View
           entering={BounceInLeft.delay(800).springify()}
-          className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl shadow ${
+          className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl ${
             selectedFilter === "entradas" &&
             "border-4 border-primary-600 dark:border-secondary-500"
           }`}
@@ -109,7 +110,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
       <Pressable onPress={() => handlePress("saidas")}>
         <Animated.View
           entering={BounceInRight.delay(1000).springify()}
-          className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl shadow ${
+          className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl ${
             selectedFilter === "saidas" &&
             "border-4 border-primary-600 dark:border-secondary-500"
           }`}

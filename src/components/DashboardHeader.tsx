@@ -21,15 +21,13 @@ export function DashboardHeader({ navigation }: { navigation: any }) {
   const formattedName = formatString(userData?.firstName);
 
   return (
-    <View className="items-start">
-      <View className="items-start">
-        <Text className="text-md font-semibold text-secondary-800 dark:text-primary-200">
-          {getGreeting()}, {formattedName}
-        </Text>
-        <Text className="text-2xl font-bold text-secondary-600 dark:text-primary-500">
-          Seja Bem Vindo!
-        </Text>
-      </View>
+    <View className="items-start mt-8">
+      <Text className="text-md font-semibold text-secondary-800 dark:text-primary-200">
+        {getGreeting()}, {formattedName}
+      </Text>
+      <Text className="text-2xl font-bold text-secondary-600 dark:text-primary-500">
+        Seja Bem Vindo!
+      </Text>
     </View>
   );
 }

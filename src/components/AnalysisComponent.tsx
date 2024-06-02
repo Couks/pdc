@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTransactions } from "@/hooks/useTransactions";
 import Animated, { FlipInEasyX, SlideInUp } from "react-native-reanimated";
 import { Skeleton } from "@/components/ui/Skeleton";
+import Separator from "./ui/Separator";
 
 export function AnalysisComponent() {
   const { transactions, isLoading } = useTransactions();
@@ -11,21 +12,21 @@ export function AnalysisComponent() {
     return (
       <Animated.View
         entering={FlipInEasyX}
-        className="flex-row bg-secondary-500 p-6 items-center justify-around rounded-3xl mb-8 gap-4"
+        className="flex-row bg-green-200 dark:bg-secondary-500 p-6 items-center justify-around rounded-3xl gap-4"
       >
         <View className="items-center justify-center gap-1">
           <Skeleton className="rounded-full w-20 h-20" />
           <Skeleton className="w-24 h-8 mt-2" />
         </View>
 
-        <View className="bg-gray-500/50 rounded-full h-full w-[2px]" />
+        <Separator orientation="vertical" />
 
         <View className="flex-col items-center gap-4">
           <View className="flex-row gap-2">
             <Skeleton className="w-10 h-10" />
             <Skeleton className="w-32 h-10" />
           </View>
-          <View className="bg-gray-500/50 rounded-full h-[2px] w-full" />
+          <Separator />
 
           <View className="flex-row gap-2">
             <Skeleton className="w-10 h-10" />
@@ -51,7 +52,7 @@ export function AnalysisComponent() {
   return (
     <Animated.View
       entering={SlideInUp.delay(200).springify()}
-      className="flex-row gap-4 bg-secondary-500 dark:bg-primary-500 p-2 rounded-3xl items-center justify-around"
+      className="flex-row bg-green-200 dark:bg-secondary-500 p-6 items-center justify-around rounded-3xl gap-4"
     >
       <View className="gap-2 items-center justify-center m-4">
         <View className="items-center justify-center rounded-full bg-transparent border-2 size-20 border-white">

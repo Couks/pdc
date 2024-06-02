@@ -13,7 +13,7 @@ import { useToast } from "@/components/ui/Toast";
 import { Loading } from "@/components/ui/Loading";
 import { useAuth } from "@/hooks/auth/AuthContext";
 import { handleAuthentication } from "@/hooks/auth/AuthBiometry";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { RoundedView } from "@/components/ui/RoundedView";
 

@@ -17,17 +17,18 @@ export function Category({ iconName, title, description }: CategoryProps) {
         <TouchableOpacity>
           <Animated.View
             entering={FadeIn.delay(800).duration(2000).springify()}
-            className="bg-primary-500 dark:bg-secondary-500 rounded-3xl items-center justify-center"
+            className="bg-primary-500 dark:bg-secondary-500 rounded-3xl items-center justify-center gap-2"
             style={{
               width: 101,
               height: 101,
             }}
           >
             <Ionicons name={iconName} size={40} color="white" />
+
+            <Text className="text-secondary-800 dark:text-white text-sm text-center">
+              {title}
+            </Text>
           </Animated.View>
-          <Text className="text-secondary-800 dark:text-white text-sm text-center">
-            {title}
-          </Text>
         </TouchableOpacity>
       </DialogTrigger>
       <DialogContent>

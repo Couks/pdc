@@ -1,21 +1,20 @@
-import { Text, View } from "react-native";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
+import { Text, View, TouchableOpacity } from "react-native";
 import { format, parseISO } from "date-fns";
-import { useEffect, useState } from "react";
 import { ptBR } from "date-fns/locale/pt-BR";
 import { Ionicons } from "@expo/vector-icons";
 import { Input } from "@/components/ui/Input";
-import { TouchableOpacity } from "react-native";
 import { Button } from "@/components/ui/Button";
-import { Picker } from "@react-native-picker/picker";
 import SelectInput from "@/components/ui/SelectInput";
 import { TransactionProps } from "@/lib/transactionProps";
-import { SubmitHandler, FieldValues, useForm } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { DialogContent, DialogTrigger, Dialog } from "@/components/ui/Dialog";
 import {
   categoryIcons,
   categoryNames,
   categoryOptions,
 } from "@/utils/categoryIcons";
+import Separator from "@/components/ui/Separator";
 
 export function Transaction({
   id,
@@ -24,22 +23,26 @@ export function Transaction({
   valor,
   categoria,
 }: TransactionProps) {
-  const dateObject = createdAt ? parseISO(createdAt) : null;
-  const formattedDate = dateObject
-    ? format(dateObject, "PPP", { locale: ptBR })
-    : "";
-  const formattedTime = dateObject ? format(dateObject, "HH:mm") : "";
-
-  const [formattedPrice, setFormattedPrice] = useState(
-    `${entrada_saida === "saida" ? "-" : "+"} R$${Math.abs(valor).toFixed(2)}`
+  const dateObject = useMemo(
+    () => createdAt && parseISO(createdAt),
+    [createdAt]
+  );
+  const formattedDate = useMemo(
+    () => dateObject && format(dateObject, "PPP", { locale: ptBR }),
+    [dateObject]
+  );
+  const formattedTime = useMemo(
+    () => dateObject && format(dateObject, "HH:mm"),
+    [dateObject]
   );
 
-  useEffect(() => {
-    const newFormattedPrice = `${
-      entrada_saida === "saida" ? "-" : "+"
-    } R$${Math.abs(valor).toFixed(2)}`;
-    setFormattedPrice(newFormattedPrice);
-  }, [entrada_saida, valor]);
+  const formattedPrice = useMemo(
+    () =>
+      `${entrada_saida === "saida" ? "-" : "+"} R$${Math.abs(valor).toFixed(
+        2
+      )}`,
+    [entrada_saida, valor]
+  );
 
   const {
     control,
@@ -48,8 +51,8 @@ export function Transaction({
     formState: { errors },
   } = useForm();
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    return console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
   };
 
   const iconName = categoryIcons[categoria] || "alert-circle-outline";
@@ -59,31 +62,26 @@ export function Transaction({
     <Dialog>
       <DialogTrigger>
         <TouchableOpacity key={id}>
-          <View className="flex-row items-center px-1 py-6 gap-4">
+          <View className="flex-row items-center px-1 py-4 gap-4">
             <View className="items-center justify-center size-14 bg-primary-500 dark:bg-secondary-500 rounded-3xl">
               <Ionicons name={iconName} size={24} color="white" />
             </View>
-            <View className="flex-1 jusitify-center">
+            <View className="flex-1 justify-center">
               <Text className="font-semibold text-lg dark:text-white text-primary-500">
                 {categoryName}
               </Text>
-              <View>
-                <Text className="dark:text-secondary-500 text-secondary-800 text-xs font-semibold">
-                  {formattedTime} - {formattedDate}
-                </Text>
-              </View>
+              <Text className="dark:text-secondary-300 text-secondary-800 text-xs font-semibold">
+                {formattedTime} - {formattedDate}
+              </Text>
             </View>
-
             <Text
               className="font-semibold text-secondary-500 dark:text-white"
-              style={{
-                fontSize: 18,
-              }}
+              style={{ fontSize: 18 }}
             >
               {formattedPrice}
             </Text>
           </View>
-          <View className="bg-gray-500/20 dark:bg-gray-200/20 rounded-full h-[2px] w-auto mx-1" />
+          <Separator />
         </TouchableOpacity>
       </DialogTrigger>
 
@@ -92,14 +90,9 @@ export function Transaction({
           <Text className="font-bold text-3xl text-white mb-6 text-center">
             Editar Transação
           </Text>
-
           <View className="flex flex-col mt-4">
             <View className="flex flex-row gap-2">
-              <Ionicons
-                name={categoryIcons[categoria] || "alert-circle-outline"}
-                size={24}
-                color="white"
-              />
+              <Ionicons name={iconName} size={24} color="white" />
               <Text className="dark:text-white text-xl font-semibold">
                 {categoryName}
               </Text>
@@ -107,33 +100,18 @@ export function Transaction({
             <SelectInput
               label="Selecione a categoria"
               options={categoryOptions}
+              selectedValue={categoria}
               onValueChange={(newCategory) =>
                 setValue("categoria", newCategory)
               }
             />
-            <Picker
-              selectedValue={categoria}
-              onValueChange={(newCategoria) =>
-                setValue("categoria", newCategoria)
-              }
-              mode="dropdown"
-              dropdownIconColor="gray"
-              style={{
-                width: "100%",
-                color: "white",
-              }}
-            >
-              {Object.values(categoryNames).map((name) => (
-                <Picker.Item key={name} label={name} value={name} />
-              ))}
-            </Picker>
           </View>
-
           <View className="flex flex-col mt-4">
             <Input
               placeholder={formattedPrice}
               keyboardType="numeric"
               iconName="cash"
+              onChangeText={(text) => setValue("valor", Number(text))}
             />
             {errors.valor && (
               <Text className="text-red-500 mt-2 text-sm">
@@ -141,7 +119,6 @@ export function Transaction({
               </Text>
             )}
           </View>
-
           <View className="flex flex-row justify-center mt-8">
             <Button
               label="Alterar Transação"

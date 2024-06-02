@@ -2,11 +2,11 @@ import axios, { AxiosError } from "axios";
 import * as SecureStore from "expo-secure-store";
 import React, { createContext, useState, useContext, useEffect } from "react";
 
-const API_URL_AUTH = "https://actively-settling-rodent.ngrok-free.app/api/auth";
-export const API_URL = "https://actively-settling-rodent.ngrok-free.app/api";
+// const API_URL_AUTH = "https://actively-settling-rodent.ngrok-free.app/api/auth";
+// export const API_URL = "https://actively-settling-rodent.ngrok-free.app/api";
 
-// const API_URL_AUTH = "http://localhost:3001/api/auth";
-// export const API_URL = "http://localhost:3001/api";
+const API_URL_AUTH = "http://localhost:3001/api/auth";
+export const API_URL = "http://localhost:3001/api";
 
 interface AuthProps {
   authState?: { token: string | null; authenticated: boolean | null };

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useColorScheme } from "nativewind";
 
 interface SelectInputProps {
   label?: string;
@@ -33,8 +34,10 @@ const SelectInput = ({
     setModalVisible(false);
   };
 
+  const { colorScheme } = useColorScheme();
+
   return (
-    <View className="items-center justify-center bg-primary-200 rounded-3xl">
+    <View className="items-center justify-center bg-primary-200 dark:bg-secondary-500 rounded-3xl">
       <TouchableOpacity
         style={{
           width: "100%",
@@ -46,22 +49,31 @@ const SelectInput = ({
         onPress={() => setModalVisible(true)}
       >
         {selectedLabel == null ? (
-          <Text className="text-gray-800 text-lg px-4">{label}</Text>
+          <Text className="text-gray-800 dark:text-white text-lg px-4">
+            {label}
+          </Text>
         ) : (
-          <Text className="text-gray-800 text-lg px-4">{selectedLabel}</Text>
+          <Text className="text-gray-800 dark:text-white text-lg px-4">
+            {selectedLabel}
+          </Text>
         )}
-        <Ionicons name="chevron-down-outline" size={24} className="px-3" />
+        <Ionicons
+          name="chevron-down-outline"
+          size={24}
+          className="px-3"
+          color={colorScheme == "light" ? "black" : "white"}
+        />
       </TouchableOpacity>
       <Modal
         visible={modalVisible}
         transparent={true}
-        animationType="fade"
+        animationType="slide"
         onRequestClose={() => setModalVisible(false)}
       >
         <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
           <View className="flex-1 justify-center bg-black/70">
             <TouchableWithoutFeedback>
-              <View className="m-8 bg-white rounded-3xl p-4 max-h-[50%]">
+              <View className="m-8 bg-white dark:bg-secondary-800 rounded-3xl p-4 max-h-[50%]">
                 <FlatList
                   data={options}
                   keyExtractor={(item) => item.value.toString()}
@@ -71,7 +83,7 @@ const SelectInput = ({
                       style={{ paddingVertical: 6 }}
                       onPress={() => handleOptionPress(item)}
                     >
-                      <Text className="bg-gray-500/20 px-3 py-2 rounded-3xl text-center text-xl">
+                      <Text className="bg-primary-200 dark:bg-secondary-500 px-3 py-2 rounded-3xl text-center dark:text-white text-xl">
                         {item.label}
                       </Text>
                     </TouchableOpacity>

@@ -1,48 +1,74 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useMemo } from "react";
+import { TouchableOpacity } from "react-native";
 import { Svg, G, Path } from "react-native-svg";
 
-const PieChart = ({ data, onSlicePress }) => {
+type Slice = {
+  value: number;
+  color: string;
+  label: string;
+};
+
+type PieChartProps = {
+  data: Slice[];
+  onSlicePress: (slice: Slice) => void;
+};
+
+const calculateArc = (radius: number, angle: number) => {
+  const x = radius + radius * Math.cos((Math.PI * angle) / 180);
+  const y = radius - radius * Math.sin((Math.PI * angle) / 180);
+  return { x, y };
+};
+
+const calculatePath = (
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+  largeArcFlag: number
+) => {
+  const start = calculateArc(radius, startAngle);
+  const end = calculateArc(radius, endAngle);
+  return `M ${radius} ${radius} L ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${end.x} ${end.y} Z`;
+};
+
+const PieChart: React.FC<PieChartProps> = ({ data, onSlicePress }) => {
   const radius = 100;
   const diameter = radius * 2;
-  const circumference = diameter * Math.PI;
 
-  const total = data.reduce((sum, { value }) => sum + value, 0);
+  const total = useMemo(
+    () => data.reduce((sum, { value }) => sum + value, 0),
+    [data]
+  );
 
-  let startAngle = 0;
-
-  const renderSlices = () => {
-    return data.map((slice, index) => {
-      const { value, color, label } = slice;
+  const slices = useMemo(() => {
+    let startAngle = 0;
+    return data.map((slice) => {
+      const { value, color } = slice;
       const sliceAngle = (value / total) * 360;
+      const endAngle = startAngle + sliceAngle;
       const largeArcFlag = sliceAngle > 180 ? 1 : 0;
-
-      const x1 = radius + radius * Math.cos((Math.PI * startAngle) / 180);
-      const y1 = radius - radius * Math.sin((Math.PI * startAngle) / 180);
-
-      startAngle += sliceAngle;
-
-      const x2 = radius + radius * Math.cos((Math.PI * startAngle) / 180);
-      const y2 = radius - radius * Math.sin((Math.PI * startAngle) / 180);
-
-      const pathData = [
-        `M ${radius} ${radius}`,
-        `L ${x1} ${y1}`,
-        `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`,
-        "Z",
-      ].join(" ");
-
-      return (
-        <TouchableOpacity key={index} onPress={() => onSlicePress(slice)}>
-          <Path d={pathData} fill={color} />
-        </TouchableOpacity>
+      const pathData = calculatePath(
+        radius,
+        startAngle,
+        endAngle,
+        largeArcFlag
       );
+      startAngle = endAngle;
+      return { pathData, color, label: slice.label };
     });
-  };
+  }, [data, total]);
 
   return (
     <Svg width={diameter} height={diameter}>
-      <G>{renderSlices()}</G>
+      <G>
+        {slices.map((slice, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => onSlicePress(data[index])}
+          >
+            <Path d={slice.pathData} fill={slice.color} />
+          </TouchableOpacity>
+        ))}
+      </G>
     </Svg>
   );
 };
