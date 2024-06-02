@@ -40,21 +40,13 @@ export function CreateTransaction() {
       <RoundedView>
         <View>
           <Animated.Text
-            entering={FadeInDown.delay(1000).duration(800).springify()}
+            entering={FadeInDown.delay(1000).springify()}
             className="dark:text-white text-secondary-800 text-center text-md mb-8"
           >
             O WhatsApp é nosso canal principal de entrada!{" "}
             <Text className="text-primary-500">
               Clique aqui para falar com nosso chatbot{" "}
             </Text>
-          </Animated.Text>
-
-          <Animated.Text
-            entering={FadeInDown.delay(800).duration(800).springify()}
-            className="dark:text-white text-secondary-800 text-center text-xl mb-8"
-          >
-            Preencha os campos abaixo para registrar uma nova transação pelo
-            app. Depois, clique em Enviar.
           </Animated.Text>
         </View>
 

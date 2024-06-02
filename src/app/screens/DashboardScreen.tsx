@@ -9,6 +9,13 @@ import PieChart from "@/components/ui/PieChart";
 import { Ionicons } from "@expo/vector-icons";
 import Separator from "@/components/ui/Separator";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import {
+  formatDate,
+  formatName,
+  formatPrice,
+  formatTime,
+  getFormattedCategoryName,
+} from "@/utils/formatUtils";
 
 export const transactions = [
   // Janeiro
@@ -499,12 +506,18 @@ const LatestExpenses = ({ transactions }) => {
       {latestTransactions.map((transaction) => (
         <View
           key={transaction.id}
-          className="flex-row justify-between mt-2 bg-gray-300 dark:bg-gray-700 p-2 rounded-lg mb-2"
+          className="flex-row justify-between items-center mt-2 bg-gray-300 dark:bg-gray-700 px-4 py-2 rounded-lg"
         >
-          <Text className="text-gray-800 dark:text-white">
-            {transaction.categoria}
-          </Text>
-          <Text className="text-red-500">
+          <View className="">
+            <Text className="text-gray-800 dark:text-white">
+              {getFormattedCategoryName(transaction.categoria)}
+            </Text>
+            <Text className="text-gray-700 dark:text-gray-300 text-xs">
+              {formatDate(transaction.createdAt)} -
+              {formatTime(transaction.createdAt)}
+            </Text>
+          </View>
+          <Text className="text-red-500 text-xl">
             R$ {transaction.valor.toFixed(2)}
           </Text>
         </View>

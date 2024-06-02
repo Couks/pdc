@@ -1,20 +1,20 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useState } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import { format, parseISO } from "date-fns";
-import { ptBR } from "date-fns/locale/pt-BR";
 import { Ionicons } from "@expo/vector-icons";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import SelectInput from "@/components/ui/SelectInput";
 import { TransactionProps } from "@/lib/transactionProps";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { DialogContent, DialogTrigger, Dialog } from "@/components/ui/Dialog";
 import {
   categoryIcons,
   categoryNames,
   categoryOptions,
+  typeOptions,
 } from "@/utils/categoryIcons";
 import Separator from "@/components/ui/Separator";
+import { formatPrice, formatTime, formatDate } from "@/utils/formatUtils";
 
 export function Transaction({
   id,
@@ -23,36 +23,22 @@ export function Transaction({
   valor,
   categoria,
 }: TransactionProps) {
-  const dateObject = useMemo(
-    () => createdAt && parseISO(createdAt),
-    [createdAt]
-  );
-  const formattedDate = useMemo(
-    () => dateObject && format(dateObject, "PPP", { locale: ptBR }),
-    [dateObject]
-  );
-  const formattedTime = useMemo(
-    () => dateObject && format(dateObject, "HH:mm"),
-    [dateObject]
-  );
-
-  const formattedPrice = useMemo(
-    () =>
-      `${entrada_saida === "saida" ? "-" : "+"} R$${Math.abs(valor).toFixed(
-        2
-      )}`,
-    [entrada_saida, valor]
-  );
-
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm();
+  const [transaction, setTransaction] = useState({
+    entrada_saida: entrada_saida,
+    valor: valor,
+    conta: "",
+    categoria: categoria,
+  });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    setTransaction({ ...transaction, ...data });
+    console.log(transaction);
   };
 
   const iconName = categoryIcons[categoria] || "alert-circle-outline";
@@ -71,14 +57,14 @@ export function Transaction({
                 {categoryName}
               </Text>
               <Text className="dark:text-secondary-300 text-secondary-800 text-xs font-semibold">
-                {formattedTime} - {formattedDate}
+                {formatDate(createdAt)} - {formatTime(createdAt)}
               </Text>
             </View>
             <Text
               className="font-semibold text-secondary-500 dark:text-white"
               style={{ fontSize: 18 }}
             >
-              {formattedPrice}
+              {formatPrice(entrada_saida, valor)}
             </Text>
           </View>
           <Separator />
@@ -86,46 +72,43 @@ export function Transaction({
       </DialogTrigger>
 
       <DialogContent>
-        <View className="w-96 mx-auto bg-primary-500 dark:bg-primary-800 rounded-3xl p-8 shadow-lg">
+        <View className="w-auto gap-4 bg-primary-500 dark:bg-primary-800 rounded-3xl p-6 shadow-lg">
           <Text className="font-bold text-3xl text-white mb-6 text-center">
             Editar Transação
           </Text>
-          <View className="flex flex-col mt-4">
-            <View className="flex flex-row gap-2">
-              <Ionicons name={iconName} size={24} color="white" />
-              <Text className="dark:text-white text-xl font-semibold">
-                {categoryName}
-              </Text>
-            </View>
-            <SelectInput
-              label="Selecione a categoria"
-              options={categoryOptions}
-              selectedValue={categoria}
-              onValueChange={(newCategory) =>
-                setValue("categoria", newCategory)
-              }
-            />
-          </View>
-          <View className="flex flex-col mt-4">
-            <Input
-              placeholder={formattedPrice}
-              keyboardType="numeric"
-              iconName="cash"
-              onChangeText={(text) => setValue("valor", Number(text))}
-            />
-            {errors.valor && (
-              <Text className="text-red-500 mt-2 text-sm">
-                Campo obrigatório
-              </Text>
+
+          <SelectInput
+            label="Selecione a categoria"
+            options={categoryOptions}
+            selectedValue={transaction.categoria}
+            onValueChange={(itemValue) => setValue("categoria", itemValue)}
+          />
+
+          <SelectInput
+            label="Selecione o tipo"
+            options={typeOptions}
+            selectedValue={transaction.entrada_saida}
+            onValueChange={(itemValue) => setValue("entrada_saida", itemValue)}
+          />
+
+          <Input
+            placeholder={formatPrice(
+              transaction.entrada_saida,
+              transaction.valor
             )}
-          </View>
-          <View className="flex flex-row justify-center mt-8">
-            <Button
-              label="Alterar Transação"
-              className="w-full"
-              onPress={handleSubmit(onSubmit)}
-            />
-          </View>
+            keyboardType="numeric"
+            iconName="cash"
+            onChangeText={(text) => setValue("valor", Number(text))}
+          />
+          {errors.valor && (
+            <Text className="text-red-500 mt-2 text-sm">Campo obrigatório</Text>
+          )}
+
+          <Button
+            label="Alterar Transação"
+            className="w-full"
+            onPress={handleSubmit(onSubmit)}
+          />
         </View>
       </DialogContent>
     </Dialog>
