@@ -3,6 +3,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, View } from "react-native";
 import Animated, { FadeIn, StretchInY } from "react-native-reanimated";
 import { Dialog, DialogTrigger, DialogContent } from "./Dialog";
+import { useColorScheme } from "nativewind";
+import { colors as defaultColors } from "@/assets/styles/colors";
 
 interface CategoryProps {
   iconName: string;
@@ -11,6 +13,7 @@ interface CategoryProps {
 }
 
 export function Category({ iconName, title, description }: CategoryProps) {
+  const { colorScheme } = useColorScheme();
   return (
     <Dialog>
       <DialogTrigger>
@@ -23,7 +26,15 @@ export function Category({ iconName, title, description }: CategoryProps) {
               height: 101,
             }}
           >
-            <Ionicons name={iconName} size={40} color="white" />
+            <Ionicons
+              name={iconName}
+              size={40}
+              color={
+                colorScheme == "light"
+                  ? defaultColors.secondary[500]
+                  : defaultColors.primary[500]
+              }
+            />
 
             <Text className="text-secondary-800 dark:text-white text-sm text-center">
               {title}
@@ -37,7 +48,15 @@ export function Category({ iconName, title, description }: CategoryProps) {
           style={{ margin: 10, padding: 30 }}
         >
           <View className="flex-row items-center gap-4">
-            <Ionicons name={iconName} size={40} color="white" />
+            <Ionicons
+              name={iconName}
+              size={40}
+              color={
+                colorScheme == "light"
+                  ? defaultColors.secondary[500]
+                  : defaultColors.primary[500]
+              }
+            />
             <Text className="font-semibold text-3xl text-white ">{title}</Text>
           </View>
           <Text className="text-secondary-800 text-center font-semibold text-lg dark:text-gray-200 ">

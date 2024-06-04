@@ -43,7 +43,6 @@ export function Home({ navigation }: { navigation: any }) {
           <Button
             label="Entrar"
             variant="default"
-            size="lg"
             className="w-60"
             onPress={() => navigation.navigate("SignInScreen")}
           />
@@ -53,7 +52,6 @@ export function Home({ navigation }: { navigation: any }) {
           <Button
             label="Criar Conta"
             variant="light"
-            size="lg"
             onPress={() => navigation.navigate("SignUpScreen")}
           />
         </Animated.View>

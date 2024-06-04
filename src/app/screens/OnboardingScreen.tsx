@@ -84,11 +84,7 @@ export function OnboardingScreen({ navigation }: { navigation: any }) {
               </Animated.View>
               {index === 1 && (
                 <View className="items-center ">
-                  <Button
-                    label="Fazer login"
-                    size="sm"
-                    onPress={handleButtonClick}
-                  />
+                  <Button label="Fazer login" onPress={handleButtonClick} />
                 </View>
               )}
             </View>

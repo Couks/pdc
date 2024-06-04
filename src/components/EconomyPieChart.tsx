@@ -12,7 +12,7 @@ import Animated, {
 
 const { width } = Dimensions.get("window");
 const radius = width * 0.12;
-const strokeWidth = 5;
+const strokeWidth = 10;
 const circumference = 2 * Math.PI * radius;
 
 const EconomyPieChart = ({ percentage }) => {
@@ -68,7 +68,7 @@ const EconomyPieChart = ({ percentage }) => {
           />
         </G>
       </Svg>
-      <Text className="absolute text-lg text-gray-500 dark:text-white">
+      <Text className="absolute text-lg font-bold text-gray-500 dark:text-white">
         {percentage.toFixed(1)}%
       </Text>
     </View>

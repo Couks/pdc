@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Text, View, TouchableWithoutFeedback } from "react-native";
 import { Transactions } from "./Transactions";
 import { Balance } from "@/components/Balance";
 import { Header } from "@/components/ui/Header";
@@ -8,9 +7,11 @@ import { useTransactions } from "@/hooks/useTransactions";
 import { TransactionProps } from "@/lib/transactionProps";
 import { isSameMonth, isSameWeek, isToday } from "date-fns";
 import Animated, { FadeInUp } from "react-native-reanimated";
+import { Text, View, TouchableWithoutFeedback } from "react-native";
+import { transactions } from "@/assets/transactions";
 
 export function TransactionsScreen() {
-  const { transactions, isLoading, refetch } = useTransactions();
+  const { isLoading, refetch } = useTransactions();
   const [filteredTransactions, setFilteredTransactions] = useState<
     TransactionProps[]
   >([]);

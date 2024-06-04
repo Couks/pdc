@@ -12,7 +12,7 @@ import { TransactionProps } from "@/lib/transactionProps";
 import { Pressable } from "react-native";
 import { colors as defaultColors } from "@/assets/styles/colors";
 import colors from "tailwindcss/colors";
-import { transactions } from "@/app/screens/DashboardScreen";
+import { transactions } from "@/assets/transactions";
 
 interface BalanceProps {
   onFilterChange?: (filteredTransactions: TransactionProps[]) => void;

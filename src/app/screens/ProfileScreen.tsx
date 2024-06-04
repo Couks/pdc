@@ -140,10 +140,10 @@ export function ProfileScreen() {
                 </View>
               </DialogContent>
             </Dialog>
-          </Animated.View>
 
-          <Animated.View entering={FadeInDown.springify().delay(1200)}>
-            <ToggleTheme />
+            <Animated.View entering={FadeInDown.springify().delay(1200)}>
+              <ToggleTheme />
+            </Animated.View>
           </Animated.View>
         </View>
       </RoundedView>

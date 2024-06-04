@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { View, Text, Dimensions, TouchableWithoutFeedback } from "react-native";
-import Svg, { Path } from "react-native-svg";
+import { PieChart } from "react-native-gifted-charts";
 import { useTransactions } from "@/hooks/useTransactions";
-import { Transactions } from "@/app/screens/transactions/Transactions";
 import { categoryNames } from "@/utils/categoryIcons";
 import { isToday, isSameWeek, isSameMonth } from "date-fns";
 import Animated, { FadeInUp } from "react-native-reanimated";
-
-const screenWidth = Dimensions.get("window").width;
+import { transactions } from "@/assets/transactions";
+import { Transactions } from "@/app/screens/transactions/Transactions";
+import { useColorScheme } from "nativewind";
+import colors from "tailwindcss/colors";
+import { colors as defaultColors } from "@/assets/styles/colors";
 
 const fixedColors = [
   "#FF5733",
@@ -22,30 +24,6 @@ const fixedColors = [
 ];
 
 const generateColor = (index) => fixedColors[index % fixedColors.length];
-
-const polarToCartesian = (cx, cy, radius, angleInDegrees) => {
-  const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
-  return {
-    x: cx + radius * Math.cos(angleInRadians),
-    y: cy + radius * Math.sin(angleInRadians),
-  };
-};
-
-const calculateArc = (value, total, radius, cx, cy, startAngle) => {
-  const angle = (value / total) * 360;
-  const endAngle = startAngle + angle;
-  const largeArcFlag = angle > 180 ? 1 : 0;
-  const start = polarToCartesian(cx, cy, radius, startAngle);
-  const end = polarToCartesian(cx, cy, radius, endAngle);
-  const pathData = [
-    `M ${cx} ${cy}`,
-    `L ${start.x} ${start.y}`,
-    `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${end.x} ${end.y}`,
-    `Z`,
-  ].join(" ");
-
-  return { path: pathData, endAngle };
-};
 
 const useCategoryData = (transactions) => {
   return useMemo(() => {
@@ -70,22 +48,10 @@ const useCategoryData = (transactions) => {
   }, [transactions]);
 };
 
-const ArcSlice = ({ slice, total, radius, cx, cy, startAngle, onPress }) => {
-  const { path, endAngle } = calculateArc(
-    slice.value,
-    total,
-    radius,
-    cx,
-    cy,
-    startAngle
-  );
-  return <Path d={path} fill={slice.color} onPress={onPress} />;
-};
-import { transactions } from "@/app/screens/DashboardScreen";
-
 export function PizzaGraph() {
+  const { colorScheme } = useColorScheme();
   const { isLoading, refetch } = useTransactions();
-  const [selectedCategory, setSelectedCategory] = useState("GERAL");
+  const [selectedCategory, setSelectedCategory] = useState();
   const [filteredTransactions, setFilteredTransactions] =
     useState(transactions);
   const [selectedFilter, setSelectedFilter] = useState("day");
@@ -120,11 +86,6 @@ export function PizzaGraph() {
   const { data: categoryData, totalValue: total } =
     useCategoryData(filteredTransactions);
 
-  const radius = 80;
-  const cx = screenWidth / 1.5;
-  const cy = 100;
-  let startAngle = 0;
-
   const handleArcPress = useCallback((originalLabel) => {
     setSelectedCategory(originalLabel);
   }, []);
@@ -137,10 +98,10 @@ export function PizzaGraph() {
   };
 
   return (
-    <View className="flex-1 items-center justify-center w-full">
+    <View className="flex-1 items-center">
       <Animated.View
         entering={FadeInUp.delay(800).duration(800).springify()}
-        className="flex-row p-2 bg-primary-200 dark:bg-secondary-600 w-full rounded-full justify-around shadow"
+        className=" flex-row p-2 bg-primary-200 dark:bg-secondary-600 w-full rounded-full justify-around shadow"
       >
         {["day", "week", "month"].map((period) => (
           <TouchableWithoutFeedback
@@ -172,53 +133,44 @@ export function PizzaGraph() {
         ))}
       </Animated.View>
 
-      <Svg height="230" width={screenWidth}>
-        {categoryData.map((slice, index) => {
-          const endAngle = calculateArc(
-            slice.value,
-            total,
-            radius,
-            cx,
-            cy,
-            startAngle
-          ).endAngle;
-          const arc = (
-            <ArcSlice
-              key={index}
-              slice={slice}
-              total={total}
-              radius={radius}
-              cx={cx}
-              cy={cy}
-              startAngle={startAngle}
-              onPress={() => handleArcPress(slice.originalLabel)}
-            />
-          );
-          startAngle = endAngle;
-          return arc;
-        })}
-      </Svg>
-
-      {selectedCategory && (
-        <View
-          className="flex-1 w-full items-center gap-2"
-          style={{ marginTop: -30 }}
-        >
-          <View className="items-center">
-            <Text className="font-bold text-3xl text-gray-200 dark:text-white">
+      <PieChart
+        data={categoryData}
+        donut
+        sectionAutoFocus
+        focusOnPress
+        innerCircleColor={
+          colorScheme == "light" ? colors.white : defaultColors.secondary[800]
+        }
+        radius={120}
+        innerRadius={80}
+        centerLabelComponent={() => (
+          <View className=" justify-center items-center">
+            <Text className="font-bold text-4xl text-gray-800 dark:text-white">
               {(
                 (categoryData.find(
                   (item) => item.originalLabel === selectedCategory
                 )?.value /
                   total) *
                 100
-              ).toFixed(1)}
+              ).toFixed(1) | 100}
               %
             </Text>
             <Text className="text-secondary-500 dark:text-primary-500 font-bold text-xl">
               {getFormattedCategoryName(selectedCategory)}
             </Text>
           </View>
+        )}
+        onPress={(item) => handleArcPress(item.originalLabel)}
+      />
+
+      {selectedCategory == null ? (
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-2xl text-gray-400 px-8 text-center">
+            Selecione uma categoria no gráfico para visualizar as transações
+          </Text>
+        </View>
+      ) : (
+        <View className="w-full gap-2 h-full">
           <Transactions
             transactions={filteredTransactions?.filter(
               (transaction) => transaction.categoria === selectedCategory

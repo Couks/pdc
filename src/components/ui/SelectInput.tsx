@@ -67,11 +67,12 @@ const SelectInput = ({
       <Modal
         visible={modalVisible}
         transparent={true}
-        animationType="slide"
+        animationType="fade"
+        statusBarTranslucent={true}
         onRequestClose={() => setModalVisible(false)}
       >
         <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-          <View className="flex-1 justify-center bg-black/70">
+          <View className="flex-1 justify-center bg-black/90">
             <TouchableWithoutFeedback>
               <View className="m-8 bg-white dark:bg-secondary-800 rounded-3xl p-4 max-h-[50%]">
                 <FlatList

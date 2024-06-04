@@ -4,11 +4,12 @@ import { Text, TouchableOpacity } from "react-native";
 import { type VariantProps, cva } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "flex-row gap-2 items-center justify-center rounded-3xl py-2  w-60",
+  "flex-row gap-2 items-center justify-center rounded-3xl py-2 w-auto",
   {
     variants: {
       variant: {
         default: "bg-primary-500 ",
+        destructive: "bg-red-500",
         light: "bg-primary-200 ",
       },
       size: {
@@ -28,6 +29,7 @@ const buttonTextVariants = cva("text-center font-bold", {
   variants: {
     variant: {
       default: "text-white",
+      destructive: "text-white",
       light: "text-primary-800",
     },
     size: {

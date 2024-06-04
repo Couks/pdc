@@ -39,6 +39,7 @@ function DialogContent({
       transparent
       animationType="fade"
       visible={open}
+      statusBarTranslucent={true}
       onRequestClose={() => setOpen(false)}
     >
       <TouchableOpacity style={{ flex: 1 }} onPress={() => setOpen(false)}>
