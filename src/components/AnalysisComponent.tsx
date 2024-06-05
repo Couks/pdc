@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTransactions } from "@/hooks/useTransactions";
-import Animated, { FlipInEasyX, SlideInUp } from "react-native-reanimated";
+import Animated, { SlideInRight, SlideInUp } from "react-native-reanimated";
 import { Skeleton } from "@/components/ui/Skeleton";
 import Separator from "./ui/Separator";
 import { transactions } from "@/assets/transactions";
@@ -17,7 +17,7 @@ export function AnalysisComponent() {
   if (isLoading) {
     return (
       <Animated.View
-        entering={FlipInEasyX}
+        entering={SlideInRight}
         className="flex-row bg-green-200 dark:bg-secondary-500 p-6 items-center justify-around rounded-3xl gap-4"
       >
         <View className="items-center justify-center gap-1">
@@ -70,19 +70,21 @@ export function AnalysisComponent() {
       {/* Maior gasto */}
       {categoriesToShow.length > 0 && (
         <View className="gap-2 items-center justify-center m-4">
-          <View className="items-center justify-center rounded-full bg-transparent border-4 size-20 border-secondary-500 ">
+          <View className="items-center justify-center rounded-full bg-transparent border-4 size-20 border-secondary-500 dark:border-primary-500">
             <Ionicons
               name={iconName}
               color={
-                colorScheme === "light" ? defaultColors.secondary[500] : "white"
+                colorScheme === "light"
+                  ? defaultColors.secondary[500]
+                  : defaultColors.primary[500]
               }
               size={40}
             />
           </View>
-          <Text className="font-bold text-secondary-800">
+          <Text className="font-bold text-secondary-800 dark:text-white">
             {getFormattedCategoryName(categoriesToShow[0][0])}
           </Text>
-          <Text className="font-bold text-xl text-secondary-600 -mt-1">
+          <Text className="font-bold text-xl text-secondary-600 dark:text-gray-200 -mt-2">
             R${categoriesToShow[0][1].toFixed(2) || "0.00"}{" "}
           </Text>
         </View>
@@ -92,33 +94,29 @@ export function AnalysisComponent() {
 
       <View className="flex-col items-start gap-4 px-2">
         {categoriesToShow.slice(1).map(([category, value], index) => (
-          <View
-            key={index}
-            className="flex-row gap-4 justify-center items-center"
-          >
-            <Ionicons name="wallet" color="#47286C" size={35} />
-            <View className="flex-col">
-              <Text className="font-bold text-secondary-800">
-                {getFormattedCategoryName(category)}
-              </Text>
-              <Text className="font-bold text-xl text-secondary-600 -mt-1">
-                R${value.toFixed(2)}
-              </Text>
+          <View key={index} className="w-full">
+            <View className="flex-row gap-4 justify-center items-center">
+              <Ionicons
+                name="wallet"
+                color={
+                  colorScheme === "light"
+                    ? defaultColors.secondary[500]
+                    : defaultColors.primary[500]
+                }
+                size={35}
+              />
+              <View className="flex-col">
+                <Text className="font-bold text-secondary-800 dark:text-white">
+                  {getFormattedCategoryName(category)}
+                </Text>
+                <Text className="font-bold text-xl text-secondary-600 dark:text-gray-200 -mt-1">
+                  R${value.toFixed(2)}
+                </Text>
+                <Separator />
+              </View>
             </View>
           </View>
         ))}
-        <Separator />{" "}
-        <View className="flex-row gap-4 justify-center items-center">
-          <Ionicons name="wallet" color="#47286C" size={35} />
-          <View className="flex-col">
-            <Text className="font-bold text-secondary-800">
-              {getFormattedCategoryName(categoriesToShow[2][0])}
-            </Text>
-            <Text className="font-bold text-xl text-secondary-600 -mt-1">
-              R${categoriesToShow[3][0].value.toFixed(2)}
-            </Text>
-          </View>
-        </View>
       </View>
     </Animated.View>
   );

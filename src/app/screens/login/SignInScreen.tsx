@@ -45,6 +45,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
 
       if (result && result.error) {
         Alert.alert(result.msg);
+        toast("Erro ao realizar login!", "error", 2000);
       } else {
         toast("Login realizado!", "success", 2000);
 
@@ -112,11 +113,15 @@ export function SignInScreen({ navigation }: { navigation: any }) {
             className="items-center"
           >
             {loading ? (
-              <Button label="Carregando...">
+              <Button label="Carregando..." className="w-60">
                 <Loading />
               </Button>
             ) : (
-              <Button label="Entrar" onPress={handleSubmit(handleSignIn)} />
+              <Button
+                label="Entrar"
+                className="w-60"
+                onPress={handleSubmit(handleSignIn)}
+              />
             )}
           </Animated.View>
           {/* Esqueceu sua senha?*/}

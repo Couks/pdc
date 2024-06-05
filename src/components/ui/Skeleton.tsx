@@ -21,7 +21,7 @@ export function Skeleton({ className, ...props }: { className?: string }) {
 
   return (
     <Animated.View
-      className={cn("bg-gray-400 rounded-3xl", className)}
+      className={cn("bg-gray-300 rounded", className)}
       style={[animatedStyle]}
       {...props}
     />

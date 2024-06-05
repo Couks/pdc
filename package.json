@@ -50,9 +50,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-async-storage/async-storage": "1.21.0",
     "@react-native-community/datetimepicker": "^7.6.1",
-    "@react-native-community/slider": "^4.4.2",
+    "@react-native-community/slider": "4.4.2",
     "@types/react": "~18.2.45",
     "babel-loader": "^8.3.0",
     "jest": "^29.2.1",

@@ -25,11 +25,18 @@ export const useTransactions = (): UseTransactionsResult => {
         `${API_URL}/movimentacao`
       );
       setTransactions(response.data);
+      console.log(response.data);
+
+      if (response.data == null) {
+        setIsLoading(true);
+      } else {
+        setIsLoading(false);
+      }
+      console.log(response.data);
+
       await AsyncStorage.setItem("transactions", JSON.stringify(response.data));
     } catch (error) {
       setError(error as Error);
-    } finally {
-      setIsLoading(false);
     }
   }, []);
 

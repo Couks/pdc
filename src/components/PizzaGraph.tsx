@@ -5,7 +5,6 @@ import { useTransactions } from "@/hooks/useTransactions";
 import { categoryNames } from "@/utils/categoryIcons";
 import { isToday, isSameWeek, isSameMonth } from "date-fns";
 import Animated, { FadeInUp } from "react-native-reanimated";
-import { transactions } from "@/assets/transactions";
 import { Transactions } from "@/app/screens/transactions/Transactions";
 import { useColorScheme } from "nativewind";
 import colors from "tailwindcss/colors";
@@ -50,7 +49,7 @@ const useCategoryData = (transactions) => {
 
 export function PizzaGraph() {
   const { colorScheme } = useColorScheme();
-  const { isLoading, refetch } = useTransactions();
+  const { transactions, isLoading, refetch } = useTransactions();
   const [selectedCategory, setSelectedCategory] = useState();
   const [filteredTransactions, setFilteredTransactions] =
     useState(transactions);

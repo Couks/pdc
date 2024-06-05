@@ -52,6 +52,7 @@ export function Home({ navigation }: { navigation: any }) {
           <Button
             label="Criar Conta"
             variant="light"
+            className="w-60"
             onPress={() => navigation.navigate("SignUpScreen")}
           />
         </Animated.View>

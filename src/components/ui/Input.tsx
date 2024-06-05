@@ -1,9 +1,7 @@
-import { Ionicons } from "@expo/vector-icons";
-import { useColorScheme } from "nativewind";
-import { TextInput, TextInputProps, View } from "react-native";
-
 import colors from "tailwindcss/colors";
-import { colors as defaultColors } from "@/assets/styles/colors";
+import { useColorScheme } from "nativewind";
+import { Ionicons } from "@expo/vector-icons";
+import { TextInput, TextInputProps, View } from "react-native";
 
 interface InputProps extends TextInputProps {
   iconName?: string;

@@ -30,19 +30,14 @@ export const useCreateTransaction = (): UseCreateTransactionResult => {
       if (response.data) {
         console.log(response.data);
       }
-      toast("Transação criada!", "success", 2000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // Erro do Axios
         const axiosError = error as AxiosError<{ message: string }>;
         const errorMessage =
           axiosError.response?.data.message || "Erro ao criar transação.";
         setError(errorMessage);
-        toast(errorMessage, "destructive", 2000);
       } else {
-        // Outro tipo de erro
         setError("Erro desconhecido.");
-        toast("Erro desconhecido.", "destructive", 2000);
       }
     } finally {
       setIsLoading(false);

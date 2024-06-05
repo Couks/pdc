@@ -53,7 +53,6 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
                   value={value}
                   iconName="mail-outline"
                   placeholder="exemplo@exemplo.com.br"
-                  placeholderTextColor={"gray"}
                 />
               )}
             />
@@ -65,6 +64,7 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
           >
             <Button
               label="Próximo Passo"
+              className="w-60"
               onPress={handleSubmit(handleForgotPassoword)}
             ></Button>
           </Animated.View>

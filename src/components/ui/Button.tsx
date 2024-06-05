@@ -4,7 +4,7 @@ import { Text, TouchableOpacity } from "react-native";
 import { type VariantProps, cva } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "flex-row gap-2 items-center justify-center rounded-3xl py-2 w-auto",
+  "flex-row gap-2 items-center justify-center rounded-xl py-2",
   {
     variants: {
       variant: {
@@ -28,7 +28,7 @@ const buttonVariants = cva(
 const buttonTextVariants = cva("text-center font-bold", {
   variants: {
     variant: {
-      default: "text-white",
+      default: "text-secondary-800",
       destructive: "text-white",
       light: "text-primary-800",
     },
@@ -58,7 +58,6 @@ function Button({
   className,
   variant,
   size,
-  iconName,
   ...props
 }: ButtonProps) {
   return (
@@ -73,7 +72,6 @@ function Button({
       >
         {label}
       </Text>
-      <Ionicons name={iconName} size={20} />
     </TouchableOpacity>
   );
 }

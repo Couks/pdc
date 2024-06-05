@@ -9,8 +9,10 @@ import { categoryOptions, typeOptions } from "@/utils/categoryIcons";
 import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import Separator from "@/components/ui/Separator";
+import { useToast } from "@/components/ui/Toast";
 
 export function CreateTransaction() {
+  const { toast } = useToast();
   const { createTransaction, isLoading, error } = useCreateTransaction();
 
   const [transaction, setTransaction] = useState({
@@ -27,8 +29,10 @@ export function CreateTransaction() {
   const handleSubmit = async () => {
     try {
       await createTransaction(transaction);
-      if (transaction) {
-        Alert.alert("Transação criada!");
+      if (transaction === null) {
+        toast("Preencha os campos do formulário", "destructive");
+      } else {
+        toast("Transação criada!", "success");
       }
     } catch (error: any) {
       console.log(error);

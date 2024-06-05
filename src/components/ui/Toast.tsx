@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils";
 const toastVariants = {
   default: "bg-foreground",
   destructive: "bg-red-500",
-  success: "bg-primary-600",
+  success: "bg-green-600",
   info: "bg-blue-500",
 };
 
@@ -23,7 +23,7 @@ function Toast({
   message,
   onHide,
   variant = "default",
-  duration = 5000,
+  duration = 3000,
   showProgress = true,
 }: ToastProps) {
   const opacity = useRef(new Animated.Value(0)).current;
@@ -121,7 +121,7 @@ function ToastProvider({
   const toast: ToastContextProps["toast"] = (
     message: string,
     variant: ToastVariant = "default",
-    duration: number = 4000,
+    duration: number = 2000,
     position: "top" | "bottom" = "top",
     showProgress: boolean = true
   ) => {
@@ -148,8 +148,8 @@ function ToastProvider({
       <View
         style={{ left: 30, right: 30 }}
         className={cn("absolute", {
-          "top-14": position === "top",
-          "bottom-0": position === "bottom",
+          "top-2": position === "top",
+          "bottom-2": position === "bottom",
         })}
       >
         {messages.map((message) => (

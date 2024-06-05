@@ -237,6 +237,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                 >
                   <Button
                     label="Criar Conta"
+                    className="w-60"
                     onPress={handleSubmit(handleSignUp)}
                   />
                 </Animated.View>

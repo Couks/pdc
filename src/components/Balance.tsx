@@ -12,14 +12,13 @@ import { TransactionProps } from "@/lib/transactionProps";
 import { Pressable } from "react-native";
 import { colors as defaultColors } from "@/assets/styles/colors";
 import colors from "tailwindcss/colors";
-import { transactions } from "@/assets/transactions";
 
 interface BalanceProps {
-  onFilterChange?: (filteredTransactions: TransactionProps[]) => void;
+  onFilterChange?: (filteredTransactions: TransactionProps[]) => {};
 }
 
 export function Balance({ onFilterChange }: BalanceProps) {
-  // const { transactions } = useTransactions();
+  const { transactions } = useTransactions();
 
   const [totalEntradas, setTotalEntradas] = useState(0);
   const [totalSaidas, setTotalSaidas] = useState(0);
