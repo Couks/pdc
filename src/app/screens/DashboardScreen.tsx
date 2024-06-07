@@ -21,6 +21,36 @@ export function DashboardScreen() {
 
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
 
+  const availableMonths = useMemo(() => {
+    const monthsSet = new Set();
+    (transactions ?? []).forEach((transaction) => {
+      const month = new Date(transaction.createdAt).getMonth() + 1;
+      monthsSet.add(month);
+    });
+    return Array.from(monthsSet).sort((a, b) => a - b);
+  }, [transactions]);
+
+  const monthOptions = useMemo(() => {
+    const monthNames = [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro",
+    ];
+    return availableMonths.map((month) => ({
+      label: monthNames[month],
+      value: String(month),
+    }));
+  }, [availableMonths]);
+
   const filteredTransactions = useMemo(() => {
     return (transactions ?? []).filter(
       (transaction) =>
@@ -67,28 +97,24 @@ export function DashboardScreen() {
       </Header>
 
       <RoundedView>
-        <Text className="text-gray-800 dark:text-gray-200 text-lg px-2">
-          Selecione o período
-        </Text>
+        {monthOptions.length === 0 ? (
+          <Text className="text-gray-800 dark:text-gray-300 text-md px-2">
+            Adicione transações selecionar o período
+          </Text>
+        ) : (
+          <Text className="text-gray-800 dark:text-gray-200 text-md px-2">
+            Selecione o período
+          </Text>
+        )}
+
         <SelectInput
           label="Mês"
-          options={[
-            { label: "Janeiro", value: "1" },
-            { label: "Fevereiro", value: "2" },
-            { label: "Março", value: "3" },
-            { label: "Abril", value: "4" },
-            { label: "Maio", value: "5" },
-            { label: "Junho", value: "6" },
-            { label: "Julho", value: "7" },
-            { label: "Agosto", value: "8" },
-            { label: "Setembro", value: "9" },
-            { label: "Outubro", value: "10" },
-            { label: "Novembro", value: "11" },
-            { label: "Dezembro", value: "12" },
-          ]}
+          options={monthOptions}
           selectedValue={String(selectedMonth)}
           onValueChange={(value) => setSelectedMonth(Number(value))}
+          disabled={monthOptions.length === 0}
         />
+
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="flex-1 gap-4">
             <Economies
@@ -147,21 +173,26 @@ const Economies = ({ transactions, isLoading }: any) => {
   return (
     <Animated.View
       entering={FadeInDown.delay(600).springify()}
-      className="flex-col w-full h-auto rounded-3xl p-6 bg-gray-200 dark:bg-gray-800 "
+      className="flex-col w-full h-auto rounded-2xl p-6 bg-gray-200 dark:bg-secondary-600 "
     >
       <Text className="text-gray-800 dark:text-white text-xl">
         Economia Mensal
       </Text>
       <Separator />
       <View className="flex-row justify-around gap-2 py-2">
-        <View className="flex-col justify-around">
-          <EconomyPieChart percentage={economiaPercentual} />
+        <View className="flex-col justify-around items-center">
           {isLoading ? (
-            <Skeleton className="w-full h-4 mt-2 mb-2" />
+            <>
+              <Skeleton className="w-28 h-28 mt-2 mb-2 rounded-full" />
+              <Skeleton className="w-full h-8 mt-2 mb-2" />
+            </>
           ) : (
-            <Text className="text-green-500 text-2xl text-center">
-              R$ {totalEconomizado.toFixed(2)}
-            </Text>
+            <>
+              <EconomyPieChart percentage={economiaPercentual} />
+              <Text className="text-green-500 text-2xl text-center">
+                R$ {totalEconomizado.toFixed(2)}
+              </Text>
+            </>
           )}
           <Text className="text-gray-500 text-md -mt-1">Valor economizado</Text>
         </View>
@@ -174,7 +205,7 @@ const Economies = ({ transactions, isLoading }: any) => {
               Receita mensal
             </Text>
             {isLoading ? (
-              <Skeleton className="w-full h-4 mt-2" />
+              <Skeleton className="w-full h-8 mt-2" />
             ) : (
               <Text className="text-green-500 text-xl font-bold">
                 R$ {totalReceitas.toFixed(2)}
@@ -187,7 +218,7 @@ const Economies = ({ transactions, isLoading }: any) => {
               Despesa mensal
             </Text>
             {isLoading ? (
-              <Skeleton className="w-full h-4 mt-2" />
+              <Skeleton className="w-full h-8 mt-2" />
             ) : (
               <Text className="text-red-500 text-xl font-bold">
                 R$ {totalDespesas.toFixed(2)}
@@ -198,7 +229,7 @@ const Economies = ({ transactions, isLoading }: any) => {
       </View>
       {isLoading ? (
         <View className="flex-row mt-4 items-center justify-center">
-          <Skeleton className="w-full h-6" />
+          <Skeleton className="w-full h-10" />
         </View>
       ) : (
         <View className="flex-row bg-gray-300 dark:bg-gray-700 rounded-lg p-2 mt-4 gap-2 items-center justify-center">
@@ -223,7 +254,7 @@ const LatestExpenses = ({ transactions, isLoading }: any) => {
   return (
     <Animated.View
       entering={FadeInDown.delay(800).springify()}
-      className="bg-gray-200 dark:bg-gray-800 p-6 rounded-3xl"
+      className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl"
     >
       <Text className="text-gray-800 dark:text-white text-xl">
         Últimas despesas
@@ -260,7 +291,7 @@ const LatestExpenses = ({ transactions, isLoading }: any) => {
   );
 };
 
-const LatestIncomes = ({ transactions, isLoading }) => {
+const LatestIncomes = ({ transactions, isLoading }: any) => {
   const latestTransactions = useMemo(() => {
     return transactions
       .filter((t: any) => t.entrada_saida === "entrada")
@@ -273,7 +304,7 @@ const LatestIncomes = ({ transactions, isLoading }) => {
   return (
     <Animated.View
       entering={FadeInDown.delay(800).springify()}
-      className="bg-gray-200 dark:bg-gray-800 p-6 rounded-3xl"
+      className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl"
     >
       <Text className="text-gray-800 dark:text-white text-xl">
         Últimas receitas
@@ -310,33 +341,45 @@ const LatestIncomes = ({ transactions, isLoading }) => {
   );
 };
 
-const ExpensesByCategory = ({ data }: any) => {
+const ExpensesByCategory = ({ data, isLoading }: any) => {
   const { colorScheme } = useColorScheme();
 
   return (
     <Animated.View
       entering={FadeInDown.delay(1000).springify()}
-      className="bg-gray-200 dark:bg-gray-800 p-6 rounded-3xl"
+      className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl"
     >
       <Text className="text-gray-800 dark:text-white text-xl">
         Despesas por categoria
       </Text>
       <Separator />
 
-      <View className="flex-row justify-between items-center ">
+      <View className="flex-row justify-between items-center">
         <Animated.View
           entering={PinwheelIn.delay(300).duration(10000).springify()}
         >
-          <PieChart
-            data={data}
-            donut
-            radius={60}
-            innerRadius={40}
-            innerCircleColor={
-              colorScheme == "light" ? colors.gray[200] : colors.gray[800]
-            }
-            selectedIndex={data}
-          />
+          {isLoading ? (
+            <View className="flex-row w-full items-center justify-between mt-2">
+              <Skeleton className="w-36 h-36 rounded-full" />
+              <View className="gap-4 justify-center">
+                <Skeleton className="w-40 h-4" />
+                <Skeleton className="w-40 h-4" />
+                <Skeleton className="w-40 h-4" />
+                <Skeleton className="w-40 h-4" />
+              </View>
+            </View>
+          ) : (
+            <PieChart
+              data={data}
+              donut
+              radius={60}
+              innerRadius={40}
+              innerCircleColor={
+                colorScheme == "light" ? colors.gray[200] : colors.gray[800]
+              }
+              selectedIndex={data}
+            />
+          )}
         </Animated.View>
 
         {renderLegendComponent(data)}

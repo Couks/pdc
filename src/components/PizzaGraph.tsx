@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { View, Text, Dimensions, TouchableWithoutFeedback } from "react-native";
+import colors from "tailwindcss/colors";
+import { Skeleton } from "./ui/Skeleton";
+import { categoryNames } from "@/utils/categoryIcons";
+import { useColorScheme } from "nativewind";
 import { PieChart } from "react-native-gifted-charts";
 import { useTransactions } from "@/hooks/useTransactions";
-import { categoryNames } from "@/utils/categoryIcons";
 import { isToday, isSameWeek, isSameMonth } from "date-fns";
 import Animated, { FadeInUp } from "react-native-reanimated";
-import { Transactions } from "@/app/screens/transactions/Transactions";
-import { useColorScheme } from "nativewind";
-import colors from "tailwindcss/colors";
 import { colors as defaultColors } from "@/assets/styles/colors";
+import { View, Text, TouchableWithoutFeedback } from "react-native";
+import { Transactions } from "@/app/screens/transactions/Transactions";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 const fixedColors = [
   "#FF5733",
@@ -22,16 +23,25 @@ const fixedColors = [
   "#7a5195",
 ];
 
-const generateColor = (index) => fixedColors[index % fixedColors.length];
+const generateColor = (index: number) =>
+  fixedColors[index % fixedColors.length];
 
-const useCategoryData = (transactions) => {
+const useCategoryData = (
+  transactions: { categoria: string | number; valor: any }[]
+) => {
   return useMemo(() => {
     if (transactions && transactions.length > 0) {
-      const categoryMap = transactions.reduce((acc, transaction) => {
-        acc[transaction.categoria] =
-          (acc[transaction.categoria] || 0) + transaction.valor;
-        return acc;
-      }, {});
+      const categoryMap = transactions.reduce(
+        (
+          acc: { [x: string]: any },
+          transaction: { categoria: string | number; valor: any }
+        ) => {
+          acc[transaction.categoria] =
+            (acc[transaction.categoria] || 0) + transaction.valor;
+          return acc;
+        },
+        {}
+      );
 
       const data = Object.keys(categoryMap).map((key, index) => ({
         label: categoryNames[key] || key,
@@ -59,7 +69,7 @@ export function PizzaGraph() {
     filterTransactions(selectedFilter);
   }, [selectedFilter, transactions]);
 
-  const filterTransactions = (period) => {
+  const filterTransactions = (period: string) => {
     const today = new Date();
     const filtered = transactions?.filter((transaction) => {
       const transactionDate = transaction?.createdAt
@@ -79,20 +89,23 @@ export function PizzaGraph() {
           return false;
       }
     });
-    setFilteredTransactions(filtered);
+    setFilteredTransactions(filtered || null);
   };
 
   const { data: categoryData, totalValue: total } =
     useCategoryData(filteredTransactions);
 
-  const handleArcPress = useCallback((originalLabel) => {
-    setSelectedCategory(originalLabel);
-  }, []);
+  const handleArcPress = useCallback(
+    (originalLabel: React.SetStateAction<undefined>) => {
+      setSelectedCategory(originalLabel);
+    },
+    []
+  );
 
-  const getFormattedCategoryName = (category) =>
+  const getFormattedCategoryName = (category: string | number) =>
     categoryNames[category] || category;
 
-  const handleFilterChange = (period) => {
+  const handleFilterChange = (period: React.SetStateAction<string>) => {
     setSelectedFilter(period);
   };
 
@@ -151,22 +164,29 @@ export function PizzaGraph() {
                 )?.value /
                   total) *
                 100
-              ).toFixed(1) | 100}
+              ).toFixed(1)}
               %
             </Text>
-            <Text className="text-secondary-500 dark:text-primary-500 font-bold text-xl">
-              {getFormattedCategoryName(selectedCategory)}
-            </Text>
+            {selectedCategory != null && (
+              <Text className="text-secondary-500 dark:text-primary-500 font-bold text-xl">
+                {getFormattedCategoryName(selectedCategory)}
+              </Text>
+            )}
           </View>
         )}
-        onPress={(item) => handleArcPress(item.originalLabel)}
+        onPress={(item: { originalLabel: any }) =>
+          handleArcPress(item.originalLabel)
+        }
       />
 
       {selectedCategory == null ? (
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-2xl text-gray-400 px-8 text-center">
-            Selecione uma categoria no gráfico para visualizar as transações
-          </Text>
+        <View className="w-full h-full gap-4 items-center justify-center ">
+          <Skeleton className="w-full h-20" />
+          <Skeleton className="w-full h-20" />
+          <Skeleton className="w-full h-20" />
+          <Skeleton className="w-full h-20" />
+          <Skeleton className="w-full h-20" />
+          <Skeleton className="w-full h-20" />
         </View>
       ) : (
         <View className="w-full gap-2 h-full">
@@ -177,10 +197,13 @@ export function PizzaGraph() {
             isLoading={isLoading}
             onRefresh={refetch}
             ListEmptyComponent={() => (
-              <View className="items-center mt-4">
-                <Text className="text-2xl text-gray-400 font-medium text-center">
-                  Envie uma transação para visualizar o gráfico
-                </Text>
+              <View className="w-full gap-6 items-center mt-4">
+                <Skeleton className="w-full h-20" />
+                <Skeleton className="w-full h-20" />
+                <Skeleton className="w-full h-20" />
+                <Skeleton className="w-full h-20" />
+                <Skeleton className="w-full h-20" />
+                <Skeleton className="w-full h-20" />
               </View>
             )}
           />

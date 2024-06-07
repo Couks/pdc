@@ -8,7 +8,7 @@ export function NotificationScreen() {
   const { transactions, isLoading, refetch } = useTransactions();
   return (
     <View className="flex-1 bg-primary-500 dark:bg-primary-800">
-      <Header title="Notificações" style={{ height: 150 }} />
+      <Header style={{ height: 150 }} />
       <RoundedView>
         <Transactions
           transactions={transactions}

@@ -11,7 +11,7 @@ export function Input({ iconName, ...rest }: InputProps) {
   const { colorScheme } = useColorScheme();
 
   return (
-    <View className="flex-row items-center justify-center bg-primary-200 dark:bg-secondary-500 px-6 py-2 gap-2 rounded-3xl">
+    <View className="flex-row items-center justify-center bg-primary-200 dark:bg-secondary-500 px-6 py-2 gap-2 rounded-2xl">
       <TextInput
         placeholderTextColor={
           colorScheme == "light" ? colors.gray[800] : colors.gray[200]

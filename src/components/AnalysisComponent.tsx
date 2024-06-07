@@ -18,7 +18,7 @@ export function AnalysisComponent() {
     return (
       <Animated.View
         entering={SlideInRight}
-        className="flex-row bg-green-200 dark:bg-secondary-500 p-6 items-center justify-around rounded-3xl gap-4"
+        className="flex-row bg-green-200 dark:bg-secondary-600 p-6 items-center justify-around rounded-3xl gap-4"
       >
         <View className="items-center justify-center gap-1">
           <Skeleton className="rounded-full w-20 h-20" />
@@ -112,9 +112,11 @@ export function AnalysisComponent() {
                 <Text className="font-bold text-xl text-secondary-600 dark:text-gray-200 -mt-1">
                   R${value.toFixed(2)}
                 </Text>
-                <Separator />
               </View>
             </View>
+            {index < categoriesToShow.slice(1).length - 1 && (
+              <Separator style={{ marginTop: 22 }} />
+            )}
           </View>
         ))}
       </View>

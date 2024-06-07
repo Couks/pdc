@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { Header } from "@/components/ui/Header";
-import { View, Alert, Text } from "react-native";
+import { View } from "react-native";
 import SelectInput from "@/components/ui/SelectInput";
 import { RoundedView } from "@/components/ui/RoundedView";
 import { categoryOptions, typeOptions } from "@/utils/categoryIcons";
@@ -35,23 +34,25 @@ export function CreateTransaction() {
         toast("Transação criada!", "success");
       }
     } catch (error: any) {
-      console.log(error);
+      toast("Ocorreu um erro, tente novamente", "destructive");
     }
   };
 
   return (
     <View className="flex-1 bg-primary-500 dark:bg-primary-800">
       <RoundedView>
-        <View>
+        <View className="items-center justify-center">
           <Animated.Text
             entering={FadeInDown.delay(1000).springify()}
-            className="dark:text-white text-secondary-800 text-center text-md mb-8"
+            className="dark:text-white text-secondary-800 text-center text-3xl"
           >
-            O WhatsApp é nosso canal principal de entrada!{" "}
-            <Text className="text-primary-500">
-              Clique aqui para falar com nosso chatbot{" "}
-            </Text>
+            O WhatsApp é nosso canal principal de entrada
           </Animated.Text>
+          <Button
+            label="Falar no WhatsApp"
+            className="w-auto mt-8"
+            onPress={() => alert("Falar no WhatsApp")}
+          />
         </View>
 
         <Separator />

@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { API_URL } from "@/hooks/auth/AuthContext";
 import { TransactionProps } from "@/lib/transactionProps";
-import { useToast } from "@/components/ui/Toast";
 
 interface UseCreateTransactionResult {
   isLoading: boolean;
@@ -13,7 +12,6 @@ interface UseCreateTransactionResult {
 }
 
 export const useCreateTransaction = (): UseCreateTransactionResult => {
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,9 +25,6 @@ export const useCreateTransaction = (): UseCreateTransactionResult => {
         `${API_URL}/movimentacao`,
         newTransactionData
       );
-      if (response.data) {
-        console.log(response.data);
-      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<{ message: string }>;

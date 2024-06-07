@@ -54,7 +54,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
         Alert.alert(result.msg);
       } else {
         setSuccess(true);
-        toast("Conta criada com sucesso!", "success", 2000);
+        toast("Conta criada com sucesso!", "success");
 
         setTimeout(() => {
           navigation.navigate("SignInScreen");

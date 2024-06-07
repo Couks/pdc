@@ -1,7 +1,13 @@
 import React, { forwardRef } from "react";
 import { View, StyleSheet } from "react-native";
 
-const Separator = forwardRef(
+interface SeparatorProps {
+  orientation?: "horizontal" | "vertical";
+  decorative?: boolean;
+  style?: React.CSSProperties;
+}
+
+const Separator = forwardRef<View, SeparatorProps>(
   ({ orientation = "horizontal", decorative = true, style, ...props }, ref) => {
     const separatorStyle = [
       styles.separator,

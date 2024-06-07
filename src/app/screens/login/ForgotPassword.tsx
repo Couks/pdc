@@ -16,7 +16,7 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
     formState: { errors },
   } = useForm({});
 
-  const handleForgotPassoword = (data: FormData) => console.log(data);
+  const handleForgotPassoword = (data: FormData) => {};
 
   return (
     <View className="flex-1 bg-primary-500 dark:bg-primary-800">

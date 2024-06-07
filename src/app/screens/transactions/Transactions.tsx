@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 
 interface TransactionsProps {
   transactions?: TransactionProps[] | undefined | null;
-  isLoading: boolean;
+  isLoading?: boolean;
   onRefresh?: () => void;
   ListEmptyComponent?: React.ComponentType;
 }
@@ -22,7 +22,7 @@ export function Transactions({
         <Skeleton className="w-full h-30" />
       ) : (
         <FlatList
-          data={transactions}
+          data={transactions?.reverse() || []}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
             <Transaction

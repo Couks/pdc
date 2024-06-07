@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableWithoutFeedback,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 
@@ -15,6 +15,7 @@ interface SelectInputProps {
   options: { value: string; label: string }[];
   selectedValue?: string;
   onValueChange?: (value: string) => void;
+  disabled?: boolean; // Adicionando a propriedade disabled
 }
 
 const SelectInput = ({
@@ -22,11 +23,18 @@ const SelectInput = ({
   options,
   selectedValue,
   onValueChange,
+  disabled = false, // Adicionando a propriedade disabled com valor padrão false
 }: SelectInputProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(
     options.find((option) => option.value === selectedValue)?.label
   );
+
+  useEffect(() => {
+    setSelectedLabel(
+      options.find((option) => option.value === selectedValue)?.label
+    );
+  }, [selectedValue, options]);
 
   const handleOptionPress = (option) => {
     setSelectedLabel(option.label);
@@ -37,7 +45,13 @@ const SelectInput = ({
   const { colorScheme } = useColorScheme();
 
   return (
-    <View className="items-center justify-center bg-primary-200 dark:bg-secondary-500 rounded-3xl">
+    <View
+      className={`items-center justify-center ${
+        disabled
+          ? "bg-gray-300 dark:bg-gray-600"
+          : "bg-primary-200 dark:bg-secondary-500"
+      } rounded-2xl`}
+    >
       <TouchableOpacity
         style={{
           width: "100%",
@@ -46,14 +60,27 @@ const SelectInput = ({
           alignItems: "center",
           justifyContent: "space-between",
         }}
-        onPress={() => setModalVisible(true)}
+        onPress={() => !disabled && setModalVisible(true)}
+        disabled={disabled} // Desabilitar o TouchableOpacity se estiver desabilitado
       >
         {selectedLabel == null ? (
-          <Text className="text-gray-800 dark:text-white text-lg px-4">
+          <Text
+            className={`text-lg px-4 ${
+              disabled
+                ? "text-gray-500 dark:text-gray-400"
+                : "text-gray-800 dark:text-white"
+            }`}
+          >
             {label}
           </Text>
         ) : (
-          <Text className="text-gray-800 dark:text-white text-lg px-4">
+          <Text
+            className={`text-lg px-4 ${
+              disabled
+                ? "text-gray-500 dark:text-gray-400"
+                : "text-gray-800 dark:text-white"
+            }`}
+          >
             {selectedLabel}
           </Text>
         )}
@@ -61,7 +88,15 @@ const SelectInput = ({
           name="chevron-down-outline"
           size={24}
           className="px-3"
-          color={colorScheme == "light" ? "black" : "white"}
+          color={
+            disabled
+              ? colorScheme == "light"
+                ? "gray"
+                : "darkgray"
+              : colorScheme == "light"
+              ? "black"
+              : "white"
+          }
         />
       </TouchableOpacity>
       <Modal

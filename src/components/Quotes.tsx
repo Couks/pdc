@@ -40,7 +40,6 @@ const Quotes = () => {
       });
     } catch (err) {
       setError(err);
-      console.log(err.message);
     } finally {
       setLoading(false);
     }
@@ -55,7 +54,7 @@ const Quotes = () => {
   }
 
   return (
-    <View className="bg-gray-200 dark:bg-gray-800 p-6 rounded-3xl">
+    <View className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-3xl">
       <View className="flex-row justify-between items-center">
         <Text className="text-gray-800 dark:text-white text-xl">Cotações</Text>
         <TouchableOpacity onPress={fetchData}>

@@ -3,8 +3,6 @@ import axios from "axios";
 import { API_URL } from "@/hooks/auth/AuthContext";
 import { TransactionProps } from "@/lib/transactionProps";
 
-import { useToast } from "@/components/ui/Toast";
-
 interface UseUpdateTransactionResult {
   isLoading: boolean;
   error: Error | null;
@@ -13,7 +11,6 @@ interface UseUpdateTransactionResult {
 }
 
 export const useUpdateTransaction = (): UseUpdateTransactionResult => {
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [updatedTransaction, setUpdatedTransaction] =
@@ -27,10 +24,8 @@ export const useUpdateTransaction = (): UseUpdateTransactionResult => {
         transaction
       );
       setUpdatedTransaction(response.data);
-      toast("Transação atualizada com sucesso!", "success", 2000);
     } catch (error) {
       setError(error as Error);
-      toast("Erro ao atualizar transação!", "destructive", 2000);
     } finally {
       setIsLoading(false);
     }

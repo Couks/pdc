@@ -22,8 +22,8 @@ export function Category({ iconName, title, description }: CategoryProps) {
             entering={FadeIn.delay(800).duration(2000).springify()}
             className="bg-primary-500 dark:bg-secondary-500 rounded-3xl items-center justify-center gap-2"
             style={{
-              width: 101,
-              height: 101,
+              width: 96,
+              height: 96,
             }}
           >
             <Ionicons

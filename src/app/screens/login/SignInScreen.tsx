@@ -45,9 +45,9 @@ export function SignInScreen({ navigation }: { navigation: any }) {
 
       if (result && result.error) {
         Alert.alert(result.msg);
-        toast("Erro ao realizar login!", "error", 2000);
+        toast("Erro ao realizar login!", "destructive");
       } else {
-        toast("Login realizado!", "success", 2000);
+        toast("Login realizado!", "success");
 
         setTimeout(() => {
           navigation.navigate("SignInScreen");

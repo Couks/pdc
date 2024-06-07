@@ -21,7 +21,7 @@ export function ProfileScreen() {
   const { userData } = useProfile();
 
   function handleLogout() {
-    toast("Deslogando...", "destructive", 2000);
+    toast("Deslogando...", "destructive");
 
     setTimeout(() => {
       if (onLogout) {
@@ -35,18 +35,18 @@ export function ProfileScreen() {
 
   return (
     <View className="flex-1 bg-primary-500 dark:bg-primary-800 ">
-      <Header />
+      <Header style={{ height: 150 }} />
 
       <RoundedView>
         <View className="flex-col items-center justify-around h-full">
           <View className="items-center justify-center gap-2">
             <Animated.View
               entering={FlipInEasyX.springify().damping(2).duration(2000)}
-              style={{ marginTop: -120 }}
+              style={{ marginTop: -140 }}
             >
               <Avatar
-                className="border-4 border-primary-500 dark:border-primary-800"
-                style={{ height: 130, width: 130, backgroundColor: "#052224" }}
+                className="border-8 border-primary-500 dark:border-primary-800"
+                style={{ height: 150, width: 150, backgroundColor: "#052224" }}
               >
                 <AvatarImage
                   source={{
@@ -118,14 +118,14 @@ export function ProfileScreen() {
                   >
                     <Ionicons name="log-out-outline" color="white" size={30} />
                   </View>
-                  <Text className="text-2xl font-bold text-secondary-800 dark:text-white">
+                  <Text className="text-3xl font-bold text-secondary-800 dark:text-white">
                     Sair
                   </Text>
                 </TouchableOpacity>
               </DialogTrigger>
               <DialogContent>
                 <View
-                  className="gap-4 rounded-3xl justify-center shadow-2xl bg-red-500"
+                  className="gap-4 rounded-2xl justify-center shadow-2xl bg-red-500"
                   style={{ margin: 20, padding: 30 }}
                 >
                   <Text className="text-white text-xl">

@@ -1,10 +1,9 @@
 import Animated, {
   BounceInLeft,
   BounceInRight,
-  SlideInUp,
   FadeIn,
 } from "react-native-reanimated";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
@@ -14,57 +13,48 @@ import { colors as defaultColors } from "@/assets/styles/colors";
 import colors from "tailwindcss/colors";
 
 interface BalanceProps {
-  onFilterChange?: (filteredTransactions: TransactionProps[]) => {};
+  onTypeChange?: (type: "entradas" | "saidas" | "default") => void;
 }
 
-export function Balance({ onFilterChange }: BalanceProps) {
+export function Balance({ onTypeChange }: BalanceProps) {
   const { transactions } = useTransactions();
 
   const [totalEntradas, setTotalEntradas] = useState(0);
   const [totalSaidas, setTotalSaidas] = useState(0);
   const [balance, setBalance] = useState(0);
-  const [selectedFilter, setSelectedFilter] = useState("entrada");
+
+  const [selectedType, setSelectedType] = useState<
+    "entradas" | "saidas" | "default"
+  >("default");
 
   useEffect(() => {
     const entradas = transactions
       ?.filter((transaction) => transaction.entrada_saida === "entrada")
-      .reduce((total, transaction) => total + transaction?.valor, 0);
+      .reduce((total, transaction) => total + (transaction.valor ?? 0), 0);
     const saidas = transactions
       ?.filter((transaction) => transaction.entrada_saida === "saida")
-      .reduce((total, transaction) => total + transaction?.valor, 0);
+      .reduce((total, transaction) => total + (transaction.valor ?? 0), 0);
 
     setTotalEntradas(entradas || 0);
     setTotalSaidas(saidas || 0);
     setBalance((entradas || 0) - (saidas || 0));
   }, [transactions]);
 
-  const handlePress = (filter: string) => {
-    setSelectedFilter(filter);
-    let filteredTransactions: TransactionProps[] | undefined | null = [];
-
-    switch (filter) {
-      case "entradas":
-        filteredTransactions = transactions?.filter(
-          (transaction) => transaction.entrada_saida === "entrada"
-        );
-        break;
-      case "saidas":
-        filteredTransactions = transactions?.filter(
-          (transaction) => transaction.entrada_saida === "saida"
-        );
-        break;
-      default:
-        filteredTransactions = transactions;
-    }
-
-    if (onFilterChange) {
-      onFilterChange(filteredTransactions!);
+  const handlePress = (type: "entradas" | "saidas" | "default") => {
+    setSelectedType(type);
+    if (onTypeChange) {
+      onTypeChange(type);
     }
   };
 
   return (
     <Animated.View entering={FadeIn.delay(400).springify()} className="gap-2">
-      <Pressable onPress={() => handlePress("default")}>
+      <TouchableOpacity
+        onPress={(refetch) => {
+          handlePress("default");
+          refetch;
+        }}
+      >
         <Animated.View
           entering={BounceInRight.delay(600)}
           className="flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl"
@@ -79,13 +69,13 @@ export function Balance({ onFilterChange }: BalanceProps) {
             R$ {balance?.toFixed(2)}
           </Text>
         </Animated.View>
-      </Pressable>
+      </TouchableOpacity>
 
       <Pressable onPress={() => handlePress("entradas")}>
         <Animated.View
           entering={BounceInLeft.delay(800).springify()}
           className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl ${
-            selectedFilter === "entradas" &&
+            selectedType === "entradas" &&
             "border-4 border-primary-600 dark:border-secondary-500"
           }`}
         >
@@ -110,7 +100,7 @@ export function Balance({ onFilterChange }: BalanceProps) {
         <Animated.View
           entering={BounceInRight.delay(1000).springify()}
           className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl ${
-            selectedFilter === "saidas" &&
+            selectedType === "saidas" &&
             "border-4 border-primary-600 dark:border-secondary-500"
           }`}
         >
