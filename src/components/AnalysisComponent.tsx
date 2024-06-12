@@ -17,7 +17,7 @@ export function AnalysisComponent() {
   if (isLoading) {
     return (
       <Animated.View
-        entering={SlideInRight}
+        entering={SlideInRight.springify()}
         className="flex-row bg-green-200 dark:bg-secondary-600 p-6 items-center justify-around rounded-3xl gap-4"
       >
         <View className="items-center justify-center gap-1">
@@ -64,8 +64,8 @@ export function AnalysisComponent() {
 
   return (
     <Animated.View
-      entering={SlideInUp.delay(200).springify()}
-      className="flex-row bg-green-200 dark:bg-secondary-500 p-6 items-center justify-around rounded-3xl gap-4"
+      entering={SlideInRight.springify()}
+      className="flex-row bg-green-200 dark:bg-secondary-600 p-6 items-center justify-around rounded-3xl gap-4"
     >
       {/* Maior gasto */}
       {categoriesToShow.length > 0 && (

@@ -19,7 +19,7 @@ export function Category({ iconName, title, description }: CategoryProps) {
       <DialogTrigger>
         <TouchableOpacity>
           <Animated.View
-            entering={FadeIn.delay(800).duration(2000).springify()}
+            entering={FadeIn.delay(800).springify()}
             className="bg-primary-500 dark:bg-secondary-500 rounded-3xl items-center justify-center gap-2"
             style={{
               width: 96,
@@ -31,12 +31,12 @@ export function Category({ iconName, title, description }: CategoryProps) {
               size={40}
               color={
                 colorScheme == "light"
-                  ? defaultColors.secondary[500]
+                  ? defaultColors.primary[200]
                   : defaultColors.primary[500]
               }
             />
 
-            <Text className="text-secondary-800 dark:text-white text-sm text-center">
+            <Text className="text-secondary-800 dark:text-white text-sm text-center font-bold">
               {title}
             </Text>
           </Animated.View>

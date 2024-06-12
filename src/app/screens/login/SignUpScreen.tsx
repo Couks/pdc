@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/auth/AuthContext";
 import { useForm, Controller } from "react-hook-form";
 import { ToastProvider, useToast } from "@/components/ui/Toast";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { RoundedView } from "@/components/ui/RoundedView";
 
 interface FormData {
   email: string;
@@ -73,7 +74,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
         {loading ? (
           <Loading />
         ) : (
-          <View className="flex-1 justify-center bg-white dark:bg-secondary-800 rounded-t-[30px]">
+          <RoundedView>
             {success ? (
               <View className="flex-1 items-center justify-center gap-6 px-8">
                 <Text className="dark:text-white text-primary-500 text-3xl text-center">
@@ -81,7 +82,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                 </Text>
               </View>
             ) : (
-              <View className="mx-6 gap-4">
+              <View className="gap-4">
                 <View className="items-center justify-center gap-4 mb-4">
                   <Animated.View
                     entering={FadeInUp.delay(0).springify()}
@@ -265,7 +266,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                 </Animated.View>
               </View>
             )}
-          </View>
+          </RoundedView>
         )}
       </View>
     </ToastProvider>

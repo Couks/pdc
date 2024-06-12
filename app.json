@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "whats-your-finances",
-    "slug": "whats-your-finances",
+    "slug": "WhatsYourFinances",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -13,6 +13,7 @@
       "backgroundColor": "#00D09E"
     },
     "assetBundlePatterns": ["**/*"],
+    "platforms": ["ios", "android"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.whatsyourfinances"
@@ -21,7 +22,7 @@
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#00D09E"
       },
       "package": "com.anonymous.whatsyourfinances"
     },
@@ -30,7 +31,7 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-secure-store"],
+    "plugins": ["expo-router", "expo-secure-store", "expo-font"],
     "experiments": {
       "typedRoutes": true
     },

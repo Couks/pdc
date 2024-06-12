@@ -33,7 +33,10 @@ export function SignInScreen({ navigation }: { navigation: any }) {
     formState: { errors },
   } = useForm({});
 
-  const handleSignIn: SubmitHandler<FieldValues & FormData> = async (data: { DDDtelefone: string; password: string }) => {
+  const handleSignIn: SubmitHandler<FieldValues & FormData> = async (data: {
+    DDDtelefone: string;
+    password: string;
+  }) => {
     setLoading(true);
 
     try {
@@ -61,47 +64,45 @@ export function SignInScreen({ navigation }: { navigation: any }) {
       <Header style={{ height: 50 }} />
 
       <RoundedView>
-        <View className="items-center gap-4 mb-8">
-          <Animated.View entering={FadeInUp.springify()} className="w-full">
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              name="DDDtelefone"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  iconName="logo-whatsapp"
-                  autoComplete="tel"
-                  keyboardType="phone-pad"
-                  placeholder="Digite seu contato WhatsApp"
-                />
-              )}
-            />
-          </Animated.View>
+        <Animated.View entering={FadeInUp.springify()} className="w-full">
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            name="DDDtelefone"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+                iconName="logo-whatsapp"
+                autoComplete="tel"
+                keyboardType="phone-pad"
+                placeholder="Digite seu contato WhatsApp"
+              />
+            )}
+          />
+        </Animated.View>
 
-          <Animated.View
-            entering={FadeInUp.delay(200).springify()}
-            className="w-full"
-          >
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              name="password"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  iconName="key"
-                  secureTextEntry={true}
-                  placeholder="Digite sua senha"
-                />
-              )}
-            />
-          </Animated.View>
-        </View>
+        <Animated.View
+          entering={FadeInUp.delay(200).springify()}
+          className="w-full"
+        >
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            name="password"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+                iconName="key"
+                secureTextEntry={true}
+                placeholder="Digite sua senha"
+              />
+            )}
+          />
+        </Animated.View>
 
         <View className="items-center justify-center gap-6">
           {/* Botão de Login*/}

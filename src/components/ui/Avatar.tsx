@@ -9,7 +9,7 @@ const Avatar = forwardRef<
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, ...props }, ref) => (
   <Animated.View
-    entering={FlipInEasyY.springify().delay(600).duration(5000)}
+    entering={FlipInEasyY.springify().delay(600)}
     ref={ref}
     className={cn(
       "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",

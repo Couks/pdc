@@ -172,7 +172,7 @@ const Economies = ({ transactions, isLoading }: any) => {
 
   return (
     <Animated.View
-      entering={FadeInDown.delay(600).springify()}
+      entering={FadeInDown.delay(200).springify()}
       className="flex-col w-full h-auto rounded-2xl p-6 bg-gray-200 dark:bg-secondary-600 "
     >
       <Text className="text-gray-800 dark:text-white text-xl">
@@ -252,10 +252,7 @@ const LatestExpenses = ({ transactions, isLoading }: any) => {
   }, [transactions]);
 
   return (
-    <Animated.View
-      entering={FadeInDown.delay(800).springify()}
-      className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl"
-    >
+    <View className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl">
       <Text className="text-gray-800 dark:text-white text-xl">
         Últimas despesas
       </Text>
@@ -287,7 +284,7 @@ const LatestExpenses = ({ transactions, isLoading }: any) => {
           </View>
         )}
       </View>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -302,10 +299,7 @@ const LatestIncomes = ({ transactions, isLoading }: any) => {
   }, [transactions]);
 
   return (
-    <Animated.View
-      entering={FadeInDown.delay(800).springify()}
-      className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl"
-    >
+    <View className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl">
       <Text className="text-gray-800 dark:text-white text-xl">
         Últimas receitas
       </Text>
@@ -337,7 +331,7 @@ const LatestIncomes = ({ transactions, isLoading }: any) => {
           </View>
         )}
       </View>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -346,7 +340,7 @@ const ExpensesByCategory = ({ data, isLoading }: any) => {
 
   return (
     <Animated.View
-      entering={FadeInDown.delay(1000).springify()}
+      entering={FadeInDown.delay(400).springify()}
       className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl"
     >
       <Text className="text-gray-800 dark:text-white text-xl">
@@ -355,32 +349,28 @@ const ExpensesByCategory = ({ data, isLoading }: any) => {
       <Separator />
 
       <View className="flex-row justify-between items-center">
-        <Animated.View
-          entering={PinwheelIn.delay(300).duration(10000).springify()}
-        >
-          {isLoading ? (
-            <View className="flex-row w-full items-center justify-between mt-2">
-              <Skeleton className="w-36 h-36 rounded-full" />
-              <View className="gap-4 justify-center">
-                <Skeleton className="w-40 h-4" />
-                <Skeleton className="w-40 h-4" />
-                <Skeleton className="w-40 h-4" />
-                <Skeleton className="w-40 h-4" />
-              </View>
+        {isLoading ? (
+          <View className="flex-row w-full items-center justify-between mt-2">
+            <Skeleton className="w-36 h-36 rounded-full" />
+            <View className="gap-4 justify-center">
+              <Skeleton className="w-40 h-4" />
+              <Skeleton className="w-40 h-4" />
+              <Skeleton className="w-40 h-4" />
+              <Skeleton className="w-40 h-4" />
             </View>
-          ) : (
-            <PieChart
-              data={data}
-              donut
-              radius={60}
-              innerRadius={40}
-              innerCircleColor={
-                colorScheme == "light" ? colors.gray[200] : colors.gray[800]
-              }
-              selectedIndex={data}
-            />
-          )}
-        </Animated.View>
+          </View>
+        ) : (
+          <PieChart
+            data={data}
+            donut
+            radius={60}
+            innerRadius={40}
+            innerCircleColor={
+              colorScheme == "light" ? colors.gray[200] : colors.gray[800]
+            }
+            selectedIndex={data}
+          />
+        )}
 
         {renderLegendComponent(data)}
       </View>
@@ -411,7 +401,7 @@ const renderDot = (color: string) => (
 
 const renderLegendComponent = (data: any[]) => {
   return (
-    <View className="">
+    <View>
       {data.map((item, index) => (
         <View key={index} className="flex-row items-center w-30 ">
           {renderDot(item.color)}

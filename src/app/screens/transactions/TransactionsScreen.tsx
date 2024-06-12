@@ -77,7 +77,7 @@ export function TransactionsScreen() {
       <RoundedView>
         <View className="flex-1">
           <Animated.View
-            entering={FadeInUp.delay(800).duration(800).springify()}
+            entering={FadeInUp.delay(800).springify()}
             className="flex-row p-2 bg-primary-200 dark:bg-secondary-600 w-full rounded-full justify-around"
           >
             {["day", "week", "month"].map((period) => (

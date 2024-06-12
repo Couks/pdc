@@ -25,13 +25,13 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
         {/* Formulário*/}
         <View className="items-center mx-4 gap-6">
           <Animated.Text
-            entering={FadeInDown.delay(400).duration(800).springify()}
+            entering={FadeInDown.delay(400).springify()}
             className="dark:text-primary-500 text-secondary-800 text-3xl font-bold"
           >
             Redefinir senha?
           </Animated.Text>
           <Animated.Text
-            entering={FadeInDown.delay(600).duration(800).springify()}
+            entering={FadeInDown.delay(600).springify()}
             className="dark:text-white text-secondary-800 text-center text-lg mb-8"
           >
             Por favor, insira seu endereço de e-mail abaixo para redefinir sua
@@ -40,7 +40,7 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
           </Animated.Text>
 
           <Animated.View
-            entering={FadeInDown.delay(800).duration(800).springify()}
+            entering={FadeInDown.delay(800).springify()}
             className="w-full"
           >
             <Controller
@@ -60,7 +60,7 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
 
           {/* Botão de Login*/}
           <Animated.View
-            entering={FadeInDown.delay(1000).duration(800).springify()}
+            entering={FadeInDown.delay(1000).springify()}
           >
             <Button
               label="Próximo Passo"
@@ -71,7 +71,7 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
 
           {/* Esqueceu sua senha?*/}
           <Animated.View
-            entering={FadeInDown.delay(1200).duration(800).springify()}
+            entering={FadeInDown.delay(1200).springify()}
           >
             <Button
               label="Cadastre-se"

@@ -12,7 +12,11 @@ import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { RoundedView } from "@/components/ui/RoundedView";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
-import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  FlipInEasyX,
+} from "react-native-reanimated";
 
 export function ProfileScreen() {
   const { onLogout = () => {} } = useAuth();
@@ -41,7 +45,7 @@ export function ProfileScreen() {
         <View className="flex-col items-center justify-around h-full">
           <View className="items-center justify-center gap-2">
             <Animated.View
-              entering={FlipInEasyX.springify().damping(2).duration(2000)}
+              entering={FlipInEasyX.springify().damping(2)}
               style={{ marginTop: -140 }}
             >
               <Avatar
@@ -141,9 +145,7 @@ export function ProfileScreen() {
               </DialogContent>
             </Dialog>
 
-            <Animated.View entering={FadeInDown.springify().delay(1200)}>
-              <ToggleTheme />
-            </Animated.View>
+            <ToggleTheme />
           </Animated.View>
         </View>
       </RoundedView>

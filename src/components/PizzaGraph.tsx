@@ -112,7 +112,7 @@ export function PizzaGraph() {
   return (
     <View className="flex-1 items-center">
       <Animated.View
-        entering={FadeInUp.delay(800).duration(800).springify()}
+        entering={FadeInUp.delay(200).springify()}
         className=" flex-row p-2 bg-primary-200 dark:bg-secondary-600 w-full rounded-full justify-around shadow"
       >
         {["day", "week", "month"].map((period) => (
