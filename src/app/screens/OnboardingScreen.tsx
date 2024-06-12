@@ -26,7 +26,7 @@ export function OnboardingScreen({ navigation }: { navigation: any }) {
     if (!buttonClicked) {
       const timer = setTimeout(() => {
         navigation.navigate("Home");
-      }, 20000);
+      }, 5000);
 
       return () => clearTimeout(timer);
     }

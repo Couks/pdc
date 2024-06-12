@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import SelectInput from "@/components/ui/SelectInput";
 import { RoundedView } from "@/components/ui/RoundedView";
 import { categoryOptions, typeOptions } from "@/utils/categoryIcons";
@@ -9,9 +9,12 @@ import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import Separator from "@/components/ui/Separator";
 import { useToast } from "@/components/ui/Toast";
+import { Link } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 export function CreateTransaction() {
   const { toast } = useToast();
+
   const { createTransaction, isLoading, error } = useCreateTransaction();
 
   const [transaction, setTransaction] = useState({
@@ -44,15 +47,19 @@ export function CreateTransaction() {
         <View className="items-center justify-center">
           <Animated.Text
             entering={FadeInDown.delay(1000).springify()}
-            className="dark:text-white text-secondary-800 text-center text-3xl"
+            className="dark:text-white text-secondary-800 text-center text-3xl mb-4"
           >
             O WhatsApp é nosso canal principal de entrada
           </Animated.Text>
-          <Button
-            label="Falar no WhatsApp"
-            className="w-auto mt-8"
-            onPress={() => alert("Falar no WhatsApp")}
-          />
+
+          <Link href="https://wa.me/5521968575084">
+            <View className="flex-row gap-2 items-center bg-primary-500 px-6 py-2 rounded-full">
+              <Text className="text-white font-bold text-xl">
+                Falar no WhatsApp
+              </Text>
+              <Ionicons name="logo-whatsapp" size={20} color={"white"} />
+            </View>
+          </Link>
         </View>
 
         <Separator />

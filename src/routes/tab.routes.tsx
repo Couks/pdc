@@ -35,13 +35,11 @@ export default function TabRoutes() {
           );
         },
         headerShadowVisible: false,
-
         headerStyle: {
           backgroundColor: colorScheme == "light" ? "#00D09E" : "#052224",
         },
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
-
         tabBarActiveTintColor: colorScheme == "light" ? "#052224" : "#47286C",
         tabBarInactiveTintColor: colorScheme == "light" ? "#052224" : "white",
         tabBarStyle: {

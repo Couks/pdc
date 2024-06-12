@@ -14,7 +14,7 @@ import { Loading } from "@/components/ui/Loading";
 import { useAuth } from "@/hooks/auth/AuthContext";
 import { handleAuthentication } from "@/hooks/auth/AuthBiometry";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInUp } from "react-native-reanimated";
 import { RoundedView } from "@/components/ui/RoundedView";
 
 interface FormData {
@@ -33,10 +33,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
     formState: { errors },
   } = useForm({});
 
-  const handleSignIn: SubmitHandler<FieldValues & FormData> = async (data: {
-    DDDtelefone: string;
-    password: string;
-  }) => {
+  const handleSignIn: SubmitHandler<FieldValues & FormData> = async (data: { DDDtelefone: string; password: string }) => {
     setLoading(true);
 
     try {

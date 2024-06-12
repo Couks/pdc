@@ -13,7 +13,7 @@ export default function StackRoutes() {
 
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Onboarding"
       screenOptions={{
         headerTintColor: "#fff",
         headerTitleStyle: {
@@ -28,7 +28,7 @@ export default function StackRoutes() {
         },
         animation: "ios",
         statusBarAnimation: "slide",
-        animationDuration: 250,
+        animationDuration: 5000,
       }}
     >
       <Stack.Screen

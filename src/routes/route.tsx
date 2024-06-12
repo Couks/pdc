@@ -9,7 +9,7 @@ export default function Routes() {
 
   return (
     <NavigationContainer independent={true}>
-      {!authState?.authenticated ? (
+      {authState?.authenticated ? (
         <>
           <TabRoutes />
           <StatusBar barStyle="default" translucent animated />

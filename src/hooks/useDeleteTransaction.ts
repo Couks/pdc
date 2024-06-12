@@ -11,7 +11,6 @@ interface UseDeleteTransactionResult {
 }
 
 export const useDeleteTransaction = (): UseDeleteTransactionResult => {
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -20,10 +19,8 @@ export const useDeleteTransaction = (): UseDeleteTransactionResult => {
     setError(null);
     try {
       await axios.delete(`${API_URL}/movimentacao/${transaction.id}`);
-      toast("Transação deletada com sucesso", "success");
     } catch (error) {
       setError(error as Error);
-      toast("Erro ao deletar transação", "destructive");
     } finally {
       setIsLoading(false);
     }
