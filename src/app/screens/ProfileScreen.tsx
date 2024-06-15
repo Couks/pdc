@@ -6,17 +6,17 @@ import { TouchableOpacity } from "react-native";
 import { useProfile } from "@/hooks/useProfile";
 import { Header } from "@/components/ui/Header";
 import { useToast } from "@/components/ui/Toast";
+import * as ImagePicker from "expo-image-picker";
 import { useAuth } from "@/hooks/auth/AuthContext";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { RoundedView } from "@/components/ui/RoundedView";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
-import Animated, {
-  FadeIn,
-  FadeInDown,
-  FlipInEasyX,
-} from "react-native-reanimated";
+import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
+import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Loading } from "@/components/ui/Loading";
 
 export function ProfileScreen() {
   const { onLogout = () => {} } = useAuth();
@@ -24,15 +24,49 @@ export function ProfileScreen() {
 
   const { userData } = useProfile();
 
+  const [profileImage, setProfileImage] = useState(
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThxpcmi8WVEkDU-XPYeZPPlp5daXAH7Ho_UA&s"
+  );
+  const PROFILE_IMAGE_KEY = "profile_image_uri";
+  const [loading, setLoading] = useState(false);
+
   function handleLogout() {
     toast("Deslogando...", "destructive");
-
     setTimeout(() => {
       if (onLogout) {
         onLogout();
       }
     }, 2000);
   }
+
+  const handlePickImage = async () => {
+    try {
+      setLoading(true);
+      let result = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (result.granted === false) {
+        alert("Para alterar a imagem, permita o acesso a galeria");
+        return;
+      }
+
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 1,
+      });
+
+      if (!pickerResult.canceled) {
+        const imageUri = pickerResult.assets[0].uri;
+        setProfileImage(imageUri);
+        await AsyncStorage.setItem(PROFILE_IMAGE_KEY, imageUri);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const formattedFirstName = formatString(userData?.firstName);
   const formattedLastName = formatString(userData?.lastName);
@@ -44,24 +78,31 @@ export function ProfileScreen() {
       <RoundedView>
         <View className="flex-col items-center justify-around h-full">
           <View className="items-center justify-center gap-2">
-            <Animated.View
-              entering={FlipInEasyX.springify().damping(2)}
-              style={{ marginTop: -140 }}
-            >
-              <Avatar
-                className="border-8 border-primary-500 dark:border-primary-800"
-                style={{ height: 150, width: 150, backgroundColor: "#052224" }}
+            <TouchableOpacity onPress={handlePickImage}>
+              <Animated.View
+                entering={FlipInEasyX.springify().damping(2)}
+                style={{ marginTop: -140 }}
               >
-                <AvatarImage
-                  source={{
-                    uri:
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThxpcmi8WVEkDU-XPYeZPPlp5daXAH7Ho_UA&s" ||
-                      undefined,
+                <Avatar
+                  className="border-8 border-primary-500 dark:border-primary-800"
+                  style={{
+                    height: 150,
+                    width: 150,
+                    backgroundColor: "#052224",
                   }}
-                />
-                <AvatarFallback>PROFILE</AvatarFallback>
-              </Avatar>
-            </Animated.View>
+                >
+                  {loading ? (
+                    <Loading />
+                  ) : (
+                    <AvatarImage
+                      source={{
+                        uri: profileImage,
+                      }}
+                    />
+                  )}
+                </Avatar>
+              </Animated.View>
+            </TouchableOpacity>
 
             {!userData?.firstName && !userData?.lastName ? (
               <View className="flex-row gap-2 mb-2">

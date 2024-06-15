@@ -67,18 +67,26 @@ export function SignInScreen({ navigation }: { navigation: any }) {
         <Animated.View entering={FadeInUp.springify()} className="w-full">
           <Controller
             control={control}
-            rules={{ required: true }}
+            rules={{
+              required: "O número de telefone é obrigatório",
+            }}
             name="DDDtelefone"
             render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                iconName="logo-whatsapp"
-                autoComplete="tel"
-                keyboardType="phone-pad"
-                placeholder="Digite seu contato WhatsApp"
-              />
+              <>
+                <Input
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  iconName="logo-whatsapp"
+                  keyboardType="phone-pad"
+                  placeholder="Digite seu número de WhatsApp"
+                />
+                {errors.DDDtelefone && (
+                  <Text className="text-white py-1 text-center bg-red-500 w-full rounded-xl top-2">
+                    {errors.DDDtelefone.message?.toString()}
+                  </Text>
+                )}
+              </>
             )}
           />
         </Animated.View>
@@ -89,17 +97,24 @@ export function SignInScreen({ navigation }: { navigation: any }) {
         >
           <Controller
             control={control}
-            rules={{ required: true }}
+            rules={{ required: "A senha é obrigatória" }}
             name="password"
             render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                iconName="key"
-                secureTextEntry={true}
-                placeholder="Digite sua senha"
-              />
+              <>
+                <Input
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  iconName="lock-closed-outline"
+                  secureTextEntry={true}
+                  placeholder="Digite sua senha"
+                />
+                {errors.password && (
+                  <Text className="text-white py-1 text-center bg-red-500 w-full rounded-xl top-2">
+                    {errors.password.message?.toString()}
+                  </Text>
+                )}
+              </>
             )}
           />
         </Animated.View>

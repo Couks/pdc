@@ -112,7 +112,7 @@ export function PizzaGraph() {
   return (
     <View className="flex-1 items-center">
       <Animated.View
-        entering={FadeInUp.delay(200).springify()}
+        entering={FadeInUp.delay(200).springify().damping(4)}
         className=" flex-row p-2 bg-primary-200 dark:bg-secondary-600 w-full rounded-full justify-around shadow"
       >
         {["day", "week", "month"].map((period) => (
@@ -179,36 +179,15 @@ export function PizzaGraph() {
         }
       />
 
-      {selectedCategory == null ? (
-        <View className="w-full h-full gap-4 items-center justify-center ">
-          <Skeleton className="w-full h-20" />
-          <Skeleton className="w-full h-20" />
-          <Skeleton className="w-full h-20" />
-          <Skeleton className="w-full h-20" />
-          <Skeleton className="w-full h-20" />
-          <Skeleton className="w-full h-20" />
-        </View>
-      ) : (
-        <View className="w-full gap-2 h-full">
-          <Transactions
-            transactions={filteredTransactions?.filter(
-              (transaction) => transaction.categoria === selectedCategory
-            )}
-            isLoading={isLoading}
-            onRefresh={refetch}
-            ListEmptyComponent={() => (
-              <View className="w-full gap-6 items-center mt-4">
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-              </View>
-            )}
-          />
-        </View>
-      )}
+      <View className="w-full gap-2 h-full">
+        <Transactions
+          transactions={filteredTransactions?.filter(
+            (transaction) => transaction.categoria === selectedCategory
+          )}
+          isLoading={isLoading}
+          onRefresh={refetch}
+        />
+      </View>
     </View>
   );
 }

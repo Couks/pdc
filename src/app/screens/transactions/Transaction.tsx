@@ -92,10 +92,7 @@ export function Transaction({
           />
 
           <Input
-            placeholder={formatPrice(
-              transaction.entrada_saida,
-              transaction.valor
-            )}
+            placeholder={formatPrice(transaction.entrada_saida, valor)}
             keyboardType="numeric"
             iconName="cash"
             onChangeText={(text) => setValue("valor", Number(text))}

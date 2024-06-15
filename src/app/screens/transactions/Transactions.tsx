@@ -3,6 +3,7 @@ import { Transaction } from "./Transaction";
 import { FlatList, View } from "react-native";
 import { TransactionProps } from "@/lib/transactionProps";
 import { Skeleton } from "@/components/ui/Skeleton";
+import Separator from "@/components/ui/Separator";
 
 interface TransactionsProps {
   transactions?: TransactionProps[] | undefined | null;
@@ -19,7 +20,48 @@ export function Transactions({
   return (
     <>
       {isLoading ? (
-        <Skeleton className="w-full h-30" />
+        <View className="h-full w-full gap-3 pt-8 pb-24 overflow-hidden">
+          <View className="flex-row gap-4 w-full">
+            <Skeleton className="size-20 rounded-full" />
+            <View className="flex-1 gap-4 justify-center">
+              <Skeleton className="w-auto h-6" />
+              <Skeleton className="w-auto h-6" />
+            </View>
+          </View>
+          <Separator />
+          <View className="flex-row gap-4 w-full">
+            <Skeleton className="size-20 rounded-full" />
+            <View className="flex-1 gap-4 justify-center">
+              <Skeleton className="w-auto h-6" />
+              <Skeleton className="w-auto h-6" />
+            </View>
+          </View>
+          <Separator />
+          <View className="flex-row gap-4 w-full">
+            <Skeleton className="size-20 rounded-full" />
+            <View className="flex-1 gap-4 justify-center">
+              <Skeleton className="w-auto h-6" />
+              <Skeleton className="w-auto h-6" />
+            </View>
+          </View>
+          <Separator />
+          <View className="flex-row gap-4 w-full">
+            <Skeleton className="size-20 rounded-full" />
+            <View className="flex-1 gap-4 justify-center">
+              <Skeleton className="w-auto h-6" />
+              <Skeleton className="w-auto h-6" />
+            </View>
+          </View>
+          <Separator />
+          <View className="flex-row gap-4 w-full">
+            <Skeleton className="size-20 rounded-full" />
+            <View className="flex-1 gap-4 justify-center">
+              <Skeleton className="w-auto h-6" />
+              <Skeleton className="w-auto h-6" />
+            </View>
+          </View>
+          <Separator />
+        </View>
       ) : (
         <FlatList
           data={transactions?.reverse() || []}

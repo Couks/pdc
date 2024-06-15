@@ -18,66 +18,22 @@ import { Skeleton } from "@/components/ui/Skeleton";
 
 export function DashboardScreen() {
   const { transactions, isLoading, refetch } = useTransactions();
-
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
 
   const availableMonths = useMemo(() => {
-    const monthsSet = new Set();
-    (transactions ?? []).forEach((transaction) => {
-      const month = new Date(transaction.createdAt).getMonth() + 1;
-      monthsSet.add(month);
-    });
-    return Array.from(monthsSet).sort((a, b) => a - b);
+    return getAvailableMonths(transactions);
   }, [transactions]);
 
   const monthOptions = useMemo(() => {
-    const monthNames = [
-      "Janeiro",
-      "Fevereiro",
-      "Março",
-      "Abril",
-      "Maio",
-      "Junho",
-      "Julho",
-      "Agosto",
-      "Setembro",
-      "Outubro",
-      "Novembro",
-      "Dezembro",
-    ];
-    return availableMonths.map((month) => ({
-      label: monthNames[month],
-      value: String(month),
-    }));
+    return getMonthOptions(availableMonths);
   }, [availableMonths]);
 
   const filteredTransactions = useMemo(() => {
-    return (transactions ?? []).filter(
-      (transaction) =>
-        new Date(transaction.createdAt).getMonth() + 1 === selectedMonth
-    );
+    return filterTransactionsByMonth(transactions, selectedMonth);
   }, [transactions, selectedMonth]);
 
   const data = useMemo(() => {
-    const result = filteredTransactions?.reduce((acc, transaction) => {
-      const category = acc.find(
-        (item) => item?.label === transaction.categoria
-      );
-      if (category) {
-        category.value += transaction.valor;
-      } else {
-        acc.push({
-          label: transaction.categoria,
-          value: transaction.valor,
-          color: getRandomColor(),
-        });
-      }
-      return acc;
-    }, []);
-    return result?.map((item: any) => ({
-      ...item,
-      value: (item.value / result.reduce((sum, i) => sum + i.value, 0)) * 100,
-    }));
+    return getData(filteredTransactions);
   }, [filteredTransactions]);
 
   return (
@@ -97,16 +53,6 @@ export function DashboardScreen() {
       </Header>
 
       <RoundedView>
-        {monthOptions.length === 0 ? (
-          <Text className="text-gray-800 dark:text-gray-300 text-md px-2">
-            Adicione transações selecionar o período
-          </Text>
-        ) : (
-          <Text className="text-gray-800 dark:text-gray-200 text-md px-2">
-            Selecione o período
-          </Text>
-        )}
-
         <SelectInput
           label="Mês"
           options={monthOptions}
@@ -139,17 +85,100 @@ export function DashboardScreen() {
   );
 }
 
+function getCurrentMonth() {
+  const currentDate = new Date();
+  return currentDate.getMonth() + 1;
+}
+
+function getAvailableMonths(transactions: any[] | null) {
+  const monthsSet = new Set();
+  transactions?.forEach(
+    (transaction: { createdAt: string | number | Date }) => {
+      const month = new Date(transaction.createdAt).getMonth() + 1;
+      monthsSet.add(month);
+    }
+  );
+  return Array.from(monthsSet).sort((a, b) => a - b);
+}
+
+function getMonthOptions(availableMonths: any[]) {
+  const monthNames = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+  return availableMonths.map((month) => ({
+    label: monthNames[month - 1],
+    value: String(month),
+  }));
+}
+
+function filterTransactionsByMonth(
+  transactions: any[] | null,
+  selectedMonth: number
+) {
+  return (
+    transactions?.filter(
+      (transaction: { createdAt: string | number | Date }) => {
+        const transactionMonth = new Date(transaction.createdAt).getMonth() + 1;
+        return transactionMonth === selectedMonth;
+      }
+    ) ?? []
+  );
+}
+
+function getData(filteredTransactions: any[]) {
+  const result = filteredTransactions?.reduce(
+    (
+      acc: { label: any; value: any; color: string }[],
+      transaction: { categoria: any; valor: any }
+    ) => {
+      const category = acc.find(
+        (item: { label: any }) => item?.label === transaction.categoria
+      );
+      if (category) {
+        category.value += transaction.valor;
+      } else {
+        acc.push({
+          label: transaction.categoria,
+          value: transaction.valor,
+          color: getRandomColor(),
+        });
+      }
+      return acc;
+    },
+    []
+  );
+
+  return result?.map((item: any) => ({
+    ...item,
+    value:
+      (item.value /
+        result.reduce((sum: any, i: { value: any }) => sum + i.value, 0)) *
+      100,
+  }));
+}
+
 const Economies = ({ transactions, isLoading }: any) => {
   const totalReceitas = useMemo(() => {
     return transactions
-      .filter((t) => t?.entrada_saida === "entrada")
-      .reduce((sum, t) => sum + t?.valor, 0);
+      .filter((t: { entrada_saida: string }) => t?.entrada_saida === "entrada")
+      .reduce((sum: any, t: { valor: any }) => sum + t?.valor, 0);
   }, [transactions]);
 
   const totalDespesas = useMemo(() => {
     return transactions
-      .filter((t) => t?.entrada_saida === "saida")
-      .reduce((sum, t) => sum + t?.valor, 0);
+      .filter((t: { entrada_saida: string }) => t?.entrada_saida === "saida")
+      .reduce((sum: any, t: { valor: any }) => sum + t?.valor, 0);
   }, [transactions]);
 
   const totalEconomizado = totalReceitas - totalDespesas;
@@ -246,8 +275,13 @@ const Economies = ({ transactions, isLoading }: any) => {
 const LatestExpenses = ({ transactions, isLoading }: any) => {
   const latestTransactions = useMemo(() => {
     return transactions
-      .filter((t) => t?.entrada_saida === "saida")
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .filter((t: { entrada_saida: string }) => t?.entrada_saida === "saida")
+      .sort(
+        (
+          a: { createdAt: string | number | Date },
+          b: { createdAt: string | number | Date }
+        ) => new Date(b.createdAt) - new Date(a.createdAt)
+      )
       .slice(0, 5);
   }, [transactions]);
 

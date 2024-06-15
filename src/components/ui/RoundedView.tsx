@@ -1,4 +1,4 @@
-import Animated, { FadeInDown, ReduceMotion } from "react-native-reanimated";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 interface RoundedViewProps {
   children: React.ReactNode;

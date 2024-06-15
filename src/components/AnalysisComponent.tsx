@@ -20,23 +20,31 @@ export function AnalysisComponent() {
         entering={SlideInRight.springify()}
         className="flex-row bg-green-200 dark:bg-secondary-600 p-6 items-center justify-around rounded-3xl gap-4"
       >
-        <View className="items-center justify-center gap-1">
+        <View className="items-center justify-center ">
           <Skeleton className="rounded-full w-20 h-20" />
-          <Skeleton className="w-24 h-8 mt-2" />
+          <Skeleton className="w-20 h-4 mt-2" />
+          <Skeleton className="w-24 h-4 mt-2" />
         </View>
 
         <Separator orientation="vertical" />
 
-        <View className="flex-col items-center gap-4">
+        <View className="flex-col items-center gap-2">
           <View className="flex-row gap-2">
             <Skeleton className="w-10 h-10" />
-            <Skeleton className="w-32 h-10" />
+            <View className="gap-2">
+              <Skeleton className="w-32 h-4" />
+              <Skeleton className="w-32 h-4" />
+            </View>
           </View>
+
           <Separator />
 
           <View className="flex-row gap-2">
             <Skeleton className="w-10 h-10" />
-            <Skeleton className="w-32 h-10" />
+            <View className="gap-2">
+              <Skeleton className="w-32 h-4" />
+              <Skeleton className="w-32 h-4" />
+            </View>
           </View>
         </View>
       </Animated.View>
@@ -69,8 +77,8 @@ export function AnalysisComponent() {
     >
       {/* Maior gasto */}
       {categoriesToShow.length > 0 && (
-        <View className="gap-2 items-center justify-center m-4">
-          <View className="items-center justify-center rounded-full bg-transparent border-4 size-20 border-secondary-500 dark:border-primary-500">
+        <View className="gap-2 items-center justify-center">
+          <View className="items-center justify-center rounded-full bg-transparent border-4 size-16 border-secondary-500 dark:border-primary-500">
             <Ionicons
               name={iconName}
               color={
@@ -92,7 +100,7 @@ export function AnalysisComponent() {
 
       <Separator orientation="vertical" />
 
-      <View className="flex-col items-start gap-4 px-2">
+      <View className="flex-col items-start ">
         {categoriesToShow.slice(1).map(([category, value], index) => (
           <View key={index} className="w-full">
             <View className="flex-row gap-4 justify-center items-center">
@@ -115,7 +123,7 @@ export function AnalysisComponent() {
               </View>
             </View>
             {index < categoriesToShow.slice(1).length - 1 && (
-              <Separator style={{ marginTop: 22 }} />
+              <Separator style={{ marginTop: 16 }} />
             )}
           </View>
         ))}

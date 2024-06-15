@@ -69,7 +69,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
   return (
     <ToastProvider>
       <View className="flex-1 bg-primary-500 dark:bg-primary-800">
-        <Header style={{ height: 50 }} />
+        <Header />
 
         {loading ? (
           <Loading />
@@ -110,7 +110,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                             placeholder="Digite seu endereço de e-mail"
                           />
                           {errors.email && (
-                            <Text className="text-red-500">
+                            <Text className="text-white py-1 text-center bg-red-500 w-full rounded-xl top-2">
                               {errors.email.message?.toString()}
                             </Text>
                           )}
@@ -135,11 +135,12 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                             onBlur={onBlur}
                             value={value}
                             iconName="logo-whatsapp"
+                            autocomplete="tel"
                             keyboardType="phone-pad"
-                            placeholder="Digite seu numero de WhatsApp"
+                            placeholder="Digite seu número de WhatsApp"
                           />
                           {errors.DDDtelefone && (
-                            <Text className="text-red-500">
+                            <Text className="text-white py-1 text-center bg-red-500 w-full rounded-xl top-2">
                               {errors.DDDtelefone.message?.toString()}
                             </Text>
                           )}
@@ -161,12 +162,12 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                             onChangeText={onChange}
                             onBlur={onBlur}
                             value={value}
-                            iconName="key"
+                            iconName="lock-closed-outline"
                             secureTextEntry={true}
                             placeholder="Digite sua senha"
                           />
                           {errors.password && (
-                            <Text className="text-red-500">
+                            <Text className="text-white py-1 text-center bg-red-500 w-full rounded-xl top-2">
                               {errors.password.message?.toString()}
                             </Text>
                           )}
@@ -186,7 +187,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                           onChangeText={onChange}
                           onBlur={onBlur}
                           value={value}
-                          iconName="person"
+                          iconName="person-outline"
                           placeholder="Digite seu apelido"
                         />
                       )}

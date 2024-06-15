@@ -22,3 +22,10 @@ export const formatPrice = (entrada_saida: string, valor: number): string => {
 export const getFormattedCategoryName = (category: string) => {
   return categoryNames[category] || category;
 };
+
+export const formatCurrency = (value: number): string => {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+};

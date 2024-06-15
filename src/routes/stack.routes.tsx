@@ -5,15 +5,33 @@ import { SignUpScreen } from "@/app/screens/login/SignUpScreen";
 import { ForgotPassword } from "@/app/screens/login/ForgotPassword";
 import { OnboardingScreen } from "@/app/screens/OnboardingScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
 export default function StackRoutes() {
   const { colorScheme } = useColorScheme();
 
+  const [initialRoute, setInitialRoute] = useState("Onboarding");
+
+  useEffect(() => {
+    const checkOnboardingStatus = async () => {
+      try {
+        const value = await AsyncStorage.getItem("@has_onboarded");
+        if (value !== null) {
+          setInitialRoute("Home");
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    checkOnboardingStatus();
+  }, []);
+
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName={initialRoute}
       screenOptions={{
         headerTintColor: "#fff",
         headerTitleStyle: {

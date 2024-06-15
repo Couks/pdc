@@ -77,7 +77,7 @@ export function TransactionsScreen() {
       <RoundedView>
         <View className="flex-1">
           <Animated.View
-            entering={FadeInUp.delay(800).springify()}
+            entering={FadeInUp.delay(800).springify().damping(4)}
             className="flex-row p-2 bg-primary-200 dark:bg-secondary-600 w-full rounded-full justify-around"
           >
             {["day", "week", "month"].map((period) => (
@@ -116,16 +116,6 @@ export function TransactionsScreen() {
             transactions={filteredTransactions}
             isLoading={isLoading}
             onRefresh={refetch}
-            ListEmptyComponent={() => (
-              <View className="w-full gap-6 items-center mt-4">
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-                <Skeleton className="w-full h-20" />
-              </View>
-            )}
           />
         </View>
       </RoundedView>

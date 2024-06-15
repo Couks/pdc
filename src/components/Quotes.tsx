@@ -11,6 +11,7 @@ import Separator from "@/components/ui/Separator";
 import { Skeleton } from "./ui/Skeleton";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
+import { formatCurrency } from "@/utils/formatUtils";
 
 const Quotes = () => {
   const [data, setData] = useState(null);
@@ -75,7 +76,7 @@ const Quotes = () => {
             <View className="flex-row justify-between">
               <Text className="text-gray-800 dark:text-white">Dólar</Text>
               <Text className="text-gray-800 dark:text-white">
-                R$ {data.dollar.price.toFixed(2)}
+                {formatCurrency(data.dollar.price)}
               </Text>
             </View>
           )}
@@ -88,7 +89,7 @@ const Quotes = () => {
             <View className="flex-row justify-between">
               <Text className="text-gray-800 dark:text-white">Euro</Text>
               <Text className="text-gray-800 dark:text-white">
-                R$ {data.euro.price.toFixed(2)}
+                {formatCurrency(data.euro.price)}
               </Text>
             </View>
           )}
@@ -101,7 +102,7 @@ const Quotes = () => {
             <View className="flex-row justify-between">
               <Text className="text-gray-800 dark:text-white">Bitcoin</Text>
               <Text className="text-gray-800 dark:text-white">
-                R$ {data.bitcoin.price.toFixed(2)}
+                {formatCurrency(data.bitcoin.price)}
               </Text>
             </View>
           )}
@@ -114,7 +115,7 @@ const Quotes = () => {
             <View className="flex-row justify-between">
               <Text className="text-gray-800 dark:text-white">Bovespa</Text>
               <Text className="text-gray-800 dark:text-white">
-                R$ {data.bovespa.price.toFixed(2)}
+                {formatCurrency(data.bovespa.price)}
               </Text>
             </View>
           )}

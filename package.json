@@ -47,7 +47,8 @@
     "react-native-svg": "15.2.0",
     "react-native-swiper": "^1.6.0",
     "react-native-web": "^0.19.11",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "expo-image-picker": "~15.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
