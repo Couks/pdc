@@ -1,7 +1,7 @@
 import { Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, View } from "react-native";
-import Animated, { FadeIn, StretchInY } from "react-native-reanimated";
+import Animated, { FadeIn } from "react-native-reanimated";
 import { Dialog, DialogTrigger, DialogContent } from "./Dialog";
 import { useColorScheme } from "nativewind";
 import { colors as defaultColors } from "@/assets/styles/colors";
@@ -36,7 +36,7 @@ export function Category({ iconName, title, description }: CategoryProps) {
               }
             />
 
-            <Text className="text-secondary-800 dark:text-white text-sm text-center font-bold">
+            <Text className="text-primary-200 dark:text-white text-xs text-center font-bold">
               {title}
             </Text>
           </Animated.View>
@@ -53,13 +53,13 @@ export function Category({ iconName, title, description }: CategoryProps) {
               size={40}
               color={
                 colorScheme == "light"
-                  ? defaultColors.secondary[500]
+                  ? defaultColors.primary[200]
                   : defaultColors.primary[500]
               }
             />
             <Text className="font-semibold text-3xl text-white ">{title}</Text>
           </View>
-          <Text className="text-secondary-800 text-center font-semibold text-lg dark:text-gray-200 ">
+          <Text className="text-primary-200 text-center font-semibold text-lg dark:text-gray-200 ">
             {description}
           </Text>
         </View>

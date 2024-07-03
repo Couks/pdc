@@ -11,7 +11,6 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "nativewind-ev.d.ts",
-    "expo-env.d.ts",
-    "src/app/__tests__/index-test.js"
+    "expo-env.d.ts"
   ]
 }

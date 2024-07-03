@@ -1,20 +1,20 @@
 import colors from "tailwindcss/colors";
+import Quotes from "@/components/Quotes";
 import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
 import { Header } from "@/components/ui/Header";
+import React, { useState, useMemo } from "react";
 import Separator from "@/components/ui/Separator";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { Skeleton } from "@/components/ui/Skeleton";
 import SelectInput from "@/components/ui/SelectInput";
 import { PieChart } from "react-native-gifted-charts";
 import { RoundedView } from "@/components/ui/RoundedView";
+import { useTransactions } from "@/hooks/useTransactions";
 import EconomyPieChart from "@/components/EconomyPieChart";
-import React, { useState, useMemo } from "react";
 import { getFormattedCategoryName } from "@/utils/formatUtils";
 import { DashboardHeader } from "@/components/DashboardHeader";
-import Animated, { FadeInDown, PinwheelIn } from "react-native-reanimated";
-import Quotes from "@/components/Quotes";
-import { useTransactions } from "@/hooks/useTransactions";
-import { Skeleton } from "@/components/ui/Skeleton";
+import Animated, { FadeInDown } from "react-native-reanimated";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 
 export function DashboardScreen() {
   const { transactions, isLoading, refetch } = useTransactions();
@@ -171,13 +171,13 @@ function getData(filteredTransactions: any[]) {
 const Economies = ({ transactions, isLoading }: any) => {
   const totalReceitas = useMemo(() => {
     return transactions
-      .filter((t: { entrada_saida: string }) => t?.entrada_saida === "entrada")
+      .filter((t: { entrada_saida: string }) => t?.entrada_saida === "recebi")
       .reduce((sum: any, t: { valor: any }) => sum + t?.valor, 0);
   }, [transactions]);
 
   const totalDespesas = useMemo(() => {
     return transactions
-      .filter((t: { entrada_saida: string }) => t?.entrada_saida === "saida")
+      .filter((t: { entrada_saida: string }) => t?.entrada_saida === "gastei")
       .reduce((sum: any, t: { valor: any }) => sum + t?.valor, 0);
   }, [transactions]);
 
@@ -187,6 +187,11 @@ const Economies = ({ transactions, isLoading }: any) => {
 
   let mensagem;
   let icone;
+
+  if (transactions == null) {
+    mensagem = "Sem despesas";
+    icone = "sad";
+  }
 
   if (economiaPercentual > 50) {
     mensagem = "Você está indo muito bem!";
@@ -202,7 +207,7 @@ const Economies = ({ transactions, isLoading }: any) => {
   return (
     <Animated.View
       entering={FadeInDown.delay(200).springify()}
-      className="flex-col w-full h-auto rounded-2xl p-6 bg-gray-200 dark:bg-secondary-600 "
+      className="flex-col w-full h-auto rounded-2xl p-6 bg-gray-200 dark:bg-secondary-500 "
     >
       <Text className="text-gray-800 dark:text-white text-xl">
         Economia Mensal
@@ -230,7 +235,7 @@ const Economies = ({ transactions, isLoading }: any) => {
 
         <View className="flex-col justify-around">
           <View className="items-end">
-            <Text className="text-gray-500 dark:text-gray-200 text-lg">
+            <Text className="text-gray-500 dark:text-gray-100 text-lg">
               Receita mensal
             </Text>
             {isLoading ? (
@@ -243,7 +248,7 @@ const Economies = ({ transactions, isLoading }: any) => {
           </View>
 
           <View className="items-end">
-            <Text className="text-gray-500 dark:text-gray-200 text-lg">
+            <Text className="text-gray-500 dark:text-gray-100 text-lg">
               Despesa mensal
             </Text>
             {isLoading ? (
@@ -261,7 +266,7 @@ const Economies = ({ transactions, isLoading }: any) => {
           <Skeleton className="w-full h-10" />
         </View>
       ) : (
-        <View className="flex-row bg-gray-300 dark:bg-gray-700 rounded-lg p-2 mt-4 gap-2 items-center justify-center">
+        <View className="flex-row bg-gray-300 dark:bg-secondary-600 rounded-lg p-2 mt-4 gap-2 items-center justify-center">
           <Text className="text-gray-800 dark:text-white text-lg text-center">
             {mensagem}
           </Text>
@@ -275,7 +280,7 @@ const Economies = ({ transactions, isLoading }: any) => {
 const LatestExpenses = ({ transactions, isLoading }: any) => {
   const latestTransactions = useMemo(() => {
     return transactions
-      .filter((t: { entrada_saida: string }) => t?.entrada_saida === "saida")
+      .filter((t: { entrada_saida: string }) => t?.entrada_saida === "gastei")
       .sort(
         (
           a: { createdAt: string | number | Date },
@@ -286,7 +291,7 @@ const LatestExpenses = ({ transactions, isLoading }: any) => {
   }, [transactions]);
 
   return (
-    <View className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl">
+    <View className="bg-gray-200 dark:bg-secondary-500 p-6 rounded-2xl">
       <Text className="text-gray-800 dark:text-white text-xl">
         Últimas despesas
       </Text>
@@ -299,13 +304,13 @@ const LatestExpenses = ({ transactions, isLoading }: any) => {
             {latestTransactions?.map((transaction: any) => (
               <View
                 key={transaction.id}
-                className="flex-row justify-between items-center mt-2 bg-gray-300 dark:bg-gray-700 px-4 py-2 rounded-lg"
+                className="flex-row justify-between items-center mt-2 bg-gray-300 dark:bg-secondary-600 px-4 py-2 rounded-lg"
               >
                 <View className="">
                   <Text className="text-gray-800 dark:text-white">
                     {getFormattedCategoryName(transaction.categoria)}
                   </Text>
-                  <Text className="text-gray-700 dark:text-gray-300 text-xs">
+                  <Text className="text-gray-700 dark:text-gray-100 text-xs">
                     {new Date(transaction.createdAt).toLocaleDateString()} -
                     {new Date(transaction.createdAt).toLocaleTimeString()}
                   </Text>
@@ -325,7 +330,7 @@ const LatestExpenses = ({ transactions, isLoading }: any) => {
 const LatestIncomes = ({ transactions, isLoading }: any) => {
   const latestTransactions = useMemo(() => {
     return transactions
-      .filter((t: any) => t.entrada_saida === "entrada")
+      .filter((t: any) => t.entrada_saida === "recebi")
       .sort(
         (a: string, b: string) => new Date(b.createdAt) - new Date(a.createdAt)
       )
@@ -333,7 +338,7 @@ const LatestIncomes = ({ transactions, isLoading }: any) => {
   }, [transactions]);
 
   return (
-    <View className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl">
+    <View className="bg-gray-200 dark:bg-secondary-500 p-6 rounded-2xl">
       <Text className="text-gray-800 dark:text-white text-xl">
         Últimas receitas
       </Text>
@@ -346,13 +351,13 @@ const LatestIncomes = ({ transactions, isLoading }: any) => {
             {latestTransactions.map((transaction: any) => (
               <View
                 key={transaction.id}
-                className="flex-row justify-between items-center mt-2 bg-gray-300 dark:bg-gray-700 px-4 py-2 rounded-lg"
+                className="flex-row justify-between items-center mt-2 bg-gray-300 dark:bg-secondary-600 px-4 py-2 rounded-lg"
               >
                 <View>
                   <Text className="text-gray-800 dark:text-white">
                     {getFormattedCategoryName(transaction.categoria)}
                   </Text>
-                  <Text className="text-gray-700 dark:text-gray-300 text-xs">
+                  <Text className="text-gray-700 dark:text-gray-100 text-xs">
                     {new Date(transaction.createdAt).toLocaleDateString()} -
                     {new Date(transaction.createdAt).toLocaleTimeString()}
                   </Text>
@@ -375,7 +380,7 @@ const ExpensesByCategory = ({ data, isLoading }: any) => {
   return (
     <Animated.View
       entering={FadeInDown.delay(400).springify()}
-      className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-2xl"
+      className="bg-gray-200 dark:bg-secondary-500 p-6 rounded-2xl"
     >
       <Text className="text-gray-800 dark:text-white text-xl">
         Despesas por categoria
@@ -413,13 +418,23 @@ const ExpensesByCategory = ({ data, isLoading }: any) => {
 };
 
 const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+  const colors = [
+    "#FF5733",
+    "#FFC300",
+    "#4CAF50",
+    "#FF4081",
+    "#9C27B0",
+    "#3F51B5",
+    "#00BCD4",
+    "#FF5722",
+    "#8BC34A",
+  ];
+
+  return colors[Math.floor(Math.random() * colors.length)];
 };
+
+const getRandomColors = (index: number) =>
+  fixedColors[index % fixedColors.length];
 
 const renderDot = (color: string) => (
   <View

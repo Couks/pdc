@@ -1,4 +1,5 @@
-import { Text, TouchableHighlight, View } from "react-native";
+import { useState } from "react";
+import { Text, View } from "react-native";
 import { formatString } from "@/lib/utils";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "@/components/ui/Button";
@@ -7,18 +8,17 @@ import { useProfile } from "@/hooks/useProfile";
 import { Header } from "@/components/ui/Header";
 import { useToast } from "@/components/ui/Toast";
 import * as ImagePicker from "expo-image-picker";
+import { Loading } from "@/components/ui/Loading";
 import { useAuth } from "@/hooks/auth/AuthContext";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { RoundedView } from "@/components/ui/RoundedView";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
+import { Avatar, AvatarImage } from "@/components/ui/Avatar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import Animated, { FadeInDown, FlipInEasyX } from "react-native-reanimated";
-import { useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Loading } from "@/components/ui/Loading";
 
-export function ProfileScreen() {
+export function Profile() {
   const { onLogout = () => {} } = useAuth();
   const { toast } = useToast();
 
@@ -28,7 +28,7 @@ export function ProfileScreen() {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThxpcmi8WVEkDU-XPYeZPPlp5daXAH7Ho_UA&s"
   );
   const PROFILE_IMAGE_KEY = "profile_image_uri";
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleLogout() {
     toast("Deslogando...", "destructive");
@@ -41,7 +41,7 @@ export function ProfileScreen() {
 
   const handlePickImage = async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       let result = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
       if (result.granted === false) {
@@ -64,7 +64,7 @@ export function ProfileScreen() {
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -91,7 +91,7 @@ export function ProfileScreen() {
                     backgroundColor: "#052224",
                   }}
                 >
-                  {loading ? (
+                  {isLoading ? (
                     <Loading />
                   ) : (
                     <AvatarImage
@@ -170,7 +170,7 @@ export function ProfileScreen() {
               </DialogTrigger>
               <DialogContent>
                 <View
-                  className="gap-4 rounded-2xl justify-center shadow-2xl bg-red-500"
+                  className="gap-4 rounded-2xl justify-center shadow-2xl bg-red-600"
                   style={{ margin: 20, padding: 30 }}
                 >
                   <Text className="text-white text-xl">
@@ -185,7 +185,11 @@ export function ProfileScreen() {
                 </View>
               </DialogContent>
             </Dialog>
-
+          </Animated.View>
+          <Animated.View
+            entering={FadeInDown.springify().delay(1200)}
+            className="items-center gap-8"
+          >
             <ToggleTheme />
           </Animated.View>
         </View>

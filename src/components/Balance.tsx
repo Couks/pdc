@@ -7,13 +7,13 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
-import { TransactionProps } from "@/lib/transactionProps";
 import { Pressable } from "react-native";
 import { colors as defaultColors } from "@/assets/styles/colors";
 import colors from "tailwindcss/colors";
+import { formatPrice } from "@/utils/formatUtils";
 
 interface BalanceProps {
-  onTypeChange?: (type: "entradas" | "saidas" | "default") => void;
+  onTypeChange?: (type: "recebi" | "gastei" | "default") => void;
 }
 
 export function Balance({ onTypeChange }: BalanceProps) {
@@ -24,15 +24,15 @@ export function Balance({ onTypeChange }: BalanceProps) {
   const [balance, setBalance] = useState(0);
 
   const [selectedType, setSelectedType] = useState<
-    "entradas" | "saidas" | "default"
+    "recebi" | "gastei" | "default"
   >("default");
 
   useEffect(() => {
     const entradas = transactions
-      ?.filter((transaction) => transaction.entrada_saida === "entrada")
+      ?.filter((transaction) => transaction.entrada_saida === "recebi")
       .reduce((total, transaction) => total + (transaction.valor ?? 0), 0);
     const saidas = transactions
-      ?.filter((transaction) => transaction.entrada_saida === "saida")
+      ?.filter((transaction) => transaction.entrada_saida === "gastei")
       .reduce((total, transaction) => total + (transaction.valor ?? 0), 0);
 
     setTotalEntradas(entradas || 0);
@@ -40,7 +40,7 @@ export function Balance({ onTypeChange }: BalanceProps) {
     setBalance((entradas || 0) - (saidas || 0));
   }, [transactions]);
 
-  const handlePress = (type: "entradas" | "saidas" | "default") => {
+  const handlePress = (type: "recebi" | "gastei" | "default") => {
     setSelectedType(type);
     if (onTypeChange) {
       onTypeChange(type);
@@ -66,16 +66,16 @@ export function Balance({ onTypeChange }: BalanceProps) {
             </Text>
           </View>
           <Text className="font-bold text-2xl text-blue-500">
-            R$ {balance?.toFixed(2)}
+            {formatPrice("", balance)}
           </Text>
         </Animated.View>
       </TouchableOpacity>
 
-      <Pressable onPress={() => handlePress("entradas")}>
+      <Pressable onPress={() => handlePress("recebi")}>
         <Animated.View
           entering={BounceInLeft.delay(800).springify()}
           className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl ${
-            selectedType === "entradas" &&
+            selectedType === "recebi" &&
             "border-4 border-primary-600 dark:border-secondary-500"
           }`}
         >
@@ -91,16 +91,16 @@ export function Balance({ onTypeChange }: BalanceProps) {
           </View>
 
           <Text className="font-semibold text-primary-500 text-2xl">
-            R$ {totalEntradas?.toFixed(2)}
+            {formatPrice("", totalEntradas)}
           </Text>
         </Animated.View>
       </Pressable>
 
-      <Pressable onPress={() => handlePress("saidas")}>
+      <Pressable onPress={() => handlePress("gastei")}>
         <Animated.View
           entering={BounceInRight.delay(1000).springify()}
           className={`flex-row items-center w-full justify-between bg-white px-3 py-1 rounded-3xl ${
-            selectedType === "saidas" &&
+            selectedType === "gastei" &&
             "border-4 border-primary-600 dark:border-secondary-500"
           }`}
         >
@@ -112,7 +112,7 @@ export function Balance({ onTypeChange }: BalanceProps) {
           </View>
 
           <Text className="font-semibold text-red-500 text-2xl">
-            R$ {totalSaidas?.toFixed(2)}
+            {formatPrice("gastei", totalSaidas)}
           </Text>
         </Animated.View>
       </Pressable>

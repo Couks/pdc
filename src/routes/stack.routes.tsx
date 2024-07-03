@@ -1,9 +1,9 @@
 import { useColorScheme } from "nativewind";
 import { Home } from "@/app/screens/login/Welcome";
-import { SignInScreen } from "@/app/screens/login/SignInScreen";
-import { SignUpScreen } from "@/app/screens/login/SignUpScreen";
+import { SignIn } from "@/app/screens/login/SignIn";
+import { SignUp } from "@/app/screens/login/SignUp";
 import { ForgotPassword } from "@/app/screens/login/ForgotPassword";
-import { OnboardingScreen } from "@/app/screens/OnboardingScreen";
+import { Onboarding } from "@/app/screens/Onboarding";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -51,7 +51,7 @@ export default function StackRoutes() {
     >
       <Stack.Screen
         name="Onboarding"
-        component={OnboardingScreen}
+        component={Onboarding}
         options={{ headerShown: false }}
       />
 
@@ -65,8 +65,8 @@ export default function StackRoutes() {
       />
 
       <Stack.Screen
-        name="SignInScreen"
-        component={SignInScreen}
+        name="SignIn"
+        component={SignIn}
         options={{
           title: "Bem Vindo",
           headerTitleStyle: {
@@ -79,8 +79,8 @@ export default function StackRoutes() {
       />
 
       <Stack.Screen
-        name="SignUpScreen"
-        component={SignUpScreen}
+        name="SignUp"
+        component={SignUp}
         options={{
           title: "Criar Conta",
           headerTitleStyle: {

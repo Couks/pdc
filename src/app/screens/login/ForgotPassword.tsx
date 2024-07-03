@@ -36,7 +36,7 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
           >
             Por favor, insira seu endereço de e-mail abaixo para redefinir sua
             senha. Enviaremos instruções sobre como criar uma nova senha para
-            sua conta.{" "}
+            sua conta.
           </Animated.Text>
 
           <Animated.View
@@ -59,9 +59,7 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
           </Animated.View>
 
           {/* Botão de Login*/}
-          <Animated.View
-            entering={FadeInDown.delay(1000).springify()}
-          >
+          <Animated.View entering={FadeInDown.delay(1000).springify()}>
             <Button
               label="Próximo Passo"
               className="w-60"
@@ -70,13 +68,11 @@ export function ForgotPassword({ navigation }: { navigation: any }) {
           </Animated.View>
 
           {/* Esqueceu sua senha?*/}
-          <Animated.View
-            entering={FadeInDown.delay(1200).springify()}
-          >
+          <Animated.View entering={FadeInDown.delay(1200).springify()}>
             <Button
               label="Cadastre-se"
               variant="light"
-              onPress={() => navigation.navigate("SignUpScreen")}
+              onPress={() => navigation.navigate("SignUp")}
             />
           </Animated.View>
         </View>

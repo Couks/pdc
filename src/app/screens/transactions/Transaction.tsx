@@ -29,6 +29,7 @@ export function Transaction({
     setValue,
     formState: { errors },
   } = useForm();
+
   const [transaction, setTransaction] = useState({
     entrada_saida: entrada_saida,
     valor: valor,
@@ -38,7 +39,6 @@ export function Transaction({
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setTransaction({ ...transaction, ...data });
-    console.log(transaction);
   };
 
   const iconName = categoryIcons[categoria] || "alert-circle-outline";
@@ -72,7 +72,7 @@ export function Transaction({
       </DialogTrigger>
 
       <DialogContent>
-        <View className="w-auto gap-4 bg-primary-500 dark:bg-primary-800 rounded-3xl p-6 shadow-lg">
+        <View className="w-auto gap-4 bg-secondary-500 dark:bg-primary-800 rounded-3xl p-6 shadow-lg">
           <Text className="font-bold text-3xl text-white mb-6 text-center">
             Editar Transação
           </Text>
@@ -103,7 +103,7 @@ export function Transaction({
 
           <Button
             label="Alterar Transação"
-            className="w-full"
+            className="w-full "
             onPress={handleSubmit(onSubmit)}
           />
         </View>

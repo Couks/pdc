@@ -38,6 +38,6 @@ export const categoryOptions = [
 ];
 
 export const typeOptions = [
-  { label: "Entrada", value: "entrada" },
-  { label: "Saída", value: "saida" },
+  { label: "Entrada", value: "recebi" },
+  { label: "Saída", value: "gastei" },
 ];

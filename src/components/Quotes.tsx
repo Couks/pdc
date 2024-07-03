@@ -13,14 +13,27 @@ import { Ionicons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 import { formatCurrency } from "@/utils/formatUtils";
 
+interface Data {
+  dollar: {
+    price: number;
+  };
+  euro: {
+    price: number;
+  };
+  bitcoin: {
+    price: number;
+  };
+  bovespa: {
+    price: number;
+  };
+}
+
 const Quotes = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<Data | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const fetchData = async () => {
     setLoading(true);
-    setError(null);
     try {
       const response = await axios.get(`https://api.hgbrasil.com/finance`);
       const { results } = response.data;
@@ -40,7 +53,6 @@ const Quotes = () => {
         },
       });
     } catch (err) {
-      setError(err);
     } finally {
       setLoading(false);
     }
@@ -55,15 +67,11 @@ const Quotes = () => {
   }
 
   return (
-    <View className="bg-gray-200 dark:bg-secondary-600 p-6 rounded-3xl">
+    <View className="bg-gray-200 dark:bg-secondary-500 p-6 rounded-3xl">
       <View className="flex-row justify-between items-center">
         <Text className="text-gray-800 dark:text-white text-xl">Cotações</Text>
         <TouchableOpacity onPress={fetchData}>
-          {loading ? (
-            <View></View>
-          ) : (
-            <Ionicons name="reload" size={18} color={colors.gray[400]} />
-          )}
+          <Ionicons name="reload" size={18} color={colors.gray[400]} />
         </TouchableOpacity>
       </View>
 
@@ -71,7 +79,7 @@ const Quotes = () => {
       <View className="gap-4">
         <>
           {loading ? (
-            <Skeleton className="w-full" style={{ height: 12 }} />
+            <Skeleton className="w-full h-4s" />
           ) : (
             <View className="flex-row justify-between">
               <Text className="text-gray-800 dark:text-white">Dólar</Text>
@@ -84,7 +92,7 @@ const Quotes = () => {
 
         <>
           {loading ? (
-            <Skeleton className="w-full" style={{ height: 12 }} />
+            <Skeleton className="w-full h-4s" />
           ) : (
             <View className="flex-row justify-between">
               <Text className="text-gray-800 dark:text-white">Euro</Text>
@@ -97,7 +105,7 @@ const Quotes = () => {
 
         <>
           {loading ? (
-            <Skeleton className="w-full" style={{ height: 12 }} />
+            <Skeleton className="w-full h-4s" />
           ) : (
             <View className="flex-row justify-between">
               <Text className="text-gray-800 dark:text-white">Bitcoin</Text>
@@ -110,7 +118,7 @@ const Quotes = () => {
 
         <>
           {loading ? (
-            <Skeleton className="w-full" style={{ height: 12 }} />
+            <Skeleton className="w-full h-4s" />
           ) : (
             <View className="flex-row justify-between">
               <Text className="text-gray-800 dark:text-white">Bovespa</Text>

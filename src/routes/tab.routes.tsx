@@ -1,13 +1,12 @@
 import { View } from "react-native";
 import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
-import { AnalysisScreen } from "@/app/screens/AnalysisScreen";
-import { DashboardScreen } from "@/app/screens/DashboardScreen";
-import { ProfileScreen } from "@/app/screens/ProfileScreen";
-import { CategoryListScreen } from "@/app/screens/CategoryListScreen";
+import { ExpenseAnalysis } from "@/app/screens/ExpenseAnalysis";
+import { DashboardScreen } from "@/app/screens/Dashboard";
+import { Profile } from "@/app/screens/Profile";
+import { CategoryList } from "@/app/screens/CategoryList";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TransactionsScreen } from "@/app/screens/transactions/TransactionsScreen";
-import { CreateTransaction } from "@/app/screens/transactions/CreateTransaction";
 import { Text } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
@@ -47,10 +46,11 @@ export default function TabRoutes() {
           borderTopWidth: 0,
           paddingHorizontal: 6,
           position: "absolute",
-          bottom: 10,
-          marginHorizontal: 10,
+          bottom: 12,
+          elevation: 14,
+          marginHorizontal: 24,
           borderRadius: 100,
-          height: 65,
+          height: 60,
         },
       }}
     >
@@ -73,7 +73,7 @@ export default function TabRoutes() {
       />
       <Tab.Screen
         name="Análise de Gastos"
-        component={AnalysisScreen}
+        component={ExpenseAnalysis}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
@@ -107,7 +107,7 @@ export default function TabRoutes() {
       />
       <Tab.Screen
         name="Categorias"
-        component={CategoryListScreen}
+        component={CategoryList}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
@@ -123,27 +123,8 @@ export default function TabRoutes() {
       />
 
       <Tab.Screen
-        name="Criar Transação"
-        component={CreateTransaction}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => {
-            if (focused) {
-              return (
-                <View className="items-center justify-center size-14 bg-primary-500 rounded-full">
-                  <Ionicons name="add-circle" color={color} size={size} />
-                </View>
-              );
-            }
-            return (
-              <Ionicons name="add-circle-outline" color={color} size={size} />
-            );
-          },
-        }}
-      />
-
-      <Tab.Screen
         name="Perfil"
-        component={ProfileScreen}
+        component={Profile}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {

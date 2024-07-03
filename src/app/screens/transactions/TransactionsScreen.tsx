@@ -8,7 +8,11 @@ import { TransactionProps } from "@/lib/transactionProps";
 import { isSameMonth, isSameWeek, isToday } from "date-fns";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { Text, View, TouchableWithoutFeedback } from "react-native";
-import { Skeleton } from "@/components/ui/Skeleton";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import { TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { CreateTransaction } from "@/components/CreateTransaction";
+import { colors } from "@/assets/styles/colors";
 
 export function TransactionsScreen() {
   const { transactions, isLoading, refetch } = useTransactions();
@@ -19,7 +23,7 @@ export function TransactionsScreen() {
     "day" | "week" | "month"
   >("day");
   const [selectedType, setSelectedType] = useState<
-    "entradas" | "saidas" | "default"
+    "recebi" | "gastei" | "default"
   >("default");
 
   useEffect(() => {
@@ -28,14 +32,14 @@ export function TransactionsScreen() {
 
   const filterTransactions = (
     period: "day" | "week" | "month",
-    type: "entradas" | "saidas" | "default"
+    type: "recebi" | "gastei" | "default"
   ) => {
     const today = new Date();
 
     const filteredByType =
       transactions?.filter((transaction) => {
-        if (type === "entradas") return transaction.entrada_saida === "entrada";
-        if (type === "saidas") return transaction.entrada_saida === "saida";
+        if (type === "recebi") return transaction.entrada_saida === "recebi";
+        if (type === "gastei") return transaction.entrada_saida === "gastei";
         return true;
       }) || [];
 
@@ -64,7 +68,7 @@ export function TransactionsScreen() {
     setSelectedFilter(period);
   };
 
-  const handleTypeChange = (type: "entradas" | "saidas" | "default") => {
+  const handleTypeChange = (type: "recebi" | "gastei" | "default") => {
     setSelectedType(type);
   };
 
@@ -118,6 +122,29 @@ export function TransactionsScreen() {
             onRefresh={refetch}
           />
         </View>
+
+        <Dialog>
+          <DialogTrigger>
+            <TouchableOpacity
+              style={{
+                position: "absolute",
+                bottom: 90,
+                right: 20,
+                width: 50,
+                height: 50,
+                borderRadius: 30,
+                backgroundColor: colors.primary[500],
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons name="add" size={32} color="white" />
+            </TouchableOpacity>
+          </DialogTrigger>
+          <DialogContent>
+            <CreateTransaction />
+          </DialogContent>
+        </Dialog>
       </RoundedView>
     </View>
   );

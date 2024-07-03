@@ -5,9 +5,9 @@ import { cn } from "../../lib/utils";
 
 const toastVariants = {
   default: "bg-foreground",
-  destructive: "bg-red-500",
+  error: "bg-red-600",
   success: "bg-green-600",
-  info: "bg-blue-500",
+  info: "bg-blue-600",
 };
 
 interface ToastProps {
@@ -24,7 +24,7 @@ function Toast({
   onHide,
   variant = "default",
   duration = 3000,
-  showProgress = true,
+  showProgress = false,
 }: ToastProps) {
   const opacity = useRef(new Animated.Value(0)).current;
   const progress = useRef(new Animated.Value(0)).current;
@@ -123,7 +123,7 @@ function ToastProvider({
     variant: ToastVariant = "default",
     duration: number = 2000,
     position: "top" | "bottom" = "top",
-    showProgress: boolean = true
+    showProgress: boolean = false
   ) => {
     setMessages((prev) => [
       ...prev,

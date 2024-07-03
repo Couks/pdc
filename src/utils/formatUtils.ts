@@ -14,7 +14,7 @@ export const formatTime = (dateString: string): string => {
 };
 
 export const formatPrice = (entrada_saida: string, valor: number): string => {
-  return `${entrada_saida === "saida" ? "-" : "+"} R$${Math.abs(valor).toFixed(
+  return `${entrada_saida === "gastei" ? "-" : "+"} R$${Math.abs(valor).toFixed(
     2
   )}`;
 };

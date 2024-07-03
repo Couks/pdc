@@ -15,7 +15,7 @@ interface SelectInputProps {
   options: { value: string; label: string }[];
   selectedValue?: string;
   onValueChange?: (value: string) => void;
-  disabled?: boolean; // Adicionando a propriedade disabled
+  disabled?: boolean;
 }
 
 const SelectInput = ({
@@ -23,7 +23,7 @@ const SelectInput = ({
   options,
   selectedValue,
   onValueChange,
-  disabled = false, // Adicionando a propriedade disabled com valor padrão false
+  disabled = false,
 }: SelectInputProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(
@@ -61,7 +61,7 @@ const SelectInput = ({
           justifyContent: "space-between",
         }}
         onPress={() => !disabled && setModalVisible(true)}
-        disabled={disabled} // Desabilitar o TouchableOpacity se estiver desabilitado
+        disabled={disabled}
       >
         {selectedLabel == null ? (
           <Text

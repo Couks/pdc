@@ -24,7 +24,7 @@ interface FormData {
   lastName: string;
 }
 
-export function SignUpScreen({ navigation }: { navigation: any }) {
+export function SignUp({ navigation }: { navigation: any }) {
   const { toast } = useToast();
   const { onRegister } = useAuth();
 
@@ -58,7 +58,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
         toast("Conta criada com sucesso!", "success");
 
         setTimeout(() => {
-          navigation.navigate("SignInScreen");
+          navigation.navigate("SignIn");
         }, 2000);
       }
     } catch (error) {
@@ -135,7 +135,6 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                             onBlur={onBlur}
                             value={value}
                             iconName="logo-whatsapp"
-                            autocomplete="tel"
                             keyboardType="phone-pad"
                             placeholder="Digite seu número de WhatsApp"
                           />
@@ -237,11 +236,17 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                   entering={FadeInUp.delay(1200).springify()}
                   className="items-center"
                 >
-                  <Button
-                    label="Criar Conta"
-                    className="w-60"
-                    onPress={handleSubmit(handleSignUp)}
-                  />
+                  {loading ? (
+                    <Button label="Carregando..." className="w-60">
+                      <Loading />
+                    </Button>
+                  ) : (
+                    <Button
+                      label="Criar Conta"
+                      className="w-60"
+                      onPress={handleSubmit(handleSignUp)}
+                    />
+                  )}
                 </Animated.View>
 
                 <Animated.View
@@ -258,7 +263,7 @@ export function SignUpScreen({ navigation }: { navigation: any }) {
                   className="w-full items-center -mt-4"
                 >
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("SignInScreen")}
+                    onPress={() => navigation.navigate("SignIn")}
                   >
                     <Text className="text-primary-500 ">
                       Clique para realizar seu login

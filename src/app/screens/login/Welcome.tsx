@@ -1,11 +1,8 @@
 import Animated, {
   BounceInLeft,
   BounceInRight,
-  BounceOutLeft,
-  BounceOutRight,
   Easing,
   FadeIn,
-  BounceInDown,
   BounceIn,
   FlipInEasyX,
 } from "react-native-reanimated";
@@ -13,8 +10,11 @@ import Animated, {
 import { Button } from "@/components/ui/Button";
 import { View, TouchableOpacity } from "react-native";
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
+import { useToast } from "@/components/ui/Toast";
 
 export function Home({ navigation }: { navigation: any }) {
+  const { toast } = useToast();
+
   return (
     <Animated.View
       entering={FadeIn.delay(100)}
@@ -44,7 +44,7 @@ export function Home({ navigation }: { navigation: any }) {
             label="Entrar"
             variant="default"
             className="w-60"
-            onPress={() => navigation.navigate("SignInScreen")}
+            onPress={() => navigation.navigate("SignIn")}
           />
         </Animated.View>
 
@@ -53,7 +53,7 @@ export function Home({ navigation }: { navigation: any }) {
             label="Criar Conta"
             variant="light"
             className="w-60"
-            onPress={() => navigation.navigate("SignUpScreen")}
+            onPress={() => navigation.navigate("SignUp")}
           />
         </Animated.View>
 

@@ -19,7 +19,7 @@ const swiperData = [
   },
 ];
 
-export function OnboardingScreen({ navigation }: { navigation: any }) {
+export function Onboarding({ navigation }: { navigation: any }) {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import colors from "tailwindcss/colors";
-import { Skeleton } from "./ui/Skeleton";
 import { categoryNames } from "@/utils/categoryIcons";
 import { useColorScheme } from "nativewind";
 import { PieChart } from "react-native-gifted-charts";
@@ -12,36 +11,28 @@ import { Transactions } from "@/app/screens/transactions/Transactions";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 const fixedColors = [
-  "#FF5733",
-  "#FFC300",
-  "#DAF7A6",
-  "#C70039",
-  "#900C3F",
-  "#581845",
-  "#003f5c",
-  "#374c80",
-  "#7a5195",
+  "#FF5733", // Laranja
+  "#FFC300", // Amarelo
+  "#4CAF50", // Verde
+  "#FF4081", // Rosa
+  "#9C27B0", // Roxo
+  "#3F51B5", // Azul
+  "#00BCD4", // Ciano
+  "#FF5722", // Laranja escuro
+  "#8BC34A", // Verde claro
 ];
 
 const generateColor = (index: number) =>
   fixedColors[index % fixedColors.length];
 
-const useCategoryData = (
-  transactions: { categoria: string | number; valor: any }[]
-) => {
+const useCategoryData = (transactions) => {
   return useMemo(() => {
     if (transactions && transactions.length > 0) {
-      const categoryMap = transactions.reduce(
-        (
-          acc: { [x: string]: any },
-          transaction: { categoria: string | number; valor: any }
-        ) => {
-          acc[transaction.categoria] =
-            (acc[transaction.categoria] || 0) + transaction.valor;
-          return acc;
-        },
-        {}
-      );
+      const categoryMap = transactions.reduce((acc, transaction) => {
+        const category = transaction.categoria.toString(); // Garante que a chave é uma string
+        acc[category] = (acc[category] || 0) + transaction.valor;
+        return acc;
+      }, {});
 
       const data = Object.keys(categoryMap).map((key, index) => ({
         label: categoryNames[key] || key,
@@ -63,7 +54,7 @@ export function PizzaGraph() {
   const [selectedCategory, setSelectedCategory] = useState();
   const [filteredTransactions, setFilteredTransactions] =
     useState(transactions);
-  const [selectedFilter, setSelectedFilter] = useState("day");
+  const [selectedFilter, setSelectedFilter] = useState("week");
 
   useEffect(() => {
     filterTransactions(selectedFilter);
@@ -89,31 +80,33 @@ export function PizzaGraph() {
           return false;
       }
     });
-    setFilteredTransactions(filtered || null);
+    setFilteredTransactions(filtered || []);
   };
 
   const { data: categoryData, totalValue: total } =
     useCategoryData(filteredTransactions);
 
-  const handleArcPress = useCallback(
-    (originalLabel: React.SetStateAction<undefined>) => {
-      setSelectedCategory(originalLabel);
-    },
-    []
-  );
+  const handleArcPress = useCallback((originalLabel: any) => {
+    setSelectedCategory(originalLabel);
+  }, []);
 
-  const getFormattedCategoryName = (category: string | number) =>
+  const getFormattedCategoryName = (category: any) =>
     categoryNames[category] || category;
 
-  const handleFilterChange = (period: React.SetStateAction<string>) => {
+  const handleFilterChange = (period: any) => {
     setSelectedFilter(period);
   };
 
+  const noTransactionsText =
+    filteredTransactions && filteredTransactions.length === 0
+      ? "Nenhuma transação encontrada."
+      : null;
+
   return (
-    <View className="flex-1 items-center">
+    <View className="flex-1 items-center gap-2">
       <Animated.View
-        entering={FadeInUp.delay(200).springify().damping(4)}
-        className=" flex-row p-2 bg-primary-200 dark:bg-secondary-600 w-full rounded-full justify-around shadow"
+        entering={FadeInUp.delay(200).springify()}
+        className="flex-row p-2 bg-primary-200 dark:bg-secondary-600 w-full rounded-full justify-around shadow"
       >
         {["day", "week", "month"].map((period) => (
           <TouchableWithoutFeedback
@@ -148,27 +141,31 @@ export function PizzaGraph() {
       <PieChart
         data={categoryData}
         donut
-        sectionAutoFocus
+        strokeWidth={5}
         focusOnPress
+        toggleFocusOnPress
+        strokeColor="#000"
+        innerCircleBorderWidth={5}
+        innerCircleBorderColor="#000"
         innerCircleColor={
-          colorScheme == "light" ? colors.white : defaultColors.secondary[800]
+          colorScheme == "light" ? colors.white : defaultColors.secondary[700]
         }
-        radius={120}
-        innerRadius={80}
+        radius={100}
+        innerRadius={70}
         centerLabelComponent={() => (
           <View className=" justify-center items-center">
-            <Text className="font-bold text-4xl text-gray-800 dark:text-white">
+            <Text className="font-bold text-2xl text-gray-800 dark:text-white">
               {(
                 (categoryData.find(
                   (item) => item.originalLabel === selectedCategory
                 )?.value /
                   total) *
                 100
-              ).toFixed(1)}
+              ).toFixed(1) || 0}
               %
             </Text>
             {selectedCategory != null && (
-              <Text className="text-secondary-500 dark:text-primary-500 font-bold text-xl">
+              <Text className="text-secondary-500 dark:text-primary-500 font-bold text-lg">
                 {getFormattedCategoryName(selectedCategory)}
               </Text>
             )}
@@ -179,15 +176,21 @@ export function PizzaGraph() {
         }
       />
 
-      <View className="w-full gap-2 h-full">
-        <Transactions
-          transactions={filteredTransactions?.filter(
-            (transaction) => transaction.categoria === selectedCategory
-          )}
-          isLoading={isLoading}
-          onRefresh={refetch}
-        />
-      </View>
+      <Transactions
+        transactions={filteredTransactions?.filter(
+          (transaction) => transaction.categoria === selectedCategory
+        )}
+        isLoading={isLoading}
+        onRefresh={refetch}
+      />
+
+      {noTransactionsText && (
+        <View className="flex-1">
+          <Text className="text-center text-gray-700 dark:text-gray-100">
+            {noTransactionsText}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }

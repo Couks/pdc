@@ -12,8 +12,7 @@ import { Header } from "@/components/ui/Header";
 import { useToast } from "@/components/ui/Toast";
 import { Loading } from "@/components/ui/Loading";
 import { useAuth } from "@/hooks/auth/AuthContext";
-import { handleAuthentication } from "@/hooks/auth/AuthBiometry";
-import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { RoundedView } from "@/components/ui/RoundedView";
 
@@ -21,7 +20,7 @@ interface FormData {
   DDDtelefone: string;
   password: string;
 }
-export function SignInScreen({ navigation }: { navigation: any }) {
+export function SignIn({ navigation }: { navigation: any }) {
   const { toast } = useToast();
   const { onLogin } = useAuth();
 
@@ -45,12 +44,10 @@ export function SignInScreen({ navigation }: { navigation: any }) {
 
       if (result && result.error) {
         Alert.alert(result.msg);
-        toast("Erro ao realizar login!", "destructive");
+        toast("Erro ao realizar login!", "error");
       } else {
-        toast("Login realizado!", "success");
-
         setTimeout(() => {
-          navigation.navigate("SignInScreen");
+          navigation.navigate("SignIn");
         }, 5000);
       }
     } catch (error) {
@@ -64,7 +61,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
       <Header style={{ height: 50 }} />
 
       <RoundedView>
-        <Animated.View entering={FadeInUp.springify()} className="w-full">
+        <Animated.View entering={FadeInUp.springify()} className="w-full ">
           <Controller
             control={control}
             rules={{
@@ -119,8 +116,7 @@ export function SignInScreen({ navigation }: { navigation: any }) {
           />
         </Animated.View>
 
-        <View className="items-center justify-center gap-6">
-          {/* Botão de Login*/}
+        <View className="items-center justify-center gap-6 mt-8">
           <Animated.View
             entering={FadeInUp.delay(400).springify()}
             className="items-center"
@@ -137,7 +133,6 @@ export function SignInScreen({ navigation }: { navigation: any }) {
               />
             )}
           </Animated.View>
-          {/* Esqueceu sua senha?*/}
           <Animated.View
             entering={FadeInUp.delay(600).springify()}
             className="w-full items-center"
@@ -155,28 +150,8 @@ export function SignInScreen({ navigation }: { navigation: any }) {
             <Button
               label="Cadastre-se"
               variant="light"
-              onPress={() => navigation.navigate("SignUpScreen")}
+              onPress={() => navigation.navigate("SignUp")}
             />
-          </Animated.View>
-
-          <Animated.View
-            entering={FadeInUp.delay(1000).springify()}
-            className="items-center flex-row"
-          >
-            <Text className="text-secondary-800 dark:text-white font-semibold text-md">
-              Use Sua{" "}
-            </Text>
-
-            <TouchableOpacity onPress={() => handleAuthentication()}>
-              <Text className="font-bold text-primary-500 text-md">
-                Biometria
-              </Text>
-            </TouchableOpacity>
-
-            <Text className="text-secondary-800 dark:text-white font-semibold text-md">
-              {" "}
-              Para Acessar
-            </Text>
           </Animated.View>
         </View>
       </RoundedView>
