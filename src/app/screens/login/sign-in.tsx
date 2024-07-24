@@ -4,7 +4,6 @@ import {
   SubmitHandler,
   FieldValues,
 } from "react-hook-form";
-
 import { useState } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
@@ -12,9 +11,9 @@ import { Header } from "@/components/ui/Header";
 import { useToast } from "@/components/ui/Toast";
 import { Loading } from "@/components/ui/Loading";
 import { useAuth } from "@/hooks/auth/AuthContext";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
 import { RoundedView } from "@/components/ui/RoundedView";
+import Animated, { FadeInUp } from "react-native-reanimated";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 
 interface FormData {
   DDDtelefone: string;

@@ -1,9 +1,7 @@
 import React from "react";
-import { Transaction } from "./Transaction";
 import { FlatList, View } from "react-native";
 import { TransactionProps } from "@/lib/transactionProps";
-import { Skeleton } from "@/components/ui/Skeleton";
-import Separator from "@/components/ui/Separator";
+import { Transaction } from "./transaction";
 
 interface TransactionsProps {
   transactions?: TransactionProps[] | undefined | null;

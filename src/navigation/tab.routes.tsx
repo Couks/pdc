@@ -1,14 +1,15 @@
 import { View } from "react-native";
 import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
-import { ExpenseAnalysis } from "@/app/screens/ExpenseAnalysis";
-import { DashboardScreen } from "@/app/screens/Dashboard";
-import { Profile } from "@/app/screens/Profile";
-import { CategoryList } from "@/app/screens/CategoryList";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TransactionsScreen } from "@/app/screens/transactions/TransactionsScreen";
+import { TransactionsScreen } from "@/app/screens/transactions";
 import { Text } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
+import { DashboardScreen } from "@/app/screens/dashboard";
+import { ExpenseAnalysis } from "@/app/screens/expense-analysis";
+import { CategoryList } from "@/app/screens/category";
+import { Profile } from "@/app/screens/profile";
 
 const Tab = createBottomTabNavigator();
 

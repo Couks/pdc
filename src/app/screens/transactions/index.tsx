@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Transactions } from "./Transactions";
+import { Transactions } from "./transaction-list";
 import { Balance } from "@/components/Balance";
 import { Header } from "@/components/ui/Header";
 import { RoundedView } from "@/components/ui/RoundedView";

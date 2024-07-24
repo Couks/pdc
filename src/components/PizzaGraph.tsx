@@ -7,7 +7,7 @@ import { isToday, isSameWeek, isSameMonth } from "date-fns";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { colors as defaultColors } from "@/assets/styles/colors";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
-import { Transactions } from "@/app/screens/transactions/Transactions";
+import { Transactions } from "@/app/screens/transactions/transaction-list";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 const fixedColors = [

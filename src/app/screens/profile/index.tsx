@@ -31,7 +31,7 @@ export function Profile() {
   const [isLoading, setIsLoading] = useState(false);
 
   function handleLogout() {
-    toast("Deslogando...", "destructive");
+    toast("Deslogando...", "error");
     setTimeout(() => {
       if (onLogout) {
         onLogout();

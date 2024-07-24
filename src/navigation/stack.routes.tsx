@@ -1,12 +1,12 @@
 import { useColorScheme } from "nativewind";
-import { Home } from "@/app/screens/login/Welcome";
-import { SignIn } from "@/app/screens/login/SignIn";
-import { SignUp } from "@/app/screens/login/SignUp";
-import { ForgotPassword } from "@/app/screens/login/ForgotPassword";
-import { Onboarding } from "@/app/screens/Onboarding";
+import { Home } from "@/app/screens/login";
+import { SignIn } from "@/app/screens/login/sign-in";
+import { SignUp } from "@/app/screens/login/sign-up";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
+import { ForgotPassword } from "@/app/screens/login/forgot-password";
+import { Onboarding } from "@/app/screens/onboarding";
 
 const Stack = createNativeStackNavigator();
 
