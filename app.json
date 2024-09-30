@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Whats Your Finances",
-    "slug": "whats-your-finances",
+    "name": "Plataforma de Diagnóstico da Doença de Chagas",
+    "slug": "pdc",
     "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "whats-your-finances",
+    "scheme": "pdc",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -16,7 +16,7 @@
     "platforms": ["ios", "android"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.whatsyourfinances"
+      "bundleIdentifier": "com.anonymous.pdc"
     },
     "android": {
       "versionCode": 3,
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#00D09E"
       },
-      "package": "com.anonymous.whatsyourfinances"
+      "package": "com.anonymous.pdc"
     },
     "web": {
       "bundler": "metro",

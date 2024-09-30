@@ -1,12 +1,12 @@
 import { useColorScheme } from "nativewind";
-import { Home } from "@/app/screens/login";
-import { SignIn } from "@/app/screens/login/sign-in";
-import { SignUp } from "@/app/screens/login/sign-up";
+import { Home } from "@/app/screens/shared/login";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { ForgotPassword } from "@/app/screens/login/forgot-password";
-import { Onboarding } from "@/app/screens/onboarding";
+import { ForgotPassword } from "@/app/screens/shared/login/forgot-password";
+import { colors } from "@/assets/styles/colors";
+import { SignIn } from "@/app/screens/shared/login/sign-in";
+import { SignUp } from "@/app/screens/shared/login/sign-up";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,11 +38,15 @@ export default function StackRoutes() {
           fontWeight: "bold",
         },
         statusBarStyle: colorScheme == "dark" ? "light" : "dark",
-        statusBarColor: colorScheme == "light" ? "#00D09E" : "#052224",
+        statusBarColor:
+          colorScheme == "light" ? colors.primary[500] : colors.secondary[900],
         headerTitleAlign: "center",
         headerBackTitleStyle: { fontSize: 40 },
         headerStyle: {
-          backgroundColor: colorScheme == "light" ? "#00D09E" : "#052224",
+          backgroundColor:
+            colorScheme == "light"
+              ? colors.primary[500]
+              : colors.secondary[900],
         },
         animation: "ios",
         statusBarAnimation: "slide",
@@ -50,17 +54,12 @@ export default function StackRoutes() {
       }}
     >
       <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
-        options={{ headerShown: false }}
-      />
-
-      <Stack.Screen
         name="Home"
         component={Home}
         options={{
           headerShown: false,
-          statusBarColor: colorScheme == "light" ? "#F1FFF3" : "#052224",
+          statusBarColor:
+            colorScheme == "light" ? colors.white : colors.secondary[900],
         }}
       />
 

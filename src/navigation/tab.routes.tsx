@@ -1,34 +1,47 @@
 import { View } from "react-native";
 import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TransactionsScreen } from "@/app/screens/transactions";
 import { Text } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
-import { DashboardScreen } from "@/app/screens/dashboard";
-import { ExpenseAnalysis } from "@/app/screens/expense-analysis";
-import { CategoryList } from "@/app/screens/category";
-import { Profile } from "@/app/screens/profile";
+import { AdminDashboard } from "@/app/screens/admin/dashboard";
+import { ProfessionalDashboard } from "@/app/screens/professional/dashboard";
+import { PatientDashboard } from "@/app/screens/patient/dashboard";
+import { useAuth } from "@/hooks/auth/AuthContext"; // Importa o contexto de autenticação
+import { colors } from "@/assets/styles/colors";
+import { Profile } from "@/app/screens/shared/profile";
 
 const Tab = createBottomTabNavigator();
 
 export default function TabRoutes() {
   const { colorScheme } = useColorScheme();
+  const { authState } = useAuth(); // Pegue o estado de autenticação, incluindo o tipo de usuário
+
+  // Decide qual dashboard usar com base no tipo de usuário
+  const renderDashboard = () => {
+    switch (authState?.userType) {
+      case "Paciente":
+        return PatientDashboard;
+      case "Medico":
+        return ProfessionalDashboard;
+      case "Administrador":
+        return AdminDashboard;
+      default:
+        return PatientDashboard; // Ou uma rota padrão
+    }
+  };
 
   return (
     <Tab.Navigator
       screenOptions={{
-        headerTintColor: colorScheme == "light" ? "#47286C" : "white",
+        headerTintColor:
+          colorScheme === "light" ? colors.primary[500] : colors.secondary[900],
         headerTitleAlign: "center",
         headerStatusBarHeight: 30,
         headerTitle(props) {
           return (
-            <Animated.View
-              entering={FadeInUp.delay(200).springify()}
-              className="w-full mt-2"
-            >
-              <Text className="dark:text-white text-secondary-800 font-bold text-3xl">
+            <Animated.View entering={FadeInUp.delay(200).springify()}>
+              <Text className="dark:text-white text-primary-900 font-bold text-3xl">
                 {props.children}
               </Text>
             </Animated.View>
@@ -36,34 +49,50 @@ export default function TabRoutes() {
         },
         headerShadowVisible: false,
         headerStyle: {
-          backgroundColor: colorScheme == "light" ? "#00D09E" : "#052224",
+          backgroundColor:
+            colorScheme === "light" ? colors.primary[500] : colors.primary[900],
         },
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: colorScheme == "light" ? "#052224" : "#47286C",
-        tabBarInactiveTintColor: colorScheme == "light" ? "#052224" : "white",
+        tabBarActiveTintColor:
+          colorScheme === "light" ? colors.primary[900] : colors.secondary[900],
+        tabBarInactiveTintColor:
+          colorScheme === "light" ? colors.primary[700] : colors.white,
         tabBarStyle: {
-          backgroundColor: colorScheme == "light" ? "#DFF7E2" : "#47286C",
+          backgroundColor:
+            colorScheme === "light"
+              ? colors.primary[200]
+              : colors.secondary[700],
           borderTopWidth: 0,
+          width: "auto",
           paddingHorizontal: 6,
           position: "absolute",
-          bottom: 12,
+          bottom: 18,
           elevation: 14,
           marginHorizontal: 24,
-          borderRadius: 100,
+          borderRadius: 50,
           height: 60,
         },
       }}
     >
+      {/* Página Home/Dashboard depende do tipo de usuário */}
       <Tab.Screen
         name="Home"
-        component={DashboardScreen}
+        component={renderDashboard()} // Renderiza o dashboard apropriado
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
               return (
-                <View className="items-center justify-center size-14 bg-primary-500 rounded-full">
+                <View
+                  style={{
+                    backgroundColor: colors.primary[500],
+                    borderRadius: 50,
+                    padding: 8,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <Ionicons name="home" color={color} size={size} />
                 </View>
               );
@@ -72,57 +101,8 @@ export default function TabRoutes() {
           },
         }}
       />
-      <Tab.Screen
-        name="Análise de Gastos"
-        component={ExpenseAnalysis}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => {
-            if (focused) {
-              return (
-                <View className="items-center justify-center size-14 bg-primary-500 rounded-full">
-                  <Ionicons name="analytics" color={color} size={size} />
-                </View>
-              );
-            }
-            return (
-              <Ionicons name="analytics-outline" color={color} size={size} />
-            );
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Transações"
-        component={TransactionsScreen}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => {
-            if (focused) {
-              return (
-                <View className="items-center justify-center size-14 bg-primary-500 rounded-full">
-                  <Ionicons name="cash" color={color} size={size} />
-                </View>
-              );
-            }
-            return <Ionicons name="cash-outline" color={color} size={size} />;
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Categorias"
-        component={CategoryList}
-        options={{
-          tabBarIcon: ({ color, size, focused }) => {
-            if (focused) {
-              return (
-                <View className="items-center justify-center size-14 bg-primary-500 rounded-full">
-                  <Ionicons name="grid" color={color} size={size} />
-                </View>
-              );
-            }
-            return <Ionicons name="grid-outline" color={color} size={size} />;
-          },
-        }}
-      />
 
+      {/* Perfil está disponível para todos os usuários */}
       <Tab.Screen
         name="Perfil"
         component={Profile}
@@ -130,7 +110,15 @@ export default function TabRoutes() {
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
               return (
-                <View className="items-center justify-center size-14 bg-primary-500 rounded-full">
+                <View
+                  style={{
+                    backgroundColor: colors.primary[500],
+                    borderRadius: 50,
+                    padding: 8,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <Ionicons name="person" color={color} size={size} />
                 </View>
               );

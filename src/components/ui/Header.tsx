@@ -11,7 +11,7 @@ interface Props {
 export function Header({ children, style }: Props) {
   return (
     <View
-      className="justify-center bg-primary-500 dark:bg-primary-800 px-4 mt-2 mb-2"
+      className="justify-center bg-primary-500 dark:bg-secondary-900 px-4"
       style={[styles.header, style]}
     >
       {children}
@@ -21,6 +21,6 @@ export function Header({ children, style }: Props) {
 
 const styles = StyleSheet.create({
   header: {
-    height: 80,
+    height: 100,
   },
 });

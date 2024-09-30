@@ -1,21 +1,19 @@
 import { cn } from "../../lib/utils";
-import { Ionicons } from "@expo/vector-icons";
 import { Text, TouchableOpacity } from "react-native";
 import { type VariantProps, cva } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "flex-row gap-2 items-center justify-center rounded-2xl py-2 w-auto",
+  "flex-row gap-2 items-center justify-center rounded-full py-2 w-auto",
   {
     variants: {
       variant: {
-        default: "bg-primary-500 ",
+        default: "bg-primary-500 dark:bg-secondary-600",
         destructive: "bg-red-500",
-        light: "bg-primary-200 ",
+        light:
+          "bg-primary-100 border-2 border-primary-600 dark:bg-secondary-200 dark:border-0",
       },
       size: {
-        default: "px-8",
-        sm: "px-6",
-        lg: "px-10",
+        default: "px-12",
       },
     },
     defaultVariants: {
@@ -33,7 +31,7 @@ const buttonTextVariants = cva("text-center font-bold", {
       light: "text-primary-800",
     },
     size: {
-      default: "text-xl",
+      default: "text-2xl",
       sm: "text-lg",
       lg: "text-2xl",
     },

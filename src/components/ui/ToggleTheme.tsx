@@ -16,12 +16,12 @@ export function ToggleTheme() {
       <Switch
         trackColor={{
           true: defaultColors.primary[700],
-          false: defaultColors.secondary[900],
+          false: defaultColors.secondary[700],
         }}
         thumbColor={
           colorScheme === "light"
             ? defaultColors.primary[500]
-            : defaultColors.secondary[400]
+            : defaultColors.secondary[500]
         }
         onValueChange={toggleColorScheme}
         value={colorScheme === "light"}

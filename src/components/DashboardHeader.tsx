@@ -1,10 +1,10 @@
 import { Link } from "expo-router";
 import { formatString } from "@/lib/utils";
-import { Ionicons } from "@expo/vector-icons";
 import { useProfile } from "@/hooks/useProfile";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-export function DashboardHeader({ navigation }: { navigation: any }) {
+export function DashboardHeader({ navigation }) {
   const { userData } = useProfile();
 
   const getGreeting = () => {
@@ -21,13 +21,13 @@ export function DashboardHeader({ navigation }: { navigation: any }) {
   const formattedName = formatString(userData?.firstName);
 
   return (
-    <View className="items-start mt-8">
-      <Text className="text-md font-semibold text-secondary-800 dark:text-primary-200">
+    <View className="flex-row items-center justify-between w-full">
+      <Text className="text-md font-medium text-secondary-900 dark:text-white">
         {getGreeting()}, {formattedName}
       </Text>
-      <Text className="text-2xl font-bold text-secondary-600 dark:text-primary-500">
-        Seja Bem Vindo!
-      </Text>
+      <TouchableOpacity onPress={() => navigation.navigate("/settings")}>
+        <Ionicons name="settings-outline" size={24}></Ionicons>
+      </TouchableOpacity>
     </View>
   );
 }

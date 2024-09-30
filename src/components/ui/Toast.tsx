@@ -53,7 +53,7 @@ function Toast({
     <Animated.View
       className={`
         ${toastVariants[variant]}
-         mb-2 py-4 px-8 rounded-3xl
+         mb-2 py-4 px-8 rounded-md
       `}
       style={{
         opacity,

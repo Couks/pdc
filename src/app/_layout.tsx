@@ -7,7 +7,7 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <ToastProvider>
-        <StatusBar style="auto" translucent animated></StatusBar>
+        <StatusBar style="auto" translucent animated />
         <Slot />
       </ToastProvider>
     </AuthProvider>

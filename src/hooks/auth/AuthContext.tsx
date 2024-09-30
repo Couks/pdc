@@ -7,16 +7,19 @@ const API_URL_AUTH =
 export const API_URL = "https://magnetic-martin-correctly.ngrok-free.app/api";
 
 interface AuthProps {
-  authState?: { token: string | null; authenticated: boolean | null };
+  authState?: {
+    token: string | null;
+    authenticated: boolean | null;
+    userType: "Paciente" | "Medico" | "Administrador" | null;
+  };
   onRegister?: (
     email: string,
     password: string,
     apelido: string,
     firstName: string,
-    lastName: string,
-    DDDtelefone: string
+    lastName: string
   ) => Promise<any>;
-  onLogin?: (DDDtelefone: string, password: string) => Promise<any>;
+  onLogin?: (email: string, password: string) => Promise<any>;
   onLogout?: () => Promise<any>;
 }
 
@@ -32,7 +35,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authState, setAuthState] = useState<{
     token: string | null;
     authenticated: boolean | null;
-  }>({ token: null, authenticated: null });
+    userType: string | null;
+  }>({
+    token: null,
+    authenticated: null,
+    userType: "Paciente" || "Medico" || "Administrador",
+  });
 
   useEffect(() => {
     const loadToken = async () => {
@@ -43,6 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setAuthState({
           token: token,
           authenticated: true,
+          userType: "Paciente" || "Medico" || "Administrador",
         });
       }
     };
@@ -52,19 +61,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const register = async (
     email: string,
     password: string,
-    apelido: string,
+    userType: string,
     firstName: string,
-    lastName: string,
-    DDDtelefone: string
+    lastName: string
   ) => {
-    if (
-      !email ||
-      !password ||
-      !apelido ||
-      !firstName ||
-      !lastName ||
-      !DDDtelefone
-    ) {
+    if (!email || !password || !userType || !firstName || !lastName) {
       throw new Error("Preencha todos os campos para se cadastrar");
     }
 
@@ -74,10 +75,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         {
           email,
           password,
-          apelido,
+          userType,
           firstName,
           lastName,
-          DDDtelefone,
         },
         { timeout: 2000 }
       );

@@ -1,4 +1,4 @@
-# Guia para Rodar o Projeto Whats Your Finances
+# Guia para Rodar o Projeto Plataforma de Diagnóstico da Doença de Chagas
 
 Siga os passos abaixo para garantir que tudo funcione corretamente.
 
