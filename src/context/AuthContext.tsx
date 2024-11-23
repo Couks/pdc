@@ -15,16 +15,22 @@ interface AuthContextType {
 // Criação do contexto de autenticação
 const AuthContext = createContext<AuthContextType | null>(null);
 
+// Mock do usuário inicial para desenvolvimento
+const mockUser: User = {
+  id: "d1",
+  name: "Dr. João Silva",
+  email: "joao.silva@medical.com",
+  role: "doctor",
+  phone: "+55 11 99999-9999",
+  address: "Av. Paulista, 1000",
+};
+
 // Provedor de autenticação
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  // Estado local do usuário
-  const [user, setUser] = useState<User | null>(null);
-  // Estado local de autenticação
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // Estado local de carregamento
-  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(mockUser);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Efeito que verifica a autenticação ao inicializar
   useEffect(() => {
     checkAuth();
   }, []);
@@ -48,12 +54,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (credentials: LoginCredentials) => {
     try {
       setIsLoading(true);
+
+      // Validação básica
+      if (!credentials.email || !credentials.password || !credentials.role) {
+        throw new Error("Todos os campos são obrigatórios");
+      }
+
       const { user: loggedUser } = await authService.login(credentials);
+
       setUser(loggedUser);
       setIsAuthenticated(true);
-      router.replace("/pages/home");
+
+      // Redireciona baseado no papel do usuário
+      const route = loggedUser.role === "doctor" ? "/doctor" : "/patient";
+
+      router.replace(route);
     } catch (error) {
-      console.error("Falha no login:", error);
+      const message =
+        error instanceof Error ? error.message : "Erro ao realizar login";
+
+      // Aqui você pode adicionar um toast/alert para mostrar o erro
+      console.error("Falha no login:", message);
       throw error;
     } finally {
       setIsLoading(false);

@@ -23,7 +23,7 @@ export default function PatientLayout() {
       }}
     >
       <Tabs.Screen
-        name="dashboard"
+        name="dashboard/index"
         options={{
           title: "Início",
           tabBarIcon: ({ color, size }) => (
@@ -32,7 +32,7 @@ export default function PatientLayout() {
         }}
       />
       <Tabs.Screen
-        name="exams"
+        name="exams/index"
         options={{
           title: "Exames",
           tabBarIcon: ({ color, size }) => (
@@ -41,7 +41,7 @@ export default function PatientLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="profile/index"
         options={{
           title: "Perfil",
           tabBarIcon: ({ color, size }) => (

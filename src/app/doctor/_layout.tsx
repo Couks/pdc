@@ -23,16 +23,16 @@ export default function DoctorLayout() {
       }}
     >
       <Tabs.Screen
-        name="dashboard"
+        name="dashboard/index"
         options={{
-          title: "Início",
+          title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="patients"
+        name="patients/index"
         options={{
           title: "Pacientes",
           tabBarIcon: ({ color, size }) => (
@@ -41,7 +41,7 @@ export default function DoctorLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="profile/index"
         options={{
           title: "Perfil",
           tabBarIcon: ({ color, size }) => (

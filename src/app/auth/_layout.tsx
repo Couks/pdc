@@ -7,20 +7,19 @@ export default function AuthLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: false,
         contentStyle: {
-          backgroundColor: colorScheme === "dark" ? "#1f2937" : "#ffffff",
+          backgroundColor: colorScheme === "dark" ? "#1f2937" : "#eee",
         },
       }}
     >
       <Stack.Screen
-        name="login"
+        name="login/index"
         options={{
           title: "Login",
         }}
       />
       <Stack.Screen
-        name="register"
+        name="register/index"
         options={{
           title: "Cadastro",
         }}
