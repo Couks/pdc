@@ -1,5 +1,4 @@
 import { Text, View } from "react-native";
-
 import { cn } from "@/lib/utils";
 
 function Card({
@@ -8,7 +7,10 @@ function Card({
 }: React.ComponentPropsWithoutRef<typeof View>) {
   return (
     <View
-      className={cn("rounded-xl border border-border", className)}
+      className={cn(
+        "rounded-lg border border-border bg-card text-card-foreground dark:bg-card dark:text-card-foreground dark:border-border",
+        className
+      )}
       {...props}
     />
   );
@@ -18,7 +20,7 @@ function CardHeader({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof View>) {
-  return <View className={cn("p-4", className)} {...props} />;
+  return <View className={cn("p-6 gap-2", className)} {...props} />;
 }
 
 function CardTitle({
@@ -28,7 +30,7 @@ function CardTitle({
   return (
     <Text
       className={cn(
-        "text-2xl font-semibold tracking-tight text-primary",
+        "text-2xl font-semibold leading-none tracking-tight text-card-foreground dark:text-card-foreground",
         className
       )}
       {...props}
@@ -42,7 +44,10 @@ function CardDescription({
 }: React.ComponentPropsWithoutRef<typeof Text>) {
   return (
     <Text
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn(
+        "text-md text-muted-foreground dark:text-muted-foreground",
+        className
+      )}
       {...props}
     />
   );
@@ -52,68 +57,26 @@ function CardContent({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof View>) {
-  return <View className={cn("p-4 pt-0", className)} {...props} />;
+  return <View className={cn("p-6 pt-0", className)} {...props} />;
 }
 
-// TODO: style
 function CardFooter({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof View>) {
   return (
     <View
-      className={cn(className, "flex flex-row items-center p-4 pt-0")}
+      className={cn("flex flex-row items-center p-6 pt-0", className)}
       {...props}
     />
-  );
-}
-
-interface SimpleCardProps {
-  className?: string;
-  title?: string;
-  description?: string;
-  content?: string;
-  footer?: string;
-}
-function SimpleCard({
-  className,
-  title,
-  description,
-  content,
-  footer,
-}: SimpleCardProps) {
-  return (
-    <Card className={className}>
-      <CardHeader>
-        {title && (
-          <Text className="text-2xl font-semibold tracking-tight text-primary">
-            {title}
-          </Text>
-        )}
-        {description && (
-          <Text className="text-sm text-muted-foreground">{description}</Text>
-        )}
-      </CardHeader>
-      {content && (
-        <CardContent>
-          <Text className="text-base text-primary">{content}</Text>
-        </CardContent>
-      )}
-      {footer && (
-        <CardFooter>
-          <Text className="text-sm text-muted-foreground">{footer}</Text>
-        </CardFooter>
-      )}
-    </Card>
   );
 }
 
 export {
   Card,
   CardHeader,
+  CardFooter,
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
-  SimpleCard,
 };

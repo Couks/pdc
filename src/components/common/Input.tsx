@@ -8,18 +8,38 @@ export interface InputProps
   label?: string;
   labelClasses?: string;
   inputClasses?: string;
+  error?: string;
 }
 const Input = forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
-  ({ className, label, labelClasses, inputClasses, ...props }, ref) => (
-    <View className={cn("flex flex-col gap-1.5", className)}>
-      {label && <Text className={cn("text-base", labelClasses)}>{label}</Text>}
+  ({ className, label, labelClasses, inputClasses, error, ...props }, ref) => (
+    <View className={cn("flex flex-col gap-2", className)}>
+      {label && (
+        <Text
+          className={cn(
+            "text-md font-medium text-foreground dark:text-foreground",
+            labelClasses
+          )}
+        >
+          {label}
+        </Text>
+      )}
       <TextInput
+        ref={ref}
         className={cn(
-          inputClasses,
-          "border border-input py-2.5 px-4 rounded-lg"
+          "flex h-10 rounded-md border border-input bg-background px-4 py-2 text-md text-foreground",
+          "dark:bg-background dark:text-foreground dark:border-input",
+          "placeholder:text-muted-foreground dark:placeholder:text-muted-foreground",
+          "disabled:opacity-50",
+          inputClasses
         )}
+        placeholderTextColor="hsl(var(--muted-foreground))"
         {...props}
       />
+      {error && (
+        <Text className="text-destructive dark:text-destructive text-md">
+          {error}
+        </Text>
+      )}
     </View>
   )
 );

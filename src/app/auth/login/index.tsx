@@ -4,7 +4,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
@@ -14,7 +13,6 @@ import { LoginCredentials } from "@/types/auth.types";
 import { Button } from "@/components/common/Button";
 import { Input } from "@/components/common/Input";
 import { Link } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function Login() {
   const [credentials, setCredentials] = useState<LoginCredentials>({
@@ -51,7 +49,6 @@ export default function Login() {
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Erro ao realizar login";
-      // Adicione um feedback visual (toast/alert) aqui
       Alert.alert("Erro", message);
       console.error("Erro no login:", error);
     } finally {
@@ -59,137 +56,94 @@ export default function Login() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-background dark:bg-background">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
       >
-        <View className="flex-1 px-6">
-          {/* Header Section */}
+        <View className="flex-1 px-6 justify-center ">
           <Animated.View
             entering={FadeInDown.duration(1000).springify()}
-            className="space-y-2 mb-8"
+            className="gap-2 mb-8"
           >
-            <Text className="text-2xl font-bold text-center text-black">
-              Entrar
+            <Text className="text-2xl font-bold text-center text-foreground dark:text-foreground">
+              Olá! Seja bem vindo!
             </Text>
-            <Text className="text-base text-gray-500 text-center">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <Text className="text-base text-muted-foreground text-center">
+              Faça login para continuar
             </Text>
           </Animated.View>
 
-          {/* Form Section */}
           <Animated.View
             entering={FadeInUp.duration(1000).springify()}
-            className="space-y-6"
+            className="gap-6"
           >
-            <View className="space-y-4">
-              <View>
-                <Text className="text-base font-medium mb-2">Email</Text>
-                <Input
-                  className="w-full"
-                  inputClasses="bg-gray-100 rounded-xl h-12 px-4"
-                  placeholder="exemplo@email.com"
-                  value={credentials.email}
-                  onChangeText={(text) =>
-                    setCredentials((prev) => ({ ...prev, email: text }))
-                  }
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                />
-                {errors.email && (
-                  <Text className="text-red-500 text-sm mt-1">
-                    {errors.email}
-                  </Text>
-                )}
-              </View>
+            <View className="gap-4">
+              <Input
+                label="Email"
+                placeholder="exemplo@email.com"
+                value={credentials.email}
+                onChangeText={(text) =>
+                  setCredentials((prev) => ({ ...prev, email: text }))
+                }
+                autoCapitalize="none"
+                keyboardType="email-address"
+                error={errors.email}
+              />
+
+              <Input
+                label="Senha"
+                placeholder="••••••••"
+                value={credentials.password}
+                onChangeText={(text) =>
+                  setCredentials((prev) => ({ ...prev, password: text }))
+                }
+                secureTextEntry
+                error={errors.password}
+              />
 
               <View>
-                <Text className="text-base font-medium mb-2">Senha</Text>
-                <Input
-                  className="w-full"
-                  inputClasses="bg-gray-100 rounded-xl h-12 px-4"
-                  placeholder="••••••••"
-                  value={credentials.password}
-                  onChangeText={(text) =>
-                    setCredentials((prev) => ({ ...prev, password: text }))
-                  }
-                  secureTextEntry
-                />
-                {errors.password && (
-                  <Text className="text-red-500 text-sm mt-1">
-                    {errors.password}
-                  </Text>
-                )}
-              </View>
-
-              <View>
-                <Text className="text-base font-medium mb-2">
+                <Text className="text-md font-medium text-foreground mb-2">
                   Tipo de Usuário
                 </Text>
-                <View className="flex-row space-x-4">
-                  <TouchableOpacity
+                <View className="flex-row gap-4">
+                  <Button
+                    variant={
+                      credentials.role === "doctor" ? "default" : "secondary"
+                    }
+                    className="flex-1"
+                    label="Médico"
                     onPress={() =>
                       setCredentials((prev) => ({ ...prev, role: "doctor" }))
                     }
-                    className={`flex-1 p-3 rounded-xl ${
-                      credentials.role === "doctor"
-                        ? "bg-blue-500"
-                        : "bg-gray-200"
-                    }`}
-                  >
-                    <Text
-                      className={`text-center ${
-                        credentials.role === "doctor"
-                          ? "text-white"
-                          : "text-gray-700"
-                      }`}
-                    >
-                      Médico
-                    </Text>
-                  </TouchableOpacity>
+                  />
 
-                  <TouchableOpacity
+                  <Button
+                    variant={
+                      credentials.role === "patient" ? "default" : "secondary"
+                    }
+                    className="flex-1"
+                    label="Paciente"
                     onPress={() =>
                       setCredentials((prev) => ({ ...prev, role: "patient" }))
                     }
-                    className={`flex-1 p-3 rounded-xl ${
-                      credentials.role === "patient"
-                        ? "bg-blue-500"
-                        : "bg-gray-200"
-                    }`}
-                  >
-                    <Text
-                      className={`text-center ${
-                        credentials.role === "patient"
-                          ? "text-white"
-                          : "text-gray-700"
-                      }`}
-                    >
-                      Paciente
-                    </Text>
-                  </TouchableOpacity>
+                  />
                 </View>
               </View>
             </View>
 
-            {/* Login Button */}
             <Button
               variant="default"
-              className="w-full bg-[#0066FF] rounded-xl h-12"
+              className="w-full"
+              label="Entrar"
               onPress={handleLogin}
               disabled={isLoading}
-              label="Log In"
-            >
-              <Text className="text-base font-semibold text-white">Log In</Text>
-            </Button>
+            />
 
-            {/* Sign Up Link */}
             <View className="flex-row justify-center">
-              <Text className="text-gray-500">Don't have an account? </Text>
+              <Text className="text-muted-foreground">Não tem uma conta? </Text>
               <Link href="/auth/register">
-                <Text className="text-[#0066FF] font-medium">Sign Up</Text>
+                <Text className="text-primary font-medium">Cadastre-se</Text>
               </Link>
             </View>
           </Animated.View>

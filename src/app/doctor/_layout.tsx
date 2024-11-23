@@ -1,29 +1,42 @@
 import { Tabs } from "expo-router";
-import { useColorScheme } from "react-native";
+import { Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function DoctorLayout() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
       screenOptions={{
         headerStyle: {
-          backgroundColor: isDark ? "#1f2937" : "#ffffff",
+          backgroundColor: "hsl(var(--background))",
+          marginTop: 10,
         },
-        headerTintColor: isDark ? "#ffffff" : "#000000",
+        headerTintColor: "hsl(var(--foreground))",
         tabBarStyle: {
-          backgroundColor: isDark ? "#1f2937" : "#ffffff",
-          borderTopColor: isDark ? "#374151" : "#e5e7eb",
+          backgroundColor: "hsl(var(--background))",
+          borderTopWidth: 0,
+          elevation: 0,
+          height: 60 + (Platform.OS === "ios" ? insets.bottom : 0),
+          marginHorizontal: 20,
+          borderRadius: 50,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 10,
+          paddingHorizontal: 10,
+          paddingBottom: Platform.OS === "ios" ? insets.bottom : 0,
         },
-        tabBarActiveTintColor: "#3b82f6",
-        tabBarInactiveTintColor: isDark ? "#9ca3af" : "#4b5563",
-        headerShown: true,
+        headerShown: false,
+        tabBarShowLabel: false,
       }}
     >
       <Tabs.Screen
-        name="dashboard/index"
+        name="dashboard"
         options={{
           title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
@@ -32,7 +45,7 @@ export default function DoctorLayout() {
         }}
       />
       <Tabs.Screen
-        name="patients/index"
+        name="patients"
         options={{
           title: "Pacientes",
           tabBarIcon: ({ color, size }) => (
@@ -41,7 +54,16 @@ export default function DoctorLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile/index"
+        name="exams"
+        options={{
+          title: "Exames",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="document-text-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
         options={{
           title: "Perfil",
           tabBarIcon: ({ color, size }) => (

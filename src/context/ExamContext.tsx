@@ -1,82 +1,57 @@
 import { createContext, useContext, ReactNode, useState } from "react";
+import { patientService } from "@/services/api";
+
+interface Exam {
+  id: string;
+  patientId: string;
+  doctorId: string;
+  examType: string;
+  requestDate: string;
+  status: "PENDING" | "COMPLETED";
+  result?: {
+    id: string;
+    examRequestId: string;
+    resultDate: string;
+    value: string;
+    isConclusive: boolean;
+    diagnosis: "POSITIVE" | "NEGATIVE";
+    notes: string;
+  };
+}
 
 interface ExamContextType {
-  // Estados
-  exams: [];
+  exams: Exam[];
   isLoading: boolean;
-  analysis: {
-    diagnosis: string;
-    confidence: number;
-    recommendations?: string;
-    examDate: Date;
-    status: "pending" | "completed" | "error";
-  } | null;
-
-  // Funções de gerenciamento
-  addExam: (exam: any) => Promise<void>;
-  updateExam: (examId: string, updates: any) => Promise<void>;
-  deleteExam: (examId: string) => Promise<void>;
-
-  // Funções de análise
-  analyzeResults: (patientId: string) => Promise<void>;
-  getPatientExams: (patientId: string) => any[];
-
-  // Funções de filtro e busca
-  filterExamsByType: (type: any) => any[];
-  filterExamsByDate: (startDate: Date, endDate: Date) => any[];
-
-  // Estatísticas
-  getPatientHistory: (patientId: string) => {
-    examCount: number;
-    lastExam: Date;
-    positiveResults: number;
-    negativeResults: number;
-  };
+  error: string | null;
+  fetchPatientExams: (patientId: string) => Promise<void>;
 }
 
 const ExamContext = createContext<ExamContextType | undefined>(undefined);
 
 export function ExamProvider({ children }: { children: ReactNode }) {
-  const [exams, setExams] = useState<any[]>([]);
-  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
+  const [exams, setExams] = useState<Exam[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [currentAnalysis, setCurrentAnalysis] = useState<any | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const getPatientExams = (patientId: string) => {
-    return exams.filter((exam) => exam.patientId === patientId);
-  };
-
-  // Exemplo de implementação da análise com IA
-  const analyzeResults = async (patientId: string) => {
-    setIsAnalyzing(true);
+  const fetchPatientExams = async (patientId: string) => {
+    setIsLoading(true);
+    setError(null);
     try {
-      const patientExams = getPatientExams(patientId);
-
-      // // Aqui você faria a chamada para sua API de IA
-      // const aiAnalysis = await fetchAIDiagnosis({
-      //   elisa: patientExams.find((e) => e.type === "ELISA")?.result,
-      //   ifi: patientExams.find((e) => e.type === "IFI")?.result,
-      //   hemaglutinacao: patientExams.find((e) => e.type === "HEMAGLUTINACAO")
-      //     ?.result,
-      //   westernBlot: patientExams.find((e) => e.type === "WESTERN_BLOT")
-      //     ?.result,
-      // });
-
-      // setCurrentAnalysis(aiAnalysis);
-    } catch (error) {
-      console.error("Erro na análise:", error);
-      // Implementar tratamento de erro
+      const examData = await patientService.getExams(patientId);
+      setExams(examData);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao buscar exames");
+      console.error("Erro ao buscar exames:", err);
     } finally {
-      setIsAnalyzing(false);
+      setIsLoading(false);
     }
   };
 
   const value = {
     exams,
-    isAnalyzing,
     isLoading,
-    currentAnalysis,
-    analyzeResults,
+    error,
+    fetchPatientExams,
   };
 
   return <ExamContext.Provider value={value}>{children}</ExamContext.Provider>;
@@ -85,7 +60,7 @@ export function ExamProvider({ children }: { children: ReactNode }) {
 export function useExam() {
   const context = useContext(ExamContext);
   if (context === undefined) {
-    throw new Error("useExam must be used within an ExamProvider");
+    throw new Error("useExam deve ser usado dentro de um ExamProvider");
   }
   return context;
 }

@@ -28,9 +28,9 @@ export default function PatientExams() {
       <ScrollView className="flex-1 p-4">
         <Text className="text-2xl font-bold mb-4">Exames do Paciente</Text>
 
-        <View className="space-y-4">
+        <View className="gap-4">
           {exams?.map(
-            (exam) =>
+            (exam: any) =>
               exam.result && <ExamResult key={exam.id} result={exam.result} />
           )}
         </View>

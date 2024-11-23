@@ -10,7 +10,7 @@ export default function ExamSelection() {
       <ScrollView className="flex-1 p-4">
         <Text className="text-2xl font-bold mb-4">Seleção de Exames</Text>
 
-        <View className="space-y-4">
+        <View className="gap-4">
           {isLoading ? (
             <View className="bg-white p-4 rounded-lg shadow-sm">
               <Text className="text-gray-600">Carregando exames...</Text>
@@ -25,7 +25,7 @@ export default function ExamSelection() {
                   </Text>
                 </View>
 
-                <View className="space-y-2">
+                <View className="gap-2">
                   <Text className="text-gray-600">{exam.notes}</Text>
                 </View>
               </View>

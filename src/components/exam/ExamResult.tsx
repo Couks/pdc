@@ -11,13 +11,19 @@ interface ExamResultProps {
 
 export function ExamResult({ result }: ExamResultProps) {
   return (
-    <View className="bg-white p-4 rounded-lg shadow-sm">
-      <Text className="text-lg font-semibold mb-2">Resultado do Exame</Text>
+    <View className="bg-card dark:bg-card p-4 rounded-lg shadow-sm">
+      <Text className="text-lg font-semibold mb-2 text-card-foreground dark:text-card-foreground">
+        Resultado do Exame
+      </Text>
 
-      <View className="space-y-2">
+      <View className="gap-2">
         <View className="flex-row justify-between">
-          <Text className="text-gray-600">Data do Resultado:</Text>
-          <Text>{new Date(result.resultDate).toLocaleDateString()}</Text>
+          <Text className="text-muted-foreground dark:text-muted-foreground">
+            Data do Resultado:
+          </Text>
+          <Text className="text-card-foreground dark:text-card-foreground">
+            {new Date(result.resultDate).toLocaleDateString()}
+          </Text>
         </View>
 
         <View className="flex-row justify-between">

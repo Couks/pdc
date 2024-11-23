@@ -1,8 +1,10 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, Link } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { doctorService } from "@/services/api";
+import { Button } from "@/components/common/Button";
+import { Card, CardHeader, CardContent } from "@/components/common/Card";
 
 export default function PatientDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -15,9 +17,11 @@ export default function PatientDetails() {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1">
+      <SafeAreaView className="flex-1 bg-background">
         <View className="flex-1 p-4">
-          <Text>Carregando dados do paciente...</Text>
+          <Text className="text-foreground">
+            Carregando dados do paciente...
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -26,37 +30,55 @@ export default function PatientDetails() {
   if (!patient) return null;
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-background">
       <ScrollView className="flex-1 p-4">
-        <Text className="text-2xl font-bold mb-4">{patient.name}</Text>
+        <Text className="text-2xl font-bold mb-4 text-foreground">
+          {patient.name}
+        </Text>
 
-        <View className="bg-white p-4 rounded-lg shadow-sm mb-4">
-          <Text className="text-lg font-semibold mb-2">
-            Informações Pessoais
-          </Text>
-          <Text>Email: {patient.email}</Text>
-          <Text>Telefone: {patient.phone}</Text>
-          <Text>Endereço: {patient.address}</Text>
-        </View>
+        <Card className="mb-4">
+          <CardHeader>
+            <Text className="text-lg font-semibold text-card-foreground">
+              Informações Pessoais
+            </Text>
+          </CardHeader>
+          <CardContent>
+            <Text className="text-card-foreground">Email: {patient.email}</Text>
+            <Text className="text-card-foreground">
+              Telefone: {patient.phone}
+            </Text>
+            <Text className="text-card-foreground">
+              Endereço: {patient.address}
+            </Text>
+          </CardContent>
+        </Card>
 
-        <View className="bg-white p-4 rounded-lg shadow-sm mb-4">
-          <Text className="text-lg font-semibold mb-2">Dados Clínicos</Text>
-          <Text>Tipo Sanguíneo: {patient.clinicalData.bloodType}</Text>
-          <Text>
-            Alergias: {patient.clinicalData.allergies.join(", ") || "Nenhuma"}
-          </Text>
-          <Text>
-            Condições Crônicas:{" "}
-            {patient.clinicalData.chronicConditions.join(", ") || "Nenhuma"}
-          </Text>
-        </View>
+        <Card className="mb-4">
+          <CardHeader>
+            <Text className="text-lg font-semibold text-card-foreground">
+              Dados Clínicos
+            </Text>
+          </CardHeader>
+          <CardContent>
+            <Text className="text-card-foreground">
+              Tipo Sanguíneo: {patient.clinicalData.bloodType}
+            </Text>
+            <Text className="text-card-foreground">
+              Alergias: {patient.clinicalData.allergies.join(", ") || "Nenhuma"}
+            </Text>
+            <Text className="text-card-foreground">
+              Condições Crônicas:{" "}
+              {patient.clinicalData.chronicConditions.join(", ") || "Nenhuma"}
+            </Text>
+          </CardContent>
+        </Card>
 
         <Link href={`/doctor/patients/${id}/exams`} asChild>
-          <TouchableOpacity className="bg-blue-500 p-4 rounded-lg">
-            <Text className="text-white text-center font-semibold">
-              Ver Exames do Paciente
-            </Text>
-          </TouchableOpacity>
+          <Button
+            variant="default"
+            className="w-full"
+            label="Ver Exames do Paciente"
+          />
         </Link>
       </ScrollView>
     </SafeAreaView>

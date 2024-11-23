@@ -1,7 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { router } from "expo-router";
 import { User, LoginCredentials } from "@/types/auth.types";
-import { authService } from "@/services/api";
+import { authService, api } from "@/services/api";
+import axios from "axios";
 
 // Interface que define o formato do contexto de autenticação
 interface AuthContextType {
@@ -10,26 +11,17 @@ interface AuthContextType {
   user: User | null;
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
+  register: (credentials: RegisterCredentials) => Promise<void>;
 }
 
 // Criação do contexto de autenticação
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Mock do usuário inicial para desenvolvimento
-const mockUser: User = {
-  id: "d1",
-  name: "Dr. João Silva",
-  email: "joao.silva@medical.com",
-  role: "doctor",
-  phone: "+55 11 99999-9999",
-  address: "Av. Paulista, 1000",
-};
-
 // Provedor de autenticação
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(mockUser);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     checkAuth();
@@ -44,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsAuthenticated(true);
       }
     } catch (error) {
-      console.error("Falha na verificação de autenticação:", error);
+      console.error("Erro ao verificar autenticação:", error);
     } finally {
       setIsLoading(false);
     }
@@ -54,27 +46,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (credentials: LoginCredentials) => {
     try {
       setIsLoading(true);
+      console.log("Tentando login com:", credentials);
+      console.log("URL da API:", api.defaults.baseURL);
 
-      // Validação básica
-      if (!credentials.email || !credentials.password || !credentials.role) {
-        throw new Error("Todos os campos são obrigatórios");
-      }
-
-      const { user: loggedUser } = await authService.login(credentials);
+      const { user: loggedUser, token } = await authService.login(credentials);
+      console.log("Login bem sucedido:", loggedUser);
 
       setUser(loggedUser);
       setIsAuthenticated(true);
 
-      // Redireciona baseado no papel do usuário
-      const route = loggedUser.role === "doctor" ? "/doctor" : "/patient";
-
-      router.replace(route);
+      router.replace(`/${loggedUser.role}` as any);
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Erro ao realizar login";
-
-      // Aqui você pode adicionar um toast/alert para mostrar o erro
-      console.error("Falha no login:", message);
+      console.error("Erro detalhado:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("Erro de rede:", error.message);
+        console.error("Configuração:", error.config);
+        console.error("Resposta:", error.response);
+      }
       throw error;
     } finally {
       setIsLoading(false);
@@ -87,9 +75,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await authService.logout();
       setUser(null);
       setIsAuthenticated(false);
-      router.replace("/auth/login");
+      router.replace("/auth");
     } catch (error) {
-      console.error("Falha no logout:", error);
+      console.error("Erro no logout:", error);
     }
   };
 

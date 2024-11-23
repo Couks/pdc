@@ -32,7 +32,7 @@ export default function ExamResults() {
       <ScrollView className="flex-1 p-4">
         <Text className="text-2xl font-bold mb-4">Resultados dos Exames</Text>
 
-        <View className="space-y-4">
+        <View className="gap-4">
           {exams?.map((exam) =>
             exam.result ? (
               <ExamResult key={exam.id} result={exam.result} />

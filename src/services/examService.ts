@@ -1,4 +1,4 @@
-import api from "./api";
+import { api } from "./api";
 import { ExamRequest, ExamResult, ChagasExamType } from "@/types/exam.types";
 
 export const examService = {
@@ -36,5 +36,12 @@ export const examService = {
       `/exam-requests/${examId}/analyze`
     );
     return data;
+  },
+
+  async getPendingExams(doctorId: string) {
+    const response = await api.get(
+      `/exams?doctorId=${doctorId}&status=pending`
+    );
+    return response.data;
   },
 };

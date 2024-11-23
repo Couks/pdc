@@ -7,7 +7,7 @@ export default function Results() {
       <ScrollView className="flex-1 p-4">
         <Text className="text-2xl font-bold mb-4">Resultados</Text>
 
-        <View className="space-y-4">
+        <View className="gap-4">
           {[1, 2, 3].map((exam) => (
             <TouchableOpacity
               key={exam}

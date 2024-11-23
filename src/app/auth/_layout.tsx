@@ -1,29 +1,15 @@
 import { Stack } from "expo-router";
-import { useColorScheme } from "react-native";
+import { View } from "react-native";
 
 export default function AuthLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Stack
-      screenOptions={{
-        contentStyle: {
-          backgroundColor: colorScheme === "dark" ? "#1f2937" : "#eee",
-        },
-      }}
-    >
-      <Stack.Screen
-        name="login/index"
-        options={{
-          title: "Login",
+    <View className="flex-1 bg-background dark:bg-background">
+      <Stack
+        screenOptions={{
+          headerShown: false,
         }}
+        initialRouteName="home/index"
       />
-      <Stack.Screen
-        name="register/index"
-        options={{
-          title: "Cadastro",
-        }}
-      />
-    </Stack>
+    </View>
   );
 }

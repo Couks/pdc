@@ -25,7 +25,7 @@ export default function PatientList() {
       <ScrollView className="flex-1 p-4">
         <Text className="text-2xl font-bold mb-4">Meus Pacientes</Text>
 
-        <View className="space-y-4">
+        <View className="gap-4">
           {patients?.map((patient) => (
             <TouchableOpacity
               key={patient.id}

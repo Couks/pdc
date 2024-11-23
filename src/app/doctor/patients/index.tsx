@@ -1,9 +1,12 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { doctorService } from "@/services/api";
 import { Link } from "expo-router";
+import { Button } from "@/components/common/Button";
+import { Card, CardContent, CardHeader } from "@/components/common/Card";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function PatientList() {
   const { user } = useAuth();
@@ -16,42 +19,80 @@ export default function PatientList() {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1">
-        <View className="flex-1 p-4">
-          <Text>Carregando pacientes...</Text>
+      <SafeAreaView className="flex-1 bg-background">
+        <View className="flex-1 justify-center items-center p-4">
+          <Text className="text-foreground text-xl">
+            Carregando pacientes...
+          </Text>
         </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView className="flex-1 p-4">
-        <Text className="text-2xl font-bold mb-4">Meus Pacientes</Text>
-
-        <View className="space-y-4">
-          {patients?.map((patient: any) => (
-            <Link
-              key={patient.id}
-              href={`/doctor/patients/${patient.id}`}
-              asChild
-            >
-              <TouchableOpacity>
-                <View className="bg-white p-4 rounded-lg shadow-sm">
-                  <Text className="text-lg font-semibold">{patient.name}</Text>
-                  <Text className="text-gray-600">{patient.email}</Text>
-                  <View className="flex-row justify-between mt-2">
-                    <Text className="text-gray-500">
-                      Tipo Sanguíneo: {patient.clinicalData.bloodType}
-                    </Text>
-                    <Text className="text-blue-500">Ver detalhes →</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </Link>
-          ))}
+    <SafeAreaView className="flex-1 bg-background">
+      <View className="flex-1">
+        <View className="px-6 py-4 border-b border-border">
+          <Text className="text-2xl font-bold text-foreground">
+            Meus Pacientes
+          </Text>
+          <Text className="text-muted-foreground mt-1">
+            {patients?.length || 0} pacientes cadastrados
+          </Text>
         </View>
-      </ScrollView>
+
+        <ScrollView className="flex-1 px-4">
+          <View className="py-4 gap-3">
+            {patients?.map((patient: any) => (
+              <Link
+                key={patient.id}
+                href={`/doctor/patients/${patient.id}`}
+                asChild
+              >
+                <Card className="border border-border">
+                  <CardContent className="p-4">
+                    <View className="flex-row justify-between items-start">
+                      <View className="flex-1">
+                        <Text className="text-xl font-semibold text-card-foreground mb-1">
+                          {patient.name}
+                        </Text>
+                        <View className="flex-row items-center gap-2">
+                          <Ionicons
+                            name="mail-outline"
+                            size={14}
+                            color="hsl(var(--muted-foreground))"
+                          />
+                          <Text className="text-muted-foreground text-sm">
+                            {patient.email}
+                          </Text>
+                        </View>
+                        <View className="flex-row items-center gap-2 mt-1">
+                          <Ionicons
+                            name="water-outline"
+                            size={14}
+                            color="hsl(var(--muted-foreground))"
+                          />
+                          <Text className="text-muted-foreground text-sm">
+                            Tipo Sanguíneo: {patient.clinicalData.bloodType}
+                          </Text>
+                        </View>
+                      </View>
+                      <View className="flex-row items-center">
+                        <Text className="text-primary mr-1">Ver detalhes</Text>
+                        <Ionicons
+                          name="chevron-forward"
+                          size={16}
+                          color="hsl(var(--primary))"
+                        />
+                      </View>
+                    </View>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
