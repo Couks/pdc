@@ -173,6 +173,12 @@ export const patientService = {
     const { data: patient } = await api.get(`/patients/${patientId}`);
     return patient.clinicalData;
   },
+
+  async getProfile(patientId: string) {
+    const { data } = await api.get(`/patients/${patientId}`);
+    const { password: _, ...patientWithoutPassword } = data;
+    return patientWithoutPassword;
+  },
 };
 
 export { api };

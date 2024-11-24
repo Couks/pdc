@@ -9,89 +9,64 @@ import Animated, {
   FadeInDown,
   LinearTransition,
 } from "react-native-reanimated";
+import { useQuery } from "@tanstack/react-query";
+import { patientService } from "@/services/api";
 import { Patient } from "@/types/patient.types";
 
 export default function PatientProfile() {
   const { user, logout } = useAuth();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  if (!user || user.role !== "patient") return null;
+  const { data: profile } = useQuery({
+    queryKey: ["patient-profile", user?.id],
+    queryFn: () => patientService.getProfile(user?.id || ""),
+    enabled: !!user?.id,
+  });
 
-  const patientUser = user as Patient;
+  if (!profile || user?.role !== "patient") return null;
 
   const profileItems = [
     {
       icon: "person-outline",
       label: "Nome",
-      value: patientUser.name,
+      value: profile.name,
       bgColor: "bg-primary/10",
       iconColor: "primary",
     },
     {
       icon: "mail-outline",
       label: "Email",
-      value: patientUser.email,
+      value: profile.email,
       bgColor: "bg-secondary/10",
       iconColor: "secondary",
     },
     {
-      icon: "calendar-outline",
-      label: "Data de Nascimento",
-      value: patientUser.birthDate,
+      icon: "card-outline",
+      label: "CPF",
+      value: profile.cpf,
       bgColor: "bg-accent/10",
       iconColor: "accent",
     },
     {
-      icon: "male-female-outline",
-      label: "Gênero",
-      value: patientUser.gender,
+      icon: "calendar-outline",
+      label: "Data de Nascimento",
+      value: new Date(profile.birthDate).toLocaleDateString("pt-BR"),
       bgColor: "bg-success/10",
       iconColor: "success",
     },
     {
       icon: "call-outline",
       label: "Telefone",
-      value: patientUser.phone,
+      value: profile.phone,
       bgColor: "bg-warning/10",
       iconColor: "warning",
     },
     {
       icon: "location-outline",
       label: "Endereço",
-      value: patientUser.address,
+      value: profile.address,
       bgColor: "bg-info/10",
       iconColor: "info",
-    },
-  ];
-
-  const clinicalItems = [
-    {
-      icon: "water-outline",
-      label: "Tipo Sanguíneo",
-      value: patientUser.clinicalData.bloodType,
-      bgColor: "bg-destructive/10",
-      iconColor: "destructive",
-    },
-    {
-      icon: "alert-circle-outline",
-      label: "Alergias",
-      value: patientUser.clinicalData.allergies.join(", "),
-      bgColor: "bg-primary/10",
-      iconColor: "primary",
-    },
-    {
-      icon: "fitness-outline",
-      label: "Condições Crônicas",
-      value: patientUser.clinicalData.chronicConditions.join(", "),
-      bgColor: "bg-secondary/10",
-      iconColor: "secondary",
-    },
-    {
-      icon: "medkit-outline",
-      label: "Medicamentos",
-      value: patientUser.clinicalData.medications.join(", "),
-      bgColor: "bg-accent/10",
-      iconColor: "accent",
     },
   ];
 
@@ -107,9 +82,12 @@ export default function PatientProfile() {
             <Ionicons name="person" size={48} color="hsl(var(--primary))" />
           </View>
           <Text className="text-2xl font-bold text-foreground">
-            {patientUser.name}
+            {profile.name}
           </Text>
-          <Text className="text-muted-foreground">{patientUser.email}</Text>
+          <Text className="text-muted-foreground">
+            {new Date(profile.birthDate).toLocaleDateString("pt-BR")}
+          </Text>
+          <Text className="text-primary">CPF: {profile.cpf}</Text>
         </Animated.View>
 
         <Animated.View
@@ -117,39 +95,7 @@ export default function PatientProfile() {
           layout={LinearTransition.springify()}
           className="gap-4"
         >
-          {profileItems.map((item) => (
-            <Card key={item.label}>
-              <CardContent className="p-4">
-                <View className="flex-row items-center">
-                  <View
-                    className={`w-10 h-10 ${item.bgColor} rounded-full items-center justify-center mr-4`}
-                  >
-                    <Ionicons
-                      name={item.icon as any}
-                      size={24}
-                      color={`hsl(var(--${item.iconColor}))`}
-                    />
-                  </View>
-                  <View className="flex-1">
-                    <Text className="text-sm text-muted-foreground">
-                      {item.label}
-                    </Text>
-                    <Text className="text-lg font-medium text-card-foreground">
-                      {item.value}
-                    </Text>
-                  </View>
-                </View>
-              </CardContent>
-            </Card>
-          ))}
-        </Animated.View>
-
-        <Animated.View
-          entering={FadeInDown.duration(600).delay(300)}
-          layout={LinearTransition.springify()}
-          className="gap-4 mt-6"
-        >
-          {clinicalItems.map((item) => (
+          {profileItems.map((item, index) => (
             <Card key={item.label}>
               <CardContent className="p-4">
                 <View className="flex-row items-center">

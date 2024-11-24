@@ -17,6 +17,7 @@ import { LoginCredentials } from "@/types/auth.types";
 import { Button } from "@/components/common/Button";
 import { Input } from "@/components/common/Input";
 import { Link } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Login() {
   const [credentials, setCredentials] = useState<LoginCredentials>({
@@ -25,7 +26,17 @@ export default function Login() {
     role: "doctor",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { login, isLoading } = useAuth();
+  const { login } = useAuth();
+
+  const loginMutation = useMutation({
+    mutationFn: (credentials: LoginCredentials) => login(credentials),
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "Erro ao realizar login";
+      Alert.alert("Erro", message);
+      console.error("Erro no login:", error);
+    },
+  });
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -47,16 +58,8 @@ export default function Login() {
   };
 
   const handleLogin = async () => {
-    try {
-      if (!validateForm()) return;
-      await login(credentials);
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Erro ao realizar login";
-      Alert.alert("Erro", message);
-      console.error("Erro no login:", error);
-    } finally {
-    }
+    if (!validateForm()) return;
+    loginMutation.mutate(credentials);
   };
 
   return (
@@ -143,7 +146,7 @@ export default function Login() {
               className="w-full"
               label="Entrar"
               onPress={handleLogin}
-              disabled={isLoading}
+              disabled={loginMutation.isPending}
             />
 
             <View className="flex-row justify-center">

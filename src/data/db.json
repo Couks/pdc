@@ -641,6 +641,14 @@
       "examType": "WESTERN_BLOT",
       "requestDate": "2024-11-24T04:23:20.442Z",
       "status": "PENDENTE"
+    },
+    {
+      "id": "e4e2",
+      "patientId": "p1",
+      "doctorId": "d1",
+      "examType": "WESTERN_BLOT",
+      "requestDate": "2024-11-24T17:45:57.238Z",
+      "status": "PENDENTE"
     }
   ]
 }

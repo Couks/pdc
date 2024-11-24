@@ -10,7 +10,6 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { Skeleton } from "@/components/common/Skeleton";
-import { ClinicalData } from "@/types/base.types";
 
 export default function PatientClinical() {
   const { user } = useAuth();

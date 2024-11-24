@@ -12,6 +12,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/common/Button";
 import { Input } from "@/components/common/Input";
 import { Link } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
 
 interface RegisterCredentials {
   name: string;
@@ -30,7 +31,17 @@ export default function Register() {
     role: "patient",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { register, isLoading } = useAuth();
+  const { register } = useAuth();
+
+  const registerMutation = useMutation({
+    mutationFn: (credentials: RegisterCredentials) => register(credentials),
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "Erro ao realizar cadastro";
+      Alert.alert("Erro", message);
+      console.error("Erro no cadastro:", error);
+    },
+  });
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -59,16 +70,9 @@ export default function Register() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleRegister = async () => {
-    try {
-      if (!validateForm()) return;
-      await register(credentials);
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Erro ao realizar cadastro";
-      Alert.alert("Erro", message);
-      console.error("Erro no cadastro:", error);
-    }
+  const handleRegister = () => {
+    if (!validateForm()) return;
+    registerMutation.mutate(credentials);
   };
 
   return (
@@ -174,7 +178,7 @@ export default function Register() {
               className="w-full"
               label="Criar conta"
               onPress={handleRegister}
-              disabled={isLoading}
+              disabled={registerMutation.isPending}
             />
 
             <View className="flex-row justify-center">

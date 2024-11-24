@@ -8,10 +8,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import Animated, {
   FadeInDown,
-  FadeIn,
   LinearTransition,
+  useAnimatedScrollHandler,
+  useSharedValue,
 } from "react-native-reanimated";
-import { ExamStatus } from "@/types/base.types";
 import { ExamRequest } from "@/types/exam.types";
 
 export default function PatientDashboard() {
@@ -97,6 +97,14 @@ export default function PatientDashboard() {
       year: "numeric",
     });
   };
+
+  const scrollY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    },
+  });
 
   return (
     <SafeAreaView className="flex-1 bg-background dark:bg-background">
