@@ -1,7 +1,11 @@
 import { View, Text, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
-import Animated, { FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  LinearTransition,
+} from "react-native-reanimated";
 import { Button } from "@/components/common/Button";
 import { BlurView } from "expo-blur";
 
@@ -13,7 +17,8 @@ export default function AuthIndex() {
           <BlurView intensity={60} tint="light" style={{ flex: 1 }}>
             <View className="flex-1 p-8 justify-center">
               <Animated.View
-                entering={FadeIn.duration(1000).springify()}
+                entering={FadeInDown.duration(1000).springify()}
+                layout={LinearTransition.springify()}
                 className="items-center mb-4"
               >
                 <Image
@@ -28,7 +33,8 @@ export default function AuthIndex() {
               </Animated.View>
 
               <Animated.View
-                entering={FadeIn.delay(200).duration(1000).springify()}
+                entering={FadeInUp.delay(200).duration(1000).springify()}
+                layout={LinearTransition.springify()}
                 className="gap-4 items-center"
               >
                 <Link href="/auth/login" asChild>
@@ -51,7 +57,8 @@ export default function AuthIndex() {
               </Animated.View>
 
               <Animated.View
-                entering={FadeIn.delay(400).duration(1000).springify()}
+                entering={FadeInUp.delay(400).duration(1000).springify()}
+                layout={LinearTransition.springify()}
                 className="mt-12"
               >
                 <Text className="text-base text-muted-foreground dark:text-muted-foreground text-center">

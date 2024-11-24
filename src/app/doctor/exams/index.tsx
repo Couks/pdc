@@ -15,8 +15,14 @@ import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import { useState, useMemo } from "react";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition,
+} from "react-native-reanimated";
+import { Skeleton } from "@/components/common/Skeleton";
 
-type ExamStatus = "PENDING" | "COMPLETED" | "IN_ANALYSIS";
+type ExamStatus = "PENDENTE" | "CONCLUIDO" | "EM ANALISE";
 
 interface ExamWithPatient {
   id: string;
@@ -49,6 +55,19 @@ export default function DoctorExams({
     initialStatus
   );
   const [searchQuery, setSearchQuery] = useState("");
+
+  const getPageTitle = () => {
+    switch (selectedStatus) {
+      case "PENDENTE":
+        return "Exames Pendentes";
+      case "CONCLUIDO":
+        return "Exames Concluídos";
+      case "EM ANALISE":
+        return "Exames em Análise";
+      default:
+        return "Todos os Exames";
+    }
+  };
 
   const { data: exams, isLoading } = useQuery({
     queryKey: ["doctor-exams", user?.id],
@@ -85,19 +104,19 @@ export default function DoctorExams({
 
   const getStatusColor = (status: ExamStatus) => {
     switch (status) {
-      case "COMPLETED":
+      case "CONCLUIDO":
         return {
           bg: "bg-green-100",
           text: "text-green-600",
           label: "Concluído",
         };
-      case "PENDING":
+      case "PENDENTE":
         return {
           bg: "bg-orange-100",
           text: "text-orange-600",
           label: "Pendente",
         };
-      case "IN_ANALYSIS":
+      case "EM ANALISE":
         return {
           bg: "bg-blue-100",
           text: "text-blue-600",
@@ -124,7 +143,12 @@ export default function DoctorExams({
     return (
       <SafeAreaView className="flex-1 bg-background">
         <View className="flex-1 p-4">
-          <Text className="text-foreground">Carregando exames...</Text>
+          <Skeleton className="h-8 w-48 mb-6" />
+          <View className="gap-4">
+            {[1, 2, 3].map((index) => (
+              <Skeleton key={index} className="h-40 w-full rounded-lg" />
+            ))}
+          </View>
         </View>
       </SafeAreaView>
     );
@@ -132,11 +156,21 @@ export default function DoctorExams({
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <ScrollView className="flex-1 p-4">
+      <ScrollView
+        className="flex-1 p-4"
+        contentContainerStyle={{ paddingBottom: 20 }}
+      >
         <View className="flex-row items-center justify-between mb-6">
-          <Text className="text-2xl font-bold text-foreground">
-            {initialStatus === "PENDING" ? "Exames Pendentes" : "Exames"}
-          </Text>
+          <Animated.View
+            key={selectedStatus}
+            entering={FadeIn.duration(300)}
+            exiting={FadeOut.duration(300)}
+            layout={LinearTransition.springify()}
+          >
+            <Text className="text-2xl font-bold text-foreground">
+              {getPageTitle()}
+            </Text>
+          </Animated.View>
           <TouchableOpacity
             className="bg-primary/10 p-2 rounded-full"
             onPress={() => setShowFilters(!showFilters)}
@@ -192,7 +226,7 @@ export default function DoctorExams({
               <TouchableOpacity
                 className="p-4 border-b border-border"
                 onPress={() => {
-                  setSelectedStatus("PENDING");
+                  setSelectedStatus("PENDENTE");
                   setShowStatusModal(false);
                 }}
               >
@@ -201,7 +235,7 @@ export default function DoctorExams({
               <TouchableOpacity
                 className="p-4 border-b border-border"
                 onPress={() => {
-                  setSelectedStatus("IN_ANALYSIS");
+                  setSelectedStatus("EM ANALISE");
                   setShowStatusModal(false);
                 }}
               >
@@ -210,7 +244,7 @@ export default function DoctorExams({
               <TouchableOpacity
                 className="p-4"
                 onPress={() => {
-                  setSelectedStatus("COMPLETED");
+                  setSelectedStatus("CONCLUIDO");
                   setShowStatusModal(false);
                 }}
               >
@@ -250,7 +284,7 @@ export default function DoctorExams({
                         <Text className="text-muted-foreground">
                           Data: {formatDate(exam.requestDate)}
                         </Text>
-                        {exam.status === "COMPLETED" && (
+                        {exam.status === "CONCLUIDO" && (
                           <View className="flex-row items-center">
                             <Text className="text-primary mr-2">
                               Ver resultado

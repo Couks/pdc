@@ -36,16 +36,16 @@ export default function DoctorLayout() {
       }}
     >
       <Tabs.Screen
-        name="dashboard"
+        name="dashboard/dashboard"
         options={{
-          title: "Dashboard",
+          title: "Dashboard/index",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="patients"
+        name="patients/index"
         options={{
           title: "Pacientes",
           tabBarIcon: ({ color, size }) => (
@@ -54,7 +54,7 @@ export default function DoctorLayout() {
         }}
       />
       <Tabs.Screen
-        name="exams"
+        name="exams/index"
         options={{
           title: "Exames",
           tabBarIcon: ({ color, size }) => (
@@ -63,11 +63,49 @@ export default function DoctorLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="profile/index"
         options={{
           title: "Perfil",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="request-exam/index"
+        options={{
+          title: "Solicitar Exame",
+          href: null,
+
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="add-circle-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="patients/[id]/exams"
+        options={{
+          href: null,
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="patients/[id]/index"
+        options={{
+          title: "Exames",
+          href: null,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="document-text-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="pending/index"
+        options={{
+          title: "Exames",
+          href: null,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="document-text-outline" size={size} color={color} />
           ),
         }}
       />

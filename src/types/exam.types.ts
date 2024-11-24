@@ -1,8 +1,11 @@
+import { Diagnosis } from "./base.types";
+
 export type ChagasExamType =
   | "IFI"
   | "HEMAGLUTINACAO"
   | "ELISA"
   | "WESTERN_BLOT";
+export type ExamPhase = "AGUDA" | "CRONICA" | "AMBAS";
 
 export interface ExamDescription {
   type: ChagasExamType;
@@ -10,7 +13,7 @@ export interface ExamDescription {
   description: string;
   advantages: string[];
   limitations: string[];
-  recommendedPhase: "ACUTE" | "CHRONIC" | "BOTH";
+  recommendedPhase: ExamPhase;
 }
 
 export interface ExamRequest {
@@ -19,7 +22,7 @@ export interface ExamRequest {
   doctorId: string;
   examType: ChagasExamType;
   requestDate: string;
-  status: "PENDING" | "COMPLETED" | "CANCELLED";
+  status: "PENDENTE" | "CONCLUIDO" | "EM_ANALISE";
   result?: ExamResult;
 }
 
@@ -29,7 +32,7 @@ export interface ExamResult {
   resultDate: string;
   value: number | string;
   isConclusive: boolean;
-  diagnosis: "POSITIVE" | "NEGATIVE" | "INCONCLUSIVE";
+  diagnosis: Diagnosis;
   recommendedFollowUp?: ChagasExamType;
   notes?: string;
 }
@@ -50,7 +53,7 @@ export const EXAM_DESCRIPTIONS: Record<ChagasExamType, ExamDescription> = {
       "Requer equipamentos especializados",
       "Interpretação subjetiva",
     ],
-    recommendedPhase: "ACUTE",
+    recommendedPhase: "AGUDA",
   },
   HEMAGLUTINACAO: {
     type: "HEMAGLUTINACAO",
@@ -67,7 +70,7 @@ export const EXAM_DESCRIPTIONS: Record<ChagasExamType, ExamDescription> = {
       "Possibilidade de falso-positivos",
       "Requer reagentes adicionais",
     ],
-    recommendedPhase: "BOTH",
+    recommendedPhase: "AMBAS",
   },
   ELISA: {
     type: "ELISA",
@@ -85,7 +88,7 @@ export const EXAM_DESCRIPTIONS: Record<ChagasExamType, ExamDescription> = {
       "Custo moderado",
       "Requer equipamento específico",
     ],
-    recommendedPhase: "BOTH",
+    recommendedPhase: "AMBAS",
   },
   WESTERN_BLOT: {
     type: "WESTERN_BLOT",
@@ -102,6 +105,6 @@ export const EXAM_DESCRIPTIONS: Record<ChagasExamType, ExamDescription> = {
       "Processo laborioso",
       "Tempo de execução maior",
     ],
-    recommendedPhase: "CHRONIC",
+    recommendedPhase: "CRONICA",
   },
 };

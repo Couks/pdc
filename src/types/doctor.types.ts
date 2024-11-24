@@ -1,20 +1,12 @@
-import { User } from "./auth.types";
-import { Patient } from "./patient.types";
+import { BaseUser } from "./base.types";
 
-export interface Doctor extends User {
+export interface Doctor extends BaseUser {
   role: "doctor";
   crm: string;
   specialization: string;
-  patients: Patient[];
+  patients: string[];
 }
 
-export interface DoctorProfile {
-  id: string;
-  name: string;
-  crm: string;
-  specialization: string;
-  phone: string;
-  email: string;
-  address: string;
+export interface DoctorProfile extends Omit<Doctor, "password"> {
   patientCount: number;
 }

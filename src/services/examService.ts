@@ -12,7 +12,7 @@ export const examService = {
       doctorId,
       examType,
       requestDate: new Date().toISOString(),
-      status: "PENDING",
+      status: "PENDENTE",
     });
     return data;
   },

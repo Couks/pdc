@@ -6,7 +6,11 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  LinearTransition,
+} from "react-native-reanimated";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { LoginCredentials } from "@/types/auth.types";
@@ -64,6 +68,7 @@ export default function Login() {
         <View className="flex-1 px-6 justify-center ">
           <Animated.View
             entering={FadeInDown.duration(1000).springify()}
+            layout={LinearTransition.springify()}
             className="gap-2 mb-8"
           >
             <Text className="text-2xl font-bold text-center text-foreground dark:text-foreground">
@@ -76,6 +81,7 @@ export default function Login() {
 
           <Animated.View
             entering={FadeInUp.duration(1000).springify()}
+            layout={LinearTransition.springify()}
             className="gap-6"
           >
             <View className="gap-4">

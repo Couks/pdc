@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { ChagasExamType, EXAM_DESCRIPTIONS } from "@/types/exam.types";
+import { Ionicons } from "@expo/vector-icons";
 
 interface ExamSelectorProps {
   onSelectExam: (examType: ChagasExamType) => void;
@@ -10,59 +11,70 @@ export function ExamSelector({ onSelectExam }: ExamSelectorProps) {
   return (
     <ScrollView className="flex-1">
       <View className="p-4 gap-4">
-        <Text className="text-xl font-bold mb-4 text-foreground dark:text-foreground">
+        <Text className="text-2xl font-bold mb-6 text-foreground">
           Selecione o Tipo de Exame
         </Text>
 
         {Object.values(EXAM_DESCRIPTIONS).map((exam) => (
           <TouchableOpacity
             key={exam.type}
-            className="bg-card dark:bg-card p-4 rounded-lg shadow-sm gap-2"
+            className="bg-card p-6 rounded-xl shadow-lg border border-border gap-3"
             onPress={() => onSelectExam(exam.type)}
           >
-            <Text className="text-lg font-semibold text-card-foreground dark:text-card-foreground">
-              {exam.title}
-            </Text>
-            <Text className="text-muted-foreground dark:text-muted-foreground">
+            <View className="flex-row items-center justify-between">
+              <Text className="text-xl font-bold text-card-foreground">
+                {exam.title}
+              </Text>
+              <View className="bg-accent px-3 py-1 rounded-full">
+                <Text className="text-sm font-medium text-accent-foreground">
+                  {exam.recommendedPhase === "AMBAS"
+                    ? "Aguda e Crônica"
+                    : exam.recommendedPhase === "AGUDA"
+                    ? "Aguda"
+                    : "Crônica"}
+                </Text>
+              </View>
+            </View>
+
+            <Text className="text-base text-muted-foreground mb-2">
               {exam.description}
             </Text>
 
-            <View className="mt-2">
-              <Text className="font-medium text-card-foreground dark:text-card-foreground">
-                Vantagens:
-              </Text>
+            <View className="bg-muted p-4 rounded-lg mb-2">
+              <View className="flex-row items-center mb-2">
+                <Ionicons
+                  name="checkmark-circle"
+                  size={20}
+                  color="hsl(var(--primary))"
+                />
+                <Text className="font-semibold text-card-foreground ml-2">
+                  Vantagens
+                </Text>
+              </View>
               {exam.advantages.map((advantage, index) => (
-                <Text
-                  key={index}
-                  className="text-gray-600 text-card-foreground dark:text-card-foreground"
-                >
+                <Text key={index} className="text-muted-foreground ml-7 mb-1">
                   • {advantage}
                 </Text>
               ))}
             </View>
 
-            <View className="mt-2">
-              <Text className="font-medium text-card-foreground dark:text-card-foreground">
-                Limitações:
-              </Text>
+            <View className="bg-muted p-4 rounded-lg">
+              <View className="flex-row items-center mb-2">
+                <Ionicons
+                  name="alert-circle"
+                  size={20}
+                  color="hsl(var(--destructive))"
+                />
+                <Text className="font-semibold text-card-foreground ml-2">
+                  Limitações
+                </Text>
+              </View>
               {exam.limitations.map((limitation, index) => (
-                <Text
-                  key={index}
-                  className="text-gray-600 text-card-foreground dark:text-card-foreground"
-                >
+                <Text key={index} className="text-muted-foreground ml-7 mb-1">
                   • {limitation}
                 </Text>
               ))}
             </View>
-
-            <Text className="mt-2 text-blue-600 text-card-foreground dark:text-card-foreground">
-              Fase Recomendada:{" "}
-              {exam.recommendedPhase === "BOTH"
-                ? "Aguda e Crônica"
-                : exam.recommendedPhase === "ACUTE"
-                ? "Aguda"
-                : "Crônica"}
-            </Text>
           </TouchableOpacity>
         ))}
       </View>

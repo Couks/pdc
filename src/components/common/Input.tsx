@@ -16,7 +16,7 @@ const Input = forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
       {label && (
         <Text
           className={cn(
-            "text-md font-medium text-foreground dark:text-foreground",
+            "text-lg font-medium text-foreground dark:text-foreground",
             labelClasses
           )}
         >
@@ -26,7 +26,7 @@ const Input = forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
       <TextInput
         ref={ref}
         className={cn(
-          "flex h-10 rounded-md border border-input bg-background px-4 py-2 text-md text-foreground",
+          "flex h-14 rounded-md border border-input bg-background px-4 py-2 text-lg text-foreground",
           "dark:bg-background dark:text-foreground dark:border-input",
           "placeholder:text-muted-foreground dark:placeholder:text-muted-foreground",
           "disabled:opacity-50",

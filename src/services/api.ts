@@ -1,7 +1,15 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
-import { LoginCredentials, User } from "@/types/auth.types";
+import {
+  LoginCredentials,
+  RegisterCredentials,
+  AuthResponse,
+} from "@/types/auth.types";
+import { Doctor } from "@/types/doctor.types";
+import { Patient } from "@/types/patient.types";
+
+type User = Doctor | Patient;
 
 // Função para obter a URL base correta
 function getBaseUrl() {
@@ -46,12 +54,11 @@ interface PatientDetails {
 }
 
 export const authService = {
-  async login({ email, password, role }: LoginCredentials) {
+  async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
-      // 1. Primeiro busca o usuário
-      const endpoint = role === "doctor" ? "doctors" : "patients";
+      const endpoint = credentials.role === "doctor" ? "doctors" : "patients";
       const { data: users } = await api.get(`/${endpoint}`, {
-        params: { email },
+        params: { email: credentials.email },
       });
 
       const user = users[0];
@@ -59,11 +66,10 @@ export const authService = {
         throw new Error("Usuário não encontrado");
       }
 
-      if (user.password !== password) {
+      if (user.password !== credentials.password) {
         throw new Error("Senha incorreta");
       }
 
-      // 2. Depois busca o token na estrutura correta
       const { data: authData } = await api.get("/auth");
       const token = authData.tokens.find((t: any) => t.id === user.id);
 
@@ -74,18 +80,23 @@ export const authService = {
       await AsyncStorage.multiSet([
         ["@auth_token", token.token],
         ["@user_id", user.id],
-        ["@user_role", role],
+        ["@user_role", credentials.role],
       ]);
 
       const { password: _, ...userWithoutPassword } = user;
       return {
-        user: userWithoutPassword,
+        user: userWithoutPassword as User,
         token: token.token,
       };
     } catch (error) {
       console.error("Erro no login:", error);
       throw error;
     }
+  },
+
+  async register(credentials: RegisterCredentials): Promise<AuthResponse> {
+    // Implementar registro
+    throw new Error("Não implementado");
   },
 
   async logout() {
@@ -109,7 +120,7 @@ export const authService = {
     }
 
     const { password: _, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    return userWithoutPassword as User;
   },
 };
 

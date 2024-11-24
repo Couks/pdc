@@ -66,10 +66,18 @@
       "password": "123456",
       "role": "doctor",
       "crm": "123456-SP",
-      "specialization": "Cardiologia",
+      "specialization": "Infectologia",
       "phone": "(11) 99999-9999",
       "address": "Av. Paulista, 1000, São Paulo - SP",
-      "patients": ["p1", "p2", "p3", "p6", "p7", "p8", "p9"]
+      "patients": [
+        "p1",
+        "p2",
+        "p3",
+        "p6",
+        "p7",
+        "p8",
+        "p9"
+      ]
     },
     {
       "id": "d2",
@@ -78,10 +86,13 @@
       "password": "123456",
       "role": "doctor",
       "crm": "789012-SP",
-      "specialization": "Neurologia",
+      "specialization": "Cardiologia",
       "phone": "(11) 98888-8888",
       "address": "Rua Augusta, 500, São Paulo - SP",
-      "patients": ["p4", "p5"]
+      "patients": [
+        "p4",
+        "p5"
+      ]
     }
   ],
   "patients": [
@@ -94,13 +105,22 @@
       "phone": "(11) 97777-7777",
       "address": "Rua das Flores, 123, São Paulo - SP",
       "birthDate": "1990-05-15",
-      "gender": "female",
-      "doctors": ["d1"],
+      "gender": "FEMININO",
+      "doctors": [
+        "d1"
+      ],
       "clinicalData": {
         "bloodType": "A+",
-        "allergies": ["Penicilina", "Látex"],
-        "chronicConditions": ["Hipertensão"],
-        "medications": ["Losartana 50mg"]
+        "allergies": [
+          "Penicilina",
+          "Látex"
+        ],
+        "chronicConditions": [
+          "Hipertensão"
+        ],
+        "medications": [
+          "Losartana 50mg"
+        ]
       },
       "medicalHistory": [
         {
@@ -132,13 +152,19 @@
       "phone": "(11) 96666-6666",
       "address": "Av. Brasil, 456, São Paulo - SP",
       "birthDate": "1985-08-22",
-      "gender": "male",
-      "doctors": ["d1"],
+      "gender": "MASCULINO",
+      "doctors": [
+        "d1"
+      ],
       "clinicalData": {
         "bloodType": "O+",
         "allergies": [],
-        "chronicConditions": ["Diabetes tipo 2"],
-        "medications": ["Metformina 850mg"]
+        "chronicConditions": [
+          "Diabetes tipo 2"
+        ],
+        "medications": [
+          "Metformina 850mg"
+        ]
       },
       "medicalHistory": [
         {
@@ -170,11 +196,15 @@
       "phone": "(11) 95555-5555",
       "address": "Rua dos Pinheiros, 789, São Paulo - SP",
       "birthDate": "1995-03-10",
-      "gender": "female",
-      "doctors": ["d1"],
+      "gender": "FEMININO",
+      "doctors": [
+        "d1"
+      ],
       "clinicalData": {
         "bloodType": "B-",
-        "allergies": ["Aspirina"],
+        "allergies": [
+          "Aspirina"
+        ],
         "chronicConditions": [],
         "medications": []
       },
@@ -208,13 +238,19 @@
       "phone": "(11) 94444-4444",
       "address": "Rua Oscar Freire, 1000, São Paulo - SP",
       "birthDate": "1978-11-30",
-      "gender": "male",
-      "doctors": ["d2"],
+      "gender": "MASCULINO",
+      "doctors": [
+        "d2"
+      ],
       "clinicalData": {
         "bloodType": "AB+",
         "allergies": [],
-        "chronicConditions": ["Enxaqueca"],
-        "medications": ["Propranolol 40mg"]
+        "chronicConditions": [
+          "Enxaqueca"
+        ],
+        "medications": [
+          "Propranolol 40mg"
+        ]
       },
       "medicalHistory": [
         {
@@ -246,13 +282,21 @@
       "phone": "(11) 93333-3333",
       "address": "Rua Augusta, 200, São Paulo - SP",
       "birthDate": "1982-07-25",
-      "gender": "female",
-      "doctors": ["d2"],
+      "gender": "FEMININO",
+      "doctors": [
+        "d2"
+      ],
       "clinicalData": {
         "bloodType": "O-",
-        "allergies": ["Frutos do mar"],
-        "chronicConditions": ["Epilepsia"],
-        "medications": ["Carbamazepina 200mg"]
+        "allergies": [
+          "Frutos do mar"
+        ],
+        "chronicConditions": [
+          "Epilepsia"
+        ],
+        "medications": [
+          "Carbamazepina 200mg"
+        ]
       },
       "medicalHistory": [
         {
@@ -284,13 +328,21 @@
       "phone": "(11) 92222-2222",
       "address": "Rua das Palmeiras, 789, São Paulo - SP",
       "birthDate": "1988-12-15",
-      "gender": "male",
-      "doctors": ["d1"],
+      "gender": "MASCULINO",
+      "doctors": [
+        "d1"
+      ],
       "clinicalData": {
         "bloodType": "A-",
-        "allergies": ["Dipirona"],
-        "chronicConditions": ["Asma"],
-        "medications": ["Salbutamol"]
+        "allergies": [
+          "Dipirona"
+        ],
+        "chronicConditions": [
+          "Asma"
+        ],
+        "medications": [
+          "Salbutamol"
+        ]
       },
       "medicalHistory": [
         {
@@ -322,13 +374,19 @@
       "phone": "(11) 91111-1111",
       "address": "Rua dos Ipês, 456, São Paulo - SP",
       "birthDate": "1992-08-20",
-      "gender": "female",
-      "doctors": ["d1"],
+      "gender": "FEMININO",
+      "doctors": [
+        "d1"
+      ],
       "clinicalData": {
         "bloodType": "B+",
         "allergies": [],
-        "chronicConditions": ["Ansiedade"],
-        "medications": ["Sertralina 50mg"]
+        "chronicConditions": [
+          "Ansiedade"
+        ],
+        "medications": [
+          "Sertralina 50mg"
+        ]
       },
       "medicalHistory": [
         {
@@ -360,13 +418,21 @@
       "phone": "(11) 90000-0000",
       "address": "Av. Rebouças, 789, São Paulo - SP",
       "birthDate": "1975-04-10",
-      "gender": "male",
-      "doctors": ["d1"],
+      "gender": "MASCULINO",
+      "doctors": [
+        "d1"
+      ],
       "clinicalData": {
         "bloodType": "O+",
-        "allergies": ["Amoxicilina"],
-        "chronicConditions": ["Artrite"],
-        "medications": ["Ibuprofeno 600mg"]
+        "allergies": [
+          "Amoxicilina"
+        ],
+        "chronicConditions": [
+          "Artrite"
+        ],
+        "medications": [
+          "Ibuprofeno 600mg"
+        ]
       },
       "medicalHistory": [
         {
@@ -398,13 +464,19 @@
       "phone": "(11) 98888-7777",
       "address": "Rua Augusta, 1234, São Paulo - SP",
       "birthDate": "1983-11-25",
-      "gender": "female",
-      "doctors": ["d1"],
+      "gender": "FEMININO",
+      "doctors": [
+        "d1"
+      ],
       "clinicalData": {
         "bloodType": "AB+",
         "allergies": [],
-        "chronicConditions": ["Hipotireoidismo"],
-        "medications": ["Levotiroxina 75mcg"]
+        "chronicConditions": [
+          "Hipotireoidismo"
+        ],
+        "medications": [
+          "Levotiroxina 75mcg"
+        ]
       },
       "medicalHistory": [
         {
@@ -434,15 +506,15 @@
       "patientId": "p1",
       "doctorId": "d1",
       "examType": "ELISA",
-      "requestDate": "2024-08-10T10:00:00Z",
-      "status": "COMPLETED",
+      "requestDate": "2024-08-10T10:10:00Z",
+      "status": "CONCLUIDO",
       "result": {
         "id": "r1",
         "examRequestId": "e1",
         "resultDate": "2024-08-11T14:00:00Z",
         "value": "1.2",
         "isConclusive": true,
-        "diagnosis": "POSITIVE",
+        "diagnosis": "POSITIVO",
         "notes": "Resultado positivo para doença de Chagas"
       }
     },
@@ -452,7 +524,7 @@
       "doctorId": "d1",
       "examType": "IFI",
       "requestDate": "2024-09-12T09:00:00Z",
-      "status": "PENDING"
+      "status": "PENDENTE"
     },
     {
       "id": "e3",
@@ -460,22 +532,22 @@
       "doctorId": "d1",
       "examType": "HEMAGLUTINACAO",
       "requestDate": "2024-10-11T15:30:00Z",
-      "status": "PENDING"
+      "status": "PENDENTE"
     },
     {
       "id": "e4",
       "patientId": "p6",
       "doctorId": "d1",
-      "examType": "WESTERN_BLOT",
+      "examType": "WESTERN BLOT",
       "requestDate": "2024-11-09T11:00:00Z",
-      "status": "COMPLETED",
+      "status": "CONCLUIDO",
       "result": {
         "id": "r2",
         "examRequestId": "e4",
         "resultDate": "2024-11-10T16:00:00Z",
         "value": "0.8",
         "isConclusive": true,
-        "diagnosis": "NEGATIVE",
+        "diagnosis": "NEGATIVO",
         "notes": "Resultado negativo para doença de Chagas"
       }
     },
@@ -485,7 +557,7 @@
       "doctorId": "d1",
       "examType": "HEMAGLUTINACAO",
       "requestDate": "2024-12-08T14:20:00Z",
-      "status": "PENDING"
+      "status": "PENDENTE"
     },
     {
       "id": "e6",
@@ -493,15 +565,15 @@
       "doctorId": "d1",
       "examType": "IFI",
       "requestDate": "2024-08-07T10:45:00Z",
-      "status": "COMPLETED",
+      "status": "CONCLUIDO",
       "result": {
         "id": "r3",
         "examRequestId": "e6",
         "resultDate": "2024-08-08T17:30:00Z",
         "value": "1.0",
         "isConclusive": false,
-        "diagnosis": "INCONCLUSIVE",
-        "recommendedFollowUp": "WESTERN_BLOT",
+        "diagnosis": "INCONCLUSIVO",
+        "recommendedFollowUp": "Western Blot",
         "notes": "Resultado inconclusivo, recomenda-se Western Blot para confirmação"
       }
     },
@@ -511,15 +583,15 @@
       "doctorId": "d1",
       "examType": "ELISA",
       "requestDate": "2024-09-06T09:15:00Z",
-      "status": "PENDING"
+      "status": "PENDENTE"
     },
     {
       "id": "e8",
       "patientId": "p1",
       "doctorId": "d1",
-      "examType": "WESTERN_BLOT",
+      "examType": "WESTERN BLOT",
       "requestDate": "2024-10-05T16:40:00Z",
-      "status": "PENDING"
+      "status": "PENDENTE"
     },
     {
       "id": "e9",
@@ -527,16 +599,48 @@
       "doctorId": "d1",
       "examType": "HEMAGLUTINACAO",
       "requestDate": "2024-11-04T13:20:00Z",
-      "status": "COMPLETED",
+      "status": "CONCLUIDO",
       "result": {
         "id": "r4",
         "examRequestId": "e9",
         "resultDate": "2024-11-05T15:45:00Z",
         "value": "1:160",
         "isConclusive": true,
-        "diagnosis": "POSITIVE",
+        "diagnosis": "POSITIVO",
         "notes": "Título significativo, indicando presença de anticorpos anti-T. cruzi"
       }
+    },
+    {
+      "id": "bd5f",
+      "patientId": "",
+      "doctorId": "d1",
+      "examType": "IFI",
+      "requestDate": "2024-11-24T03:29:38.108Z",
+      "status": "PENDING"
+    },
+    {
+      "id": "a33b",
+      "patientId": "",
+      "doctorId": "d1",
+      "examType": "IFI",
+      "requestDate": "2024-11-24T03:29:43.475Z",
+      "status": "PENDING"
+    },
+    {
+      "id": "c8b5",
+      "patientId": "",
+      "doctorId": "d1",
+      "examType": "IFI",
+      "requestDate": "2024-11-24T03:29:47.272Z",
+      "status": "PENDING"
+    },
+    {
+      "id": "2f0a",
+      "patientId": "p1",
+      "doctorId": "d1",
+      "examType": "WESTERN_BLOT",
+      "requestDate": "2024-11-24T04:23:20.442Z",
+      "status": "PENDENTE"
     }
   ]
 }

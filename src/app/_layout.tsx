@@ -1,6 +1,6 @@
-import { Stack, Slot } from "expo-router";
+import { Slot, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -18,6 +18,20 @@ const queryClient = new QueryClient();
 function RootLayoutContent() {
   const { user, isLoading } = useAuth();
   const colorScheme = useColorScheme();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading) {
+      const inAuthGroup = segments[0] === "auth";
+
+      if (!user && !inAuthGroup) {
+        router.replace("/auth");
+      } else if (user && inAuthGroup) {
+        router.replace(user.role === "doctor" ? "/doctor" : "/patient");
+      }
+    }
+  }, [user, segments, isLoading]);
 
   const onLayoutRootView = useCallback(async () => {
     if (!isLoading) {
@@ -30,24 +44,9 @@ function RootLayoutContent() {
   }
 
   return (
-    <View
-      onLayout={onLayoutRootView}
-      className="flex-1"
-      style={{
-        backgroundColor:
-          colorScheme === "dark"
-            ? "hsl(var(--background))"
-            : "hsl(var(--background))",
-      }}
-    >
+    <View onLayout={onLayoutRootView} className="flex-1 bg-background">
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
-      {!user ? (
-        <Stack>
-          <Stack.Screen name="auth" options={{ headerShown: false }} />
-        </Stack>
-      ) : (
-        <Slot />
-      )}
+      <Slot />
     </View>
   );
 }
