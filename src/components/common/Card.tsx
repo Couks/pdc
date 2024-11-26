@@ -45,7 +45,7 @@ function CardDescription({
   return (
     <Text
       className={cn(
-        "text-md text-muted-foreground dark:text-muted-foreground",
+        "text-lg text-muted-foreground dark:text-muted-foreground",
         className
       )}
       {...props}

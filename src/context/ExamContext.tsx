@@ -7,7 +7,7 @@ interface Exam {
   doctorId: string;
   examType: string;
   requestDate: string;
-  status: "PENDING" | "COMPLETED";
+  status: "EM_ANALISE" | "CONCLUIDO";
   result?: {
     id: string;
     examRequestId: string;

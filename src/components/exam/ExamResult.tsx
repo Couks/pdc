@@ -14,19 +14,26 @@ interface ExamResultProps {
 export function ExamResult({ result }: ExamResultProps) {
   const getDiagnosisConfig = (diagnosis: string) => {
     switch (diagnosis) {
-      case "POSITIVE":
+      case "POSITIVO":
         return {
           icon: "alert-circle" as const,
           color: "text-red-600",
           bg: "bg-red-50",
           label: "Positivo",
         };
-      case "NEGATIVE":
+      case "NEGATIVO":
         return {
           icon: "checkmark-circle" as const,
           color: "text-green-600",
           bg: "bg-green-50",
           label: "Negativo",
+        };
+      case "INCONCLUSIVO":
+        return {
+          icon: "help-circle" as const,
+          color: "text-yellow-600",
+          bg: "bg-yellow-50",
+          label: "Inconclusivo",
         };
       default:
         return {
@@ -70,6 +77,21 @@ export function ExamResult({ result }: ExamResultProps) {
               </Text>
             </View>
           </View>
+
+          {result.diagnosis === "POSITIVO" && (
+            <View className="bg-red-50 p-4 rounded-lg">
+              <View className="flex-row items-center gap-2 mb-2">
+                <Ionicons name="alert-circle" size={20} color="#DC2626" />
+                <Text className="font-semibold text-red-800">
+                  Acompanhamento Necessário
+                </Text>
+              </View>
+              <Text className="text-red-800">
+                É importante realizar o acompanhamento próximo deste paciente.
+                Considere agendar uma consulta de retorno em breve.
+              </Text>
+            </View>
+          )}
 
           {result.diagnosis === "INCONCLUSIVO" &&
             result.recommendedFollowUp && (

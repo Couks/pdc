@@ -49,7 +49,7 @@ export default function PatientList() {
       <View className="flex-1">
         <Animated.View
           entering={FadeInDown.duration(600)}
-          className="px-6 py-4 border-b border-border bg-card"
+          className="px-6 py-4"
         >
           <Text className="text-2xl font-bold text-foreground">
             Meus Pacientes
@@ -67,7 +67,7 @@ export default function PatientList() {
                 entering={FadeInDown.duration(600).delay(index * 100)}
                 layout={LinearTransition.springify()}
               >
-                <Link href={`/doctor/patients/${patient.id}`} asChild>
+                <Link href={`/doctor/patients/${patient.id}/details`} asChild>
                   <TouchableOpacity>
                     <Card className="border border-border shadow-sm">
                       <CardContent className="p-5">
@@ -87,7 +87,7 @@ export default function PatientList() {
                                 size={14}
                                 color="hsl(var(--primary))"
                               />
-                              <Text className="text-foreground text-sm">
+                              <Text className="text-foreground text-md">
                                 {patient.email}
                               </Text>
                             </View>

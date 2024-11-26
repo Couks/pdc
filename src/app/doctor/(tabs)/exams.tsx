@@ -22,7 +22,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Skeleton } from "@/components/common/Skeleton";
 
-type ExamStatus = "PENDENTE" | "CONCLUIDO" | "EM ANALISE";
+type ExamStatus = "PENDENTE" | "CONCLUIDO" | "EM_ANALISE";
 
 interface ExamWithPatient {
   id: string;
@@ -62,7 +62,7 @@ export default function DoctorExams({
         return "Exames Pendentes";
       case "CONCLUIDO":
         return "Exames Concluídos";
-      case "EM ANALISE":
+      case "EM_ANALISE":
         return "Exames em Análise";
       default:
         return "Todos os Exames";
@@ -89,17 +89,28 @@ export default function DoctorExams({
     enabled: !!user?.id,
   });
 
-  const filteredExams = useMemo(() => {
-    if (!exams) return [];
+  const groupedExams = useMemo(() => {
+    if (!exams) return {};
 
-    return exams.filter((exam: ExamWithPatient) => {
-      const matchesStatus =
-        selectedStatus === "ALL" || exam.status === selectedStatus;
+    const filtered = exams.filter((exam: ExamWithPatient) => {
       const matchesSearch = exam.patient.name
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
-      return matchesStatus && matchesSearch;
+      return selectedStatus === "ALL" || exam.status === selectedStatus
+        ? matchesSearch
+        : false;
     });
+
+    return filtered.reduce(
+      (acc: Record<ExamStatus, ExamWithPatient[]>, exam) => {
+        if (!acc[exam.status]) {
+          acc[exam.status] = [];
+        }
+        acc[exam.status].push(exam);
+        return acc;
+      },
+      {} as Record<ExamStatus, ExamWithPatient[]>
+    );
   }, [exams, selectedStatus, searchQuery]);
 
   const getStatusColor = (status: ExamStatus) => {
@@ -109,24 +120,28 @@ export default function DoctorExams({
           bg: "bg-green-100",
           text: "text-green-600",
           label: "Concluído",
+          icon: "checkmark-circle-outline",
         };
       case "PENDENTE":
         return {
           bg: "bg-orange-100",
           text: "text-orange-600",
           label: "Pendente",
+          icon: "time-outline",
         };
-      case "EM ANALISE":
+      case "EM_ANALISE":
         return {
           bg: "bg-blue-100",
           text: "text-blue-600",
           label: "Em Análise",
+          icon: "flask-outline",
         };
       default:
         return {
           bg: "bg-gray-100",
           text: "text-gray-600",
           label: "Desconhecido",
+          icon: "help-circle-outline",
         };
     }
   };
@@ -154,6 +169,72 @@ export default function DoctorExams({
     );
   }
 
+  const renderExamCard = (exam: ExamWithPatient) => {
+    const status = getStatusColor(exam.status);
+    return (
+      <Link
+        key={exam.id}
+        href={`/doctor/patients/${exam.patient.id}/exams`}
+        asChild
+      >
+        <TouchableOpacity>
+          <Card>
+            <CardContent className="p-4">
+              <View className="flex-row justify-between items-start mb-2">
+                <View className="flex-1">
+                  <Text className="text-lg font-semibold text-card-foreground">
+                    {exam.examType}
+                  </Text>
+                  <Text className="text-muted-foreground">
+                    Paciente: {exam.patient.name}
+                  </Text>
+                </View>
+                <View
+                  className={`${status.bg} px-3 py-1 rounded-full flex-row items-center`}
+                >
+                  <Ionicons
+                    name={status.icon as keyof typeof Ionicons.glyphMap}
+                    size={16}
+                    color={`hsl(var(--${status.text.split("-")[1]}))`}
+                    style={{ marginRight: 4 }}
+                  />
+                  <Text className={status.text}>{status.label}</Text>
+                </View>
+              </View>
+
+              <View className="flex-row justify-between items-center mt-4">
+                <Text className="text-muted-foreground">
+                  Data: {formatDate(exam.requestDate)}
+                </Text>
+                {exam.status === "CONCLUIDO" && (
+                  <View className="flex-row items-center">
+                    <Text className="text-primary mr-2">Ver resultado</Text>
+                    <Ionicons
+                      name="chevron-forward"
+                      size={20}
+                      color="hsl(var(--primary))"
+                    />
+                  </View>
+                )}
+              </View>
+
+              {exam.result && (
+                <View className="mt-4 p-3 bg-muted rounded-lg">
+                  <Text className="text-card-foreground font-medium">
+                    Diagnóstico: {exam.result.diagnosis}
+                  </Text>
+                  <Text className="text-muted-foreground mt-1">
+                    {exam.result.notes}
+                  </Text>
+                </View>
+              )}
+            </CardContent>
+          </Card>
+        </TouchableOpacity>
+      </Link>
+    );
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-background">
       <ScrollView
@@ -180,9 +261,9 @@ export default function DoctorExams({
         </View>
 
         {showFilters && (
-          <View className="mb-6 gap-4">
+          <Animated.View entering={FadeIn.duration(300)} className="mb-6 gap-4">
             <TouchableOpacity
-              className="bg-muted p-3 rounded-lg"
+              className="bg-muted p-3 rounded-lg flex-row items-center justify-between"
               onPress={() => setShowStatusModal(true)}
             >
               <Text className="text-foreground text-lg">
@@ -191,21 +272,34 @@ export default function DoctorExams({
                   ? "Todos"
                   : getStatusColor(selectedStatus as ExamStatus).label}
               </Text>
+              <Ionicons
+                name="chevron-down"
+                size={20}
+                color="hsl(var(--foreground))"
+              />
             </TouchableOpacity>
 
-            <TextInput
-              className="bg-muted p-3 rounded-lg text-foreground text-lg"
-              placeholder="Buscar paciente..."
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-            />
-          </View>
+            <View className="flex-row items-center bg-muted rounded-lg px-3">
+              <Ionicons
+                name="search"
+                size={20}
+                color="hsl(var(--muted-foreground))"
+              />
+              <TextInput
+                className="flex-1 p-3 text-foreground text-lg"
+                placeholder="Buscar paciente..."
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                placeholderTextColor="hsl(var(--muted-foreground))"
+              />
+            </View>
+          </Animated.View>
         )}
 
         <Modal
           visible={showStatusModal}
           transparent
-          animationType="fade"
+          animationType="slide"
           onRequestClose={() => setShowStatusModal(false)}
         >
           <TouchableOpacity
@@ -213,7 +307,7 @@ export default function DoctorExams({
             activeOpacity={1}
             onPress={() => setShowStatusModal(false)}
           >
-            <View className="bg-background w-[90%] rounded-2xl overflow-hidden">
+            <View className="bg-white w-[80%] rounded-2xl overflow-hidden">
               <TouchableOpacity
                 className="p-4 border-b border-border"
                 onPress={() => {
@@ -235,7 +329,7 @@ export default function DoctorExams({
               <TouchableOpacity
                 className="p-4 border-b border-border"
                 onPress={() => {
-                  setSelectedStatus("EM ANALISE");
+                  setSelectedStatus("EM_ANALISE");
                   setShowStatusModal(false);
                 }}
               >
@@ -254,66 +348,25 @@ export default function DoctorExams({
           </TouchableOpacity>
         </Modal>
 
-        <View className="gap-4">
-          {filteredExams.map((exam: ExamWithPatient) => {
-            const status = getStatusColor(exam.status);
-            return (
-              <Link
-                key={exam.id}
-                href={`/doctor/patients/${exam.patient.id}/exams`}
-                asChild
-              >
-                <TouchableOpacity>
-                  <Card>
-                    <CardContent className="p-4">
-                      <View className="flex-row justify-between items-start mb-2">
-                        <View>
-                          <Text className="text-lg font-semibold text-card-foreground">
-                            {exam.examType}
-                          </Text>
-                          <Text className="text-muted-foreground">
-                            Paciente: {exam.patient.name}
-                          </Text>
-                        </View>
-                        <View className={`${status.bg} px-3 py-1 rounded-full`}>
-                          <Text className={status.text}>{status.label}</Text>
-                        </View>
-                      </View>
-
-                      <View className="flex-row justify-between items-center mt-4">
-                        <Text className="text-muted-foreground">
-                          Data: {formatDate(exam.requestDate)}
-                        </Text>
-                        {exam.status === "CONCLUIDO" && (
-                          <View className="flex-row items-center">
-                            <Text className="text-primary mr-2">
-                              Ver resultado
-                            </Text>
-                            <Ionicons
-                              name="chevron-forward"
-                              size={20}
-                              color="hsl(var(--primary))"
-                            />
-                          </View>
-                        )}
-                      </View>
-
-                      {exam.result && (
-                        <View className="mt-4 p-3 bg-muted rounded-lg">
-                          <Text className="text-card-foreground font-medium">
-                            Diagnóstico: {exam.result.diagnosis}
-                          </Text>
-                          <Text className="text-muted-foreground mt-1">
-                            {exam.result.notes}
-                          </Text>
-                        </View>
-                      )}
-                    </CardContent>
-                  </Card>
-                </TouchableOpacity>
-              </Link>
-            );
-          })}
+        <View className="gap-6">
+          {Object.entries(groupedExams).map(([status, exams]) => (
+            <View key={status}>
+              <View className="flex-row items-center mb-3">
+                <View
+                  className={`w-2 h-2 rounded-full ${
+                    getStatusColor(status as ExamStatus).bg
+                  } mr-2`}
+                />
+                <Text className="text-lg font-medium text-foreground">
+                  {getStatusColor(status as ExamStatus).label}
+                </Text>
+                <Text className="text-muted-foreground ml-2">
+                  ({exams?.length})
+                </Text>
+              </View>
+              <View className="gap-4">{exams.map(renderExamCard)}</View>
+            </View>
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>

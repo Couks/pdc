@@ -36,7 +36,7 @@ const Input = forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
         {...props}
       />
       {error && (
-        <Text className="text-destructive dark:text-destructive text-md">
+        <Text className="text-destructive dark:text-destructive text-lg">
           {error}
         </Text>
       )}

@@ -9,12 +9,17 @@ import { ChagasExamType } from "@/types/exam.types";
 import { router, useLocalSearchParams } from "expo-router";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+} from "react-native-reanimated";
 
 export default function RequestExam() {
   const { user } = useAuth();
   const { patientId } = useLocalSearchParams<{ patientId: string }>();
   const [selectedExam, setSelectedExam] = useState<ChagasExamType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const scrollY = useSharedValue(0);
 
   const handleRequestExam = async () => {
     if (!selectedExam || !user || user.role !== "doctor" || !patientId) return;
@@ -23,7 +28,6 @@ export default function RequestExam() {
       setIsLoading(true);
       await examService.requestExam(patientId, user.id, selectedExam);
 
-      // Mostra feedback de sucesso
       Alert.alert(
         "Exame Solicitado",
         "O paciente receberá as instruções para coleta no laboratório.",
@@ -42,7 +46,13 @@ export default function RequestExam() {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <ScrollView className="flex-1">
+      <Animated.ScrollView
+        className="flex-1"
+        onScroll={useAnimatedScrollHandler((event) => {
+          scrollY.value = event.contentOffset.y;
+        })}
+        scrollEventThrottle={16}
+      >
         <View className="p-4">
           <Card className="mb-6">
             <CardContent className="p-4">
@@ -68,16 +78,20 @@ export default function RequestExam() {
 
           <ExamSelector onSelectExam={setSelectedExam} />
 
-          <View className="p-4 mt-4">
-            <Button
-              variant="default"
-              label={isLoading ? "Solicitando..." : "Solicitar Exame"}
-              onPress={handleRequestExam}
-              disabled={!selectedExam || isLoading}
-            />
-          </View>
+          {/* Adiciona espaço extra no final do scroll para o botão fixo não sobrepor conteúdo */}
+          <View className="h-24" />
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
+
+      {/* Botão fixo na parte inferior */}
+      <View className="absolute bottom-0 left-0 right-0 bg-background border-t border-border p-4">
+        <Button
+          variant="default"
+          label={isLoading ? "Solicitando..." : "Solicitar Exame"}
+          onPress={handleRequestExam}
+          disabled={!selectedExam || isLoading}
+        />
+      </View>
     </SafeAreaView>
   );
 }

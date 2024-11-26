@@ -17,11 +17,6 @@
         "role": "patient"
       },
       {
-        "id": "p2",
-        "token": "jwt_mock_patient_2",
-        "role": "patient"
-      },
-      {
         "id": "p3",
         "token": "jwt_mock_patient_3",
         "role": "patient"
@@ -71,7 +66,6 @@
       "address": "Av. Paulista, 1000, São Paulo - SP",
       "patients": [
         "p1",
-        "p2",
         "p3",
         "p6",
         "p7",
@@ -144,50 +138,6 @@
       ]
     },
     {
-      "id": "p2",
-      "name": "Carlos Souza",
-      "email": "carlos.souza@email.com",
-      "password": "123456",
-      "role": "patient",
-      "phone": "(11) 96666-6666",
-      "address": "Av. Brasil, 456, São Paulo - SP",
-      "birthDate": "1985-08-22",
-      "gender": "MASCULINO",
-      "doctors": [
-        "d1"
-      ],
-      "clinicalData": {
-        "bloodType": "O+",
-        "allergies": [],
-        "chronicConditions": [
-          "Diabetes tipo 2"
-        ],
-        "medications": [
-          "Metformina 850mg"
-        ]
-      },
-      "medicalHistory": [
-        {
-          "id": "mh2",
-          "date": "2024-09-20",
-          "doctorId": "d1",
-          "diagnosis": "Diabetes tipo 2",
-          "prescription": "Metformina 850mg - 2x ao dia",
-          "notes": "Paciente com glicemia controlada"
-        }
-      ],
-      "exams": [
-        {
-          "id": "e2",
-          "type": "Glicemia em jejum",
-          "date": "2024-09-20",
-          "result": "110 mg/dL",
-          "doctorId": "d1",
-          "notes": "Dentro dos limites esperados"
-        }
-      ]
-    },
-    {
       "id": "p3",
       "name": "Mariana Lima",
       "email": "mariana.lima@email.com",
@@ -214,7 +164,7 @@
           "date": "2024-10-01",
           "doctorId": "d1",
           "diagnosis": "Check-up de rotina",
-          "prescription": "",
+          "prescription": "Suplementação de vitamina D 2000UI - 1x ao dia",
           "notes": "Paciente em bom estado geral"
         }
       ],
@@ -502,15 +452,15 @@
   ],
   "exam-requests": [
     {
-      "id": "e1",
+      "id": "p1-1",
       "patientId": "p1",
       "doctorId": "d1",
       "examType": "ELISA",
       "requestDate": "2024-08-10T10:10:00Z",
       "status": "CONCLUIDO",
       "result": {
-        "id": "r1",
-        "examRequestId": "e1",
+        "id": "r-p1-1",
+        "examRequestId": "p1-1",
         "resultDate": "2024-08-11T14:00:00Z",
         "value": "1.2",
         "isConclusive": true,
@@ -519,32 +469,24 @@
       }
     },
     {
-      "id": "e2",
-      "patientId": "p2",
+      "id": "p1-2",
+      "patientId": "p1",
       "doctorId": "d1",
       "examType": "IFI",
-      "requestDate": "2024-09-12T09:00:00Z",
-      "status": "PENDENTE"
+      "requestDate": "2024-08-12T10:10:00Z",
+      "status": "EM_ANALISE"
     },
     {
-      "id": "e3",
+      "id": "p3-1",
       "patientId": "p3",
       "doctorId": "d1",
-      "examType": "HEMAGLUTINACAO",
-      "requestDate": "2024-10-11T15:30:00Z",
-      "status": "PENDENTE"
-    },
-    {
-      "id": "e4",
-      "patientId": "p6",
-      "doctorId": "d1",
-      "examType": "WESTERN BLOT",
-      "requestDate": "2024-11-09T11:00:00Z",
+      "examType": "WESTERN_BLOT",
+      "requestDate": "2024-08-10T10:10:00Z",
       "status": "CONCLUIDO",
       "result": {
-        "id": "r2",
-        "examRequestId": "e4",
-        "resultDate": "2024-11-10T16:00:00Z",
+        "id": "r-p3-1",
+        "examRequestId": "p3-1",
+        "resultDate": "2024-08-11T14:00:00Z",
         "value": "0.8",
         "isConclusive": true,
         "diagnosis": "NEGATIVO",
@@ -552,102 +494,169 @@
       }
     },
     {
-      "id": "e5",
+      "id": "p3-2",
+      "patientId": "p3",
+      "doctorId": "d1",
+      "examType": "HEMAGLUTINACAO",
+      "requestDate": "2024-08-12T10:10:00Z",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "p4-1",
+      "patientId": "p4",
+      "doctorId": "d2",
+      "examType": "IFI",
+      "requestDate": "2024-08-10T10:10:00Z",
+      "status": "CONCLUIDO",
+      "result": {
+        "id": "r-p4-1",
+        "examRequestId": "p4-1",
+        "resultDate": "2024-08-11T14:00:00Z",
+        "value": "1:80",
+        "isConclusive": true,
+        "diagnosis": "NEGATIVO",
+        "notes": "Título não significativo"
+      }
+    },
+    {
+      "id": "p4-2",
+      "patientId": "p4",
+      "doctorId": "d2",
+      "examType": "WESTERN_BLOT",
+      "requestDate": "2024-08-12T10:10:00Z",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "p5-1",
+      "patientId": "p5",
+      "doctorId": "d2",
+      "examType": "ELISA",
+      "requestDate": "2024-08-10T10:10:00Z",
+      "status": "CONCLUIDO",
+      "result": {
+        "id": "r-p5-1",
+        "examRequestId": "p5-1",
+        "resultDate": "2024-08-11T14:00:00Z",
+        "value": "0.3",
+        "isConclusive": true,
+        "diagnosis": "NEGATIVO",
+        "notes": "Resultado negativo para doença de Chagas"
+      }
+    },
+    {
+      "id": "p5-2",
+      "patientId": "p5",
+      "doctorId": "d2",
+      "examType": "IFI",
+      "requestDate": "2024-08-12T10:10:00Z",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "p6-1",
+      "patientId": "p6",
+      "doctorId": "d1",
+      "examType": "HEMAGLUTINACAO",
+      "requestDate": "2024-08-10T10:10:00Z",
+      "status": "CONCLUIDO",
+      "result": {
+        "id": "r-p6-1",
+        "examRequestId": "p6-1",
+        "resultDate": "2024-08-11T14:00:00Z",
+        "value": "1:320",
+        "isConclusive": true,
+        "diagnosis": "POSITIVO",
+        "notes": "Título altamente significativo"
+      }
+    },
+    {
+      "id": "p6-2",
+      "patientId": "p6",
+      "doctorId": "d1",
+      "examType": "ELISA",
+      "requestDate": "2024-08-12T10:10:00Z",
+      "status": "PENDENTE"
+    },
+    {
+      "id": "p7-1",
+      "patientId": "p7",
+      "doctorId": "d1",
+      "examType": "WESTERN_BLOT",
+      "requestDate": "2024-08-10T10:10:00Z",
+      "status": "CONCLUIDO",
+      "result": {
+        "id": "r-p7-1",
+        "examRequestId": "p7-1",
+        "resultDate": "2024-08-11T14:00:00Z",
+        "value": "1.5",
+        "isConclusive": true,
+        "diagnosis": "POSITIVO",
+        "notes": "Resultado positivo para doença de Chagas"
+      }
+    },
+    {
+      "id": "p7-2",
       "patientId": "p7",
       "doctorId": "d1",
       "examType": "HEMAGLUTINACAO",
-      "requestDate": "2024-12-08T14:20:00Z",
+      "requestDate": "2024-08-12T10:10:00Z",
       "status": "PENDENTE"
     },
     {
-      "id": "e6",
+      "id": "p8-1",
       "patientId": "p8",
       "doctorId": "d1",
       "examType": "IFI",
-      "requestDate": "2024-08-07T10:45:00Z",
+      "requestDate": "2024-08-10T10:10:00Z",
       "status": "CONCLUIDO",
       "result": {
-        "id": "r3",
-        "examRequestId": "e6",
-        "resultDate": "2024-08-08T17:30:00Z",
-        "value": "1.0",
-        "isConclusive": false,
-        "diagnosis": "INCONCLUSIVO",
-        "recommendedFollowUp": "Western Blot",
-        "notes": "Resultado inconclusivo, recomenda-se Western Blot para confirmação"
+        "id": "r-p8-1",
+        "examRequestId": "p8-1",
+        "resultDate": "2024-08-11T14:00:00Z",
+        "value": "1:40",
+        "isConclusive": true,
+        "diagnosis": "NEGATIVO",
+        "notes": "Título não significativo"
       }
     },
     {
-      "id": "e7",
+      "id": "p8-2",
+      "patientId": "p8",
+      "doctorId": "d1",
+      "examType": "WESTERN_BLOT",
+      "requestDate": "2024-08-12T10:10:00Z",
+      "status": "EM_ANALISE"
+    },
+    {
+      "id": "p9-1",
       "patientId": "p9",
       "doctorId": "d1",
       "examType": "ELISA",
-      "requestDate": "2024-09-06T09:15:00Z",
-      "status": "PENDENTE"
-    },
-    {
-      "id": "e8",
-      "patientId": "p1",
-      "doctorId": "d1",
-      "examType": "WESTERN BLOT",
-      "requestDate": "2024-10-05T16:40:00Z",
-      "status": "PENDENTE"
-    },
-    {
-      "id": "e9",
-      "patientId": "p2",
-      "doctorId": "d1",
-      "examType": "HEMAGLUTINACAO",
-      "requestDate": "2024-11-04T13:20:00Z",
+      "requestDate": "2024-08-10T10:10:00Z",
       "status": "CONCLUIDO",
       "result": {
-        "id": "r4",
-        "examRequestId": "e9",
-        "resultDate": "2024-11-05T15:45:00Z",
-        "value": "1:160",
+        "id": "r-p9-1",
+        "examRequestId": "p9-1",
+        "resultDate": "2024-08-11T14:00:00Z",
+        "value": "0.9",
         "isConclusive": true,
-        "diagnosis": "POSITIVO",
-        "notes": "Título significativo, indicando presença de anticorpos anti-T. cruzi"
+        "diagnosis": "NEGATIVO",
+        "notes": "Resultado negativo para doença de Chagas"
       }
     },
     {
-      "id": "bd5f",
-      "patientId": "",
+      "id": "p9-2",
+      "patientId": "p9",
       "doctorId": "d1",
       "examType": "IFI",
-      "requestDate": "2024-11-24T03:29:38.108Z",
-      "status": "PENDING"
+      "requestDate": "2024-08-12T10:10:00Z",
+      "status": "EM_ANALISE"
     },
     {
-      "id": "a33b",
-      "patientId": "",
-      "doctorId": "d1",
-      "examType": "IFI",
-      "requestDate": "2024-11-24T03:29:43.475Z",
-      "status": "PENDING"
-    },
-    {
-      "id": "c8b5",
-      "patientId": "",
-      "doctorId": "d1",
-      "examType": "IFI",
-      "requestDate": "2024-11-24T03:29:47.272Z",
-      "status": "PENDING"
-    },
-    {
-      "id": "2f0a",
+      "id": "92a0",
       "patientId": "p1",
       "doctorId": "d1",
       "examType": "WESTERN_BLOT",
-      "requestDate": "2024-11-24T04:23:20.442Z",
-      "status": "PENDENTE"
-    },
-    {
-      "id": "e4e2",
-      "patientId": "p1",
-      "doctorId": "d1",
-      "examType": "WESTERN_BLOT",
-      "requestDate": "2024-11-24T17:45:57.238Z",
+      "requestDate": "2024-11-26T06:05:56.707Z",
       "status": "PENDENTE"
     }
   ]

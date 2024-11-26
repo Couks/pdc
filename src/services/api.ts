@@ -137,6 +137,32 @@ export const doctorService = {
     return Promise.all(patientPromises);
   },
 
+  async getPendingExams(doctorId: string) {
+    try {
+      const { data: allExams } = await api.get("/exam-requests");
+      const pendingExams = allExams.filter(
+        (exam: any) => exam.doctorId === doctorId && exam.status === "PENDENTE"
+      );
+      return pendingExams.length;
+    } catch (error) {
+      console.error("Erro ao buscar exames pendentes:", error);
+      return 0;
+    }
+  },
+
+  async getCompletedExams(doctorId: string) {
+    try {
+      const { data: allExams } = await api.get("/exam-requests");
+      const completedExams = allExams.filter(
+        (exam: any) => exam.doctorId === doctorId && exam.status === "CONCLUIDO"
+      );
+      return completedExams.length;
+    } catch (error) {
+      console.error("Erro ao buscar exames concluídos:", error);
+      return 0;
+    }
+  },
+
   async getPatientDetails(patientId: string) {
     const { data } = await api.get(`/patients/${patientId}`);
     return data;

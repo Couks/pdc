@@ -1,6 +1,6 @@
 import { View, Text, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import Animated, {
   FadeInDown,
   FadeInUp,
@@ -37,23 +37,21 @@ export default function AuthIndex() {
                 layout={LinearTransition.springify()}
                 className="gap-4 items-center"
               >
-                <Link href="/auth/login" asChild>
-                  <Button
-                    variant="default"
-                    className="w-full h-14"
-                    label="Entrar"
-                    textClass="text-lg"
-                  />
-                </Link>
+                <Button
+                  variant="default"
+                  className="w-full h-14"
+                  label="Entrar"
+                  textClass="text-lg"
+                  onPress={() => router.push("/auth/login")}
+                />
 
-                <Link href="/auth/register" asChild>
-                  <Button
-                    variant="secondary"
-                    className="w-full h-14 bg-white/70 dark:bg-background/70"
-                    label="Criar Conta"
-                    textClass="text-lg"
-                  />
-                </Link>
+                <Button
+                  variant="secondary"
+                  className="w-full h-14 bg-white/70 dark:bg-background/70"
+                  label="Criar Conta"
+                  textClass="text-lg"
+                  onPress={() => router.push("/auth/register")}
+                />
               </Animated.View>
 
               <Animated.View

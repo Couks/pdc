@@ -1,38 +1,37 @@
 import { Tabs } from "expo-router";
-import { useColorScheme } from "react-native";
-import Animated, { useSharedValue } from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 import { AnimatedTabBar } from "@/components/navigation/AnimatedTabBar";
 
-const DOCTOR_TABS = [
-  {
-    name: "dashboard/index",
-    icon: "home-outline",
-    label: "Dashboard",
-  },
-  {
-    name: "patients/index",
-    icon: "people-outline",
-    label: "Pacientes",
-  },
-  {
-    name: "exams/index",
-    icon: "document-text-outline",
-    label: "Exames",
-  },
-  {
-    name: "profile/index",
-    icon: "person-outline",
-    label: "Perfil",
-  },
-] satisfies Array<{
+interface TabConfig {
   name: string;
   icon: string;
   label: string;
-}>;
+}
+
+const DOCTOR_TABS: TabConfig[] = [
+  {
+    name: "dashboard",
+    icon: "home",
+    label: "Dashboard",
+  },
+  {
+    name: "patients",
+    icon: "people",
+    label: "Pacientes",
+  },
+  {
+    name: "exams",
+    icon: "document-text",
+    label: "Exames",
+  },
+  {
+    name: "profile",
+    icon: "person",
+    label: "Perfil",
+  },
+];
 
 export default function TabsLayout() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
   const scrollY = useSharedValue(0);
 
   return (
@@ -45,30 +44,28 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarShowLabel: false,
       }}
-      tabBar={(props) => (
-        <AnimatedTabBar {...props} scrollY={scrollY} tabs={DOCTOR_TABS} />
-      )}
+      tabBar={(props) => <AnimatedTabBar {...props} tabs={DOCTOR_TABS} />}
     >
       <Tabs.Screen
-        name="dashboard/index"
+        name="dashboard"
         options={{
           title: "Dashboard",
         }}
       />
       <Tabs.Screen
-        name="patients/index"
+        name="patients"
         options={{
           title: "Pacientes",
         }}
       />
       <Tabs.Screen
-        name="exams/index"
+        name="exams"
         options={{
           title: "Exames",
         }}
       />
       <Tabs.Screen
-        name="profile/index"
+        name="profile"
         options={{
           title: "Perfil",
         }}

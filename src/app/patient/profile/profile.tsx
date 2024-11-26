@@ -100,7 +100,7 @@ export default function PatientProfile() {
               <CardContent className="p-4">
                 <View className="flex-row items-center">
                   <View
-                    className={`w-10 h-10 ${item.bgColor} rounded-full items-center justify-center mr-4`}
+                    className={`w-12 h-12 ${item.bgColor} rounded-full items-center justify-center mr-4`}
                   >
                     <Ionicons
                       name={item.icon as any}
@@ -109,7 +109,7 @@ export default function PatientProfile() {
                     />
                   </View>
                   <View className="flex-1">
-                    <Text className="text-sm text-muted-foreground">
+                    <Text className="text-md text-muted-foreground">
                       {item.label}
                     </Text>
                     <Text className="text-lg font-medium text-card-foreground">
@@ -131,7 +131,7 @@ export default function PatientProfile() {
             className="flex-row items-center bg-destructive/10 p-4 rounded-xl"
             onPress={() => setShowLogoutModal(true)}
           >
-            <View className="w-10 h-10 bg-destructive/20 rounded-full items-center justify-center">
+            <View className="w-12 h-12 bg-destructive/20 rounded-full items-center justify-center">
               <Ionicons
                 name="log-out-outline"
                 size={24}

@@ -112,7 +112,7 @@ export default function Login() {
               />
 
               <View>
-                <Text className="text-md font-medium text-foreground mb-2">
+                <Text className="text-lg font-medium text-foreground mb-2">
                   Tipo de Usuário
                 </Text>
                 <View className="flex-row gap-4">

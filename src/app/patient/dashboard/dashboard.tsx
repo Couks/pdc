@@ -150,7 +150,7 @@ export default function PatientDashboard() {
                 <Text className="text-2xl font-bold text-foreground">
                   {stat.value}
                 </Text>
-                <Text className="text-xs text-muted-foreground text-center">
+                <Text className="text-md text-muted-foreground text-center">
                   {stat.title}
                 </Text>
               </CardContent>
@@ -174,7 +174,7 @@ export default function PatientDashboard() {
                     <Ionicons name="water" size={20} color="#ef4444" />
                   </View>
                   <View>
-                    <Text className="text-sm text-muted-foreground">
+                    <Text className="text-md text-muted-foreground">
                       Tipo Sanguíneo
                     </Text>
                     <Text className="text-lg font-semibold text-card-foreground">
@@ -189,7 +189,7 @@ export default function PatientDashboard() {
                       <Ionicons name="alert-circle" size={20} color="#f59e0b" />
                     </View>
                     <View>
-                      <Text className="text-sm text-muted-foreground">
+                      <Text className="text-md text-muted-foreground">
                         Alergias
                       </Text>
                       <Text className="text-lg font-semibold text-card-foreground">
@@ -217,7 +217,7 @@ export default function PatientDashboard() {
                 {examRequests?.slice(0, 3).map((exam: any) => (
                   <Link key={exam.id} href="/patient/exams" asChild>
                     <TouchableOpacity className="flex-row items-center">
-                      <View className="bg-muted w-10 h-10 rounded-full mr-3 items-center justify-center">
+                      <View className="bg-muted w-12 h-12 rounded-full mr-3 items-center justify-center">
                         <Ionicons
                           name="document-text-outline"
                           size={20}

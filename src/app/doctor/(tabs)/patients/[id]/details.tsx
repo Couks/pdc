@@ -77,7 +77,7 @@ export default function PatientDetails() {
             <Text className="text-primary">Detalhes do Paciente</Text>
           </View>
           <View className="bg-primary/20 p-3 rounded-full">
-            <Ionicons name="person" size={28} color="hsl(var(--primary))" />
+            <Ionicons name="person" size={28} color="hsl(var(--secondary))" />
           </View>
         </Animated.View>
 
@@ -90,10 +90,10 @@ export default function PatientDetails() {
               <View className="flex-row items-center gap-2">
                 <Ionicons
                   name="information-circle"
-                  size={24}
-                  color="hsl(var(--primary))"
+                  size={28}
+                  color="hsl(var(--secondary))"
                 />
-                <Text className="text-lg font-semibold text-primary">
+                <Text className="text-xl font-semibold text-primary">
                   Informações Pessoais
                 </Text>
               </View>
@@ -102,30 +102,30 @@ export default function PatientDetails() {
               <View className="flex-row items-center gap-3 bg-muted/30 p-3 rounded-lg">
                 <Ionicons
                   name="mail-outline"
-                  size={20}
-                  color="hsl(var(--primary))"
+                  size={24}
+                  color="hsl(var(--secondary))"
                 />
-                <Text className="text-card-foreground flex-1">
+                <Text className="text-card-foreground flex-1 text-lg">
                   {patient.email}
                 </Text>
               </View>
               <View className="flex-row items-center gap-3 bg-muted/30 p-3 rounded-lg">
                 <Ionicons
                   name="call-outline"
-                  size={20}
-                  color="hsl(var(--primary))"
+                  size={24}
+                  color="hsl(var(--secondary))"
                 />
-                <Text className="text-card-foreground flex-1">
+                <Text className="text-card-foreground flex-1 text-lg">
                   {patient.phone}
                 </Text>
               </View>
               <View className="flex-row items-center gap-3 bg-muted/30 p-3 rounded-lg">
                 <Ionicons
                   name="location-outline"
-                  size={20}
-                  color="hsl(var(--primary))"
+                  size={24}
+                  color="hsl(var(--secondary))"
                 />
-                <Text className="text-card-foreground flex-1">
+                <Text className="text-card-foreground flex-1 text-lg">
                   {patient.address}
                 </Text>
               </View>
@@ -142,10 +142,10 @@ export default function PatientDetails() {
               <View className="flex-row items-center gap-2">
                 <Ionicons
                   name="medical"
-                  size={24}
+                  size={28}
                   color="hsl(var(--secondary))"
                 />
-                <Text className="text-lg font-semibold text-primary">
+                <Text className="text-xl font-semibold text-primary">
                   Dados Clínicos
                 </Text>
               </View>
@@ -154,10 +154,10 @@ export default function PatientDetails() {
               <View className="flex-row items-center gap-3 bg-muted/30 p-3 rounded-lg">
                 <Ionicons
                   name="water"
-                  size={20}
+                  size={24}
                   color="hsl(var(--secondary))"
                 />
-                <Text className="text-card-foreground">
+                <Text className="text-card-foreground text-lg">
                   Tipo Sanguíneo:{" "}
                   <Text className="font-bold">
                     {patient.clinicalData.bloodType}
@@ -167,10 +167,10 @@ export default function PatientDetails() {
               <View className="flex-row items-center gap-3 bg-muted/30 p-3 rounded-lg">
                 <Ionicons
                   name="alert-circle"
-                  size={20}
+                  size={24}
                   color="hsl(var(--secondary))"
                 />
-                <Text className="text-card-foreground flex-1">
+                <Text className="text-card-foreground flex-1 text-lg">
                   Alergias:{" "}
                   <Text className="font-bold">
                     {patient.clinicalData.allergies.join(", ") || "Nenhuma"}
@@ -180,10 +180,10 @@ export default function PatientDetails() {
               <View className="flex-row items-center gap-3 bg-muted/30 p-3 rounded-lg">
                 <Ionicons
                   name="fitness"
-                  size={20}
+                  size={24}
                   color="hsl(var(--secondary))"
                 />
-                <Text className="text-card-foreground flex-1">
+                <Text className="text-card-foreground flex-1 text-lg">
                   Condições Crônicas:{" "}
                   <Text className="font-bold">
                     {patient.clinicalData.chronicConditions.join(", ") ||
@@ -201,11 +201,11 @@ export default function PatientDetails() {
         >
           <Link href={`/doctor/patients/${id}/exams`} asChild>
             <TouchableOpacity className="active:opacity-80">
-              <Card className="">
+              <Card>
                 <CardContent className="p-4">
                   <View className="flex-row items-center">
                     <View className="flex-1">
-                      <Text className="text-lg font-semibold text-primary">
+                      <Text className="text-xl font-semibold text-primary">
                         Ver Exames
                       </Text>
                       <Text className="text-muted-foreground">
@@ -215,7 +215,7 @@ export default function PatientDetails() {
                     <View className="bg-accent/10 p-2 rounded-full">
                       <Ionicons
                         name="chevron-forward"
-                        size={24}
+                        size={28}
                         color="hsl(var(--accent))"
                       />
                     </View>

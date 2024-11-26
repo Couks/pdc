@@ -18,10 +18,32 @@ export const examService = {
   },
 
   async getPatientExams(patientId: string) {
-    const { data } = await api.get<ExamRequest[]>(
+    const { data: examRequests } = await api.get<ExamRequest[]>(
       `/exam-requests?patientId=${patientId}`
     );
-    return data;
+
+    const { data: patient } = await api.get(`/patients/${patientId}`);
+
+    const complementaryExams =
+      patient.exams?.map((exam) => ({
+        id: exam.id,
+        patientId,
+        doctorId: exam.doctorId,
+        examType: exam.type,
+        requestDate: exam.date,
+        status: "CONCLUIDO",
+        result: {
+          id: `result-${exam.id}`,
+          examRequestId: exam.id,
+          resultDate: exam.date,
+          value: exam.result,
+          isConclusive: true,
+          diagnosis: "CONCLUIDO",
+          notes: exam.notes,
+        },
+      })) || [];
+
+    return [...examRequests, ...complementaryExams];
   },
 
   async getDoctorExams(doctorId: string) {
