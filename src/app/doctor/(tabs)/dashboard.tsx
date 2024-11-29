@@ -58,7 +58,7 @@ export default function DoctorDashboard() {
     queryKey: ["completed-exams", user?.id],
     queryFn: async () => {
       const exams = await examService.getDoctorExams(user?.id || "");
-      return exams.filter((exam) => exam.status === "CONCLUIDO").length;
+      return exams.filter((exam: any) => exam.status === "CONCLUIDO").length;
     },
     enabled: !!user?.id,
   });

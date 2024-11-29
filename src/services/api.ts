@@ -223,11 +223,15 @@ export const doctorService = {
   },
 
   async getPatients(doctorId: string) {
-    const { data: doctor } = await api.get(`/doctors/${doctorId}`);
-    const patientPromises = doctor.patients.map((patientId: string) =>
-      api.get(`/patients/${patientId}`).then((res) => res.data)
-    );
-    return Promise.all(patientPromises);
+    try {
+      const { data: patients } = await api.get("/patients");
+      return patients.filter((patient: any) =>
+        patient.doctors.includes(doctorId)
+      );
+    } catch (error) {
+      console.error("Erro ao buscar pacientes do médico:", error);
+      throw error;
+    }
   },
 
   async addPatient(doctorId: string, patientId: string) {
@@ -247,6 +251,28 @@ export const doctorService = {
   getPatientExams: async (patientId: string) => {
     const response = await api.get(`/patients/${patientId}/exams`);
     return response.data;
+  },
+
+  getPatientChagasExams: async (patientId: string) => {
+    try {
+      const { data: patient } = await api.get(`/patients/${patientId}`);
+      return (
+        patient.examRequests.filter((exam: any) => exam.type === "CHAGAS") || []
+      );
+    } catch (error) {
+      console.error("Erro ao buscar exames de chagas:", error);
+      throw error;
+    }
+  },
+
+  getPatientComplementaryExams: async (patientId: string) => {
+    try {
+      const { data: patient } = await api.get(`/patients/${patientId}`);
+      return patient.exams || [];
+    } catch (error) {
+      console.error("Erro ao buscar exames complementares:", error);
+      throw error;
+    }
   },
 };
 
@@ -334,6 +360,10 @@ export const patientService = {
   getExams: async (patientId: string) => {
     const response = await api.get(`/patients/${patientId}/exams`);
     return response.data;
+  },
+  async getExamRequests(patientId: string) {
+    const { data: patient } = await api.get(`/patients/${patientId}`);
+    return patient.examRequests || [];
   },
 
   async getDoctors(patientId: string) {
@@ -488,7 +518,7 @@ export const examService = {
   async getComplementaryExams(patientId: string) {
     try {
       const { data: patient } = await api.get(`/patients/${patientId}`);
-      return patient.complementaryExams || [];
+      return patient.exams || [];
     } catch (error) {
       console.error("Erro ao buscar exames complementares:", error);
       throw error;

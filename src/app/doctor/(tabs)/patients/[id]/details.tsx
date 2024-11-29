@@ -12,6 +12,20 @@ import Animated, {
 } from "react-native-reanimated";
 import { Skeleton } from "@/components/common/Skeleton";
 
+export const symptomTranslations: Record<string, string> = {
+  fever: "Febre",
+  malaise: "Mal-estar",
+  swellingAtBiteLocation: "Inchaço no local da picada",
+  swollenEyes: "Olhos inchados",
+  fatigue: "Fadiga",
+  nauseaAndVomiting: "Náusea e vômito",
+  diarrhea: "Diarreia",
+  lymphNodeInflammation: "Inflamação dos gânglios",
+  bodyNodes: "Nódulos pelo corpo",
+  bodyRedness: "Vermelhidão pelo corpo",
+  enlargedLiverAndSpleen: "Fígado e baço aumentados",
+};
+
 export default function PatientDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -62,20 +76,6 @@ export default function PatientDetails() {
   }
 
   if (!patient) return null;
-
-  const symptomTranslations: Record<string, string> = {
-    fever: "Febre",
-    malaise: "Mal-estar",
-    swellingAtBiteLocation: "Inchaço no local da picada",
-    swollenEyes: "Olhos inchados",
-    fatigue: "Fadiga",
-    nauseaAndVomiting: "Náusea e vômito",
-    diarrhea: "Diarreia",
-    lymphNodeInflammation: "Inflamação dos gânglios",
-    bodyNodes: "Nódulos pelo corpo",
-    bodyRedness: "Vermelhidão pelo corpo",
-    enlargedLiverAndSpleen: "Fígado e baço aumentados",
-  };
 
   // Função para formatar a data de nascimento e calcular idade
   const formatBirthDateAndAge = (birthDate: string) => {

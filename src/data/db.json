@@ -22,7 +22,7 @@
     {
       "id": "5d43e036-63ab-4c2c-8e50-6acc69b8aa89",
       "name": "Matheus Castro",
-      "email": "matheuscastro@gmail.com",
+      "email": "medico@medical.com",
       "password": "123456",
       "role": "doctor",
       "phone": "(11) 95555-5555",
@@ -39,7 +39,7 @@
     {
       "id": "d47f4318-9929-43d9-9abf-029d435364de",
       "name": "Pedro Machado",
-      "email": "pedromachado@gmail.com",
+      "email": "patient@patient.com",
       "password": "123456",
       "role": "patient",
       "phone": "(11) 93333-3333",
@@ -70,21 +70,21 @@
       "medicalHistory": [
         {
           "id": "mh8",
-          "date": "2024-05-20",
+          "date": "2024-05-20T10:30:15.123Z",
           "diagnosis": "Transtorno de Ansiedade",
           "prescription": "Escitalopram 10mg - 1x ao dia",
           "notes": "Sintomas de ansiedade generalizada"
         },
         {
           "id": "mh9",
-          "date": "2024-06-05",
+          "date": "2024-06-05T14:45:22.789Z",
           "diagnosis": "Insônia",
           "prescription": "Zolpidem 10mg - 1x à noite",
           "notes": "Dificuldade para dormir"
         },
         {
           "id": "mh4",
-          "date": "2024-11-28",
+          "date": "2024-11-28T10:30:15.123Z",
           "diagnosis": "Enxaqueca crônica",
           "prescription": "Propranolol 40mg - 1x ao dia",
           "notes": "Paciente relata melhora dos sintomas"
@@ -94,14 +94,14 @@
         {
           "id": "e8",
           "type": "Exame Psiquiátrico",
-          "date": "2024-05-20",
+          "date": "2024-05-20T10:30:15.123Z",
           "result": "Alterado",
           "notes": "Sintomas compatíveis com TAG"
         },
         {
           "id": "e9",
           "type": "Polissonografia",
-          "date": "2024-06-05",
+          "date": "2024-06-05T14:45:22.789Z",
           "result": "Alterado",
           "notes": "Latência do sono aumentada"
         }
@@ -128,13 +128,21 @@
           "status": "PENDENTE",
           "examType": "WESTERN_BLOT",
           "result": null
+        },
+        {
+          "id": "exam_1732862055537",
+          "requestDate": "2024-11-29T06:34:15.372Z",
+          "status": "PENDENTE",
+          "patientId": "d47f4318-9929-43d9-9abf-029d435364de",
+          "doctorId": "5d43e036-63ab-4c2c-8e50-6acc69b8aa89",
+          "examType": "HEMAGLUTINACAO"
         }
       ]
     },
     {
       "id": "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
       "name": "Bruno Lima",
-      "email": "brunolima@gmail.com",
+      "email": "patient2@gmail.com",
       "password": "123456",
       "role": "patient",
       "phone": "(11) 97777-7777",
@@ -175,37 +183,16 @@
         {
           "id": "e10",
           "type": "Eletrocardiograma",
-          "date": "2024-11-30",
+          "date": "2024-11-27T06:56:10.366Z",
           "result": "Normal",
           "notes": "Sem alterações significativas"
         },
         {
           "id": "e11",
           "type": "Hemograma Completo",
-          "date": "2024-11-30",
+          "date": "2024-11-27T06:56:10.366Z",
           "result": "Alterado",
           "notes": "Leucócitos levemente aumentados"
-        },
-        {
-          "id": "e12",
-          "type": "Glicemia em Jejum",
-          "date": "2024-11-30",
-          "result": "Normal",
-          "notes": "Níveis dentro da faixa de referência"
-        },
-        {
-          "id": "e13",
-          "type": "Colesterol Total e Frações",
-          "date": "2024-11-30",
-          "result": "Alterado",
-          "notes": "LDL elevado"
-        },
-        {
-          "id": "e14",
-          "type": "TSH e T4 livre",
-          "date": "2024-11-30",
-          "result": "Normal",
-          "notes": "Função tireoidiana adequada"
         }
       ],
       "examRequests": [
@@ -215,6 +202,21 @@
           "status": "PENDENTE",
           "examType": "WESTERN_BLOT",
           "result": null
+        },
+        {
+          "id": "exam_1709123456789",
+          "requestDate": "2024-02-28T10:30:00.000Z",
+          "status": "CONCLUIDO",
+          "examType": "ELISA",
+          "result": {
+            "id": "result_1709123456789",
+            "examRequestId": "exam_1709123456789",
+            "diagnosis": "POSITIVO",
+            "examType": "ELISA",
+            "description": "Teste ELISA para doença de Chagas",
+            "date": "2024-02-28T10:30:00.000Z",
+            "notes": "Resultado positivo para anticorpos anti-T.cruzi"
+          }
         }
       ]
     }

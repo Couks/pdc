@@ -7,7 +7,7 @@ import { Button } from "@/components/common/Button";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { doctorService, patientService } from "@/services/api";
-import { Doctor } from "@/types/";
+import { Doctor } from "@/types";
 
 export default function DoctorSelection() {
   const { user } = useAuth();

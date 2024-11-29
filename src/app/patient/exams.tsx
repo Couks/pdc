@@ -10,7 +10,7 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { Skeleton } from "@/components/common/Skeleton";
-import { ComplementaryExam, ExamRequest } from "@/types/exam.types";
+import { ComplementaryExam, ExamRequest } from "@/types";
 
 export default function PatientExams() {
   const { user } = useAuth();

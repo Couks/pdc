@@ -4,7 +4,7 @@ import {
   ExamResult as ExamResultType,
   EXAM_DESCRIPTIONS,
   ChagasExamType,
-} from "@/types/";
+} from "@/types";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 

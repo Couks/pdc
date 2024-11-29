@@ -13,7 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { LoginCredentials } from "@/types/auth.types";
+import { LoginCredentials } from "@/types";
 import { Button } from "@/components/common/Button";
 import { Input } from "@/components/common/Input";
 import { Link } from "expo-router";
@@ -21,7 +21,7 @@ import { useMutation } from "@tanstack/react-query";
 
 export default function Login() {
   const [credentials, setCredentials] = useState<LoginCredentials>({
-    email: "matheuscastro@gmail.com",
+    email: "medico@medical.com",
     password: "123456",
     role: "doctor",
   });
@@ -60,6 +60,15 @@ export default function Login() {
   const handleLogin = async () => {
     if (!validateForm()) return;
     loginMutation.mutate(credentials);
+  };
+
+  const handleRoleChange = (role: "doctor" | "patient") => {
+    const newCredentials = {
+      email: role === "doctor" ? "medico@medical.com" : "patient@patient.com",
+      password: "123456",
+      role,
+    };
+    setCredentials(newCredentials);
   };
 
   return (
@@ -122,9 +131,7 @@ export default function Login() {
                     }
                     className="flex-1"
                     label="Médico"
-                    onPress={() =>
-                      setCredentials((prev) => ({ ...prev, role: "doctor" }))
-                    }
+                    onPress={() => handleRoleChange("doctor")}
                   />
 
                   <Button
@@ -133,9 +140,7 @@ export default function Login() {
                     }
                     className="flex-1"
                     label="Paciente"
-                    onPress={() =>
-                      setCredentials((prev) => ({ ...prev, role: "patient" }))
-                    }
+                    onPress={() => handleRoleChange("patient")}
                   />
                 </View>
               </View>

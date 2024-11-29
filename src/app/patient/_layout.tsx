@@ -15,7 +15,7 @@ const PATIENT_TABS = [
 
   {
     name: "history",
-    icon: "card",
+    icon: "time",
     label: "Histórico",
   },
   {

@@ -5,12 +5,20 @@ import { useAuth } from "@/context/AuthContext";
 import { examService } from "@/services/api";
 import { ExamSelector } from "@/components/exam/ExamSelector";
 import { Button } from "@/components/common/Button";
-import { ChagasExamType, ExamRequest } from "@/types";
+import { ChagasExamType, ExamRequest, ExamStatus } from "@/types";
 import { router, useLocalSearchParams } from "expo-router";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+
+interface CreateExamData {
+  patientId: string;
+  doctorId: string;
+  examType: ChagasExamType;
+  requestDate: string;
+  status: ExamStatus;
+}
 
 export default function RequestExam() {
   const { user } = useAuth();
@@ -19,10 +27,9 @@ export default function RequestExam() {
   const queryClient = useQueryClient();
 
   const createExamMutation = useMutation({
-    mutationFn: (examData: Partial<ExamRequest>) =>
+    mutationFn: (examData: CreateExamData) =>
       examService.createExamRequest(examData),
     onSuccess: () => {
-      // Invalida as queries relacionadas para forçar atualização
       queryClient.invalidateQueries({ queryKey: ["patient-exams", patientId] });
       queryClient.invalidateQueries({ queryKey: ["doctor-exams", user?.id] });
 
@@ -41,18 +48,21 @@ export default function RequestExam() {
     },
   });
 
-  const { isPending } = createExamMutation;
+  const handleRequestExam = () => {
+    if (!selectedExam || !user || user.role !== "doctor" || !patientId) {
+      Alert.alert("Erro", "Dados incompletos para solicitar o exame");
+      return;
+    }
 
-  const handleRequestExam = async () => {
-    if (!selectedExam || !user || user.role !== "doctor" || !patientId) return;
-
-    createExamMutation.mutate({
+    const examData: CreateExamData = {
       patientId,
       doctorId: user.id,
       examType: selectedExam,
       requestDate: new Date().toISOString(),
       status: "PENDENTE",
-    });
+    };
+
+    createExamMutation.mutate(examData);
   };
 
   return (
@@ -83,18 +93,18 @@ export default function RequestExam() {
 
           <ExamSelector onSelectExam={setSelectedExam} />
 
-          {/* Adiciona espaço extra no final do scroll para o botão fixo não sobrepor conteúdo */}
           <View className="h-24" />
         </View>
       </Animated.ScrollView>
 
-      {/* Botão fixo na parte inferior */}
       <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-border p-4">
         <Button
           variant="default"
-          label={isPending ? "Solicitando..." : "Solicitar Exame"}
+          label={
+            createExamMutation.isPending ? "Solicitando..." : "Solicitar Exame"
+          }
           onPress={handleRequestExam}
-          disabled={!selectedExam || isPending}
+          disabled={!selectedExam || createExamMutation.isPending}
         />
       </View>
     </SafeAreaView>

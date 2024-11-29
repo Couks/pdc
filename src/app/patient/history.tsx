@@ -10,7 +10,21 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { Skeleton } from "@/components/common/Skeleton";
-import { MedicalHistory } from "@/types/clinical.types";
+import { MedicalHistory } from "@/types";
+
+export const symptomTranslations: Record<string, string> = {
+  fever: "Febre",
+  malaise: "Mal-estar",
+  swellingAtBiteLocation: "Inchaço no local da picada",
+  swollenEyes: "Olhos inchados",
+  fatigue: "Fadiga",
+  nauseaAndVomiting: "Náusea e vômito",
+  diarrhea: "Diarreia",
+  lymphNodeInflammation: "Inflamação dos gânglios",
+  bodyNodes: "Nódulos pelo corpo",
+  bodyRedness: "Vermelhidão pelo corpo",
+  enlargedLiverAndSpleen: "Fígado e baço aumentados",
+};
 
 export default function PatientHistory() {
   const { user } = useAuth();
@@ -44,48 +58,70 @@ export default function PatientHistory() {
     );
   }
 
+  const totalConsultas = patient?.medicalHistory?.length || 0;
+
   return (
     <SafeAreaView className="flex-1 bg-background">
       <ScrollView className="flex-1 p-4">
-        <Animated.View
-          entering={FadeInDown.duration(600)}
-          className="flex-row items-center justify-between mb-6"
-        >
-          <View>
-            <Text className="text-2xl font-bold text-foreground">
-              Histórico Médico
-            </Text>
-            <Text className="text-muted-foreground">
-              {patient?.medicalHistory?.length || 0} consultas registradas
-            </Text>
+        <Animated.View entering={FadeInDown.duration(600)} className="mb-6">
+          <View className="flex-row items-center justify-between mb-4">
+            <View>
+              <Text className="text-2xl font-bold text-foreground">
+                Histórico Médico
+              </Text>
+              <Text className="text-muted-foreground">
+                Seu histórico completo de atendimentos
+              </Text>
+            </View>
+            <View className="bg-primary/10 p-3 rounded-full">
+              <Ionicons name="medical" size={28} color="hsl(var(--primary))" />
+            </View>
           </View>
-          <View className="bg-primary/10 p-2 rounded-full">
-            <Ionicons name="medical" size={24} color="hsl(var(--primary))" />
-          </View>
+
+          <Card>
+            <CardContent className="p-4 flex-row items-center justify-between">
+              <View>
+                <Text className="text-lg font-semibold text-card-foreground">
+                  Total de Consultas
+                </Text>
+                <Text className="text-muted-foreground">
+                  Registros no sistema
+                </Text>
+              </View>
+              <View className="bg-primary/20 px-4 py-2 rounded-full">
+                <Text className="text-2xl font-bold text-primary">
+                  {totalConsultas}
+                </Text>
+              </View>
+            </CardContent>
+          </Card>
         </Animated.View>
 
         {/* Dados Clínicos */}
-        <Animated.View entering={FadeInDown.duration(600)} className="mb-6">
+        <Animated.View
+          entering={FadeInDown.duration(600).delay(200)}
+          className="mb-6"
+        >
           <Card>
             <CardContent className="p-4">
               <View className="flex-row items-center gap-2 mb-4">
-                <Ionicons name="person" size={20} color="hsl(var(--primary))" />
+                <Ionicons name="person" size={24} color="hsl(var(--primary))" />
                 <Text className="text-lg font-semibold text-card-foreground">
                   Dados Clínicos
                 </Text>
               </View>
 
-              <View className="gap-2">
-                <View className="flex-row">
+              <View className="gap-3">
+                <View className="flex-row bg-muted/30 p-3 rounded-lg">
                   <Text className="font-medium text-card-foreground w-1/3">
                     Tipo Sanguíneo:
                   </Text>
                   <Text className="text-muted-foreground">
-                    {patient?.clinicalData?.bloodType}
+                    {patient?.clinicalData?.bloodType || "Não informado"}
                   </Text>
                 </View>
 
-                <View className="flex-row">
+                <View className="flex-row bg-muted/30 p-3 rounded-lg">
                   <Text className="font-medium text-card-foreground w-1/3">
                     Alergias:
                   </Text>
@@ -94,7 +130,7 @@ export default function PatientHistory() {
                   </Text>
                 </View>
 
-                <View className="flex-row">
+                <View className="flex-row bg-muted/30 p-3 rounded-lg">
                   <Text className="font-medium text-card-foreground w-1/3">
                     Condições Crônicas:
                   </Text>
@@ -104,7 +140,7 @@ export default function PatientHistory() {
                   </Text>
                 </View>
 
-                <View className="flex-row">
+                <View className="flex-row bg-muted/30 p-3 rounded-lg">
                   <Text className="font-medium text-card-foreground w-1/3">
                     Medicações:
                   </Text>
@@ -113,27 +149,75 @@ export default function PatientHistory() {
                       "Nenhuma"}
                   </Text>
                 </View>
+
+                {/* Sintomas do paciente */}
+                <View className="bg-muted/30 p-3 rounded-lg">
+                  <Text className="font-medium text-card-foreground mb-2">
+                    Sintomas Atuais:
+                  </Text>
+                  <View className="gap-1">
+                    {patient?.clinicalData?.symptoms &&
+                      Object.entries(patient.clinicalData.symptoms)
+                        .filter(([_, value]) => value === true)
+                        .map(([key]) => (
+                          <View
+                            key={key}
+                            className="flex-row items-center gap-2"
+                          >
+                            <Ionicons
+                              name="checkmark-circle"
+                              size={16}
+                              color="hsl(var(--primary))"
+                            />
+                            <Text className="text-muted-foreground">
+                              {symptomTranslations[key] || key}
+                            </Text>
+                          </View>
+                        ))}
+                  </View>
+                </View>
+
+                {/* Descrição clínica */}
+                {patient?.clinicalData?.description && (
+                  <View className="bg-muted/30 p-3 rounded-lg">
+                    <Text className="font-medium text-card-foreground mb-2">
+                      Descrição:
+                    </Text>
+                    <Text className="text-muted-foreground">
+                      {patient.clinicalData.description}
+                    </Text>
+                  </View>
+                )}
               </View>
             </CardContent>
           </Card>
         </Animated.View>
 
         {/* Histórico de Consultas */}
-        <View className="gap-4">
+        <View className="gap-4 mb-6">
           {patient?.medicalHistory?.map(
             (record: MedicalHistory, index: number) => (
               <Animated.View
                 key={record.id}
-                entering={FadeInDown.duration(600).delay(index * 100)}
+                entering={FadeInDown.duration(600).delay(400 + index * 100)}
                 layout={LinearTransition.springify()}
               >
                 <Card>
                   <CardContent className="p-4">
                     <View className="flex-row items-center justify-between mb-4">
-                      <Text className="text-lg font-semibold text-card-foreground">
-                        {record.diagnosis}
-                      </Text>
-                      <Text className="text-muted-foreground">
+                      <View className="flex-row items-center gap-2">
+                        <View className="bg-primary/20 p-2 rounded-full">
+                          <Ionicons
+                            name="calendar"
+                            size={20}
+                            color="hsl(var(--primary))"
+                          />
+                        </View>
+                        <Text className="text-lg font-semibold text-card-foreground">
+                          {record.diagnosis}
+                        </Text>
+                      </View>
+                      <Text className="text-muted-foreground bg-muted/30 px-3 py-1 rounded-full">
                         {formatDate(record.date)}
                       </Text>
                     </View>

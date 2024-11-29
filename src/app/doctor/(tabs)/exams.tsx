@@ -4,13 +4,12 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Pressable,
   Modal,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { doctorService, examService } from "@/services/api";
+import { examService } from "@/services/api";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
@@ -21,12 +20,7 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { Skeleton } from "@/components/common/Skeleton";
-import {
-  ExamStatus,
-  ExamWithPatient,
-  ChagasExamType,
-  Diagnosis,
-} from "@/types";
+import { ExamStatus, ExamWithPatient } from "@/types";
 
 interface DoctorExamsProps {
   initialStatus?: ExamStatus | "ALL";
@@ -43,48 +37,11 @@ export default function DoctorExams({
   );
   const [searchQuery, setSearchQuery] = useState("");
 
-  const getPageTitle = () => {
-    switch (selectedStatus) {
-      case "PENDENTE":
-        return "Exames Pendentes";
-      case "CONCLUIDO":
-        return "Exames Concluídos";
-      case "EM_ANALISE":
-        return "Exames em Análise";
-      default:
-        return "Todos os Exames";
-    }
-  };
-
-  // Primeiro busca os pacientes do médico
-  const { data: patients } = useQuery({
-    queryKey: ["doctor-patients", user?.id],
-    queryFn: () => doctorService.getPatients(user?.id || ""),
-    enabled: !!user?.id,
-  });
-
-  // Depois busca os exames de cada paciente
+  // Busca todos os exames dos pacientes do médico
   const { data: exams, isLoading } = useQuery({
-    queryKey: ["doctor-patients-exams", patients],
-    queryFn: async () => {
-      if (!patients) return [];
-
-      const allExams = await Promise.all(
-        patients.map(async (patient) => {
-          const patientExams = await examService.getPatientExams(patient.id);
-          return patientExams.map((exam: any) => ({
-            ...exam,
-            patient: {
-              id: patient.id,
-              name: patient.name,
-            },
-          }));
-        })
-      );
-
-      return allExams.flat();
-    },
-    enabled: !!patients,
+    queryKey: ["doctor-exams", user?.id],
+    queryFn: () => examService.getDoctorExams(user?.id || ""),
+    enabled: !!user?.id,
   });
 
   const groupedExams = useMemo(() => {
@@ -112,7 +69,7 @@ export default function DoctorExams({
     );
   }, [exams, selectedStatus, searchQuery]);
 
-  const getStatusColor = (status: ExamStatus) => {
+  const getStatusConfig = (status: ExamStatus) => {
     switch (status) {
       case "CONCLUIDO":
         return {
@@ -153,6 +110,11 @@ export default function DoctorExams({
     });
   };
 
+  const getPageTitle = () => {
+    if (selectedStatus === "ALL") return "Todos os Exames";
+    return `Exames ${getStatusConfig(selectedStatus as ExamStatus).label}s`;
+  };
+
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 bg-background">
@@ -169,7 +131,7 @@ export default function DoctorExams({
   }
 
   const renderExamCard = (exam: ExamWithPatient) => {
-    const status = getStatusColor(exam.status);
+    const status = getStatusConfig(exam.status);
     return (
       <Link
         key={exam.id}
@@ -192,7 +154,7 @@ export default function DoctorExams({
                   className={`${status.bg} px-3 py-1 rounded-full flex-row items-center`}
                 >
                   <Ionicons
-                    name={status.icon as keyof typeof Ionicons.glyphMap}
+                    name={status.icon as any}
                     size={16}
                     color={`hsl(var(--${status.text.split("-")[1]}))`}
                     style={{ marginRight: 4 }}
@@ -269,7 +231,7 @@ export default function DoctorExams({
                 Status:{" "}
                 {selectedStatus === "ALL"
                   ? "Todos"
-                  : getStatusColor(selectedStatus as ExamStatus).label}
+                  : getStatusConfig(selectedStatus as ExamStatus).label}
               </Text>
               <Ionicons
                 name="chevron-down"
@@ -353,17 +315,19 @@ export default function DoctorExams({
               <View className="flex-row items-center mb-3">
                 <View
                   className={`w-2 h-2 rounded-full ${
-                    getStatusColor(status as ExamStatus).bg
+                    getStatusConfig(status as ExamStatus).bg
                   } mr-2`}
                 />
                 <Text className="text-lg font-medium text-foreground">
-                  {getStatusColor(status as ExamStatus).label}
+                  {getStatusConfig(status as ExamStatus).label}
                 </Text>
                 <Text className="text-muted-foreground ml-2">
-                  ({exams?.length})
+                  ({Array.isArray(exams) ? exams.length : 0})
                 </Text>
               </View>
-              <View className="gap-4">{exams.map(renderExamCard)}</View>
+              <View className="gap-4">
+                {(exams as ExamWithPatient[]).map(renderExamCard)}
+              </View>
             </View>
           ))}
         </View>

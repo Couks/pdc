@@ -9,7 +9,7 @@ import Animated, {
   FadeInDown,
   LinearTransition,
 } from "react-native-reanimated";
-import { Doctor } from "@/types/doctor.types";
+import { Doctor } from "@/types";
 import { ScrollView } from "react-native";
 
 export default function DoctorProfile() {

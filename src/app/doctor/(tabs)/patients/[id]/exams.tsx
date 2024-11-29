@@ -33,22 +33,31 @@ export default function PatientExams() {
     });
   };
 
+  // Busca os exames do paciente
   const { data: examRequests, isLoading: isLoadingExams } = useQuery({
     queryKey: ["patient-exams", id],
     queryFn: () => examService.getPatientExams(id),
+    enabled: !!id,
   });
 
+  // Busca os exames complementares
   const { data: complementaryExams, isLoading: isLoadingComplementary } =
     useQuery({
       queryKey: ["complementary-exams", id],
       queryFn: () => examService.getComplementaryExams(id),
+      enabled: !!id,
     });
 
+  // Mutação para deletar exame
   const deleteExamMutation = useMutation({
-    mutationFn: (examId: string) => examService.deleteExam(id, examId),
+    mutationFn: async (examId: string) => {
+      await examService.deleteExam(id, examId);
+    },
     onSuccess: () => {
+      // Invalida as queries para recarregar os dados
       queryClient.invalidateQueries({ queryKey: ["patient-exams", id] });
       queryClient.invalidateQueries({ queryKey: ["complementary-exams", id] });
+      queryClient.invalidateQueries({ queryKey: ["doctor-exams"] });
     },
   });
 

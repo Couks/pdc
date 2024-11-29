@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const currentUser = await authService.getCurrentUser();
       if (currentUser) {
-        setUser(currentUser);
+        setUser(currentUser as User);
         setIsAuthenticated(true);
       } else {
         router.replace("/auth/login");

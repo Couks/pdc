@@ -10,7 +10,7 @@ import Animated, {
   FadeInDown,
   LinearTransition,
 } from "react-native-reanimated";
-import { ExamRequest } from "@/types/exam.types";
+import { ExamRequest } from "@/types";
 
 export default function PatientDashboard() {
   const { user } = useAuth();
@@ -31,7 +31,8 @@ export default function PatientDashboard() {
     {
       title: "Exames Pendentes",
       value:
-        chagasExams?.filter((exam) => exam.status === "PENDENTE").length || 0,
+        chagasExams?.filter((exam: any) => exam.status === "PENDENTE").length ||
+        0,
       icon: "time",
       color: "text-orange-500",
       bgColor: "bg-orange-100",
@@ -39,8 +40,8 @@ export default function PatientDashboard() {
     {
       title: "Exames Realizados",
       value:
-        (chagasExams?.filter((exam) => exam.status === "CONCLUIDO").length ||
-          0) + (patient?.exams?.length || 0),
+        (chagasExams?.filter((exam: any) => exam.status === "CONCLUIDO")
+          .length || 0) + (patient?.exams?.length || 0),
       icon: "checkmark-circle",
       color: "text-green-500",
       bgColor: "bg-green-100",

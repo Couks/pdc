@@ -106,6 +106,17 @@ export default function PatientSymptoms() {
           },
         ]
       );
+    } else {
+      Alert.alert(
+        "Resultado",
+        "Com base nos sintomas selecionados, não há indicativos de Doença de Chagas no momento. Continue monitorando sua saúde e, caso novos sintomas apareçam, faça uma nova verificação.",
+        [
+          {
+            text: "OK",
+            style: "default",
+          },
+        ]
+      );
     }
   };
 
