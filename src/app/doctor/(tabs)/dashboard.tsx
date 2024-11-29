@@ -9,7 +9,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { doctorService } from "@/services/api";
+import { doctorService, examService } from "@/services/api";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
@@ -21,30 +21,47 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { useCallback, useState } from "react";
+import { Skeleton } from "@/components/common/Skeleton";
 
 export default function DoctorDashboard() {
   const { user } = useAuth();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const { data: patients, refetch: refetchPatients } = useQuery({
+  const {
+    data: patients = [],
+    refetch: refetchPatients,
+    isLoading: isLoadingPatients,
+  } = useQuery({
     queryKey: ["doctor-patients", user?.id],
     queryFn: () => doctorService.getPatients(user?.id || ""),
     enabled: !!user?.id,
   });
 
-  const { data: pendingExamsCount = 0, refetch: refetchPending } = useQuery({
+  const {
+    data: pendingExamsCount = 0,
+    refetch: refetchPending,
+    isLoading: isLoadingPending,
+  } = useQuery({
     queryKey: ["pending-exams", user?.id],
-    queryFn: () => doctorService.getPendingExams(user?.id || ""),
+    queryFn: async () => {
+      const exams = await examService.getDoctorExams(user?.id || "");
+      return exams.filter((exam: any) => exam.status === "PENDENTE").length;
+    },
     enabled: !!user?.id,
   });
 
-  const { data: completedExamsCount = 0, refetch: refetchCompleted } = useQuery(
-    {
-      queryKey: ["completed-exams", user?.id],
-      queryFn: () => doctorService.getCompletedExams(user?.id || ""),
-      enabled: !!user?.id,
-    }
-  );
+  const {
+    data: completedExamsCount = 0,
+    refetch: refetchCompleted,
+    isLoading: isLoadingCompleted,
+  } = useQuery({
+    queryKey: ["completed-exams", user?.id],
+    queryFn: async () => {
+      const exams = await examService.getDoctorExams(user?.id || "");
+      return exams.filter((exam) => exam.status === "CONCLUIDO").length;
+    },
+    enabled: !!user?.id,
+  });
 
   const onRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -54,7 +71,7 @@ export default function DoctorDashboard() {
       refetchCompleted(),
     ]);
     setIsRefreshing(false);
-  }, []);
+  }, [refetchPatients, refetchPending, refetchCompleted]);
 
   const quickActions = [
     {
@@ -68,7 +85,7 @@ export default function DoctorDashboard() {
     {
       icon: "document-text",
       title: "Exames",
-      description: "Solicite e analise exames",
+      description: "Veja a lista de exames dos seus pacientes",
       href: "/doctor/exams",
       color: "#22C55E",
       bgColor: "bg-green-100",
@@ -82,7 +99,7 @@ export default function DoctorDashboard() {
       bgColor: "bg-orange-100",
     },
     {
-      icon: "search-outline",
+      icon: "search",
       title: "Em Análise",
       description: "Veja resultados que precisam de análise",
       href: "/doctor/components/in-analysis",
@@ -102,7 +119,7 @@ export default function DoctorDashboard() {
   const stats = [
     {
       title: "Total de Pacientes",
-      value: patients?.length || 0,
+      value: patients.length,
       icon: "people",
       color: "#3B82F6",
       bgColor: "bg-blue-100",
@@ -134,8 +151,74 @@ export default function DoctorDashboard() {
     return `há ${diffDays} dias`;
   };
 
+  if (isLoadingPatients || isLoadingPending || isLoadingCompleted) {
+    return (
+      <SafeAreaView className="flex-1 bg-background">
+        <ScrollView className="flex-1 px-4">
+          {/* Header Skeleton */}
+          <View className="flex-row items-center justify-between mb-8 mt-2">
+            <View>
+              <Skeleton className="h-8 w-40 mb-2" />
+              <Skeleton className="h-6 w-32" />
+            </View>
+            <Skeleton className="h-12 w-12 rounded-full" />
+          </View>
+
+          {/* Stats Cards Skeleton */}
+          <View className="flex-row gap-4 mb-2">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="flex-1 shadow-sm">
+                <CardContent className="items-center p-4">
+                  <Skeleton className="h-14 w-14 rounded-full mb-3" />
+                  <Skeleton className="h-8 w-12 mb-1" />
+                  <Skeleton className="h-4 w-20" />
+                </CardContent>
+              </Card>
+            ))}
+          </View>
+
+          {/* Recent Activity Skeleton */}
+          <View className="mb-6">
+            <Skeleton className="h-6 w-40 mb-4 mt-8" />
+            <View className="gap-4">
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="shadow-sm">
+                  <CardContent className="p-4">
+                    <View className="flex-row items-center">
+                      <Skeleton className="w-14 h-14 rounded-2xl mr-4" />
+                      <View className="flex-1">
+                        <Skeleton className="h-6 w-32 mb-2" />
+                        <Skeleton className="h-4 w-40" />
+                      </View>
+                    </View>
+                  </CardContent>
+                </Card>
+              ))}
+            </View>
+          </View>
+
+          {/* Quick Actions Skeleton */}
+          <Skeleton className="h-6 w-32 mb-4" />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View className="flex-row gap-4 pb-4">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Card key={i} className="shadow-sm w-48">
+                  <CardContent className="p-4">
+                    <Skeleton className="h-16 w-16 rounded-2xl mb-4" />
+                    <Skeleton className="h-6 w-32 mb-2" />
+                    <Skeleton className="h-4 w-40" />
+                  </CardContent>
+                </Card>
+              ))}
+            </View>
+          </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-background dark:bg-background">
       <Animated.ScrollView
         className="flex-1 px-4"
         showsVerticalScrollIndicator={false}
@@ -157,7 +240,7 @@ export default function DoctorDashboard() {
               Bem-vindo,
             </Text>
             <Text className="text-2xl text-primary font-semibold">
-              Dr. {user?.name}
+              Dr. {user?.name || ""}
             </Text>
           </View>
           <View className="flex-row gap-3">
@@ -176,7 +259,7 @@ export default function DoctorDashboard() {
         {/* Stats Cards */}
         <Animated.View
           entering={FadeInDown.duration(600).delay(200)}
-          className="flex-row gap-4 mb-8"
+          className="flex-row gap-4 mb-2"
           layout={LinearTransition.springify()}
         >
           {stats.map((stat) => (
@@ -200,53 +283,6 @@ export default function DoctorDashboard() {
           ))}
         </Animated.View>
 
-        {/* Quick Actions */}
-        <Animated.View entering={FadeInDown.duration(600).delay(400)}>
-          <Text className="text-xl font-bold text-foreground mb-4">
-            Ações Rápidas
-          </Text>
-          <View className="gap-4">
-            {quickActions.map((action, index) => (
-              <Animated.View
-                key={action.title}
-                entering={FadeInDown.duration(600).delay(500 + index * 100)}
-                layout={LinearTransition.springify()}
-              >
-                <Link href={action.href as any} asChild>
-                  <TouchableOpacity className="active:opacity-80">
-                    <Card className="shadow-sm">
-                      <CardContent className="flex-row items-center p-4">
-                        <View
-                          className={`${action.bgColor} p-4 rounded-2xl mr-4`}
-                        >
-                          <Ionicons
-                            name={action.icon as any}
-                            size={28}
-                            color={action.color}
-                          />
-                        </View>
-                        <View className="flex-1">
-                          <Text className="text-lg font-bold text-card-foreground mb-1">
-                            {action.title}
-                          </Text>
-                          <Text className="text-muted-foreground text-sm">
-                            {action.description}
-                          </Text>
-                        </View>
-                        <Ionicons
-                          name="chevron-forward"
-                          size={24}
-                          color="hsl(var(--muted-foreground))"
-                        />
-                      </CardContent>
-                    </Card>
-                  </TouchableOpacity>
-                </Link>
-              </Animated.View>
-            ))}
-          </View>
-        </Animated.View>
-
         {/* Recent Activity */}
         <Animated.View
           entering={FadeInDown.duration(600).delay(800)}
@@ -260,7 +296,7 @@ export default function DoctorDashboard() {
           </View>
 
           <View className="gap-4">
-            {patients?.slice(0, 3).map((patient: any, index: number) => (
+            {patients.slice(0, 3).map((patient: any, index: number) => (
               <Animated.View
                 key={patient.id}
                 entering={FadeIn.duration(600).delay(900 + index * 100)}
@@ -273,7 +309,7 @@ export default function DoctorDashboard() {
                         <View className="flex-row items-center">
                           <View className="bg-primary/10 w-14 h-14 rounded-2xl mr-4 items-center justify-center">
                             <Text className="text-primary text-xl font-bold">
-                              {patient.name.charAt(0)}
+                              {patient?.name ? patient.name[0] : ""}
                             </Text>
                           </View>
 
@@ -283,16 +319,19 @@ export default function DoctorDashboard() {
                             </Text>
                             <View className="flex-row items-center">
                               <Ionicons
-                                name="time-outline"
+                                name="time"
                                 size={16}
                                 color="hsl(var(--muted-foreground))"
                                 style={{ marginRight: 6 }}
                               />
                               <Text className="text-muted-foreground text-sm">
                                 Último exame:{" "}
-                                {formatTimeAgo(
-                                  patient.exams[patient.exams.length - 1]?.date
-                                )}
+                                {patient.exams && patient.exams.length > 0
+                                  ? formatTimeAgo(
+                                      patient.exams[patient.exams.length - 1]
+                                        ?.date
+                                    )
+                                  : "Sem exames"}
                               </Text>
                             </View>
                           </View>
@@ -310,6 +349,54 @@ export default function DoctorDashboard() {
               </Animated.View>
             ))}
           </View>
+        </Animated.View>
+
+        {/* Quick Actions */}
+        <Animated.View entering={FadeInDown.duration(600).delay(400)}>
+          <Text className="text-xl font-bold text-foreground mb-4">
+            Ações Rápidas
+          </Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className="mb-8"
+          >
+            <View className="flex-row gap-4 pb-4">
+              {quickActions.map((action, index) => (
+                <Animated.View
+                  key={action.title}
+                  entering={FadeInDown.duration(600).delay(500 + index * 100)}
+                  layout={LinearTransition.springify()}
+                >
+                  <Link href={action.href as any} asChild>
+                    <TouchableOpacity className="active:opacity-80">
+                      <Card className="shadow-sm w-48">
+                        <CardContent className="p-4">
+                          <View
+                            className={`${action.bgColor} p-4 rounded-2xl self-start mb-4`}
+                          >
+                            <Ionicons
+                              name={action.icon as any}
+                              size={28}
+                              color={action.color}
+                            />
+                          </View>
+                          <View>
+                            <Text className="text-lg font-bold text-card-foreground mb-2">
+                              {action.title}
+                            </Text>
+                            <Text className="text-muted-foreground text-sm">
+                              {action.description}
+                            </Text>
+                          </View>
+                        </CardContent>
+                      </Card>
+                    </TouchableOpacity>
+                  </Link>
+                </Animated.View>
+              ))}
+            </View>
+          </ScrollView>
         </Animated.View>
       </Animated.ScrollView>
     </SafeAreaView>

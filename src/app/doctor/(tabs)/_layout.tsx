@@ -39,9 +39,17 @@ export default function TabsLayout() {
       screenOptions={{
         headerStyle: {
           backgroundColor: "hsl(var(--background))",
+          borderBottomWidth: 1,
+          borderBottomColor: "hsl(var(--border))",
+          elevation: 0,
+          shadowOpacity: 0,
+          height: 20,
         },
+        headerTitleAlign: "center",
+        headerShadowVisible: false,
         headerTintColor: "hsl(var(--foreground))",
-        headerShown: false,
+        headerShown: true,
+        headerTitle: "",
         tabBarShowLabel: false,
       }}
       tabBar={(props) => <AnimatedTabBar {...props} tabs={DOCTOR_TABS} />}

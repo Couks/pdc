@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { doctorService } from "@/services/api";
+import { doctorService, examService } from "@/services/api";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
@@ -21,25 +21,12 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { Skeleton } from "@/components/common/Skeleton";
-
-type ExamStatus = "PENDENTE" | "CONCLUIDO" | "EM_ANALISE";
-
-interface ExamWithPatient {
-  id: string;
-  patientId: string;
-  examType: string;
-  requestDate: string;
-  status: ExamStatus;
-  result?: {
-    value: string;
-    diagnosis: string;
-    notes: string;
-  };
-  patient: {
-    name: string;
-    id: string;
-  };
-}
+import {
+  ExamStatus,
+  ExamWithPatient,
+  ChagasExamType,
+  Diagnosis,
+} from "@/types";
 
 interface DoctorExamsProps {
   initialStatus?: ExamStatus | "ALL";
@@ -69,24 +56,35 @@ export default function DoctorExams({
     }
   };
 
+  // Primeiro busca os pacientes do médico
+  const { data: patients } = useQuery({
+    queryKey: ["doctor-patients", user?.id],
+    queryFn: () => doctorService.getPatients(user?.id || ""),
+    enabled: !!user?.id,
+  });
+
+  // Depois busca os exames de cada paciente
   const { data: exams, isLoading } = useQuery({
-    queryKey: ["doctor-exams", user?.id],
+    queryKey: ["doctor-patients-exams", patients],
     queryFn: async () => {
-      const patients = await doctorService.getPatients(user?.id || "");
-      const examsPromises = patients.map(async (patient: any) => {
-        const patientExams = await doctorService.getPatientExams(patient.id);
-        return patientExams.map((exam: any) => ({
-          ...exam,
-          patient: {
-            name: patient.name,
-            id: patient.id,
-          },
-        }));
-      });
-      const allExams = await Promise.all(examsPromises);
+      if (!patients) return [];
+
+      const allExams = await Promise.all(
+        patients.map(async (patient) => {
+          const patientExams = await examService.getPatientExams(patient.id);
+          return patientExams.map((exam: any) => ({
+            ...exam,
+            patient: {
+              id: patient.id,
+              name: patient.name,
+            },
+          }));
+        })
+      );
+
       return allExams.flat();
     },
-    enabled: !!user?.id,
+    enabled: !!patients,
   });
 
   const groupedExams = useMemo(() => {
@@ -102,11 +100,12 @@ export default function DoctorExams({
     });
 
     return filtered.reduce(
-      (acc: Record<ExamStatus, ExamWithPatient[]>, exam) => {
-        if (!acc[exam.status]) {
-          acc[exam.status] = [];
+      (acc: Record<ExamStatus, ExamWithPatient[]>, exam: ExamWithPatient) => {
+        const status = exam.status as ExamStatus;
+        if (!acc[status]) {
+          acc[status] = [];
         }
-        acc[exam.status].push(exam);
+        acc[status].push(exam);
         return acc;
       },
       {} as Record<ExamStatus, ExamWithPatient[]>

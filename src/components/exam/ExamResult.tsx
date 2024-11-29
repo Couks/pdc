@@ -3,12 +3,20 @@ import { View, Text } from "react-native";
 import {
   ExamResult as ExamResultType,
   EXAM_DESCRIPTIONS,
-} from "@/types/exam.types";
+  ChagasExamType,
+} from "@/types/";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 
 interface ExamResultProps {
-  result: ExamResultType;
+  result: {
+    id: string;
+    examRequestId: string;
+    diagnosis: string;
+    examType: ChagasExamType;
+    description: string;
+    date: string;
+  };
 }
 
 export function ExamResult({ result }: ExamResultProps) {
@@ -73,7 +81,7 @@ export function ExamResult({ result }: ExamResultProps) {
             <View className="flex-row justify-between items-center">
               <Text className="text-muted-foreground">Data do Resultado</Text>
               <Text className="text-card-foreground font-medium">
-                {new Date(result.resultDate).toLocaleDateString()}
+                {new Date(result.date).toLocaleDateString()}
               </Text>
             </View>
           </View>
@@ -93,27 +101,28 @@ export function ExamResult({ result }: ExamResultProps) {
             </View>
           )}
 
-          {result.diagnosis === "INCONCLUSIVO" &&
-            result.recommendedFollowUp && (
-              <View className="bg-yellow-50 p-4 rounded-lg">
-                <View className="flex-row items-center gap-2 mb-2">
-                  <Ionicons name="alert-circle" size={20} color="#B45309" />
-                  <Text className="font-semibold text-yellow-800">
-                    Teste Confirmatório Recomendado
-                  </Text>
-                </View>
-                <Text className="text-yellow-800">
-                  {EXAM_DESCRIPTIONS[result.recommendedFollowUp].title}
+          {result.diagnosis === "INCONCLUSIVO" && result.examType && (
+            <View className="bg-yellow-50 p-4 rounded-lg">
+              <View className="flex-row items-center gap-2 mb-2">
+                <Ionicons name="alert-circle" size={20} color="#B45309" />
+                <Text className="font-semibold text-yellow-800">
+                  Teste Confirmatório Recomendado
                 </Text>
               </View>
-            )}
+              <Text className="text-yellow-800">
+                {EXAM_DESCRIPTIONS[result.examType].title}
+              </Text>
+            </View>
+          )}
 
-          {result.notes && (
+          {result.description && (
             <View className="bg-muted/30 p-4 rounded-lg">
               <Text className="font-medium text-card-foreground mb-2">
                 Observações
               </Text>
-              <Text className="text-muted-foreground">{result.notes}</Text>
+              <Text className="text-muted-foreground">
+                {result.description}
+              </Text>
             </View>
           )}
         </View>

@@ -21,7 +21,7 @@ import { useMutation } from "@tanstack/react-query";
 
 export default function Login() {
   const [credentials, setCredentials] = useState<LoginCredentials>({
-    email: "joao.silva@medical.com",
+    email: "matheuscastro@gmail.com",
     password: "123456",
     role: "doctor",
   });

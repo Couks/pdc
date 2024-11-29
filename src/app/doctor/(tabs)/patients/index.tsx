@@ -74,7 +74,7 @@ export default function PatientList() {
                         <View className="flex-row items-center mb-3">
                           <View className="bg-primary/10 w-12 h-12 rounded-full items-center justify-center mr-4">
                             <Text className="text-primary text-lg font-bold">
-                              {patient.name.charAt(0)}
+                              {patient?.name?.[0] || ""}
                             </Text>
                           </View>
                           <View className="flex-1">
@@ -83,7 +83,7 @@ export default function PatientList() {
                             </Text>
                             <View className="flex-row items-center gap-2">
                               <Ionicons
-                                name="mail-outline"
+                                name="mail"
                                 size={14}
                                 color="hsl(var(--primary))"
                               />
@@ -97,7 +97,7 @@ export default function PatientList() {
                         <View className="flex-row items-center justify-between bg-muted/50 p-3 rounded-lg">
                           <View className="flex-row items-center gap-2">
                             <Ionicons
-                              name="water-outline"
+                              name="water"
                               size={16}
                               color="hsl(var(--foreground))"
                             />

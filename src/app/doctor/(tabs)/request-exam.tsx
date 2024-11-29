@@ -2,57 +2,62 @@ import React, { useState } from "react";
 import { View, ScrollView, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
-import { examService } from "@/services/examService";
+import { examService } from "@/services/api";
 import { ExamSelector } from "@/components/exam/ExamSelector";
 import { Button } from "@/components/common/Button";
-import { ChagasExamType } from "@/types/exam.types";
+import { ChagasExamType, ExamRequest } from "@/types";
 import { router, useLocalSearchParams } from "expo-router";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
-import Animated, {
-  useSharedValue,
-  useAnimatedScrollHandler,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 export default function RequestExam() {
   const { user } = useAuth();
   const { patientId } = useLocalSearchParams<{ patientId: string }>();
   const [selectedExam, setSelectedExam] = useState<ChagasExamType | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const scrollY = useSharedValue(0);
+  const queryClient = useQueryClient();
 
-  const handleRequestExam = async () => {
-    if (!selectedExam || !user || user.role !== "doctor" || !patientId) return;
-
-    try {
-      setIsLoading(true);
-      await examService.requestExam(patientId, user.id, selectedExam);
+  const createExamMutation = useMutation({
+    mutationFn: (examData: Partial<ExamRequest>) =>
+      examService.createExamRequest(examData),
+    onSuccess: () => {
+      // Invalida as queries relacionadas para forçar atualização
+      queryClient.invalidateQueries({ queryKey: ["patient-exams", patientId] });
+      queryClient.invalidateQueries({ queryKey: ["doctor-exams", user?.id] });
 
       Alert.alert(
         "Exame Solicitado",
         "O paciente receberá as instruções para coleta no laboratório.",
         [{ text: "OK", onPress: () => router.back() }]
       );
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error("Erro ao solicitar exame:", error);
       Alert.alert(
         "Erro",
         "Não foi possível solicitar o exame. Tente novamente."
       );
-    } finally {
-      setIsLoading(false);
-    }
+    },
+  });
+
+  const { isPending } = createExamMutation;
+
+  const handleRequestExam = async () => {
+    if (!selectedExam || !user || user.role !== "doctor" || !patientId) return;
+
+    createExamMutation.mutate({
+      patientId,
+      doctorId: user.id,
+      examType: selectedExam,
+      requestDate: new Date().toISOString(),
+      status: "PENDENTE",
+    });
   };
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <Animated.ScrollView
-        className="flex-1"
-        onScroll={useAnimatedScrollHandler((event) => {
-          scrollY.value = event.contentOffset.y;
-        })}
-        scrollEventThrottle={16}
-      >
+      <Animated.ScrollView className="flex-1">
         <View className="p-4">
           <Card className="mb-6">
             <CardContent className="p-4">
@@ -84,12 +89,12 @@ export default function RequestExam() {
       </Animated.ScrollView>
 
       {/* Botão fixo na parte inferior */}
-      <View className="absolute bottom-0 left-0 right-0 bg-background border-t border-border p-4">
+      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-border p-4">
         <Button
           variant="default"
-          label={isLoading ? "Solicitando..." : "Solicitar Exame"}
+          label={isPending ? "Solicitando..." : "Solicitar Exame"}
           onPress={handleRequestExam}
-          disabled={!selectedExam || isLoading}
+          disabled={!selectedExam || isPending}
         />
       </View>
     </SafeAreaView>

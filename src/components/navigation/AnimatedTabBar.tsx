@@ -62,7 +62,7 @@ export function AnimatedTabBar({
 
   return (
     <Animated.View
-      className="bottom-0 left-0 right-0"
+      className="rounded-t-xl"
       style={{
         shadowColor: "#000",
         shadowOffset: {

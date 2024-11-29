@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Modal } from "react-native";
-import { ChagasExamType, EXAM_DESCRIPTIONS } from "@/types/exam.types";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { ChagasExamType, EXAM_DESCRIPTIONS } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { Card, CardContent } from "@/components/common/Card";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";

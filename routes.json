@@ -1,0 +1,5 @@
+{
+  "/api/auth/tokens": "/auth/tokens",
+  "/api/doctors": "/doctors",
+  "/api/patients": "/patients"
+}

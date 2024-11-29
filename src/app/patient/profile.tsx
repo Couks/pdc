@@ -11,7 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useQuery } from "@tanstack/react-query";
 import { patientService } from "@/services/api";
-import { Patient } from "@/types/patient.types";
+import { ScrollView } from "react-native";
 
 export default function PatientProfile() {
   const { user, logout } = useAuth();
@@ -19,7 +19,7 @@ export default function PatientProfile() {
 
   const { data: profile } = useQuery({
     queryKey: ["patient-profile", user?.id],
-    queryFn: () => patientService.getProfile(user?.id || ""),
+    queryFn: () => patientService.getById(user?.id || ""),
     enabled: !!user?.id,
   });
 
@@ -27,67 +27,110 @@ export default function PatientProfile() {
 
   const profileItems = [
     {
-      icon: "person-outline",
+      icon: "person",
       label: "Nome",
       value: profile.name,
-      bgColor: "bg-primary/10",
+      bgColor: "bg-primary/20",
       iconColor: "primary",
     },
     {
-      icon: "mail-outline",
+      icon: "mail",
       label: "Email",
       value: profile.email,
-      bgColor: "bg-secondary/10",
-      iconColor: "secondary",
+      bgColor: "bg-primary/20",
+      iconColor: "primary",
     },
     {
-      icon: "card-outline",
-      label: "CPF",
-      value: profile.cpf,
-      bgColor: "bg-accent/10",
-      iconColor: "accent",
-    },
-    {
-      icon: "calendar-outline",
-      label: "Data de Nascimento",
-      value: new Date(profile.birthDate).toLocaleDateString("pt-BR"),
-      bgColor: "bg-success/10",
-      iconColor: "success",
-    },
-    {
-      icon: "call-outline",
+      icon: "call",
       label: "Telefone",
-      value: profile.phone,
-      bgColor: "bg-warning/10",
-      iconColor: "warning",
+      value: profile.phone || "Não informado",
+      bgColor: "bg-green-500/20",
+      iconColor: "green-500",
     },
     {
-      icon: "location-outline",
+      icon: "location",
       label: "Endereço",
-      value: profile.address,
-      bgColor: "bg-info/10",
-      iconColor: "info",
+      value: profile.address || "Não informado",
+      bgColor: "bg-green-500/20",
+      iconColor: "green-500",
+    },
+    {
+      icon: "calendar",
+      label: "Data de Nascimento",
+      value: profile.birthDate
+        ? new Date(profile.birthDate).toLocaleDateString("pt-BR")
+        : "Não informado",
+      bgColor: "bg-amber-500/20",
+      iconColor: "amber-500",
+    },
+    {
+      icon: "transgender",
+      label: "Gênero",
+      value: profile.gender || "Não informado",
+      bgColor: "bg-amber-500/20",
+      iconColor: "amber-500",
+    },
+    {
+      icon: "water",
+      label: "Tipo Sanguíneo",
+      value: profile.clinicalData?.bloodType || "Não informado",
+      bgColor: "bg-primary/20",
+      iconColor: "primary",
+    },
+    {
+      icon: "alert-circle",
+      label: "Alergias",
+      value:
+        profile.clinicalData?.allergies?.length > 0
+          ? profile.clinicalData.allergies.join(", ")
+          : "Nenhuma alergia registrada",
+      bgColor: "bg-destructive/20",
+      iconColor: "destructive",
+    },
+    {
+      icon: "medical",
+      label: "Condições Crônicas",
+      value:
+        profile.clinicalData?.chronicConditions?.length > 0
+          ? profile.clinicalData.chronicConditions.join(", ")
+          : "Nenhuma condição registrada",
+      bgColor: "bg-amber-500/20",
+      iconColor: "amber-500",
+    },
+    {
+      icon: "medkit",
+      label: "Medicamentos",
+      value:
+        profile.clinicalData?.medications?.length > 0
+          ? profile.clinicalData.medications.join(", ")
+          : "Nenhum medicamento registrado",
+      bgColor: "bg-green-500/20",
+      iconColor: "green-500",
     },
   ];
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <View className="flex-1 p-6">
+      <ScrollView className="flex-1 px-6">
         <Animated.View
           entering={FadeInDown.duration(600)}
           layout={LinearTransition.springify()}
-          className="items-center mb-8"
+          className="items-center flex-row justify-center mb-8 gap-4"
         >
-          <View className="w-24 h-24 bg-primary/10 rounded-full items-center justify-center mb-4">
+          <View className="w-24 h-24 bg-primary/20 rounded-full items-center justify-center mb-4">
             <Ionicons name="person" size={48} color="hsl(var(--primary))" />
           </View>
-          <Text className="text-2xl font-bold text-foreground">
-            {profile.name}
-          </Text>
-          <Text className="text-muted-foreground">
-            {new Date(profile.birthDate).toLocaleDateString("pt-BR")}
-          </Text>
-          <Text className="text-primary">CPF: {profile.cpf}</Text>
+          <View>
+            <Text className="text-2xl font-bold text-foreground">
+              {profile.name}
+            </Text>
+            <Text className="text-muted-foreground">
+              {profile.birthDate
+                ? new Date(profile.birthDate).toLocaleDateString("pt-BR")
+                : "Data não informada"}
+            </Text>
+            <Text className="text-primary text-x">{profile.email}</Text>
+          </View>
         </Animated.View>
 
         <Animated.View
@@ -125,20 +168,20 @@ export default function PatientProfile() {
         <Animated.View
           entering={FadeInDown.duration(600).delay(400)}
           layout={LinearTransition.springify()}
-          className="mt-auto"
+          className="mt-4 mb-4"
         >
           <TouchableOpacity
-            className="flex-row items-center bg-destructive/10 p-4 rounded-xl"
+            className="flex-row items-center bg-destructive/20 p-4 rounded-xl"
             onPress={() => setShowLogoutModal(true)}
           >
             <View className="w-12 h-12 bg-destructive/20 rounded-full items-center justify-center">
               <Ionicons
-                name="log-out-outline"
+                name="log-out"
                 size={24}
                 color="hsl(var(--destructive))"
               />
             </View>
-            <Text className="flex-1 ml-4 text-destructive font-medium">
+            <Text className="flex-1 ml-4 text-destructive font-medium text-xl">
               Sair da conta
             </Text>
             <Ionicons
@@ -148,7 +191,7 @@ export default function PatientProfile() {
             />
           </TouchableOpacity>
         </Animated.View>
-      </View>
+      </ScrollView>
 
       <LogoutModal
         visible={showLogoutModal}

@@ -2,211 +2,89 @@
   "auth": {
     "tokens": [
       {
-        "id": "d1",
-        "token": "jwt_mock_doctor_1",
+        "id": "5d43e036-63ab-4c2c-8e50-6acc69b8aa89",
+        "token": "jwt_2f36d8cb-c32f-4712-933f-cef68f54c57b",
         "role": "doctor"
       },
       {
-        "id": "d2",
-        "token": "jwt_mock_doctor_2",
-        "role": "doctor"
-      },
-      {
-        "id": "p1",
-        "token": "jwt_mock_patient_1",
+        "id": "d47f4318-9929-43d9-9abf-029d435364de",
+        "token": "jwt_3ea39fdc-a79b-482d-83d5-0282593780aa",
         "role": "patient"
       },
       {
-        "id": "p3",
-        "token": "jwt_mock_patient_3",
-        "role": "patient"
-      },
-      {
-        "id": "p4",
-        "token": "jwt_mock_patient_4",
-        "role": "patient"
-      },
-      {
-        "id": "p5",
-        "token": "jwt_mock_patient_5",
-        "role": "patient"
-      },
-      {
-        "id": "p6",
-        "token": "jwt_mock_patient_6",
-        "role": "patient"
-      },
-      {
-        "id": "p7",
-        "token": "jwt_mock_patient_7",
-        "role": "patient"
-      },
-      {
-        "id": "p8",
-        "token": "jwt_mock_patient_8",
-        "role": "patient"
-      },
-      {
-        "id": "p9",
-        "token": "jwt_mock_patient_9",
+        "id": "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
+        "token": "jwt_9b1f3a2c-8d7e-4f6a-b5c9-2e3d1a4b5c6d",
         "role": "patient"
       }
     ]
   },
   "doctors": [
     {
-      "id": "d1",
-      "name": "João Silva",
-      "email": "joao.silva@medical.com",
+      "id": "5d43e036-63ab-4c2c-8e50-6acc69b8aa89",
+      "name": "Matheus Castro",
+      "email": "matheuscastro@gmail.com",
       "password": "123456",
       "role": "doctor",
-      "crm": "123456-SP",
-      "specialization": "Infectologia",
-      "phone": "(11) 99999-9999",
-      "address": "Av. Paulista, 1000, São Paulo - SP",
-      "patients": [
-        "p1",
-        "p3",
-        "p6",
-        "p7",
-        "p8",
-        "p9"
-      ]
-    },
-    {
-      "id": "d2",
-      "name": "Maria Santos",
-      "email": "maria.santos@medical.com",
-      "password": "123456",
-      "role": "doctor",
+      "phone": "(11) 95555-5555",
+      "address": "Rua Vergueiro, 1500, São Paulo - SP",
       "crm": "789012-SP",
-      "specialization": "Cardiologia",
-      "phone": "(11) 98888-8888",
-      "address": "Rua Augusta, 500, São Paulo - SP",
+      "specialization": "Neurologia",
       "patients": [
-        "p4",
-        "p5"
+        "d47f4318-9929-43d9-9abf-029d435364de",
+        "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454"
       ]
     }
   ],
   "patients": [
     {
-      "id": "p1",
-      "name": "Ana Oliveira",
-      "email": "ana.oliveira@email.com",
+      "id": "d47f4318-9929-43d9-9abf-029d435364de",
+      "name": "Pedro Machado",
+      "email": "pedromachado@gmail.com",
       "password": "123456",
       "role": "patient",
-      "phone": "(11) 97777-7777",
-      "address": "Rua das Flores, 123, São Paulo - SP",
-      "birthDate": "1990-05-15",
-      "gender": "FEMININO",
-      "doctors": [
-        "d1"
-      ],
-      "clinicalData": {
-        "bloodType": "A+",
-        "allergies": [
-          "Penicilina",
-          "Látex"
-        ],
-        "chronicConditions": [
-          "Hipertensão"
-        ],
-        "medications": [
-          "Losartana 50mg"
-        ]
-      },
-      "medicalHistory": [
-        {
-          "id": "mh1",
-          "date": "2024-08-15",
-          "doctorId": "d1",
-          "diagnosis": "Hipertensão Arterial",
-          "prescription": "Losartana 50mg - 1x ao dia",
-          "notes": "Paciente apresentou pressão arterial elevada"
-        }
-      ],
-      "exams": [
-        {
-          "id": "e1",
-          "type": "Eletrocardiograma",
-          "date": "2024-08-15",
-          "result": "Normal",
-          "doctorId": "d1",
-          "notes": "Ritmo cardíaco regular"
-        }
-      ]
-    },
-    {
-      "id": "p3",
-      "name": "Mariana Lima",
-      "email": "mariana.lima@email.com",
-      "password": "123456",
-      "role": "patient",
-      "phone": "(11) 95555-5555",
-      "address": "Rua dos Pinheiros, 789, São Paulo - SP",
-      "birthDate": "1995-03-10",
-      "gender": "FEMININO",
-      "doctors": [
-        "d1"
-      ],
-      "clinicalData": {
-        "bloodType": "B-",
-        "allergies": [
-          "Aspirina"
-        ],
-        "chronicConditions": [],
-        "medications": []
-      },
-      "medicalHistory": [
-        {
-          "id": "mh3",
-          "date": "2024-10-01",
-          "doctorId": "d1",
-          "diagnosis": "Check-up de rotina",
-          "prescription": "Suplementação de vitamina D 2000UI - 1x ao dia",
-          "notes": "Paciente em bom estado geral"
-        }
-      ],
-      "exams": [
-        {
-          "id": "e3",
-          "type": "Hemograma completo",
-          "date": "2024-10-01",
-          "result": "Normal",
-          "doctorId": "d1",
-          "notes": "Todos os parâmetros dentro da normalidade"
-        }
-      ]
-    },
-    {
-      "id": "p4",
-      "name": "Pedro Santos",
-      "email": "pedro.santos@email.com",
-      "password": "123456",
-      "role": "patient",
-      "phone": "(11) 94444-4444",
-      "address": "Rua Oscar Freire, 1000, São Paulo - SP",
-      "birthDate": "1978-11-30",
+      "phone": "(11) 93333-3333",
+      "address": "Rua Teodoro Sampaio, 800, São Paulo - SP",
+      "birthDate": "1995-05-20",
       "gender": "MASCULINO",
-      "doctors": [
-        "d2"
-      ],
+      "doctors": ["5d43e036-63ab-4c2c-8e50-6acc69b8aa89"],
       "clinicalData": {
-        "bloodType": "AB+",
-        "allergies": [],
-        "chronicConditions": [
-          "Enxaqueca"
-        ],
-        "medications": [
-          "Propranolol 40mg"
-        ]
+        "bloodType": "O-",
+        "allergies": ["Morfina", "Contraste Iodado"],
+        "chronicConditions": ["Ansiedade", "Insônia"],
+        "medications": ["Escitalopram 10mg", "Zolpidem 10mg"],
+        "symptoms": {
+          "fever": false,
+          "malaise": false,
+          "swellingAtBiteLocation": false,
+          "swollenEyes": true,
+          "fatigue": false,
+          "nauseaAndVomiting": false,
+          "diarrhea": false,
+          "lymphNodeInflammation": false,
+          "bodyNodes": false,
+          "bodyRedness": false,
+          "enlargedLiverAndSpleen": false
+        },
+        "description": "Primeira consulta - avaliação inicial"
       },
       "medicalHistory": [
+        {
+          "id": "mh8",
+          "date": "2024-05-20",
+          "diagnosis": "Transtorno de Ansiedade",
+          "prescription": "Escitalopram 10mg - 1x ao dia",
+          "notes": "Sintomas de ansiedade generalizada"
+        },
+        {
+          "id": "mh9",
+          "date": "2024-06-05",
+          "diagnosis": "Insônia",
+          "prescription": "Zolpidem 10mg - 1x à noite",
+          "notes": "Dificuldade para dormir"
+        },
         {
           "id": "mh4",
           "date": "2024-11-28",
-          "doctorId": "d2",
           "diagnosis": "Enxaqueca crônica",
           "prescription": "Propranolol 40mg - 1x ao dia",
           "notes": "Paciente relata melhora dos sintomas"
@@ -214,450 +92,131 @@
       ],
       "exams": [
         {
-          "id": "e4",
-          "type": "Ressonância magnética",
-          "date": "2024-11-28",
-          "result": "Sem alterações significativas",
-          "doctorId": "d2",
-          "notes": "Exame realizado para investigação de enxaqueca"
-        }
-      ]
-    },
-    {
-      "id": "p5",
-      "name": "Lucia Ferreira",
-      "email": "lucia.ferreira@email.com",
-      "password": "123456",
-      "role": "patient",
-      "phone": "(11) 93333-3333",
-      "address": "Rua Augusta, 200, São Paulo - SP",
-      "birthDate": "1982-07-25",
-      "gender": "FEMININO",
-      "doctors": [
-        "d2"
-      ],
-      "clinicalData": {
-        "bloodType": "O-",
-        "allergies": [
-          "Frutos do mar"
-        ],
-        "chronicConditions": [
-          "Epilepsia"
-        ],
-        "medications": [
-          "Carbamazepina 200mg"
-        ]
-      },
-      "medicalHistory": [
-        {
-          "id": "mh5",
-          "date": "2024-12-05",
-          "doctorId": "d2",
-          "diagnosis": "Epilepsia controlada",
-          "prescription": "Carbamazepina 200mg - 2x ao dia",
-          "notes": "Paciente sem crises há 6 meses"
-        }
-      ],
-      "exams": [
-        {
-          "id": "e5",
-          "type": "Eletroencefalograma",
-          "date": "2024-12-05",
-          "result": "Alterações leves",
-          "doctorId": "d2",
-          "notes": "Padrão consistente com epilepsia controlada"
-        }
-      ]
-    },
-    {
-      "id": "p6",
-      "name": "Roberto Almeida",
-      "email": "roberto.almeida@email.com",
-      "password": "123456",
-      "role": "patient",
-      "phone": "(11) 92222-2222",
-      "address": "Rua das Palmeiras, 789, São Paulo - SP",
-      "birthDate": "1988-12-15",
-      "gender": "MASCULINO",
-      "doctors": [
-        "d1"
-      ],
-      "clinicalData": {
-        "bloodType": "A-",
-        "allergies": [
-          "Dipirona"
-        ],
-        "chronicConditions": [
-          "Asma"
-        ],
-        "medications": [
-          "Salbutamol"
-        ]
-      },
-      "medicalHistory": [
-        {
-          "id": "mh6",
-          "date": "2024-08-08",
-          "doctorId": "d1",
-          "diagnosis": "Asma controlada",
-          "prescription": "Salbutamol - quando necessário",
-          "notes": "Paciente apresentou melhora significativa"
-        }
-      ],
-      "exams": [
-        {
-          "id": "e6",
-          "type": "Espirometria",
-          "date": "2024-08-08",
-          "result": "Leve obstrução",
-          "doctorId": "d1",
-          "notes": "Função pulmonar melhorou desde último exame"
-        }
-      ]
-    },
-    {
-      "id": "p7",
-      "name": "Camila Costa",
-      "email": "camila.costa@email.com",
-      "password": "123456",
-      "role": "patient",
-      "phone": "(11) 91111-1111",
-      "address": "Rua dos Ipês, 456, São Paulo - SP",
-      "birthDate": "1992-08-20",
-      "gender": "FEMININO",
-      "doctors": [
-        "d1"
-      ],
-      "clinicalData": {
-        "bloodType": "B+",
-        "allergies": [],
-        "chronicConditions": [
-          "Ansiedade"
-        ],
-        "medications": [
-          "Sertralina 50mg"
-        ]
-      },
-      "medicalHistory": [
-        {
-          "id": "mh7",
-          "date": "2024-09-07",
-          "doctorId": "d1",
-          "diagnosis": "Ansiedade generalizada",
-          "prescription": "Sertralina 50mg - 1x ao dia",
-          "notes": "Paciente relata melhora dos sintomas"
-        }
-      ],
-      "exams": [
-        {
-          "id": "e7",
-          "type": "Exame de sangue",
-          "date": "2024-09-07",
-          "result": "Normal",
-          "doctorId": "d1",
-          "notes": "Todos os parâmetros dentro da normalidade"
-        }
-      ]
-    },
-    {
-      "id": "p8",
-      "name": "Fernando Santos",
-      "email": "fernando.santos@email.com",
-      "password": "123456",
-      "role": "patient",
-      "phone": "(11) 90000-0000",
-      "address": "Av. Rebouças, 789, São Paulo - SP",
-      "birthDate": "1975-04-10",
-      "gender": "MASCULINO",
-      "doctors": [
-        "d1"
-      ],
-      "clinicalData": {
-        "bloodType": "O+",
-        "allergies": [
-          "Amoxicilina"
-        ],
-        "chronicConditions": [
-          "Artrite"
-        ],
-        "medications": [
-          "Ibuprofeno 600mg"
-        ]
-      },
-      "medicalHistory": [
-        {
-          "id": "mh8",
-          "date": "2024-10-06",
-          "doctorId": "d1",
-          "diagnosis": "Artrite reumatoide",
-          "prescription": "Ibuprofeno 600mg - quando necessário",
-          "notes": "Paciente com dores articulares controladas"
-        }
-      ],
-      "exams": [
-        {
           "id": "e8",
-          "type": "Raio-X",
-          "date": "2024-10-06",
-          "result": "Alterações leves",
-          "doctorId": "d1",
-          "notes": "Sinais de desgaste articular"
-        }
-      ]
-    },
-    {
-      "id": "p9",
-      "name": "Patricia Lima",
-      "email": "patricia.lima@email.com",
-      "password": "123456",
-      "role": "patient",
-      "phone": "(11) 98888-7777",
-      "address": "Rua Augusta, 1234, São Paulo - SP",
-      "birthDate": "1983-11-25",
-      "gender": "FEMININO",
-      "doctors": [
-        "d1"
-      ],
-      "clinicalData": {
-        "bloodType": "AB+",
-        "allergies": [],
-        "chronicConditions": [
-          "Hipotireoidismo"
-        ],
-        "medications": [
-          "Levotiroxina 75mcg"
-        ]
-      },
-      "medicalHistory": [
-        {
-          "id": "mh9",
-          "date": "2024-11-05",
-          "doctorId": "d1",
-          "diagnosis": "Hipotireoidismo",
-          "prescription": "Levotiroxina 75mcg - 1x ao dia",
-          "notes": "TSH normalizado"
-        }
-      ],
-      "exams": [
+          "type": "Exame Psiquiátrico",
+          "date": "2024-05-20",
+          "result": "Alterado",
+          "notes": "Sintomas compatíveis com TAG"
+        },
         {
           "id": "e9",
-          "type": "TSH e T4 livre",
-          "date": "2024-11-05",
-          "result": "TSH: 2.5, T4L: 1.2",
-          "doctorId": "d1",
-          "notes": "Valores dentro da normalidade"
+          "type": "Polissonografia",
+          "date": "2024-06-05",
+          "result": "Alterado",
+          "notes": "Latência do sono aumentada"
+        }
+      ],
+      "examRequests": [
+        {
+          "id": "152e5167-5123-406f-aa8f-c203f78c183b",
+          "requestDate": "2024-11-27T06:55:54.558Z",
+          "status": "CONCLUIDO",
+          "examType": "HEMAGLUTINACAO",
+          "result": {
+            "id": "r-152e5167",
+            "examRequestId": "152e5167-5123-406f-aa8f-c203f78c183b",
+            "resultDate": "2024-08-11T14:00:00Z",
+            "value": "1.2",
+            "isConclusive": true,
+            "diagnosis": "POSITIVO",
+            "notes": "Resultado positivo para doença de Chagas"
+          }
+        },
+        {
+          "id": "24a69649-ba6c-4a2d-b185-28aa1a73c74b",
+          "requestDate": "2024-11-27T06:57:51.493Z",
+          "status": "PENDENTE",
+          "examType": "WESTERN_BLOT",
+          "result": null
         }
       ]
-    }
-  ],
-  "exam-requests": [
-    {
-      "id": "p1-1",
-      "patientId": "p1",
-      "doctorId": "d1",
-      "examType": "ELISA",
-      "requestDate": "2024-08-10T10:10:00Z",
-      "status": "CONCLUIDO",
-      "result": {
-        "id": "r-p1-1",
-        "examRequestId": "p1-1",
-        "resultDate": "2024-08-11T14:00:00Z",
-        "value": "1.2",
-        "isConclusive": true,
-        "diagnosis": "POSITIVO",
-        "notes": "Resultado positivo para doença de Chagas"
-      }
     },
     {
-      "id": "p1-2",
-      "patientId": "p1",
-      "doctorId": "d1",
-      "examType": "IFI",
-      "requestDate": "2024-08-12T10:10:00Z",
-      "status": "EM_ANALISE"
-    },
-    {
-      "id": "p3-1",
-      "patientId": "p3",
-      "doctorId": "d1",
-      "examType": "WESTERN_BLOT",
-      "requestDate": "2024-08-10T10:10:00Z",
-      "status": "CONCLUIDO",
-      "result": {
-        "id": "r-p3-1",
-        "examRequestId": "p3-1",
-        "resultDate": "2024-08-11T14:00:00Z",
-        "value": "0.8",
-        "isConclusive": true,
-        "diagnosis": "NEGATIVO",
-        "notes": "Resultado negativo para doença de Chagas"
-      }
-    },
-    {
-      "id": "p3-2",
-      "patientId": "p3",
-      "doctorId": "d1",
-      "examType": "HEMAGLUTINACAO",
-      "requestDate": "2024-08-12T10:10:00Z",
-      "status": "PENDENTE"
-    },
-    {
-      "id": "p4-1",
-      "patientId": "p4",
-      "doctorId": "d2",
-      "examType": "IFI",
-      "requestDate": "2024-08-10T10:10:00Z",
-      "status": "CONCLUIDO",
-      "result": {
-        "id": "r-p4-1",
-        "examRequestId": "p4-1",
-        "resultDate": "2024-08-11T14:00:00Z",
-        "value": "1:80",
-        "isConclusive": true,
-        "diagnosis": "NEGATIVO",
-        "notes": "Título não significativo"
-      }
-    },
-    {
-      "id": "p4-2",
-      "patientId": "p4",
-      "doctorId": "d2",
-      "examType": "WESTERN_BLOT",
-      "requestDate": "2024-08-12T10:10:00Z",
-      "status": "PENDENTE"
-    },
-    {
-      "id": "p5-1",
-      "patientId": "p5",
-      "doctorId": "d2",
-      "examType": "ELISA",
-      "requestDate": "2024-08-10T10:10:00Z",
-      "status": "CONCLUIDO",
-      "result": {
-        "id": "r-p5-1",
-        "examRequestId": "p5-1",
-        "resultDate": "2024-08-11T14:00:00Z",
-        "value": "0.3",
-        "isConclusive": true,
-        "diagnosis": "NEGATIVO",
-        "notes": "Resultado negativo para doença de Chagas"
-      }
-    },
-    {
-      "id": "p5-2",
-      "patientId": "p5",
-      "doctorId": "d2",
-      "examType": "IFI",
-      "requestDate": "2024-08-12T10:10:00Z",
-      "status": "PENDENTE"
-    },
-    {
-      "id": "p6-1",
-      "patientId": "p6",
-      "doctorId": "d1",
-      "examType": "HEMAGLUTINACAO",
-      "requestDate": "2024-08-10T10:10:00Z",
-      "status": "CONCLUIDO",
-      "result": {
-        "id": "r-p6-1",
-        "examRequestId": "p6-1",
-        "resultDate": "2024-08-11T14:00:00Z",
-        "value": "1:320",
-        "isConclusive": true,
-        "diagnosis": "POSITIVO",
-        "notes": "Título altamente significativo"
-      }
-    },
-    {
-      "id": "p6-2",
-      "patientId": "p6",
-      "doctorId": "d1",
-      "examType": "ELISA",
-      "requestDate": "2024-08-12T10:10:00Z",
-      "status": "PENDENTE"
-    },
-    {
-      "id": "p7-1",
-      "patientId": "p7",
-      "doctorId": "d1",
-      "examType": "WESTERN_BLOT",
-      "requestDate": "2024-08-10T10:10:00Z",
-      "status": "CONCLUIDO",
-      "result": {
-        "id": "r-p7-1",
-        "examRequestId": "p7-1",
-        "resultDate": "2024-08-11T14:00:00Z",
-        "value": "1.5",
-        "isConclusive": true,
-        "diagnosis": "POSITIVO",
-        "notes": "Resultado positivo para doença de Chagas"
-      }
-    },
-    {
-      "id": "p7-2",
-      "patientId": "p7",
-      "doctorId": "d1",
-      "examType": "HEMAGLUTINACAO",
-      "requestDate": "2024-08-12T10:10:00Z",
-      "status": "PENDENTE"
-    },
-    {
-      "id": "p8-1",
-      "patientId": "p8",
-      "doctorId": "d1",
-      "examType": "IFI",
-      "requestDate": "2024-08-10T10:10:00Z",
-      "status": "CONCLUIDO",
-      "result": {
-        "id": "r-p8-1",
-        "examRequestId": "p8-1",
-        "resultDate": "2024-08-11T14:00:00Z",
-        "value": "1:40",
-        "isConclusive": true,
-        "diagnosis": "NEGATIVO",
-        "notes": "Título não significativo"
-      }
-    },
-    {
-      "id": "p8-2",
-      "patientId": "p8",
-      "doctorId": "d1",
-      "examType": "WESTERN_BLOT",
-      "requestDate": "2024-08-12T10:10:00Z",
-      "status": "EM_ANALISE"
-    },
-    {
-      "id": "p9-1",
-      "patientId": "p9",
-      "doctorId": "d1",
-      "examType": "ELISA",
-      "requestDate": "2024-08-10T10:10:00Z",
-      "status": "CONCLUIDO",
-      "result": {
-        "id": "r-p9-1",
-        "examRequestId": "p9-1",
-        "resultDate": "2024-08-11T14:00:00Z",
-        "value": "0.9",
-        "isConclusive": true,
-        "diagnosis": "NEGATIVO",
-        "notes": "Resultado negativo para doença de Chagas"
-      }
-    },
-    {
-      "id": "p9-2",
-      "patientId": "p9",
-      "doctorId": "d1",
-      "examType": "IFI",
-      "requestDate": "2024-08-12T10:10:00Z",
-      "status": "EM_ANALISE"
-    },
-    {
-      "id": "92a0",
-      "patientId": "p1",
-      "doctorId": "d1",
-      "examType": "WESTERN_BLOT",
-      "requestDate": "2024-11-26T06:05:56.707Z",
-      "status": "PENDENTE"
+      "id": "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
+      "name": "Bruno Lima",
+      "email": "brunolima@gmail.com",
+      "password": "123456",
+      "role": "patient",
+      "phone": "(11) 97777-7777",
+      "address": "Avenida Paulista, 1000, São Paulo - SP",
+      "birthDate": "1988-09-15",
+      "gender": "MASCULINO",
+      "doctors": ["5d43e036-63ab-4c2c-8e50-6acc69b8aa89"],
+      "clinicalData": {
+        "bloodType": "B+",
+        "allergies": ["Penicilina"],
+        "chronicConditions": ["Hipertensão"],
+        "medications": ["Losartana 50mg"],
+        "symptoms": {
+          "fever": false,
+          "malaise": false,
+          "swellingAtBiteLocation": false,
+          "swollenEyes": false,
+          "fatigue": true,
+          "nauseaAndVomiting": false,
+          "diarrhea": false,
+          "lymphNodeInflammation": false,
+          "bodyNodes": false,
+          "bodyRedness": false,
+          "enlargedLiverAndSpleen": false
+        },
+        "description": "Primeira consulta - avaliação de hipertensão"
+      },
+      "medicalHistory": [
+        {
+          "id": "mh10",
+          "date": "2024-11-30",
+          "diagnosis": "Hipertensão Arterial",
+          "prescription": "Losartana 50mg - 1x ao dia",
+          "notes": "Paciente apresenta pressão arterial elevada"
+        }
+      ],
+      "exams": [
+        {
+          "id": "e10",
+          "type": "Eletrocardiograma",
+          "date": "2024-11-30",
+          "result": "Normal",
+          "notes": "Sem alterações significativas"
+        },
+        {
+          "id": "e11",
+          "type": "Hemograma Completo",
+          "date": "2024-11-30",
+          "result": "Alterado",
+          "notes": "Leucócitos levemente aumentados"
+        },
+        {
+          "id": "e12",
+          "type": "Glicemia em Jejum",
+          "date": "2024-11-30",
+          "result": "Normal",
+          "notes": "Níveis dentro da faixa de referência"
+        },
+        {
+          "id": "e13",
+          "type": "Colesterol Total e Frações",
+          "date": "2024-11-30",
+          "result": "Alterado",
+          "notes": "LDL elevado"
+        },
+        {
+          "id": "e14",
+          "type": "TSH e T4 livre",
+          "date": "2024-11-30",
+          "result": "Normal",
+          "notes": "Função tireoidiana adequada"
+        }
+      ],
+      "examRequests": [
+        {
+          "id": "9e41c5f1-314b-477f-a0f2-198923f97869",
+          "requestDate": "2024-11-27T06:56:10.366Z",
+          "status": "PENDENTE",
+          "examType": "WESTERN_BLOT",
+          "result": null
+        }
+      ]
     }
   ]
 }

@@ -45,7 +45,7 @@ function RootLayoutContent() {
 
   return (
     <View onLayout={onLayoutRootView} className="flex-1 bg-background">
-      <StatusBar style={colorScheme === "dark" ? "dark" : "dark"} />
+      <StatusBar style="dark" />
       <Slot />
     </View>
   );

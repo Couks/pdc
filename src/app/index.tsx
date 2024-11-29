@@ -5,6 +5,8 @@ export default function Index() {
   const { user } = useAuth();
 
   if (user) {
-    return <Redirect href="/auth/login" />;
+    return <Redirect href={user.role === "doctor" ? "/doctor" : "/patient"} />;
   }
+
+  return <Redirect href="/auth/login" />;
 }

@@ -1,28 +1,30 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
-import { useQuery } from "@tanstack/react-query";
-import { examService } from "@/services/examService";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { examService } from "@/services/api";
 import { ExamResult } from "@/components/exam/ExamResult";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import { Skeleton } from "@/components/common/Skeleton";
-import { ExamRequest } from "@/types/exam.types";
 import { Button } from "@/components/common/Button";
+import { ExamRequest, ChagasExamType } from "@/types";
 import { router } from "expo-router";
 import Animated, {
   FadeInDown,
   LinearTransition,
 } from "react-native-reanimated";
+import { TouchableOpacity } from "react-native";
 
 const CHAGAS_EXAM_TYPES = ["ELISA", "IFI", "WESTERN_BLOT", "HEMAGLUTINACAO"];
 
-function isChagasExam(examType: string): boolean {
+function isChagasExam(examType: ChagasExamType): boolean {
   return CHAGAS_EXAM_TYPES.includes(examType);
 }
 
 export default function PatientExams() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const queryClient = useQueryClient();
 
   const handleRequestNewExam = () => {
     router.push({
@@ -31,12 +33,44 @@ export default function PatientExams() {
     });
   };
 
-  const { data: exams, isLoading } = useQuery({
+  const { data: examRequests, isLoading: isLoadingExams } = useQuery({
     queryKey: ["patient-exams", id],
     queryFn: () => examService.getPatientExams(id),
   });
 
-  if (isLoading) {
+  const { data: complementaryExams, isLoading: isLoadingComplementary } =
+    useQuery({
+      queryKey: ["complementary-exams", id],
+      queryFn: () => examService.getComplementaryExams(id),
+    });
+
+  const deleteExamMutation = useMutation({
+    mutationFn: (examId: string) => examService.deleteExam(id, examId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["patient-exams", id] });
+      queryClient.invalidateQueries({ queryKey: ["complementary-exams", id] });
+    },
+  });
+
+  const handleDeleteExam = (examId: string) => {
+    Alert.alert(
+      "Confirmar Exclusão",
+      "Tem certeza que deseja excluir este exame? Esta ação não pode ser desfeita.",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: () => deleteExamMutation.mutate(examId),
+        },
+      ]
+    );
+  };
+
+  if (isLoadingExams || isLoadingComplementary) {
     return (
       <SafeAreaView className="flex-1 bg-background">
         <View className="flex-1">
@@ -58,9 +92,8 @@ export default function PatientExams() {
   }
 
   const chagasExams =
-    exams?.filter((exam) => isChagasExam(exam.examType)) || [];
-  const complementaryExams =
-    exams?.filter((exam) => !isChagasExam(exam.examType)) || [];
+    examRequests?.filter((exam: ExamRequest) => isChagasExam(exam.examType)) ||
+    [];
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -70,7 +103,8 @@ export default function PatientExams() {
             Exames do Paciente
           </Text>
           <Text className="text-muted-foreground mt-1">
-            {exams?.length || 0} exames realizados
+            {(examRequests?.length || 0) + (complementaryExams?.length || 0)}{" "}
+            exames realizados
           </Text>
         </View>
 
@@ -123,7 +157,7 @@ export default function PatientExams() {
                         <View className="flex-row items-center mb-3">
                           <View className="w-12 h-12 bg-primary/20 rounded-full items-center justify-center mr-4">
                             <Ionicons
-                              name="flask-outline"
+                              name="flask"
                               size={24}
                               color="hsl(var(--primary))"
                             />
@@ -137,30 +171,42 @@ export default function PatientExams() {
                               {new Date(exam.requestDate).toLocaleDateString()}
                             </Text>
                           </View>
-                          <View
-                            className={`px-3 py-1 rounded-full ${
-                              exam.status === "CONCLUIDO"
-                                ? "bg-green-100"
-                                : exam.status === "EM_ANALISE"
-                                ? "bg-yellow-100"
-                                : "bg-blue-100"
-                            }`}
-                          >
-                            <Text
-                              className={
+                          <View className="flex-row items-center gap-2">
+                            <View
+                              className={`px-3 py-1 rounded-full ${
                                 exam.status === "CONCLUIDO"
-                                  ? "text-green-600"
+                                  ? "bg-green-100"
                                   : exam.status === "EM_ANALISE"
-                                  ? "text-yellow-600"
-                                  : "text-blue-600"
-                              }
+                                  ? "bg-yellow-100"
+                                  : "bg-blue-100"
+                              }`}
                             >
-                              {exam.status === "CONCLUIDO"
-                                ? "Concluído"
-                                : exam.status === "EM_ANALISE"
-                                ? "Em Análise"
-                                : "Pendente"}
-                            </Text>
+                              <Text
+                                className={
+                                  exam.status === "CONCLUIDO"
+                                    ? "text-green-600"
+                                    : exam.status === "EM_ANALISE"
+                                    ? "text-yellow-600"
+                                    : "text-blue-600"
+                                }
+                              >
+                                {exam.status === "CONCLUIDO"
+                                  ? "Concluído"
+                                  : exam.status === "EM_ANALISE"
+                                  ? "Em Análise"
+                                  : "Pendente"}
+                              </Text>
+                            </View>
+                            <TouchableOpacity
+                              onPress={() => handleDeleteExam(exam.id)}
+                              className="p-2"
+                            >
+                              <Ionicons
+                                name="trash-outline"
+                                size={20}
+                                color="hsl(var(--destructive))"
+                              />
+                            </TouchableOpacity>
                           </View>
                         </View>
 
@@ -187,7 +233,15 @@ export default function PatientExams() {
                                 </View>
                               </View>
                             )}
-                            <ExamResult result={exam.result} />
+                            <ExamResult
+                              result={{
+                                ...exam.result,
+                                examType: exam.examType,
+                                description: exam.result.notes || "",
+                                date:
+                                  exam.result.resultDate || exam.requestDate,
+                              }}
+                            />
                           </>
                         )}
                       </CardContent>
@@ -202,7 +256,7 @@ export default function PatientExams() {
               <Text className="text-xl font-semibold text-foreground mb-4">
                 Exames Complementares
               </Text>
-              {complementaryExams.map((exam: ExamRequest) => (
+              {complementaryExams?.map((exam: ExamRequest) => (
                 <Animated.View
                   key={exam.id}
                   entering={FadeInDown.duration(600)}
@@ -214,7 +268,7 @@ export default function PatientExams() {
                       <View className="flex-row items-center mb-3">
                         <View className="w-12 h-12 bg-muted rounded-full items-center justify-center mr-4">
                           <Ionicons
-                            name="document-text-outline"
+                            name="document-text"
                             size={24}
                             color="hsl(var(--muted-foreground))"
                           />
@@ -228,30 +282,42 @@ export default function PatientExams() {
                             {new Date(exam.requestDate).toLocaleDateString()}
                           </Text>
                         </View>
-                        <View
-                          className={`px-3 py-1 rounded-full ${
-                            exam.status === "CONCLUIDO"
-                              ? "bg-green-100"
-                              : exam.status === "EM_ANALISE"
-                              ? "bg-yellow-100"
-                              : "bg-blue-100"
-                          }`}
-                        >
-                          <Text
-                            className={
+                        <View className="flex-row items-center gap-2">
+                          <View
+                            className={`px-3 py-1 rounded-full ${
                               exam.status === "CONCLUIDO"
-                                ? "text-green-600"
+                                ? "bg-green-100"
                                 : exam.status === "EM_ANALISE"
-                                ? "text-yellow-600"
-                                : "text-blue-600"
-                            }
+                                ? "bg-yellow-100"
+                                : "bg-blue-100"
+                            }`}
                           >
-                            {exam.status === "CONCLUIDO"
-                              ? "Concluído"
-                              : exam.status === "EM_ANALISE"
-                              ? "Em Análise"
-                              : "Pendente"}
-                          </Text>
+                            <Text
+                              className={
+                                exam.status === "CONCLUIDO"
+                                  ? "text-green-600"
+                                  : exam.status === "EM_ANALISE"
+                                  ? "text-yellow-600"
+                                  : "text-blue-600"
+                              }
+                            >
+                              {exam.status === "CONCLUIDO"
+                                ? "Concluído"
+                                : exam.status === "EM_ANALISE"
+                                ? "Em Análise"
+                                : "Pendente"}
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => handleDeleteExam(exam.id)}
+                            className="p-2"
+                          >
+                            <Ionicons
+                              name="trash-outline"
+                              size={20}
+                              color="hsl(var(--destructive))"
+                            />
+                          </TouchableOpacity>
                         </View>
                       </View>
 
@@ -278,7 +344,14 @@ export default function PatientExams() {
                               </View>
                             </View>
                           )}
-                          <ExamResult result={exam.result} />
+                          <ExamResult
+                            result={{
+                              ...exam.result,
+                              examType: exam.examType,
+                              description: exam.result.notes || "",
+                              date: exam.result.resultDate || exam.requestDate,
+                            }}
+                          />
                         </>
                       )}
                     </CardContent>
@@ -287,7 +360,7 @@ export default function PatientExams() {
               ))}
             </View>
 
-            {(!exams || exams.length === 0) && (
+            {!examRequests?.length && !complementaryExams?.length && (
               <Animated.View
                 entering={FadeInDown.duration(600)}
                 layout={LinearTransition.springify()}
@@ -297,7 +370,7 @@ export default function PatientExams() {
                   <CardContent className="py-8">
                     <View className="items-center">
                       <Ionicons
-                        name="document-text-outline"
+                        name="document-text"
                         size={48}
                         color="hsl(var(--muted-foreground))"
                       />

@@ -1,14 +1,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { router } from "expo-router";
+
+import { authService } from "@/services/api";
 import {
+  Doctor,
+  Patient,
   LoginCredentials,
   RegisterCredentials,
-  AuthResponse,
-} from "@/types/auth.types";
-import { Doctor } from "@/types/doctor.types";
-import { Patient } from "@/types/patient.types";
-import { authService, api } from "@/services/api";
-import axios from "axios";
+} from "@/types";
 
 type User = Doctor | Patient;
 
@@ -38,8 +37,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (currentUser) {
         setUser(currentUser);
         setIsAuthenticated(true);
+      } else {
+        router.replace("/auth/login");
       }
     } catch (error) {
+      router.replace("/auth/login");
       console.error("Erro ao verificar autenticação:", error);
     } finally {
       setIsLoading(false);
@@ -47,13 +49,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const login = async (credentials: LoginCredentials) => {
+    if (!credentials.password) {
+      throw new Error("Senha é obrigatória");
+    }
+
     try {
       setIsLoading(true);
       const { user: loggedUser, token } = await authService.login(credentials);
-      setUser(loggedUser);
+      setUser(loggedUser as User);
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Erro detalhado:", error);
+      router.replace("/auth/login");
       throw error;
     } finally {
       setIsLoading(false);
@@ -61,15 +68,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const register = async (credentials: RegisterCredentials) => {
+    if (!credentials.password) {
+      throw new Error("Senha é obrigatória");
+    }
+
     try {
       setIsLoading(true);
       const { user: registeredUser, token } = await authService.register(
         credentials
       );
-      setUser(registeredUser);
+      setUser(registeredUser as User);
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Erro no registro:", error);
+      router.replace("/auth/login");
       throw error;
     } finally {
       setIsLoading(false);

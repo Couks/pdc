@@ -1,33 +1,32 @@
 import { Tabs } from "expo-router";
-import { useColorScheme } from "react-native";
-import Animated, { useSharedValue } from "react-native-reanimated";
 import { AnimatedTabBar } from "@/components/navigation/AnimatedTabBar";
 
 const PATIENT_TABS = [
   {
     name: "dashboard",
-    icon: "home-outline",
+    icon: "home",
     label: "Início",
   },
   {
     name: "exams",
-    icon: "document-text-outline",
+    icon: "document-text",
     label: "Exames",
   },
-  {
-    name: "profile",
-    icon: "person-outline",
-    label: "Perfil",
-  },
+
   {
     name: "history",
-    icon: "card-outline",
+    icon: "card",
     label: "Histórico",
   },
   {
     name: "clinical",
-    icon: "documents-outline",
+    icon: "documents",
     label: "Dados",
+  },
+  {
+    name: "profile",
+    icon: "person",
+    label: "Perfil",
   },
 ] satisfies Array<{
   name: string;
@@ -41,9 +40,17 @@ export default function TabsLayout() {
       screenOptions={{
         headerStyle: {
           backgroundColor: "hsl(var(--background))",
+          borderBottomWidth: 1,
+          borderBottomColor: "hsl(var(--border))",
+          elevation: 0,
+          shadowOpacity: 0,
+          height: 20,
         },
+        headerTitleAlign: "center",
+        headerShadowVisible: false,
         headerTintColor: "hsl(var(--foreground))",
         headerShown: true,
+        headerTitle: "",
         tabBarShowLabel: false,
       }}
       tabBar={(props) => <AnimatedTabBar {...props} tabs={PATIENT_TABS} />}
@@ -60,12 +67,7 @@ export default function TabsLayout() {
           title: "Exames",
         }}
       />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Perfil",
-        }}
-      />
+
       <Tabs.Screen
         name="history"
         options={{
@@ -76,6 +78,12 @@ export default function TabsLayout() {
         name="clinical"
         options={{
           title: "Dados",
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Perfil",
         }}
       />
     </Tabs>
