@@ -36,11 +36,9 @@ export const authService = {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
       const endpoint = credentials.role === "doctor" ? "doctors" : "patients";
-      const { data: users } = await api.get(`/${endpoint}`, {
-        params: { email: credentials.email },
-      });
+      const { data: users } = await api.get(`/${endpoint}`);
 
-      const user = users[0];
+      const user = users.find((u: any) => u.email === credentials.email);
       if (!user) {
         throw new Error("Usuário não encontrado");
       }
@@ -76,11 +74,10 @@ export const authService = {
   async register(credentials: RegisterCredentials): Promise<AuthResponse> {
     try {
       const endpoint = credentials.role === "doctor" ? "doctors" : "patients";
-      const { data: existingUsers } = await api.get(`/${endpoint}`, {
-        params: { email: credentials.email },
-      });
+      const { data: users } = await api.get(`/${endpoint}`);
 
-      if (existingUsers.length > 0) {
+      const userExists = users.some((u: any) => u.email === credentials.email);
+      if (userExists) {
         throw new Error("Email já cadastrado");
       }
 
@@ -125,22 +122,25 @@ export const authService = {
                 description: "",
               },
               medicalHistory: [],
+              exams: [],
               examRequests: [],
-              complementaryExams: [],
             }),
       };
 
       const { data: createdUser } = await api.post(`/${endpoint}`, newUser);
 
+      // Atualizar auth tokens
+      const { data: authData } = await api.get("/auth");
       const newToken = {
         id: newId,
         token: `jwt_${uuid.v4()}`,
         role: credentials.role,
       };
 
-      const { data: authData } = await api.get("/auth");
-      authData.tokens.push(newToken);
-      await api.put("/auth", authData);
+      await api.put("/auth", {
+        ...authData,
+        tokens: [...authData.tokens, newToken],
+      });
 
       await AsyncStorage.multiSet([
         ["@auth_token", newToken.token],
@@ -164,64 +164,32 @@ export const authService = {
   },
 
   async getCurrentUser(): Promise<User | null> {
-    const token = await AsyncStorage.getItem("@auth_token");
-    const userId = await AsyncStorage.getItem("@user_id");
-    const userRole = await AsyncStorage.getItem("@user_role");
+    try {
+      const userId = await AsyncStorage.getItem("@user_id");
+      const userRole = await AsyncStorage.getItem("@user_role");
 
-    if (!token || !userId || !userRole) {
+      if (!userId || !userRole) {
+        return null;
+      }
+
+      const endpoint = userRole === "doctor" ? "doctors" : "patients";
+      const { data: users } = await api.get(`/${endpoint}`);
+      const user = users.find((u: any) => u.id === userId);
+
+      if (!user) {
+        return null;
+      }
+
+      const { password: _, ...userWithoutPassword } = user;
+      return userWithoutPassword as User;
+    } catch (error) {
+      console.error("Erro ao buscar usuário atual:", error);
       return null;
     }
-
-    const endpoint = userRole === "doctor" ? "doctors" : "patients";
-    const { data: user } = await api.get(`/${endpoint}/${userId}`);
-
-    if (!user) {
-      return null;
-    }
-
-    const { password: _, ...userWithoutPassword } = user;
-    return userWithoutPassword as User;
   },
 };
 
 export const doctorService = {
-  async create(
-    data: Partial<
-      BaseUser & { crm: string; specialization: string; patients: string[] }
-    >
-  ) {
-    const newDoctor = {
-      ...data,
-      id: uuid.v4() as string,
-    };
-    const { data: created } = await api.post("/doctors", newDoctor);
-    return created;
-  },
-
-  async getAll() {
-    const { data } = await api.get("/doctors");
-    return data;
-  },
-
-  async getById(id: string) {
-    const { data } = await api.get(`/doctors/${id}`);
-    return data;
-  },
-
-  async update(
-    id: string,
-    data: Partial<
-      BaseUser & { crm: string; specialization: string; patients: string[] }
-    >
-  ) {
-    const { data: updated } = await api.put(`/doctors/${id}`, data);
-    return updated;
-  },
-
-  async delete(id: string) {
-    await api.delete(`/doctors/${id}`);
-  },
-
   async getPatients(doctorId: string) {
     try {
       const { data: patients } = await api.get("/patients");
@@ -235,237 +203,71 @@ export const doctorService = {
   },
 
   async addPatient(doctorId: string, patientId: string) {
-    const { data: doctor } = await api.get(`/doctors/${doctorId}`);
-    const updatedPatients = [...doctor.patients, patientId];
-    return this.update(doctorId, { patients: updatedPatients });
-  },
-
-  async removePatient(doctorId: string, patientId: string) {
-    const { data: doctor } = await api.get(`/doctors/${doctorId}`);
-    const updatedPatients = doctor.patients.filter(
-      (id: string) => id !== patientId
-    );
-    return this.update(doctorId, { patients: updatedPatients });
-  },
-
-  getPatientExams: async (patientId: string) => {
-    const response = await api.get(`/patients/${patientId}/exams`);
-    return response.data;
-  },
-
-  getPatientChagasExams: async (patientId: string) => {
     try {
-      const { data: patient } = await api.get(`/patients/${patientId}`);
-      return (
-        patient.examRequests.filter((exam: any) => exam.type === "CHAGAS") || []
-      );
-    } catch (error) {
-      console.error("Erro ao buscar exames de chagas:", error);
-      throw error;
-    }
-  },
+      const { data: doctors } = await api.get("/doctors");
+      const { data: patients } = await api.get("/patients");
 
-  getPatientComplementaryExams: async (patientId: string) => {
-    try {
-      const { data: patient } = await api.get(`/patients/${patientId}`);
-      return patient.exams || [];
-    } catch (error) {
-      console.error("Erro ao buscar exames complementares:", error);
-      throw error;
-    }
-  },
-};
+      const doctor = doctors.find((d: any) => d.id === doctorId);
+      const patient = patients.find((p: any) => p.id === patientId);
 
-export const patientService = {
-  async create(
-    data: Partial<
-      BaseUser & {
-        birthDate: string;
-        gender: Gender;
-        doctors: string[];
-        clinicalData: ClinicalData;
-        medicalHistory: any[];
-        examRequests: any[];
-        complementaryExams: any[];
+      if (!doctor || !patient) {
+        throw new Error("Médico ou paciente não encontrado");
       }
-    >
-  ) {
-    const newPatient = {
-      ...data,
-      id: uuid.v4() as string,
-    };
-    const { data: created } = await api.post("/patients", newPatient);
-    return created;
-  },
 
-  async getAll() {
-    const { data } = await api.get("/patients");
-    return data;
-  },
-
-  async getById(id: string) {
-    const { data } = await api.get(`/patients/${id}`);
-    return data;
-  },
-
-  async update(
-    id: string,
-    data: Partial<
-      BaseUser & {
-        birthDate: string;
-        gender: Gender;
-        doctors: string[];
-        clinicalData: ClinicalData;
-        medicalHistory: any[];
-        examRequests: any[];
-        complementaryExams: any[];
-      }
-    >
-  ) {
-    const { data: updated } = await api.put(`/patients/${id}`, data);
-    return updated;
-  },
-
-  async delete(id: string) {
-    await api.delete(`/patients/${id}`);
-  },
-
-  async updateClinicalData(id: string, clinicalData: Partial<ClinicalData>) {
-    const { data: patient } = await api.get(`/patients/${id}`);
-    const updatedClinicalData = { ...patient.clinicalData, ...clinicalData };
-    return this.update(id, { clinicalData: updatedClinicalData });
-  },
-
-  async addMedicalHistory(id: string, historyItem: any) {
-    const { data: patient } = await api.get(`/patients/${id}`);
-    const newHistoryItem = {
-      id: `mh${uuid.v4().slice(0, 2)}`,
-      date: new Date().toISOString().split("T")[0],
-      diagnosis: historyItem.diagnosis,
-      prescription: historyItem.prescription,
-      notes: historyItem.notes,
-    };
-    const updatedHistory = [...patient.medicalHistory, newHistoryItem];
-    return this.update(id, { medicalHistory: updatedHistory });
-  },
-
-  async updateMedicalHistory(id: string, historyId: string, updates: any) {
-    const { data: patient } = await api.get(`/patients/${id}`);
-    const updatedHistory = patient.medicalHistory.map((item: any) =>
-      item.id === historyId ? { ...item, ...updates } : item
-    );
-    return this.update(id, { medicalHistory: updatedHistory });
-  },
-
-  getExams: async (patientId: string) => {
-    const response = await api.get(`/patients/${patientId}/exams`);
-    return response.data;
-  },
-  async getExamRequests(patientId: string) {
-    const { data: patient } = await api.get(`/patients/${patientId}`);
-    return patient.examRequests || [];
-  },
-
-  async getDoctors(patientId: string) {
-    const { data: patient } = await api.get(`/patients/${patientId}`);
-    const doctorPromises = patient.doctors.map((doctorId: string) =>
-      api.get(`/doctors/${doctorId}`).then((res) => res.data)
-    );
-    return Promise.all(doctorPromises);
-  },
-
-  async requestDoctor(patientId: string, doctorId: string) {
-    const { data: patient } = await api.get(`/patients/${patientId}`);
-    if (!patient.doctors.includes(doctorId)) {
-      await api.patch(`/patients/${patientId}`, {
-        doctors: [...patient.doctors, doctorId],
-      });
-    }
-
-    const { data: doctor } = await api.get(`/doctors/${doctorId}`);
-    if (!doctor.patients.includes(patientId)) {
-      await api.patch(`/doctors/${doctorId}`, {
+      // Atualizar médico
+      const updatedDoctor = {
+        ...doctor,
         patients: [...doctor.patients, patientId],
-      });
+      };
+      await api.put(`/doctors/${doctorId}`, updatedDoctor);
+
+      // Atualizar paciente
+      const updatedPatient = {
+        ...patient,
+        doctors: [...patient.doctors, doctorId],
+      };
+      await api.put(`/patients/${patientId}`, updatedPatient);
+
+      return updatedDoctor;
+    } catch (error) {
+      console.error("Erro ao adicionar paciente:", error);
+      throw error;
     }
   },
 };
 
 export const examService = {
-  async getPatientExams(patientId: string) {
-    try {
-      const { data: patient } = await api.get(`/patients/${patientId}`);
-      return patient.examRequests || [];
-    } catch (error) {
-      console.error("Erro ao buscar exames:", error);
-      throw error;
-    }
-  },
-
-  async getDoctorExams(doctorId: string) {
+  async createExamRequest(data: {
+    patientId: string;
+    doctorId: string;
+    examType: ChagasExamType;
+  }) {
     try {
       const { data: patients } = await api.get("/patients");
-      const doctorPatients = patients.filter((patient: any) =>
-        patient.doctors.includes(doctorId)
-      );
+      const patient = patients.find((p: any) => p.id === data.patientId);
 
-      return doctorPatients.flatMap((patient: any) =>
-        patient.examRequests.map((exam: any) => ({
-          ...exam,
-          patient: {
-            id: patient.id,
-            name: patient.name,
-          },
-        }))
-      );
-    } catch (error) {
-      console.error("Erro ao buscar exames do médico:", error);
-      throw error;
-    }
-  },
-
-  async createExamRequest(data: any) {
-    try {
-      const { data: patient } = await api.get(`/patients/${data.patientId}`);
+      if (!patient) {
+        throw new Error("Paciente não encontrado");
+      }
 
       const newExam = {
         id: `exam_${Date.now()}`,
         requestDate: new Date().toISOString(),
         status: "PENDENTE" as ExamStatus,
-        ...data,
+        patientId: data.patientId,
+        doctorId: data.doctorId,
+        examType: data.examType,
       };
 
-      const updatedExamRequests = [...patient.examRequests, newExam];
+      const updatedPatient = {
+        ...patient,
+        examRequests: [...patient.examRequests, newExam],
+      };
 
-      await api.patch(`/patients/${data.patientId}`, {
-        examRequests: updatedExamRequests,
-      });
-
+      await api.put(`/patients/${data.patientId}`, updatedPatient);
       return newExam;
     } catch (error) {
-      console.error("Erro ao criar exame:", error);
-      throw error;
-    }
-  },
-
-  async updateExamStatus(examId: string, status: ExamStatus) {
-    try {
-      const { data: patients } = await api.get("/patients");
-      const patient = patients.find((p: any) =>
-        p.examRequests.some((exam: any) => exam.id === examId)
-      );
-
-      if (!patient) throw new Error("Exame não encontrado");
-
-      const updatedExams = patient.examRequests.map((exam: any) =>
-        exam.id === examId ? { ...exam, status } : exam
-      );
-
-      await api.patch(`/patients/${patient.id}`, {
-        examRequests: updatedExams,
-      });
-    } catch (error) {
-      console.error("Erro ao atualizar status do exame:", error);
+      console.error("Erro ao criar solicitação de exame:", error);
       throw error;
     }
   },
@@ -476,51 +278,43 @@ export const examService = {
       diagnosis: Diagnosis;
       examType: ChagasExamType;
       description: string;
-      date: string;
       notes: string;
     }
   ) {
     try {
       const { data: patients } = await api.get("/patients");
       const patient = patients.find((p: any) =>
-        p.examRequests.some((exam: any) => exam.id === examId)
+        p.examRequests.some((e: any) => e.id === examId)
       );
 
-      if (!patient) throw new Error("Exame não encontrado");
+      if (!patient) {
+        throw new Error("Exame não encontrado");
+      }
 
-      const updatedExams = patient.examRequests.map((exam: any) =>
+      const updatedExamRequests = patient.examRequests.map((exam: any) =>
         exam.id === examId
           ? {
               ...exam,
               status: "CONCLUIDO" as ExamStatus,
               result: {
-                id: `result_${Date.now()}`,
+                id: `r-${examId}`,
                 examRequestId: examId,
+                resultDate: new Date().toISOString(),
                 ...result,
               },
             }
           : exam
       );
 
-      await api.patch(`/patients/${patient.id}`, {
-        examRequests: updatedExams,
-      });
+      const updatedPatient = {
+        ...patient,
+        examRequests: updatedExamRequests,
+      };
+
+      await api.put(`/patients/${patient.id}`, updatedPatient);
+      return updatedPatient;
     } catch (error) {
       console.error("Erro ao adicionar resultado do exame:", error);
-      throw error;
-    }
-  },
-
-  deleteExam: async (patientId: string, examId: string) => {
-    await api.delete(`/patients/${patientId}/exams/${examId}`);
-  },
-
-  async getComplementaryExams(patientId: string) {
-    try {
-      const { data: patient } = await api.get(`/patients/${patientId}`);
-      return patient.exams || [];
-    } catch (error) {
-      console.error("Erro ao buscar exames complementares:", error);
       throw error;
     }
   },

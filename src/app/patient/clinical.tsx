@@ -2,7 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { patientService } from "@/services/api";
+import { api } from "@/services/api";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
@@ -17,10 +17,12 @@ export default function PatientClinical() {
 
   const { data: clinicalData, isLoading } = useQuery({
     queryKey: ["clinical-data", user?.id],
-    queryFn: () =>
-      patientService
-        .getById(user?.id || "")
-        .then((patient) => patient.clinicalData),
+    queryFn: async () => {
+      if (!user?.id) return null;
+      const { data: patients } = await api.get("/patients");
+      const patient = patients.find((p: any) => p.id === user.id);
+      return patient?.clinicalData;
+    },
     enabled: !!user?.id,
   });
 

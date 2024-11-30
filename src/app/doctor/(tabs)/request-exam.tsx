@@ -5,20 +5,12 @@ import { useAuth } from "@/context/AuthContext";
 import { examService } from "@/services/api";
 import { ExamSelector } from "@/components/exam/ExamSelector";
 import { Button } from "@/components/common/Button";
-import { ChagasExamType, ExamRequest, ExamStatus } from "@/types";
+import { ChagasExamType } from "@/types";
 import { router, useLocalSearchParams } from "expo-router";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-
-interface CreateExamData {
-  patientId: string;
-  doctorId: string;
-  examType: ChagasExamType;
-  requestDate: string;
-  status: ExamStatus;
-}
 
 export default function RequestExam() {
   const { user } = useAuth();
@@ -27,8 +19,17 @@ export default function RequestExam() {
   const queryClient = useQueryClient();
 
   const createExamMutation = useMutation({
-    mutationFn: (examData: CreateExamData) =>
-      examService.createExamRequest(examData),
+    mutationFn: async () => {
+      if (!selectedExam || !user?.id || !patientId) {
+        throw new Error("Dados incompletos para solicitar o exame");
+      }
+
+      return examService.createExamRequest({
+        patientId,
+        doctorId: user.id,
+        examType: selectedExam,
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["patient-exams", patientId] });
       queryClient.invalidateQueries({ queryKey: ["doctor-exams", user?.id] });
@@ -54,15 +55,7 @@ export default function RequestExam() {
       return;
     }
 
-    const examData: CreateExamData = {
-      patientId,
-      doctorId: user.id,
-      examType: selectedExam,
-      requestDate: new Date().toISOString(),
-      status: "PENDENTE",
-    };
-
-    createExamMutation.mutate(examData);
+    createExamMutation.mutate();
   };
 
   return (

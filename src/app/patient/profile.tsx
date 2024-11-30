@@ -10,7 +10,7 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { useQuery } from "@tanstack/react-query";
-import { patientService } from "@/services/api";
+import { api } from "@/services/api";
 import { ScrollView } from "react-native";
 
 export default function PatientProfile() {
@@ -19,7 +19,11 @@ export default function PatientProfile() {
 
   const { data: profile } = useQuery({
     queryKey: ["patient-profile", user?.id],
-    queryFn: () => patientService.getById(user?.id || ""),
+    queryFn: async () => {
+      if (!user?.id) return null;
+      const { data: patients } = await api.get("/patients");
+      return patients.find((p: any) => p.id === user.id);
+    },
     enabled: !!user?.id,
   });
 

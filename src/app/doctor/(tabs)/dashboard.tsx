@@ -37,6 +37,7 @@ export default function DoctorDashboard() {
     enabled: !!user?.id,
   });
 
+  // Ajustado para usar os dados dos pacientes para calcular os exames
   const {
     data: pendingExamsCount = 0,
     refetch: refetchPending,
@@ -44,8 +45,18 @@ export default function DoctorDashboard() {
   } = useQuery({
     queryKey: ["pending-exams", user?.id],
     queryFn: async () => {
-      const exams = await examService.getDoctorExams(user?.id || "");
-      return exams.filter((exam: any) => exam.status === "PENDENTE").length;
+      const allPatients = await doctorService.getPatients(user?.id || "");
+      return allPatients.reduce(
+        (count: number, patient: { examRequests?: { status: string }[] }) => {
+          return (
+            count +
+            (patient.examRequests?.filter(
+              (exam: { status: string }) => exam.status === "PENDENTE"
+            )?.length || 0)
+          );
+        },
+        0
+      );
     },
     enabled: !!user?.id,
   });
@@ -57,8 +68,18 @@ export default function DoctorDashboard() {
   } = useQuery({
     queryKey: ["completed-exams", user?.id],
     queryFn: async () => {
-      const exams = await examService.getDoctorExams(user?.id || "");
-      return exams.filter((exam: any) => exam.status === "CONCLUIDO").length;
+      const allPatients = await doctorService.getPatients(user?.id || "");
+      return allPatients.reduce(
+        (count: number, patient: { examRequests?: { status: string }[] }) => {
+          return (
+            count +
+            (patient.examRequests?.filter(
+              (exam: { status: string }) => exam.status === "CONCLUIDO"
+            )?.length || 0)
+          );
+        },
+        0
+      );
     },
     enabled: !!user?.id,
   });
@@ -326,10 +347,12 @@ export default function DoctorDashboard() {
                               />
                               <Text className="text-muted-foreground text-sm">
                                 Último exame:{" "}
-                                {patient.exams && patient.exams.length > 0
+                                {patient.examRequests &&
+                                patient.examRequests.length > 0
                                   ? formatTimeAgo(
-                                      patient.exams[patient.exams.length - 1]
-                                        ?.date
+                                      patient.examRequests[
+                                        patient.examRequests.length - 1
+                                      ]?.requestDate
                                     )
                                   : "Sem exames"}
                               </Text>

@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { examService } from "@/services/api";
+import { api, examService } from "@/services/api";
 import { ExamResult } from "@/components/exam/ExamResult";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
@@ -34,30 +34,33 @@ export default function PatientExams() {
   };
 
   // Busca os exames do paciente
-  const { data: examRequests, isLoading: isLoadingExams } = useQuery({
-    queryKey: ["patient-exams", id],
-    queryFn: () => examService.getPatientExams(id),
+  const { data: patient, isLoading: isLoadingPatient } = useQuery({
+    queryKey: ["patient", id],
+    queryFn: async () => {
+      const { data: patients } = await api.get(`/patients/${id}`);
+      return patients;
+    },
     enabled: !!id,
   });
 
-  // Busca os exames complementares
-  const { data: complementaryExams, isLoading: isLoadingComplementary } =
-    useQuery({
-      queryKey: ["complementary-exams", id],
-      queryFn: () => examService.getComplementaryExams(id),
-      enabled: !!id,
-    });
+  const examRequests = patient?.examRequests || [];
+  const complementaryExams = examRequests.filter(
+    (exam: ExamRequest) => !isChagasExam(exam.examType)
+  );
 
   // Mutação para deletar exame
   const deleteExamMutation = useMutation({
     mutationFn: async (examId: string) => {
-      await examService.deleteExam(id, examId);
+      const updatedExamRequests = patient.examRequests.filter(
+        (exam: ExamRequest) => exam.id !== examId
+      );
+      await api.put(`/patients/${id}`, {
+        ...patient,
+        examRequests: updatedExamRequests,
+      });
     },
     onSuccess: () => {
-      // Invalida as queries para recarregar os dados
-      queryClient.invalidateQueries({ queryKey: ["patient-exams", id] });
-      queryClient.invalidateQueries({ queryKey: ["complementary-exams", id] });
-      queryClient.invalidateQueries({ queryKey: ["doctor-exams"] });
+      queryClient.invalidateQueries({ queryKey: ["patient", id] });
     },
   });
 
@@ -79,7 +82,7 @@ export default function PatientExams() {
     );
   };
 
-  if (isLoadingExams || isLoadingComplementary) {
+  if (isLoadingPatient) {
     return (
       <SafeAreaView className="flex-1 bg-background">
         <View className="flex-1">
@@ -100,9 +103,9 @@ export default function PatientExams() {
     );
   }
 
-  const chagasExams =
-    examRequests?.filter((exam: ExamRequest) => isChagasExam(exam.examType)) ||
-    [];
+  const chagasExams = examRequests.filter((exam: ExamRequest) =>
+    isChagasExam(exam.examType)
+  );
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -112,8 +115,7 @@ export default function PatientExams() {
             Exames do Paciente
           </Text>
           <Text className="text-muted-foreground mt-1">
-            {(examRequests?.length || 0) + (complementaryExams?.length || 0)}{" "}
-            exames realizados
+            {examRequests.length} exames realizados
           </Text>
         </View>
 
@@ -265,7 +267,7 @@ export default function PatientExams() {
               <Text className="text-xl font-semibold text-foreground mb-4">
                 Exames Complementares
               </Text>
-              {complementaryExams?.map((exam: ExamRequest) => (
+              {complementaryExams.map((exam: ExamRequest) => (
                 <Animated.View
                   key={exam.id}
                   entering={FadeInDown.duration(600)}
@@ -369,7 +371,7 @@ export default function PatientExams() {
               ))}
             </View>
 
-            {!examRequests?.length && !complementaryExams?.length && (
+            {!examRequests.length && (
               <Animated.View
                 entering={FadeInDown.duration(600)}
                 layout={LinearTransition.springify()}

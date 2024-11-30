@@ -9,7 +9,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { examService } from "@/services/api";
+import { api } from "@/services/api";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
@@ -38,11 +38,28 @@ export default function DoctorExams({
   const [searchQuery, setSearchQuery] = useState("");
 
   // Busca todos os exames dos pacientes do médico
-  const { data: exams, isLoading } = useQuery({
-    queryKey: ["doctor-exams", user?.id],
-    queryFn: () => examService.getDoctorExams(user?.id || ""),
+  const { data: patients, isLoading } = useQuery({
+    queryKey: ["doctor-patients", user?.id],
+    queryFn: async () => {
+      const { data } = await api.get("/patients");
+      return data.filter((patient: any) => patient.doctors.includes(user?.id));
+    },
     enabled: !!user?.id,
   });
+
+  const exams = useMemo(() => {
+    if (!patients) return [];
+
+    return patients.flatMap((patient: any) =>
+      patient.examRequests.map((exam: any) => ({
+        ...exam,
+        patient: {
+          id: patient.id,
+          name: patient.name,
+        },
+      }))
+    );
+  }, [patients]);
 
   const groupedExams = useMemo(() => {
     if (!exams) return {};

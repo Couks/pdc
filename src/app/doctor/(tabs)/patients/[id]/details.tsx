@@ -2,7 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, Link } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
-import { patientService } from "@/services/api";
+import { api } from "@/services/api";
 import { Card, CardHeader, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
@@ -31,7 +31,12 @@ export default function PatientDetails() {
 
   const { data: patient, isLoading } = useQuery({
     queryKey: ["patient", id],
-    queryFn: () => patientService.getById(id),
+    queryFn: async () => {
+      const { data: patients } = await api.get("/patients");
+      const patient = patients.find((p: any) => p.id === id);
+      if (!patient) throw new Error("Patient not found");
+      return patient;
+    },
     enabled: !!id,
   });
 

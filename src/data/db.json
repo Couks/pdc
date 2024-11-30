@@ -15,6 +15,21 @@
         "id": "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
         "token": "jwt_9b1f3a2c-8d7e-4f6a-b5c9-2e3d1a4b5c6d",
         "role": "patient"
+      },
+      {
+        "id": "a1b2c3d4-e5f6-4g7h-8i9j-0k1l2m3n4o5p",
+        "token": "jwt_1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+        "role": "doctor"
+      },
+      {
+        "id": "b2c3d4e5-f6g7-8h9i-0j1k-2l3m4n5o6p7",
+        "token": "jwt_2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7",
+        "role": "patient"
+      },
+      {
+        "id": "c3d4e5f6-g7h8-9i0j-1k2l-3m4n5o6p7q8",
+        "token": "jwt_3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8",
+        "role": "patient"
       }
     ]
   },
@@ -31,7 +46,25 @@
       "specialization": "Neurologia",
       "patients": [
         "d47f4318-9929-43d9-9abf-029d435364de",
-        "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454"
+        "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
+        "b2c3d4e5-f6g7-8h9i-0j1k-2l3m4n5o6p7",
+        "c3d4e5f6-g7h8-9i0j-1k2l-3m4n5o6p7q8"
+      ]
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4g7h-8i9j-0k1l2m3n4o5p",
+      "name": "Ana Paula Silva",
+      "email": "ana.silva@medical.com",
+      "password": "123456",
+      "role": "doctor",
+      "phone": "(11) 94444-4444",
+      "address": "Avenida Brigadeiro Faria Lima, 2000, São Paulo - SP",
+      "crm": "654321-SP",
+      "specialization": "Cardiologia",
+      "patients": [
+        "b2c3d4e5-f6g7-8h9i-0j1k-2l3m4n5o6p7",
+        "c3d4e5f6-g7h8-9i0j-1k2l-3m4n5o6p7q8",
+        "d47f4318-9929-43d9-9abf-029d435364de"
       ]
     }
   ],
@@ -46,20 +79,32 @@
       "address": "Rua Teodoro Sampaio, 800, São Paulo - SP",
       "birthDate": "1995-05-20",
       "gender": "MASCULINO",
-      "doctors": ["5d43e036-63ab-4c2c-8e50-6acc69b8aa89"],
+      "doctors": [
+        "5d43e036-63ab-4c2c-8e50-6acc69b8aa89",
+        "a1b2c3d4-e5f6-4g7h-8i9j-0k1l2m3n4o5p"
+      ],
       "clinicalData": {
         "bloodType": "O-",
-        "allergies": ["Morfina", "Contraste Iodado"],
-        "chronicConditions": ["Ansiedade", "Insônia"],
-        "medications": ["Escitalopram 10mg", "Zolpidem 10mg"],
+        "allergies": [
+          "Morfina",
+          "Contraste Iodado"
+        ],
+        "chronicConditions": [
+          "Ansiedade",
+          "Insônia"
+        ],
+        "medications": [
+          "Escitalopram 10mg",
+          "Zolpidem 10mg"
+        ],
         "symptoms": {
-          "fever": false,
-          "malaise": false,
+          "fever": true,
+          "malaise": true,
           "swellingAtBiteLocation": false,
           "swollenEyes": true,
-          "fatigue": false,
+          "fatigue": true,
           "nauseaAndVomiting": false,
-          "diarrhea": false,
+          "diarrhea": true,
           "lymphNodeInflammation": false,
           "bodyNodes": false,
           "bodyRedness": false,
@@ -123,19 +168,12 @@
           }
         },
         {
-          "id": "24a69649-ba6c-4a2d-b185-28aa1a73c74b",
-          "requestDate": "2024-11-27T06:57:51.493Z",
-          "status": "PENDENTE",
-          "examType": "WESTERN_BLOT",
-          "result": null
-        },
-        {
-          "id": "exam_1732862055537",
-          "requestDate": "2024-11-29T06:34:15.372Z",
+          "id": "exam_1732922798656",
+          "requestDate": "2024-11-29T23:26:38.656Z",
           "status": "PENDENTE",
           "patientId": "d47f4318-9929-43d9-9abf-029d435364de",
           "doctorId": "5d43e036-63ab-4c2c-8e50-6acc69b8aa89",
-          "examType": "HEMAGLUTINACAO"
+          "examType": "ELISA"
         }
       ]
     },
@@ -149,12 +187,20 @@
       "address": "Avenida Paulista, 1000, São Paulo - SP",
       "birthDate": "1988-09-15",
       "gender": "MASCULINO",
-      "doctors": ["5d43e036-63ab-4c2c-8e50-6acc69b8aa89"],
+      "doctors": [
+        "5d43e036-63ab-4c2c-8e50-6acc69b8aa89"
+      ],
       "clinicalData": {
         "bloodType": "B+",
-        "allergies": ["Penicilina"],
-        "chronicConditions": ["Hipertensão"],
-        "medications": ["Losartana 50mg"],
+        "allergies": [
+          "Penicilina"
+        ],
+        "chronicConditions": [
+          "Hipertensão"
+        ],
+        "medications": [
+          "Losartana 50mg"
+        ],
         "symptoms": {
           "fever": false,
           "malaise": false,
@@ -197,13 +243,6 @@
       ],
       "examRequests": [
         {
-          "id": "9e41c5f1-314b-477f-a0f2-198923f97869",
-          "requestDate": "2024-11-27T06:56:10.366Z",
-          "status": "PENDENTE",
-          "examType": "WESTERN_BLOT",
-          "result": null
-        },
-        {
           "id": "exam_1709123456789",
           "requestDate": "2024-02-28T10:30:00.000Z",
           "status": "CONCLUIDO",
@@ -216,6 +255,183 @@
             "description": "Teste ELISA para doença de Chagas",
             "date": "2024-02-28T10:30:00.000Z",
             "notes": "Resultado positivo para anticorpos anti-T.cruzi"
+          }
+        }
+      ]
+    },
+    {
+      "id": "b2c3d4e5-f6g7-8h9i-0j1k-2l3m4n5o6p7",
+      "name": "Maria Silva",
+      "email": "maria.silva@gmail.com",
+      "password": "123456",
+      "role": "patient",
+      "phone": "(11) 98888-8888",
+      "address": "Rua Augusta, 500, São Paulo - SP",
+      "birthDate": "1992-03-25",
+      "gender": "FEMININO",
+      "doctors": [
+        "a1b2c3d4-e5f6-4g7h-8i9j-0k1l2m3n4o5p",
+        "5d43e036-63ab-4c2c-8e50-6acc69b8aa89"
+      ],
+      "clinicalData": {
+        "bloodType": "A+",
+        "allergies": [
+          "Dipirona",
+          "Látex"
+        ],
+        "chronicConditions": [
+          "Asma",
+          "Rinite"
+        ],
+        "medications": [
+          "Budesonida Spray",
+          "Loratadina 10mg"
+        ],
+        "symptoms": {
+          "fever": true,
+          "malaise": true,
+          "swellingAtBiteLocation": false,
+          "swollenEyes": false,
+          "fatigue": true,
+          "nauseaAndVomiting": true,
+          "diarrhea": false,
+          "lymphNodeInflammation": false,
+          "bodyNodes": false,
+          "bodyRedness": true,
+          "enlargedLiverAndSpleen": false
+        },
+        "description": "Paciente com histórico de alergias respiratórias"
+      },
+      "medicalHistory": [
+        {
+          "id": "mh11",
+          "date": "2024-01-15T09:30:00.000Z",
+          "diagnosis": "Crise Asmática",
+          "prescription": "Salbutamol Spray - SOS",
+          "notes": "Crise desencadeada por mudança climática"
+        },
+        {
+          "id": "mh12",
+          "date": "2024-02-20T14:00:00.000Z",
+          "diagnosis": "Rinite Alérgica",
+          "prescription": "Budesonida Spray - 2x ao dia",
+          "notes": "Sintomas pioram durante a primavera"
+        }
+      ],
+      "exams": [
+        {
+          "id": "e12",
+          "type": "Espirometria",
+          "date": "2024-01-10T10:00:00.000Z",
+          "result": "Alterado",
+          "notes": "Padrão obstrutivo leve"
+        },
+        {
+          "id": "e13",
+          "type": "Teste Alérgico",
+          "date": "2024-02-15T11:30:00.000Z",
+          "result": "Positivo",
+          "notes": "Reação a ácaros e pólen"
+        }
+      ],
+      "examRequests": [
+        {
+          "id": "exam_1709123456790",
+          "requestDate": "2024-03-01T09:00:00.000Z",
+          "status": "PENDENTE",
+          "examType": "HEMAGLUTINACAO",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "c3d4e5f6-g7h8-9i0j-1k2l-3m4n5o6p7q8",
+      "name": "João Santos",
+      "email": "joao.santos@gmail.com",
+      "password": "123456",
+      "role": "patient",
+      "phone": "(11) 99999-9999",
+      "address": "Rua Oscar Freire, 300, São Paulo - SP",
+      "birthDate": "1980-11-10",
+      "gender": "MASCULINO",
+      "doctors": [
+        "a1b2c3d4-e5f6-4g7h-8i9j-0k1l2m3n4o5p",
+        "5d43e036-63ab-4c2c-8e50-6acc69b8aa89"
+      ],
+      "clinicalData": {
+        "bloodType": "AB+",
+        "allergies": [
+          "Sulfas"
+        ],
+        "chronicConditions": [
+          "Diabetes Tipo 2",
+          "Dislipidemia"
+        ],
+        "medications": [
+          "Metformina 850mg",
+          "Sinvastatina 20mg"
+        ],
+        "symptoms": {
+          "fever": false,
+          "malaise": true,
+          "swellingAtBiteLocation": true,
+          "swollenEyes": false,
+          "fatigue": true,
+          "nauseaAndVomiting": false,
+          "diarrhea": false,
+          "lymphNodeInflammation": true,
+          "bodyNodes": true,
+          "bodyRedness": false,
+          "enlargedLiverAndSpleen": true
+        },
+        "description": "Paciente com diabetes controlada"
+      },
+      "medicalHistory": [
+        {
+          "id": "mh13",
+          "date": "2024-02-01T08:30:00.000Z",
+          "diagnosis": "Diabetes Tipo 2",
+          "prescription": "Metformina 850mg - 2x ao dia",
+          "notes": "Glicemia em jejum: 130mg/dL"
+        },
+        {
+          "id": "mh14",
+          "date": "2024-02-15T15:45:00.000Z",
+          "diagnosis": "Dislipidemia",
+          "prescription": "Sinvastatina 20mg - 1x à noite",
+          "notes": "Colesterol total: 240mg/dL"
+        }
+      ],
+      "exams": [
+        {
+          "id": "e14",
+          "type": "Hemoglobina Glicada",
+          "date": "2024-02-01T09:00:00.000Z",
+          "result": "Alterado",
+          "notes": "HbA1c: 7.2%"
+        },
+        {
+          "id": "e15",
+          "type": "Perfil Lipídico",
+          "date": "2024-02-15T10:30:00.000Z",
+          "result": "Alterado",
+          "notes": "LDL: 160mg/dL"
+        }
+      ],
+      "examRequests": [
+        {
+          "id": "exam_1709123456791",
+          "requestDate": "2024-03-05T14:30:00.000Z",
+          "status": "CONCLUIDO",
+          "examType": "ELISA",
+          "result": {
+            "id": "result_1709123456792",
+            "examRequestId": "exam_1709123456791",
+            "diagnosis": "NEGATIVO",
+            "examType": "ELISA",
+            "description": "Teste ELISA para doença de Chagas",
+            "date": "2024-03-10T16:00:00.000Z",
+            "notes": "Resultado negativo para anticorpos anti-T.cruzi"
           }
         }
       ]

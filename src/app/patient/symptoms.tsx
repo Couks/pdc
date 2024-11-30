@@ -2,7 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { patientService } from "@/services/api";
+import { api } from "@/services/api";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "@/components/common/Button";
@@ -14,23 +14,29 @@ export default function PatientSymptoms() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const { data: clinicalData, isLoading } = useQuery({
-    queryKey: ["clinical-data", user?.id],
-    queryFn: () =>
-      patientService
-        .getById(user?.id || "")
-        .then((patient) => patient.clinicalData),
+  const { data: patient, isLoading } = useQuery({
+    queryKey: ["patient-data", user?.id],
+    queryFn: async () => {
+      const { data: patients } = await api.get("/patients");
+      return patients.find((p: any) => p.id === user?.id);
+    },
     enabled: !!user?.id,
   });
 
   const updateSymptomsMutation = useMutation({
-    mutationFn: (symptoms: Symptoms) =>
-      patientService.updateClinicalData(user?.id || "", {
-        ...clinicalData,
-        symptoms,
-      }),
+    mutationFn: async (symptoms: Symptoms) => {
+      const updatedPatient = {
+        ...patient,
+        clinicalData: {
+          ...patient?.clinicalData,
+          symptoms,
+        },
+      };
+      const { data } = await api.put(`/patients/${user?.id}`, updatedPatient);
+      return data;
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["clinical-data"] });
+      queryClient.invalidateQueries({ queryKey: ["patient-data"] });
     },
   });
 
@@ -49,18 +55,18 @@ export default function PatientSymptoms() {
   ];
 
   const toggleSymptom = (key: keyof Symptoms) => {
-    if (!clinicalData) return;
+    if (!patient?.clinicalData) return;
 
     const updatedSymptoms = {
-      ...clinicalData.symptoms,
-      [key]: !clinicalData.symptoms[key],
+      ...patient.clinicalData.symptoms,
+      [key]: !patient.clinicalData.symptoms[key],
     };
 
     updateSymptomsMutation.mutate(updatedSymptoms);
   };
 
   const checkChagasRisk = () => {
-    if (!clinicalData) return;
+    if (!patient?.clinicalData) return;
 
     const criticalSymptoms = [
       "swellingAtBiteLocation",
@@ -77,11 +83,11 @@ export default function PatientSymptoms() {
     ];
 
     const hasCriticalSymptoms = criticalSymptoms.some(
-      (symptom) => clinicalData.symptoms[symptom as keyof Symptoms]
+      (symptom) => patient.clinicalData.symptoms[symptom as keyof Symptoms]
     );
 
     const generalSymptomsCount = generalSymptoms.filter(
-      (symptom) => clinicalData.symptoms[symptom as keyof Symptoms]
+      (symptom) => patient.clinicalData.symptoms[symptom as keyof Symptoms]
     ).length;
 
     if (hasCriticalSymptoms && generalSymptomsCount >= 2) {
@@ -151,14 +157,16 @@ export default function PatientSymptoms() {
                 >
                   <View
                     className={`w-6 h-6 rounded-full mr-3 items-center justify-center ${
-                      clinicalData?.symptoms[symptom.key as keyof Symptoms]
+                      patient?.clinicalData?.symptoms[
+                        symptom.key as keyof Symptoms
+                      ]
                         ? "bg-primary"
                         : "bg-muted"
                     }`}
                   >
-                    {clinicalData?.symptoms[symptom.key as keyof Symptoms] && (
-                      <Ionicons name="checkmark" size={16} color="white" />
-                    )}
+                    {patient?.clinicalData?.symptoms[
+                      symptom.key as keyof Symptoms
+                    ] && <Ionicons name="checkmark" size={16} color="white" />}
                   </View>
                   <Text className="text-card-foreground text-sm flex-1">
                     {symptom.label}

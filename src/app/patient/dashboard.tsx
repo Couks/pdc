@@ -2,7 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { examService, patientService } from "@/services/api";
+import { api } from "@/services/api";
 import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
@@ -17,13 +17,20 @@ export default function PatientDashboard() {
 
   const { data: patient } = useQuery({
     queryKey: ["patient-data", user?.id],
-    queryFn: () => patientService.getById(user?.id || ""),
+    queryFn: async () => {
+      const { data: patients } = await api.get("/patients");
+      return patients.find((p: any) => p.id === user?.id);
+    },
     enabled: !!user?.id,
   });
 
   const { data: chagasExams } = useQuery({
     queryKey: ["patient-chagas-exams", user?.id],
-    queryFn: () => examService.getPatientExams(user?.id || ""),
+    queryFn: async () => {
+      const { data: patients } = await api.get("/patients");
+      const patient = patients.find((p: any) => p.id === user?.id);
+      return patient?.examRequests || [];
+    },
     enabled: !!user?.id,
   });
 

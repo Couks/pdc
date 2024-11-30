@@ -7,8 +7,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
-import { ExamProvider } from "@/context/ExamContext";
-import { useColorScheme } from "react-native";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -17,7 +15,6 @@ const queryClient = new QueryClient();
 
 function RootLayoutContent() {
   const { user, isLoading } = useAuth();
-  const colorScheme = useColorScheme();
   const segments = useSegments();
   const router = useRouter();
 
@@ -57,9 +54,7 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
           <AuthProvider>
-            <ExamProvider>
-              <RootLayoutContent />
-            </ExamProvider>
+            <RootLayoutContent />
           </AuthProvider>
         </SafeAreaProvider>
       </QueryClientProvider>

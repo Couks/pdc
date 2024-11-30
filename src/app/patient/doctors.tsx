@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Button } from "@/components/common/Button";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { doctorService, patientService } from "@/services/api";
+import { api } from "@/services/api";
 import { Doctor } from "@/types";
 
 export default function DoctorSelection() {
@@ -16,7 +16,16 @@ export default function DoctorSelection() {
   // Query para buscar meus médicos
   const { data: myDoctors, isLoading: isLoadingMyDoctors } = useQuery({
     queryKey: ["myDoctors", user?.id],
-    queryFn: () => patientService.getDoctors(user?.id as string),
+    queryFn: async () => {
+      const { data: patients } = await api.get("/patients");
+      const currentPatient = patients.find((p: any) => p.id === user?.id);
+      if (!currentPatient) return [];
+
+      const { data: doctors } = await api.get("/doctors");
+      return doctors.filter((d: Doctor) =>
+        currentPatient.doctors.includes(d.id)
+      );
+    },
     enabled: !!user?.id,
   });
 
@@ -24,13 +33,41 @@ export default function DoctorSelection() {
   const { data: availableDoctors, isLoading: isLoadingAvailableDoctors } =
     useQuery({
       queryKey: ["availableDoctors"],
-      queryFn: () => doctorService.getAll(),
+      queryFn: async () => {
+        const { data: doctors } = await api.get("/doctors");
+        return doctors;
+      },
     });
 
   // Mutation para solicitar médico
   const requestDoctorMutation = useMutation({
-    mutationFn: (doctorId: string) =>
-      patientService.requestDoctor(user?.id as string, doctorId),
+    mutationFn: async (doctorId: string) => {
+      const { data: patients } = await api.get("/patients");
+      const { data: doctors } = await api.get("/doctors");
+
+      const patient = patients.find((p: any) => p.id === user?.id);
+      const doctor = doctors.find((d: any) => d.id === doctorId);
+
+      if (!patient || !doctor) {
+        throw new Error("Paciente ou médico não encontrado");
+      }
+
+      // Atualizar paciente
+      const updatedPatient = {
+        ...patient,
+        doctors: [...patient.doctors, doctorId],
+      };
+      await api.put(`/patients/${patient.id}`, updatedPatient);
+
+      // Atualizar médico
+      const updatedDoctor = {
+        ...doctor,
+        patients: [...doctor.patients, patient.id],
+      };
+      await api.put(`/doctors/${doctorId}`, updatedDoctor);
+
+      return updatedDoctor;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["myDoctors"] });
       queryClient.invalidateQueries({ queryKey: ["availableDoctors"] });

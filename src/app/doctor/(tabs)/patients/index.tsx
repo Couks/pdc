@@ -4,12 +4,10 @@ import { useAuth } from "@/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { doctorService } from "@/services/api";
 import { Link } from "expo-router";
-import { Button } from "@/components/common/Button";
-import { Card, CardContent, CardHeader } from "@/components/common/Card";
+import { Card, CardContent } from "@/components/common/Card";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
   FadeInDown,
-  FadeIn,
   LinearTransition,
 } from "react-native-reanimated";
 import { Skeleton } from "@/components/common/Skeleton";
@@ -19,7 +17,10 @@ export default function PatientList() {
 
   const { data: patients, isLoading } = useQuery({
     queryKey: ["doctor-patients", user?.id],
-    queryFn: () => doctorService.getPatients(user?.id || ""),
+    queryFn: async () => {
+      if (!user?.id) return [];
+      return await doctorService.getPatients(user.id);
+    },
     enabled: !!user?.id,
   });
 
@@ -105,7 +106,8 @@ export default function PatientList() {
                               Tipo Sanguíneo:
                               <Text className="font-semibold">
                                 {" "}
-                                {patient.clinicalData.bloodType}
+                                {patient.clinicalData.bloodType ||
+                                  "Não informado"}
                               </Text>
                             </Text>
                           </View>

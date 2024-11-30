@@ -11,14 +11,26 @@ import Animated, {
 } from "react-native-reanimated";
 import { Doctor } from "@/types";
 import { ScrollView } from "react-native";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/services/api";
 
 export default function DoctorProfile() {
   const { user, logout } = useAuth();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  if (!user || user.role !== "doctor") return null;
+  const { data: profile } = useQuery({
+    queryKey: ["doctor-profile", user?.id],
+    queryFn: async () => {
+      if (!user?.id) return null;
+      const { data: doctors } = await api.get("/doctors");
+      return doctors.find((d: any) => d.id === user.id);
+    },
+    enabled: !!user?.id,
+  });
 
-  const doctorUser = user as Doctor;
+  if (!profile || user?.role !== "doctor") return null;
+
+  const doctorUser = profile as Doctor;
 
   const profileItems = [
     {
@@ -38,28 +50,28 @@ export default function DoctorProfile() {
     {
       icon: "medical",
       label: "CRM",
-      value: doctorUser.crm,
+      value: doctorUser.crm || "Não informado",
       bgColor: "bg-amber-500/20",
       iconColor: "amber-500",
     },
     {
       icon: "medkit",
       label: "Especialidade",
-      value: doctorUser.specialization,
+      value: doctorUser.specialization || "Não informada",
       bgColor: "bg-amber-500/20",
       iconColor: "amber-500",
     },
     {
       icon: "call",
       label: "Telefone",
-      value: doctorUser.phone,
+      value: doctorUser.phone || "Não informado",
       bgColor: "bg-green-500/20",
       iconColor: "green-500",
     },
     {
       icon: "location",
       label: "Endereço",
-      value: doctorUser.address,
+      value: doctorUser.address || "Não informado",
       bgColor: "bg-green-500/20",
       iconColor: "green-500",
     },
@@ -81,9 +93,11 @@ export default function DoctorProfile() {
               Dr. {doctorUser.name}
             </Text>
             <Text className="text-muted-foreground">
-              {doctorUser.specialization}
+              {doctorUser.specialization || "Especialidade não informada"}
             </Text>
-            <Text className="text-primary text-x">CRM: {doctorUser.crm}</Text>
+            <Text className="text-primary text-x">
+              CRM: {doctorUser.crm || "Não informado"}
+            </Text>
           </View>
         </Animated.View>
 
