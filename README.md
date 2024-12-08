@@ -1,4 +1,4 @@
-# PDC - Prontuário Digital Compartilhado
+# PDC - Plataforma de Diagnóstico da Doença de Chagas
 
 Um aplicativo móvel desenvolvido com React Native e Expo para gerenciamento de prontuários médicos digitais. O PDC permite que médicos e pacientes acessem e gerenciem informações médicas de forma segura e eficiente.
 

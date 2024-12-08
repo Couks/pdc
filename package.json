@@ -14,15 +14,16 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/config-plugins": "^8.0.11",
     "@expo/vector-icons": "^14.0.2",
-    "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/native": "^6.0.2",
     "@tanstack/react-query": "^5.60.2",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "expo": "~51.0.28",
     "expo-blur": "~13.0.2",
-    "expo-dev-client": "^5.0.5",
+    "expo-dev-client": "~4.0.29",
     "expo-font": "~12.0.9",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.23",
@@ -53,5 +54,8 @@
     "react-test-renderer": "18.2.0",
     "typescript": "~5.3.3"
   },
-  "private": true
+  "private": true,
+  "resolutions": {
+    "@expo/config-plugins": "8.0.11"
+  }
 }
