@@ -12,15 +12,20 @@ O PDC é uma solução moderna para digitalização e compartilhamento de prontu
 - Design responsivo e intuitivo
 - Suporte a iOS e Android
 
-## 🚀 Screenshots
+## 🤝 Screenshots
 
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-  <img src="@assets/screenshots/login.png" width="200" alt="Tela de Login" />
-  <img src="@assets/screenshots/home.png" width="200" alt="Tela Inicial" />
-  <img src="@assets/screenshots/profile.png" width="200" alt="Perfil do Usuário" />
-  <img src="@assets/screenshots/exams.png" width="200" alt="Lista de Exames" />
-  <img src="@assets/screenshots/medical-records.png" width="200" alt="Prontuário Médico" />
-  <img src="@assets/screenshots/appointments.png" width="200" alt="Consultas" />
+<div align="center">
+  <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+  <img src="src/assets/screenshots/auth-homescreen.png" width="200" alt="Tela de Splash"/>
+    <img src="src/assets/screenshots/login-screen.png.png" width="200" alt="Autenticação"/>
+    <img src="src/assets/screenshots/register-screen.png" width="200" alt="Cadastro"/>
+    <img src="src/assets/screenshots/doctor-dashboard.png" width="200" alt="Dashboard do Médico"/>
+    <img src="src/assets/screenshots/doctor-dashboard.png" width="200" alt="Dashboard do Paciente"/>
+    <img src="src/assets/screenshots/doctor-patients-exams.png.png" width="200" alt="Lista de Exames - Médico"/>
+    <img src="src/assets/screenshots/doctor-profile.png" width="200" alt="Perfil do Médico"/>
+    <img src="src/assets/screenshots/doctor-exam-selection.png" width="200" alt="Solicitar Exame"/>
+    <img src="src/assets/screenshots/patient-profile.png" width="200" alt="Perfil do Paciente"/>
+  </div>
 </div>
 
 ## 🚀 Tecnologias Utilizadas
