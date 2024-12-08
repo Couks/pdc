@@ -41,9 +41,9 @@
       "password": "123456",
       "role": "doctor",
       "phone": "(11) 95555-5555",
-      "address": "Rua Vergueiro, 1500, São Paulo - SP",
-      "crm": "789012-SP",
-      "specialization": "Neurologia",
+      "address": "Instituto Oswaldo Cruz, Rio de Janeiro - RJ",
+      "crm": "789012-RJ",
+      "specialization": "Infectologia",
       "patients": [
         "d47f4318-9929-43d9-9abf-029d435364de",
         "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
@@ -53,14 +53,14 @@
     },
     {
       "id": "a1b2c3d4-e5f6-4g7h-8i9j-0k1l2m3n4o5p",
-      "name": "Ana Paula Silva",
-      "email": "ana.silva@medical.com",
+      "name": "Dra. Maria Fiocruz",
+      "email": "maria.fiocruz@medical.com",
       "password": "123456",
       "role": "doctor",
       "phone": "(11) 94444-4444",
-      "address": "Avenida Brigadeiro Faria Lima, 2000, São Paulo - SP",
+      "address": "Hospital das Clínicas, São Paulo - SP",
       "crm": "654321-SP",
-      "specialization": "Cardiologia",
+      "specialization": "Cardiologia - Doença de Chagas",
       "patients": [
         "b2c3d4e5-f6g7-8h9i-0j1k-2l3m4n5o6p7",
         "c3d4e5f6-g7h8-9i0j-1k2l-3m4n5o6p7q8",
@@ -76,7 +76,7 @@
       "password": "123456",
       "role": "patient",
       "phone": "(11) 93333-3333",
-      "address": "Rua Teodoro Sampaio, 800, São Paulo - SP",
+      "address": "Zona Rural, Bambuí - MG",
       "birthDate": "1995-05-20",
       "gender": "MASCULINO",
       "doctors": [
@@ -86,28 +86,27 @@
       "clinicalData": {
         "bloodType": "O-",
         "allergies": [
-          "Morfina",
-          "Contraste Iodado"
+          "Benznidazol"
         ],
         "chronicConditions": [
-          "Ansiedade",
-          "Insônia"
+          "Cardiopatia Chagásica",
+          "Megaesôfago"
         ],
         "medications": [
-          "Escitalopram 10mg",
-          "Zolpidem 10mg"
+          "Amiodarona 200mg",
+          "Carvedilol 6.25mg"
         ],
         "symptoms": {
           "fever": true,
           "malaise": true,
-          "swellingAtBiteLocation": false,
+          "swellingAtBiteLocation": true,
           "swollenEyes": true,
-          "fatigue": true,
-          "nauseaAndVomiting": false,
+          "fatigue": false,
+          "nauseaAndVomiting": true,
           "diarrhea": true,
-          "lymphNodeInflammation": false,
+          "lymphNodeInflammation": true,
           "bodyNodes": false,
-          "bodyRedness": false,
+          "bodyRedness": true,
           "enlargedLiverAndSpleen": false
         },
         "description": "Primeira consulta - avaliação inicial"
@@ -116,39 +115,39 @@
         {
           "id": "mh8",
           "date": "2024-05-20T10:30:15.123Z",
-          "diagnosis": "Transtorno de Ansiedade",
-          "prescription": "Escitalopram 10mg - 1x ao dia",
-          "notes": "Sintomas de ansiedade generalizada"
+          "diagnosis": "Doença de Chagas - Fase Aguda",
+          "prescription": "Benznidazol 100mg - 3x ao dia",
+          "notes": "Paciente apresentou Sinal de Romaña"
         },
         {
           "id": "mh9",
           "date": "2024-06-05T14:45:22.789Z",
-          "diagnosis": "Insônia",
-          "prescription": "Zolpidem 10mg - 1x à noite",
-          "notes": "Dificuldade para dormir"
+          "diagnosis": "Cardiopatia Chagásica",
+          "prescription": "Amiodarona 200mg - 1x ao dia",
+          "notes": "Início de manifestações cardíacas"
         },
         {
           "id": "mh4",
           "date": "2024-11-28T10:30:15.123Z",
-          "diagnosis": "Enxaqueca crônica",
-          "prescription": "Propranolol 40mg - 1x ao dia",
-          "notes": "Paciente relata melhora dos sintomas"
+          "diagnosis": "Megaesôfago Chagásico",
+          "prescription": "Dieta pastosa e fracionada",
+          "notes": "Disfagia progressiva"
         }
       ],
       "exams": [
         {
           "id": "e8",
-          "type": "Exame Psiquiátrico",
+          "type": "Xenodiagnóstico",
           "date": "2024-05-20T10:30:15.123Z",
-          "result": "Alterado",
-          "notes": "Sintomas compatíveis com TAG"
+          "result": "Positivo",
+          "notes": "Presença de T. cruzi confirmada"
         },
         {
           "id": "e9",
-          "type": "Polissonografia",
+          "type": "Ecocardiograma",
           "date": "2024-06-05T14:45:22.789Z",
           "result": "Alterado",
-          "notes": "Latência do sono aumentada"
+          "notes": "Cardiomegalia detectada, sugestivo de cardiopatia chagásica"
         }
       ],
       "examRequests": [
@@ -161,19 +160,11 @@
             "id": "r-152e5167",
             "examRequestId": "152e5167-5123-406f-aa8f-c203f78c183b",
             "resultDate": "2024-08-11T14:00:00Z",
-            "value": "1.2",
+            "value": "1:640",
             "isConclusive": true,
             "diagnosis": "POSITIVO",
             "notes": "Resultado positivo para doença de Chagas"
           }
-        },
-        {
-          "id": "exam_1732922798656",
-          "requestDate": "2024-11-29T23:26:38.656Z",
-          "status": "PENDENTE",
-          "patientId": "d47f4318-9929-43d9-9abf-029d435364de",
-          "doctorId": "5d43e036-63ab-4c2c-8e50-6acc69b8aa89",
-          "examType": "ELISA"
         }
       ]
     },
@@ -184,7 +175,7 @@
       "password": "123456",
       "role": "patient",
       "phone": "(11) 97777-7777",
-      "address": "Avenida Paulista, 1000, São Paulo - SP",
+      "address": "Zona Rural, Montes Claros - MG",
       "birthDate": "1988-09-15",
       "gender": "MASCULINO",
       "doctors": [
@@ -196,10 +187,10 @@
           "Penicilina"
         ],
         "chronicConditions": [
-          "Hipertensão"
+          "Cardiopatia Chagásica"
         ],
         "medications": [
-          "Losartana 50mg"
+          "Benznidazol 100mg"
         ],
         "symptoms": {
           "fever": false,
@@ -230,15 +221,15 @@
           "id": "e10",
           "type": "Eletrocardiograma",
           "date": "2024-11-27T06:56:10.366Z",
-          "result": "Normal",
-          "notes": "Sem alterações significativas"
+          "result": "Alterado",
+          "notes": "Alterações sugestivas de cardiopatia chagásica"
         },
         {
           "id": "e11",
-          "type": "Hemograma Completo",
+          "type": "PCR",
           "date": "2024-11-27T06:56:10.366Z",
-          "result": "Alterado",
-          "notes": "Leucócitos levemente aumentados"
+          "result": "Positivo",
+          "notes": "Detecção de DNA do T. cruzi"
         }
       ],
       "examRequests": [
@@ -266,7 +257,7 @@
       "password": "123456",
       "role": "patient",
       "phone": "(11) 98888-8888",
-      "address": "Rua Augusta, 500, São Paulo - SP",
+      "address": "Zona Rural, Patos de Minas - MG",
       "birthDate": "1992-03-25",
       "gender": "FEMININO",
       "doctors": [
@@ -280,12 +271,12 @@
           "Látex"
         ],
         "chronicConditions": [
-          "Asma",
-          "Rinite"
+          "Megacólon Chagásico",
+          "Cardiopatia Chagásica"
         ],
         "medications": [
-          "Budesonida Spray",
-          "Loratadina 10mg"
+          "Benznidazol 100mg",
+          "Enalapril 10mg"
         ],
         "symptoms": {
           "fever": true,
@@ -300,38 +291,38 @@
           "bodyRedness": true,
           "enlargedLiverAndSpleen": false
         },
-        "description": "Paciente com histórico de alergias respiratórias"
+        "description": "Paciente com manifestações digestivas da doença de Chagas"
       },
       "medicalHistory": [
         {
           "id": "mh11",
           "date": "2024-01-15T09:30:00.000Z",
-          "diagnosis": "Crise Asmática",
-          "prescription": "Salbutamol Spray - SOS",
-          "notes": "Crise desencadeada por mudança climática"
+          "diagnosis": "Megacólon Chagásico",
+          "prescription": "Dieta rica em fibras",
+          "notes": "Constipação crônica"
         },
         {
           "id": "mh12",
           "date": "2024-02-20T14:00:00.000Z",
-          "diagnosis": "Rinite Alérgica",
-          "prescription": "Budesonida Spray - 2x ao dia",
-          "notes": "Sintomas pioram durante a primavera"
+          "diagnosis": "Cardiopatia Chagásica",
+          "prescription": "Enalapril 10mg - 2x ao dia",
+          "notes": "Início de tratamento cardíaco"
         }
       ],
       "exams": [
         {
           "id": "e12",
-          "type": "Espirometria",
+          "type": "Ecocardiograma",
           "date": "2024-01-10T10:00:00.000Z",
           "result": "Alterado",
-          "notes": "Padrão obstrutivo leve"
+          "notes": "Alterações compatíveis com cardiopatia chagásica"
         },
         {
           "id": "e13",
-          "type": "Teste Alérgico",
+          "type": "Xenodiagnóstico",
           "date": "2024-02-15T11:30:00.000Z",
           "result": "Positivo",
-          "notes": "Reação a ácaros e pólen"
+          "notes": "Presença de T. cruzi confirmada"
         }
       ],
       "examRequests": [
@@ -351,7 +342,7 @@
       "password": "123456",
       "role": "patient",
       "phone": "(11) 99999-9999",
-      "address": "Rua Oscar Freire, 300, São Paulo - SP",
+      "address": "Zona Rural, Uberaba - MG",
       "birthDate": "1980-11-10",
       "gender": "MASCULINO",
       "doctors": [
@@ -397,25 +388,25 @@
         {
           "id": "mh14",
           "date": "2024-02-15T15:45:00.000Z",
-          "diagnosis": "Dislipidemia",
-          "prescription": "Sinvastatina 20mg - 1x à noite",
-          "notes": "Colesterol total: 240mg/dL"
+          "diagnosis": "Arritmia Cardíaca",
+          "prescription": "Amiodarona 200mg - 1x ao dia",
+          "notes": "Controle de arritmia associada à doença de Chagas"
         }
       ],
       "exams": [
         {
           "id": "e14",
-          "type": "Hemoglobina Glicada",
+          "type": "Imunofluorescência Indireta",
           "date": "2024-02-01T09:00:00.000Z",
-          "result": "Alterado",
-          "notes": "HbA1c: 7.2%"
+          "result": "Positivo",
+          "notes": "Anticorpos anti-T. cruzi detectados"
         },
         {
           "id": "e15",
-          "type": "Perfil Lipídico",
+          "type": "Ressonância Magnética Cardíaca",
           "date": "2024-02-15T10:30:00.000Z",
           "result": "Alterado",
-          "notes": "LDL: 160mg/dL"
+          "notes": "Evidências de comprometimento cardíaco por doença de Chagas"
         }
       ],
       "examRequests": [

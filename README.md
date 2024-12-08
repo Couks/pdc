@@ -1,161 +1,173 @@
-# Aplicativo de Gerenciamento de Exames Médicos
+# PDC - Prontuário Digital Compartilhado
 
-Um aplicativo móvel completo construído com React Native e Expo para gerenciar exames médicos e registros de pacientes. O aplicativo possui interfaces separadas para médicos e pacientes, permitindo um gerenciamento eficiente da saúde e acompanhamento de exames.
+Um aplicativo móvel desenvolvido com React Native e Expo para gerenciamento de prontuários médicos digitais. O PDC permite que médicos e pacientes acessem e gerenciem informações médicas de forma segura e eficiente.
 
-## 🚀 Tecnologias
+## 📱 Sobre o Projeto
+
+O PDC é uma solução moderna para digitalização e compartilhamento de prontuários médicos, oferecendo:
+
+- Interface dedicada para médicos e pacientes
+- Gerenciamento de exames e histórico médico
+- Sistema de autenticação seguro
+- Design responsivo e intuitivo
+- Suporte a iOS e Android
+
+## 🚀 Tecnologias Utilizadas
 
 - React Native
 - Expo
 - TypeScript
-- TailwindCSS
+- TailwindCSS (Nativewind)
 - React Query
 - React Navigation
 - Reanimated
 - Safe Area Context
 - Expo Router
 
-## ✨ Funcionalidades
+## ⚙️ Pré-requisitos
 
-### 🏥 Portal do Médico
+Antes de começar, você precisa ter instalado em sua máquina:
 
-- **Painel Principal**
+- [Node.js](https://nodejs.org/) (v18 ou superior)
+- [npm](https://www.npmjs.com/)
+- [Git](https://git-scm.com/)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
+- [Android Studio](https://developer.android.com/studio) (para emulador Android)
+- [Xcode](https://developer.apple.com/xcode/) (para simulador iOS - apenas macOS)
 
-  - Visão geral das estatísticas dos pacientes
-  - Acesso rápido a exames pendentes
-  - Acompanhamento de atividades recentes
+## 🔧 Instalação e Configuração
 
-  [Inserir Screenshot do Painel]
+1. Clone o repositório:
 
-- **Gerenciamento de Pacientes**
+   ```bash
+   git clone https://github.com/seu-usuario/pdc.git
+   cd pdc
+   ```
 
-  - Lista completa de pacientes
-  - Perfis detalhados dos pacientes
-  - Acompanhamento do histórico médico
+2. Instale as dependências do projeto:
 
-  [Inserir Screenshot da Lista de Pacientes]
+   ```bash
+   npm install
 
-- **Gerenciamento de Exames**
+   ```
 
-  - Solicitar novos exames
-  - Acompanhar status dos exames
-  - Visualizar e analisar resultados
-  - Filtrar exames por status
+3. Instale e configure o servidor mock:
 
-  [Inserir Screenshot do Gerenciamento de Exames]
+   ```bash
+   npm install -g json-server
+   ```
 
-### 👤 Portal do Paciente
+4. Inicie o servidor mock (em um terminal separado):
 
-- **Painel Principal**
+   ```bash
+   npm run server
+   ```
 
-  - Visão geral dos exames médicos
-  - Acesso rápido aos resultados
-  - Histórico de consultas
+5. Inicie o projeto Expo:
 
-  [Inserir Screenshot do Painel do Paciente]
+   ```bash
+   npx expo start
+   ```
 
-- **Acompanhamento de Exames**
+O servidor mock estará disponível em `http://localhost:3000` e o Metro Bundler do Expo será iniciado automaticamente. Você pode então executar o aplicativo em um emulador/simulador ou dispositivo físico usando os comandos exibidos no terminal.
 
-  - Visualizar solicitações de exames
-  - Verificar status dos exames
-  - Acessar resultados dos exames
+### Usando Emulador:
 
-  [Inserir Screenshot do Acompanhamento de Exames]
+1. Inicie seu emulador Android/iOS
+2. Pressione 'a' para Android ou 'i' para iOS no terminal
 
-- **Histórico Médico**
+## 🔑 Contas de Teste
 
-  - Registro médico completo
-  - Consultas anteriores
-  - Histórico de tratamentos
+### Médico
 
-  [Inserir Screenshot do Histórico Médico]
+- Email: doctor@example.com
+- Senha: 123456
 
-## 🎨 Recursos de UI/UX
+### Paciente
 
-- Animações suaves usando Reanimated
-- Suporte ao modo escuro
-- Design responsivo
-- Navegação intuitiva
-- Estados de carregamento e skeletons
-- Tratamento de erros com feedback adequado ao usuário
+- Email: patient@example.com
+- Senha: 123456
 
-[Inserir Screenshot dos Componentes UI]
+## 🎯 Funcionalidades Principais
 
-## 🔒 Recursos de Segurança
+### Portal do Médico
 
-- Sistema de autenticação
-- Controle de acesso baseado em funções
-- Manipulação segura de dados
-- Rotas protegidas
+- Gerenciamento de pacientes
+- Solicitação de exames
+- Análise de resultados
+- Dashboard com estatísticas
 
-## 🛠 Implementação Técnica
+### Portal do Paciente
 
-### Arquitetura
-
-- Componentes funcionais com TypeScript
-- Context API para gerenciamento de estado
-- React Query para busca de dados
-- Expo Router para navegação
-- Estrutura modular de componentes
-
-### Desempenho
-
-- Optimized animations
-- Efficient data caching
-- Lazy loading
-- Minimal re-renders
-
-## 📱 Screenshots do Aplicativo
-
-### Interface do Médico
-
-[Inserir múltiplos screenshots da interface do médico]
-
-### Interface do Paciente
-
-[Insert multiple screenshots of patient interface]
-
-## 🚀 Começando
-
-### Pré-requisitos
-
-- Node.js (v18 ou superior)
-- npm ou yarn
-- Expo CLI
-- Simulador iOS ou Emulador Android (opcional)
+- Visualização de exames
+- Histórico médico
+- Acompanhamento de diagnósticos
+- Perfil com dados clínicos
 
 ## 🤝 Contribuindo
 
-Contribuições, issues e solicitações de funcionalidades são bem-vindas!
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add: nova feature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
-## 📝 License
+## 📦 Build Local
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Android
 
-## 🎨 Design System
+1. Configure o arquivo app.json:
 
-O aplicativo utiliza um sistema de design consistente com:
+```json
+{
+  "expo": {
+    "android": {
+      "package": "com.seuusuario.pdc"
+    }
+  }
+}
+```
 
-- Componentes personalizados
-- TailwindCSS (Nativewind) para estilização
-- Layouts responsivos
-- Recursos de acessibilidade
+2. Instale o EAS CLI:
 
-## 🔄 Gerenciamento de Estado
+```bash
+npm install -g eas-cli
+```
 
-- Estado de autenticação usando Context API
-- Cache de dados com React Query
-- Gerenciamento de estado de formulários
-- Estados de carregamento e erro
+3. Faça login no Expo:
 
-## 📱 Plataformas Suportadas
+```bash
+eas login
+```
 
-- iOS
-- Android
+4. Configure o build local:
 
-## 🌟 Melhorias Futuras
+```bash
+eas build:configure
+```
 
-- Notificações em tempo real
-- Exportação de resultados em PDF
-- Integração com dispositivos médicos
-- Recursos de telemedicina
-- Análises avançadas
+5. Crie o build APK para desenvolvimento:
+
+```bash
+eas build -p android --profile development --local
+```
+
+### iOS (apenas macOS)
+
+1. Configure o arquivo app.json:
+
+```json
+{
+  "expo": {
+    "ios": {
+      "bundleIdentifier": "com.seuusuario.pdc"
+    }
+  }
+}
+```
+
+2. Instale as dependências do Cocoapods:
+
+```bash
+
+```

@@ -74,10 +74,9 @@ export function AnimatedTabBar({
       }}
     >
       <BlurView
-        intensity={40}
+        intensity={80}
         experimentalBlurMethod="dimezisBlurView"
         tint="light"
-        className="border-t border-gray-200"
       >
         <View
           className="flex-row items-center"

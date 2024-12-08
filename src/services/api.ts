@@ -1,6 +1,3 @@
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import uuid from "react-native-uuid";
 import {
   AuthResponse,
   LoginCredentials,
@@ -9,14 +6,26 @@ import {
   ExamStatus,
   Diagnosis,
   ChagasExamType,
-  ClinicalData,
   Gender,
 } from "@/types";
+import axios from "axios";
+import uuid from "react-native-uuid";
+import { Platform } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type User = BaseUser;
 
 function getBaseUrl() {
-  return "https://current-seahorse-viable.ngrok-free.app/";
+  if (Platform.OS === "android") {
+    // No Android, localhost não funciona, precisamos usar o IP do AVD
+    return "http://10.0.2.2:3000";
+  } else if (Platform.OS === "ios") {
+    // No iOS simulator, localhost funciona normalmente
+    return "http://localhost:3000";
+  } else {
+    // Para web ou outros ambientes
+    return "http://localhost:3000";
+  }
 }
 
 const api = axios.create({
