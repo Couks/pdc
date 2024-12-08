@@ -12,6 +12,17 @@ O PDC é uma solução moderna para digitalização e compartilhamento de prontu
 - Design responsivo e intuitivo
 - Suporte a iOS e Android
 
+## 🚀 Screenshots
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <img src="@assets/screenshots/login.png" width="200" alt="Tela de Login" />
+  <img src="@assets/screenshots/home.png" width="200" alt="Tela Inicial" />
+  <img src="@assets/screenshots/profile.png" width="200" alt="Perfil do Usuário" />
+  <img src="@assets/screenshots/exams.png" width="200" alt="Lista de Exames" />
+  <img src="@assets/screenshots/medical-records.png" width="200" alt="Prontuário Médico" />
+  <img src="@assets/screenshots/appointments.png" width="200" alt="Consultas" />
+</div>
+
 ## 🚀 Tecnologias Utilizadas
 
 - React Native
@@ -40,7 +51,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/pdc.git
+   git clone https://github.com/Couks/pdc.git
    cd pdc
    ```
 
@@ -51,7 +62,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 
    ```
 
-3. Instale e configure o servidor mock:
+3. Instale e configure o json-server:
 
    ```bash
    npm install -g json-server
@@ -69,7 +80,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
    npx expo start
    ```
 
-O servidor mock estará disponível em `http://localhost:3000` e o Metro Bundler do Expo será iniciado automaticamente. Você pode então executar o aplicativo em um emulador/simulador ou dispositivo físico usando os comandos exibidos no terminal.
+Ao ser inciciado, o servidor mock estará disponível em `http://localhost:3000` e o Metro Bundler do Expo será iniciado automaticamente. Você pode então executar o aplicativo em um emulador/simulador ou dispositivo físico usando os comandos exibidos no terminal.
 
 ### Usando Emulador:
 
@@ -77,6 +88,8 @@ O servidor mock estará disponível em `http://localhost:3000` e o Metro Bundler
 2. Pressione 'a' para Android ou 'i' para iOS no terminal
 
 ## 🔑 Contas de Teste
+
+Você pode usar os usuários salvos no json-server para teste:
 
 ### Médico
 
@@ -111,63 +124,3 @@ O servidor mock estará disponível em `http://localhost:3000` e o Metro Bundler
 3. Commit suas mudanças (`git commit -m 'Add: nova feature'`)
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
-
-## 📦 Build Local
-
-### Android
-
-1. Configure o arquivo app.json:
-
-```json
-{
-  "expo": {
-    "android": {
-      "package": "com.seuusuario.pdc"
-    }
-  }
-}
-```
-
-2. Instale o EAS CLI:
-
-```bash
-npm install -g eas-cli
-```
-
-3. Faça login no Expo:
-
-```bash
-eas login
-```
-
-4. Configure o build local:
-
-```bash
-eas build:configure
-```
-
-5. Crie o build APK para desenvolvimento:
-
-```bash
-eas build -p android --profile development --local
-```
-
-### iOS (apenas macOS)
-
-1. Configure o arquivo app.json:
-
-```json
-{
-  "expo": {
-    "ios": {
-      "bundleIdentifier": "com.seuusuario.pdc"
-    }
-  }
-}
-```
-
-2. Instale as dependências do Cocoapods:
-
-```bash
-
-```
